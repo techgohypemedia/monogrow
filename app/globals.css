@@ -4,8 +4,8 @@
   --font-sans: var(--font-sans, system-ui, -apple-system, sans-serif);
   --font-serif: var(--font-serif, Georgia, serif);
   
-  --primary: #1c4a27;
-  --primary-hover: #15391e;
+  --primary: #57a42f;
+  --primary-hover: #478726;
   --primary-light: #e8f5ec;
   --accent-gold: #c89d3c;
   --accent-gold-dark: #a47e27;
@@ -16,8 +16,8 @@
 }
 
 @theme {
-  --color-primary: #1c4a27;
-  --color-primary-dark: #12331b;
+  --color-primary: #57a42f;
+  --color-primary-dark: #478726;
   --color-primary-light: #e8f5ec;
   --color-gold: #c89d3c;
   --color-gold-dark: #a47e27;
@@ -104,7 +104,7 @@ body {
 }
 
 .luxury-gradient-text {
-  background: linear-gradient(135deg, #1b4d29 0%, #2f7a46 50%, #c89d3c 100%);
+  background: linear-gradient(135deg, #478726 0%, #57a42f 50%, #c89d3c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -130,5 +130,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1c4a27;
+  background: #57a42f;
 }

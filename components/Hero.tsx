@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { 
-  Play, 
-  ArrowRight, 
   ShieldCheck, 
-  Download, 
-  CheckCircle2, 
-  TrendingUp, 
-  Award,
-  Layers,
-  ChevronRight
+  ArrowUpRight, 
+  MapPin, 
+  Play
 } from "lucide-react";
 
 interface HeroProps {
@@ -20,255 +15,176 @@ interface HeroProps {
 }
 
 export default function Hero({ onOpenVideoModal, onOpenQuoteModal }: HeroProps) {
-  const [activeTab, setActiveTab] = useState<"front" | "back">("front");
-
   return (
-    <section className="relative overflow-hidden bg-[#fbfbf8] pb-16 lg:pb-24">
-      {/* 1. Full Screen Hero Video Section (Zero Border Radius, Edge-to-Edge Full Screen) */}
-      <div className="relative w-full h-[85vh] sm:h-[90vh] lg:h-[calc(100vh-80px)] min-h-[560px] overflow-hidden bg-[#0c2016] rounded-none border-none group">
-        {/* Full Screen HTML5 Ambient Video */}
-        <video
-          className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/assets/hero-harvest.jpg"
-        >
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-golden-wheat-field-in-the-wind-4122-large.mp4"
-            type="video/mp4"
-          />
-        </video>
+    <section className="bg-white py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 xl:px-12">
+      <div className="w-full max-w-[1440px] mx-auto">
+        {/* Main 2-Column Hero Grid matching reference layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch">
+          
+          {/* Left Column (Main Headline Card + Bottom 2 Cards Row) */}
+          <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-5">
+            
+            {/* 1. Top Main Hero Card */}
+            <div className="flex-1 bg-[#edf5ee] border border-[#dbece0] rounded-[32px] p-8 sm:p-12 lg:p-14 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-sm">
+              {/* Top Trust Pill Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#dbeee0] border border-[#c6e4cc] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-5 shadow-xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#57a42f]" />
+                <span>100% TRUSTED WHOLESALE PLATFORM</span>
+              </div>
 
-        {/* Cinematic Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07170f]/95 via-[#092115]/75 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06140d]/95 via-transparent to-black/30" />
+              {/* Main Bold Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0e2439] tracking-tight leading-[1.12] mb-4">
+                Fresh. Organic. <br />
+                <span className="text-[#57a42f]">Sustainable.</span>
+              </h1>
 
-        {/* Inner Content spanning full width edge-to-edge */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6 sm:p-12 lg:p-16 xl:p-20 text-white max-w-7xl">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs sm:text-sm font-bold text-white shadow-lg">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#34d399] animate-ping" />
-              Live Farm Sourcing Stream & Bulk Export
-            </div>
+              {/* Subtitle / Value Proposition */}
+              <p className="text-stone-600 text-xs sm:text-sm md:text-base font-medium max-w-lg mb-7 leading-relaxed">
+                Direct export-grade supplier of Extra Long Basmati Rice, Estate Coffee Beans, Pure Refined Sugar, and California Dry Fruits.
+              </p>
 
-            <div className="hidden sm:flex items-center gap-5 text-xs sm:text-sm font-semibold text-white/90">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-[#34d399]" />
-                Lab Verified Purity
-              </span>
-              <span className="text-white/40">•</span>
-              <span className="flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-[#fbbf24]" />
-                Grade-A Quality
-              </span>
-            </div>
-          </div>
-
-          <div className="max-w-3xl space-y-4">
-            <span className="text-xs sm:text-sm uppercase tracking-widest text-[#fbbf24] font-black block">
-              Wholesale Commodities Trading Hub
-            </span>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-serif tracking-tight text-white leading-[1.08] drop-shadow-lg">
-              From Rich Soil to Global Ports
-            </h1>
-            <p className="text-sm sm:text-lg text-stone-200 leading-relaxed max-w-2xl font-normal drop-shadow">
-              Watch how Monagrow harvests, cures, laboratory tests, and ships metric tons of world-class Basmati, Specialty Coffee, Sugar, and Dry Fruits to international buyers.
-            </p>
-          </div>
-
-          {/* Bottom Actions Row */}
-          <div className="flex flex-wrap items-center gap-4 pt-4">
-            <button
-              type="button"
-              onClick={onOpenVideoModal}
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-white text-[#0a1a12] font-black text-sm sm:text-base shadow-2xl hover:bg-[#fbbf24] transition-all duration-300 hover:scale-105 group/btn"
-            >
-              <span className="w-8 h-8 rounded-full bg-[#1c4a27] text-white flex items-center justify-center group-hover/btn:bg-[#0a1a12] transition-colors">
-                <Play className="w-4 h-4 fill-current ml-0.5" />
-              </span>
-              <span>Play Farm Sourcing Film (2:45)</span>
-            </button>
-
-            <a
-              href="#products"
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white font-bold text-sm sm:text-base transition-all"
-            >
-              <span>Browse Current Lots</span>
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Headline & 3D Basmati Rice Section Below */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-16 lg:pt-20">
-
-        {/* Main Grid: Left Value Proposition & Right Product 3D Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Headlines & Actions */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* Pill matching the reference design */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#e8f5ec] border border-[#bfe4ca] text-xs sm:text-sm font-bold text-[#1b5e20] shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-[#2e7d32]" />
-              <span>100% TRUSTED WHOLESALE PLATFORM</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#0e2439] leading-[1.12]">
-              Fresh. Organic.{" "}
-              <span className="block text-[#1c4a27] font-serif-luxury italic font-normal">
-                Sustainable Wholesale.
-              </span>
-            </h1>
-
-            {/* Sub-paragraph */}
-            <p className="text-base sm:text-lg text-stone-600 leading-relaxed max-w-2xl font-normal">
-              Direct B2B supplier of export-grade agricultural commodities. Specializing in{" "}
-              <strong className="text-stone-900 font-semibold">Extra Long Grain Basmati Rice</strong>,{" "}
-              <strong className="text-stone-900 font-semibold">Estate Coffee Beans</strong>,{" "}
-              <strong className="text-stone-900 font-semibold">Refined Pure Sugar</strong>, and{" "}
-              <strong className="text-stone-900 font-semibold">California Dry Fruits</strong> with full traceability, lab certifications, and global container freight dispatch.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* CTA Button: Lime Green Pill with Up-Right Arrow (Exact Reference Style) */}
               <button
                 type="button"
                 onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
-                className="flex items-center gap-2.5 px-7 py-4 rounded-full bg-[#1c4a27] hover:bg-[#14371d] text-white font-bold text-base shadow-xl shadow-[#1c4a27]/25 hover:shadow-2xl hover:scale-[1.02] transition-all"
+                className="inline-flex items-center gap-3 pl-6 pr-2 py-2 rounded-full bg-[#65b938] hover:bg-[#57a42f] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#65b938]/30 hover:shadow-xl hover:scale-105 transition-all duration-300 group cursor-pointer"
               >
                 <span>Shop Wholesale Products</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onOpenQuoteModal("Price List & Spec Sheet")}
-                className="flex items-center gap-2 px-6 py-4 rounded-full bg-white hover:bg-stone-100 text-stone-800 font-bold text-base border border-stone-300 shadow-sm transition-all"
-              >
-                <Download className="w-4 h-4 text-[#c89d3c]" />
-                <span>Download Catalog & Specs</span>
+                <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110">
+                  <ArrowUpRight className="w-4 h-4 text-[#65b938] stroke-[2.5]" />
+                </span>
               </button>
             </div>
 
-            {/* Trust Checklist Badges (Inspired by reference UI) */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-stone-200">
-              <div className="flex items-center gap-2 text-stone-700 text-xs sm:text-sm font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-[#1c4a27] shrink-0" />
-                <span>Zero Middlemen Markups</span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-700 text-xs sm:text-sm font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-[#1c4a27] shrink-0" />
-                <span>Custom Private Packaging</span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-700 text-xs sm:text-sm font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-[#1c4a27] shrink-0" />
-                <span>FOB & CIF Port Shipping</span>
-              </div>
-            </div>
+            {/* 2. Bottom Row: 2 Cards (Farm Aerial Card & Harvest Proof Card) */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 lg:gap-5">
+              
+              {/* Bottom-Left Card: Farm Aerial View with Interactive Pins & Video Background */}
+              <div className="sm:col-span-7 relative rounded-[28px] overflow-hidden min-h-[220px] sm:min-h-[240px] border border-stone-200/80 shadow-md group">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  poster="/assets/hero-harvest.jpg"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
+                >
+                  <source src="/assets/paddy-fields-loop.webm" type="video/webm" />
+                  <source src="/assets/paddy-fields-loop.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/5 transition-colors z-[1]" />
 
-            {/* Live Stats Row */}
-            <div className="pt-2 flex items-center gap-6 sm:gap-10">
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[#0e2439]">5,000+ MT</div>
-                <div className="text-xs text-stone-500 font-medium">Monthly Supply Volume</div>
-              </div>
-              <div className="w-px h-10 bg-stone-200" />
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[#1c4a27]">99.8%</div>
-                <div className="text-xs text-stone-500 font-medium">Lab Grain Purity</div>
-              </div>
-              <div className="w-px h-10 bg-stone-200" />
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[#c89d3c]">18+</div>
-                <div className="text-xs text-stone-500 font-medium">Export Destinations</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Interactive Monagrow Basmati Rice 3D Showcase Card */}
-          <div className="lg:col-span-5 relative flex flex-col items-center">
-            {/* Glowing Backdrop Ring */}
-            <div className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-[#0e2439]/20 to-[#c89d3c]/20 blur-2xl -z-10 animate-pulse-glow" />
-
-            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border border-stone-200/90 relative">
-              {/* Top Tag & Switch Front / Back */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0e2439] text-[#fbbf24] text-xs font-bold uppercase tracking-wider">
-                  <Award className="w-3.5 h-3.5" />
-                  Flagship Product
+                {/* Location Map Pin 1 (Top Left with radar pulse) */}
+                <div className="absolute top-5 left-6 flex items-center justify-center z-10">
+                  <span className="absolute w-7 h-7 rounded-full bg-[#22c55e]/40 animate-ping" />
+                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
+                    <MapPin className="w-3 h-3" />
+                  </div>
                 </div>
 
-                {/* Flip Toggle Button */}
-                <div className="inline-flex bg-stone-100 p-1 rounded-full text-xs font-bold">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("front")}
-                    className={`px-3 py-1 rounded-full transition-all ${
-                      activeTab === "front"
-                        ? "bg-[#1c4a27] text-white shadow-sm"
-                        : "text-stone-600 hover:text-stone-900"
-                    }`}
-                  >
-                    Front Pack
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("back")}
-                    className={`px-3 py-1 rounded-full transition-all ${
-                      activeTab === "back"
-                        ? "bg-[#1c4a27] text-white shadow-sm"
-                        : "text-stone-600 hover:text-stone-900"
-                    }`}
-                  >
-                    Back Specs
-                  </button>
+                {/* Location Map Pin 2 (Top Right with radar pulse) */}
+                <div className="absolute top-5 right-7 flex items-center justify-center z-10">
+                  <span className="absolute w-7 h-7 rounded-full bg-[#22c55e]/40 animate-ping" />
+                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
+                    <MapPin className="w-3 h-3" />
+                  </div>
                 </div>
-              </div>
 
-              {/* Pack Image Display */}
-              <div className="relative h-[380px] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-stone-50 to-stone-100/60 flex items-center justify-center p-2 group">
-                <Image
-                  src={
-                    activeTab === "front"
-                      ? "/assets/rice-pack-front.jpg"
-                      : "/assets/rice-pack-back.jpg"
-                  }
-                  alt="Monagrow Extra Long Grain Premium Basmati Rice"
-                  fill
-                  className="object-contain p-2 hover:scale-105 transition-transform duration-500"
-                  priority
-                />
+                {/* Location Map Pin 3 (Bottom Left) */}
+                <div className="absolute bottom-5 left-7 flex items-center justify-center z-10">
+                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
+                    <MapPin className="w-3 h-3" />
+                  </div>
+                </div>
 
-                {/* Floating pill over image matching reference */}
-                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3 rounded-2xl border border-stone-200 shadow-lg flex items-center justify-between">
+                {/* Location Map Pin 4 (Bottom Right) */}
+                <div className="absolute bottom-5 right-7 flex items-center justify-center z-10">
+                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
+                    <MapPin className="w-3 h-3" />
+                  </div>
+                </div>
+
+                {/* Center Floating Sourcing Card */}
+                <div className="absolute inset-0 m-auto w-fit h-fit bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200/90 shadow-xl flex items-center gap-2.5 transition-transform duration-300 group-hover:scale-105 z-10">
+                  <div className="w-8 h-8 rounded-xl bg-[#e8f5ec] flex items-center justify-center text-base shrink-0">
+                    🌾
+                  </div>
                   <div>
-                    <div className="text-xs font-bold text-[#0e2439]">
-                      Monagrow Extra Long Grain
+                    <div className="text-xs font-black text-[#0e2439] leading-tight">
+                      Basmati Paddy Belt
                     </div>
-                    <div className="text-[11px] text-[#1c4a27] font-semibold">
-                      Size: 8.9mm • Crop: 2025/2026
+                    <div className="text-[10px] text-stone-500 font-medium">
+                      Terai Basin • Direct Farm Sourcing
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => onOpenQuoteModal("Monagrow Basmati Rice 5kg / 25kg")}
-                    className="px-3.5 py-1.5 rounded-full bg-[#1c4a27] hover:bg-[#14371d] text-white text-xs font-bold shadow-sm"
-                  >
-                    Quote Rice
-                  </button>
                 </div>
               </div>
 
-              {/* Product Specifications Summary Under Image */}
-              <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-600">
-                <span className="font-semibold text-stone-900">Packed & Exported by:</span>
-                <span className="text-[#0e2439] font-bold">Monagrow Global Pvt Ltd, Kathmandu</span>
+              {/* Bottom-Right Card: Harvest Proof & Certification Badge */}
+              <div className="sm:col-span-5 relative rounded-[28px] overflow-hidden min-h-[220px] sm:min-h-[240px] border border-stone-200/80 shadow-md group">
+                <Image
+                  src="/assets/dryfruits-showcase.jpg"
+                  alt="Monagrow Premium Harvest Commodities"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+
+                {/* Top Overlay Badge: Social Proof */}
+                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-stone-200/90 shadow-md flex items-center gap-1.5">
+                  <div className="flex -space-x-1">
+                    <span className="w-4 h-4 rounded-full bg-[#57a42f] text-[9px] text-white flex items-center justify-center font-bold">M</span>
+                    <span className="w-4 h-4 rounded-full bg-[#fbbf24] text-[9px] text-[#0e2439] flex items-center justify-center font-bold">G</span>
+                    <span className="w-4 h-4 rounded-full bg-[#22c55e] text-[9px] text-white flex items-center justify-center font-bold">18+</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-stone-800">+1,200 Shipments</span>
+                </div>
+
+                {/* Bottom Overlay Badge: Lab Quality Assurance */}
+                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md px-3 py-2 rounded-2xl border border-stone-200/90 shadow-lg text-center">
+                  <span className="text-[11px] font-black text-[#57a42f] block leading-tight">
+                    100% SGS Lab Tested
+                  </span>
+                  <span className="text-[10px] text-stone-600 font-medium">
+                    Export Grade & ISO 22000
+                  </span>
+                </div>
               </div>
+
             </div>
           </div>
+
+          {/* Right Column (Tall Agricultural Specialist Showcase Card) */}
+          <div className="lg:col-span-5 relative rounded-[32px] overflow-hidden min-h-[480px] lg:min-h-full border border-stone-200/80 shadow-lg group">
+            <Image
+              src="/assets/hero-farmer-hd.jpg"
+              alt="Monagrow Agricultural Producer & Farm Specialist"
+              fill
+              className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+            {/* Top-Right Quick Sourcing Film Button */}
+            <button
+              type="button"
+              onClick={onOpenVideoModal}
+              className="absolute top-4 right-4 flex items-center gap-2 bg-white/95 hover:bg-white backdrop-blur-md text-[#0e2439] text-xs font-bold px-3.5 py-2 rounded-full shadow-lg border border-stone-200 transition-all hover:scale-105 cursor-pointer z-10"
+              title="Play farm sourcing film"
+            >
+              <span className="w-5 h-5 rounded-full bg-[#57a42f] text-white flex items-center justify-center">
+                <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
+              </span>
+              <span>Sourcing Film</span>
+            </button>
+
+            {/* Bottom-Left Floating Tag: Monagrow Agro Commodities */}
+            <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-full border border-stone-200/90 shadow-xl flex items-center gap-2 font-bold text-xs sm:text-sm text-[#0e2439] z-10">
+              <span>Monagrow Agro Commodities</span>
+              <span className="text-sm">🌾☕🌱</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -3,14 +3,48 @@
 import React from "react";
 import Image from "next/image";
 import { 
-  ShieldCheck, 
   Leaf, 
-  Truck, 
-  Award, 
-  Globe2, 
   CheckCircle, 
-  ArrowUpRight
+  ArrowUpRight,
+  FlaskConical,
+  Truck
 } from "lucide-react";
+
+const HandSproutIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.8" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M12 11c0-3.5 3-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5z" />
+    <path d="M12 11c0-2.5-2-4-4.5-4 0 2.5 2 4 4.5 4z" />
+    <path d="M12 11v4" />
+    <path d="M7 16c1.5 0 2.5.5 3.5 1.5l1.5 1.5a2 2 0 0 0 2.8 0l4.2-4.2a1.8 1.8 0 0 1 2.5 2.5l-4.5 4.5a3 3 0 0 1-2.1.9H9a4 4 0 0 1-4-4v-1.5" />
+  </svg>
+);
+
+const TrustedHandsIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.8" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <circle cx="12" cy="7.5" r="2.5" />
+    <path d="M9.5 7.5a2.5 2.5 0 0 1 5 0" />
+    <path d="M7 14c1-1 2.5-1.5 4-1.5h2c1.5 0 3 .5 4 1.5" />
+    <path d="M5 16.5c1.5 1.5 3 2.5 5 2.5h4c2 0 3.5-1 5-2.5" />
+    <path d="M4 12c-1 1-1 3 0 4l3 3" />
+    <path d="M20 12c1 1 1 3 0 4l-3 3" />
+  </svg>
+);
 
 export default function WhyChooseUs({
   onOpenQuoteModal,
@@ -19,7 +53,7 @@ export default function WhyChooseUs({
 }) {
   const advantages = [
     {
-      icon: ShieldCheck,
+      icon: FlaskConical,
       title: "100% Certified Lab Purity",
       subtitle: "Zero adulteration, verified standards.",
       desc: "Every single container shipment is rigorously tested by accredited laboratories for grain elongation, moisture, aflatoxin, and pesticide residue limits.",
@@ -33,14 +67,14 @@ export default function WhyChooseUs({
       tag: "Global Freight",
     },
     {
-      icon: Leaf,
+      icon: HandSproutIcon,
       title: "Sustainable & Ethical Farming",
       subtitle: "Direct farmer partnerships.",
       desc: "Partnered directly with over 3,200 rural farming families across Nepal and India, ensuring fair trade purchase prices and zero harmful synthetic residues.",
       tag: "Eco Integrity",
     },
     {
-      icon: Award,
+      icon: TrustedHandsIcon,
       title: "Private Label & Custom Packing",
       subtitle: "Your brand, our manufacturing power.",
       desc: "Custom printed 1kg, 5kg, 10kg, 25kg, and 50kg bags in BOPP, non-woven, jute, or kraft paper tailored to your supermarket and wholesale distributor specs.",
@@ -50,10 +84,11 @@ export default function WhyChooseUs({
 
   return (
     <section id="why-choose-us" className="py-20 bg-white relative">
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
+      <div id="about" className="absolute -top-20" />
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f5ec] text-[#1b5e20] text-xs font-bold uppercase tracking-wider mb-4 border border-[#c3e6cd]">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f5ec] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-4 border border-[#c3e6cd]">
             <span>THE MONAGROW ADVANTAGE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
@@ -66,36 +101,85 @@ export default function WhyChooseUs({
 
         {/* Layout matching Reference 1 & 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left Large Visual Feature Card */}
-          <div className="lg:col-span-5 relative rounded-3xl overflow-hidden shadow-xl border border-stone-200 min-h-[420px] flex flex-col justify-end p-8 text-white group">
+          {/* Left Large Visual Feature Card - Crystal Clear Sunny Farm Landscape */}
+          <div className="lg:col-span-5 relative rounded-3xl overflow-hidden shadow-xl border border-stone-200 min-h-[480px] lg:min-h-[520px] flex flex-col justify-between p-6 sm:p-8 text-white group">
+            {/* Crystal-clear bright sunny terraced farm hills image */}
             <Image
-              src="/assets/hero-harvest.jpg"
+              src="/assets/monagrow-sunny-hills.jpg"
               alt="Monagrow Terraced Organic Farm"
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
+              priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/95 via-[#0e2439]/40 to-transparent" />
 
-            <div className="relative z-10 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold text-white">
-                <Leaf className="w-3.5 h-3.5 text-[#fbbf24]" />
-                Direct From Mountain Valleys
+            {/* Soft bottom-only gradient so upper hills and blue sunny sky remain 100% bright and clear */}
+            <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#0e2439]/90 via-[#0e2439]/45 to-transparent pointer-events-none" />
+
+            {/* Top Badge: "Direct from mountain valleys" with GREEN leaf */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200/60 text-xs font-bold text-[#0e2439] shadow-md">
+                <Leaf className="w-3.5 h-3.5 text-[#57a42f] fill-[#57a42f]" />
+                <span>Direct from mountain valleys</span>
               </div>
+            </div>
 
-              <h3 className="text-2xl sm:text-3xl font-black font-serif leading-tight text-white">
+            {/* Bottom Content Area */}
+            <div className="relative z-10 space-y-3 mt-auto pt-10">
+              <h3 className="text-2xl sm:text-3xl font-black font-serif leading-tight text-white drop-shadow-sm">
                 Uncompromising Sourcing Ethics & Traceability
               </h3>
-              <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-100/95 leading-relaxed drop-shadow-sm">
                 From lush Himalayan valleys to state-of-the-art optical laser sorting mills in Kathmandu, our supply chain guarantees purity in every grain.
               </p>
 
+              {/* "Partner as a Distributor" floating card directly referring to the screenshot */}
               <button
+                type="button"
                 onClick={() => onOpenQuoteModal("Logistics & Sourcing Partnership")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#fbbf24] text-[#0e2439] text-xs font-bold hover:bg-white transition-all shadow-md"
+                className="mt-3 inline-flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-white/95 hover:bg-white text-stone-900 shadow-xl backdrop-blur-md border border-white/60 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group/partner"
               >
-                <span>Partner as a Distributor</span>
-                <ArrowUpRight className="w-4 h-4" />
+                {/* 3 Circular Avatars + Green Badge */}
+                <div className="flex items-center -space-x-2 shrink-0">
+                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative shadow-sm">
+                    <Image
+                      src="/assets/hero-farmer-crisp.jpg"
+                      alt="Partner 1"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative shadow-sm">
+                    <Image
+                      src="/assets/hero-farmer-test.jpg"
+                      alt="Partner 2"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative shadow-sm">
+                    <Image
+                      src="/assets/hero-farmer.jpg"
+                      alt="Partner 3"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-[#57a42f] text-white border-2 border-white flex items-center justify-center text-[10px] font-black shadow-sm">
+                    +3.2k
+                  </div>
+                </div>
+
+                {/* Text referring to screenshot */}
+                <div className="pr-1">
+                  <span className="text-[10px] font-bold text-[#57a42f] uppercase tracking-wider block">
+                    Join Wholesale Network
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-[#0e2439] group-hover/partner:text-[#57a42f] transition-colors flex items-center gap-1.5">
+                    Partner as a distributor
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#57a42f] group-hover/partner:translate-x-0.5 group-hover/partner:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
               </button>
             </div>
           </div>
@@ -107,12 +191,12 @@ export default function WhyChooseUs({
               return (
                 <div
                   key={idx}
-                  className="bg-[#fbfbf8] rounded-3xl p-6 sm:p-7 border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                  className="bg-white rounded-3xl p-6 sm:p-7 border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-default"
                 >
                   <div>
-                    {/* Top Icon & Tag */}
+                    {/* Top Icon & Tag with Speech-Bubble Shaped Container from Screenshot */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-[#e8f5ec] text-[#1c4a27] flex items-center justify-center group-hover:bg-[#1c4a27] group-hover:text-white transition-colors">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl rounded-bl-[4px] bg-[#edf6ee] text-[#57a42f] flex items-center justify-center group-hover:bg-[#57a42f] group-hover:text-white transition-all duration-300 shadow-xs">
                         <Icon className="w-6 h-6" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">
@@ -120,7 +204,7 @@ export default function WhyChooseUs({
                       </span>
                     </div>
 
-                    <h4 className="text-lg font-black text-[#0e2439] group-hover:text-[#1c4a27] transition-colors">
+                    <h4 className="text-lg font-black text-[#0e2439] group-hover:text-[#57a42f] transition-colors">
                       {item.title}
                     </h4>
                     <p className="text-xs font-semibold text-[#c89d3c] mt-0.5">
@@ -131,9 +215,10 @@ export default function WhyChooseUs({
                     </p>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-stone-200/60 flex items-center justify-between text-xs font-bold text-[#1c4a27]">
+                  {/* Bottom Bar: Preserves Standard Guaranteed without any arrow */}
+                  <div className="pt-4 mt-4 border-t border-stone-200/60 flex items-center justify-between text-xs font-bold text-[#57a42f]">
                     <span>Standard Guaranteed</span>
-                    <CheckCircle className="w-4 h-4 text-[#1c4a27]" />
+                    <CheckCircle className="w-4 h-4 text-[#57a42f]" />
                   </div>
                 </div>
               );
@@ -144,3 +229,4 @@ export default function WhyChooseUs({
     </section>
   );
 }
+

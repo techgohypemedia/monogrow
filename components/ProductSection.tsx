@@ -4,18 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { 
   ArrowRight, 
+  ArrowUpRight,
   Check, 
   RotateCw, 
-  Layers, 
-  FileText, 
-  ExternalLink, 
-  Info,
-  SlidersHorizontal,
   Search,
   X,
-  ShieldCheck,
-  MapPin,
-  Package,
   MessageCircle
 } from "lucide-react";
 
@@ -84,7 +77,7 @@ export default function ProductSection({
       name: "Monagrow 1121 Golden Sella Parboiled Basmati",
       category: "rice",
       tag: "High Volume Catering",
-      image: "/assets/rice-pack-front.jpg",
+      image: "/assets/basmati-rice-grains.jpg",
       origin: "Himalayan Basmati Belt",
       specs: {
         grade: "1121 Parboiled Golden Grain (8.4mm)",
@@ -216,7 +209,7 @@ export default function ProductSection({
       name: "Monagrow Royal W240 Whole Cashew Kernels",
       category: "dryfruits",
       tag: "King Size",
-      image: "/assets/dryfruits-showcase.jpg",
+      image: "/assets/cashew-kernels.jpg",
       origin: "Certified Cashew Plantations",
       specs: {
         grade: "White Whole W240 (220-240 nuts/lb)",
@@ -260,13 +253,12 @@ export default function ProductSection({
   ];
 
   return (
-    <section id="products" className="py-20 bg-[#fbfbf7] relative border-t border-stone-200 w-full">
-      {/* Full width container end-to-end */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
+    <section id="products" className="py-20 bg-[#fcfcf9] relative border-t border-stone-200/80 w-full">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f5ec] text-[#1b5e20] text-xs font-bold uppercase tracking-wider mb-3 border border-[#c3e6cd]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f5ec] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-3 border border-[#c3e6cd]">
               <span>B2B BULK CATALOG</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
@@ -285,7 +277,7 @@ export default function ProductSection({
               placeholder="Search Basmati, Coffee, Sugar, Almonds..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-full bg-white border border-stone-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#1c4a27] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 rounded-full bg-white border border-stone-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#57a42f] shadow-sm"
             />
           </div>
         </div>
@@ -296,9 +288,9 @@ export default function ProductSection({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 activeTab === tab.id
-                  ? "bg-[#1c4a27] text-white shadow-md shadow-[#1c4a27]/20 scale-105"
+                  ? "bg-[#57a42f] text-white shadow-md shadow-[#57a42f]/20 scale-105"
                   : "bg-white text-stone-700 hover:bg-stone-100 border border-stone-200"
               }`}
             >
@@ -307,72 +299,104 @@ export default function ProductSection({
           ))}
         </div>
 
-        {/* Products Grid: CLEAN & MINIMAL CARDS with 8px radius and fully fitting image */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              onClick={() => openProductModal(product)}
-              className={`bg-white rounded-[8px] border ${
-                product.isFlagship
-                  ? "border-[#c89d3c] ring-1 ring-[#c89d3c]/30"
-                  : "border-stone-200/90"
-              } overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group cursor-pointer hover:-translate-y-1.5`}
+        {/* Products Grid: 3-Column Luxury Produce Layout with Inverted Corner Cutout Dock */}
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-3xl border border-stone-200 p-8 shadow-sm">
+            <p className="text-stone-600 font-medium">
+              No commodities found matching &ldquo;{searchTerm}&rdquo;
+            </p>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setActiveTab("all");
+              }}
+              className="mt-3 text-xs font-bold text-[#57a42f] hover:underline cursor-pointer"
             >
-              <div>
-                {/* Image Container - Fully fitting image */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-t-[8px] bg-stone-100">
+              Reset filters & search
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                onClick={() => openProductModal(product)}
+                className="group flex flex-col cursor-pointer"
+              >
+                {/* 1. Large Image Container with Custom Inverted Rounded Corner Notch */}
+                <div className="relative aspect-square w-full rounded-[28px] sm:rounded-[32px] overflow-hidden bg-stone-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
+                  {/* Product Photograph */}
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
 
-                  {/* Top Badge */}
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="px-3 py-1 rounded-[6px] text-[11px] font-bold bg-[#0e2439] text-[#fbbf24] shadow-md">
+                  {/* Subtle Top-Left Category / Flagship Tag */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span
+                      className={`px-3 py-1 rounded-full text-[11px] font-bold shadow-sm border ${
+                        product.isFlagship
+                          ? "bg-[#0e2439] text-[#fbbf24] border-[#c89d3c]/40"
+                          : "bg-white/90 backdrop-blur-md text-[#57a42f] border-stone-200/50"
+                      }`}
+                    >
                       {product.tag}
                     </span>
                   </div>
 
-                  {/* Price Tag Overlay */}
-                  <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-[6px] text-xs font-bold text-[#1c4a27] shadow-sm border border-stone-200/60">
-                    {product.priceRange}
+                  {/* Bottom-Right Inverted Radius Cutout Dock */}
+                  <div className="absolute bottom-0 right-0 bg-[#fcfcf9] pt-2.5 pl-2.5 rounded-tl-[24px] z-10">
+                    {/* Top Concave Scoop Curve (Vector Crisp) */}
+                    <div className="absolute -top-6 right-0 w-6 h-6 pointer-events-none overflow-hidden">
+                      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
+                        <path d="M24 0 A24 24 0 0 0 0 24 L24 24 Z" />
+                      </svg>
+                    </div>
+
+                    {/* Left Concave Scoop Curve (Vector Crisp) */}
+                    <div className="absolute bottom-0 -left-6 w-6 h-6 pointer-events-none overflow-hidden">
+                      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
+                        <path d="M0 24 A24 24 0 0 0 24 0 L24 24 Z" />
+                      </svg>
+                    </div>
+
+                    {/* Submit Button Arrow Icon matching Fresh Harvest Commodities */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openProductModal(product);
+                      }}
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#57a42f] hover:bg-[#478726] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 group/btn cursor-pointer"
+                      aria-label={`View specs and quote for ${product.name}`}
+                      title="View Specifications & Request Quote"
+                    >
+                      <ArrowUpRight className="w-5 h-5 text-white stroke-[2.5] transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    </button>
                   </div>
                 </div>
 
-                {/* Minimal Body */}
-                <div className="p-4 sm:p-5">
-                  <div className="text-[11px] font-bold text-[#c89d3c] uppercase tracking-wider mb-1">
-                    {product.category}
-                  </div>
-                  <h3 className="text-base font-bold text-stone-900 group-hover:text-[#1c4a27] transition-colors leading-snug line-clamp-2">
+                {/* 2. Content Row 1: Title (Left) + Price (Right) */}
+                <div className="mt-4 flex items-baseline justify-between gap-3">
+                  <h3 className="text-base sm:text-lg font-bold text-[#142319] group-hover:text-[#57a42f] transition-colors tracking-tight leading-snug truncate">
                     {product.name}
                   </h3>
-                  <p className="mt-1.5 text-xs text-stone-500 line-clamp-1">
-                    {product.specs.grade} • {product.origin}
-                  </p>
+                  <span className="shrink-0 text-base sm:text-lg font-bold text-[#142319]">
+                    {product.priceRange}
+                  </span>
                 </div>
-              </div>
 
-              {/* Minimal Clean Action Button with 8px radius */}
-              <div className="p-4 sm:p-5 pt-0">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openProductModal(product);
-                  }}
-                  className="w-full py-3 rounded-[8px] bg-stone-100 group-hover:bg-[#1c4a27] text-stone-800 group-hover:text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
-                >
-                  <span>View Details & Quote</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </button>
+                {/* 3. Content Row 2: Short Description / Subtitle */}
+                <p className="mt-1 text-xs sm:text-sm text-stone-500 font-normal leading-relaxed line-clamp-1">
+                  {product.description}
+                </p>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* FULL PRODUCT DETAILS MODAL (Opens on Card Click) */}
@@ -425,7 +449,7 @@ export default function ProductSection({
                     <div className="mt-3 flex justify-center">
                       <button
                         onClick={() => setModalIsFlipped(!modalIsFlipped)}
-                        className="px-4 py-2 rounded-full bg-white hover:bg-stone-100 text-[#1c4a27] text-xs font-bold border border-stone-300 shadow-sm flex items-center gap-2 transition-all"
+                        className="px-4 py-2 rounded-full bg-white hover:bg-stone-100 text-[#57a42f] text-xs font-bold border border-stone-300 shadow-sm flex items-center gap-2 transition-all"
                       >
                         <RotateCw className="w-3.5 h-3.5" />
                         <span>
@@ -435,7 +459,7 @@ export default function ProductSection({
                     </div>
                   )}
 
-                  <div className="mt-3 text-center text-xs font-semibold text-[#1c4a27] bg-[#e8f5ec] py-2 px-3 rounded-xl">
+                  <div className="mt-3 text-center text-xs font-semibold text-[#57a42f] bg-[#e8f5ec] py-2 px-3 rounded-xl">
                     Indicative Price: {activeModalProduct.priceRange}
                   </div>
                 </div>
@@ -467,7 +491,7 @@ export default function ProductSection({
                     </div>
                     <div className="flex justify-between py-1 border-b border-stone-200">
                       <span className="text-stone-500 font-medium">Min Order Qty (MOQ):</span>
-                      <strong className="text-[#1c4a27] font-bold">{activeModalProduct.specs.moq}</strong>
+                      <strong className="text-[#57a42f] font-bold">{activeModalProduct.specs.moq}</strong>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-stone-500 font-medium">Purity / Moisture Standards:</span>
@@ -483,7 +507,7 @@ export default function ProductSection({
                     <ul className="space-y-1.5 text-xs text-stone-600">
                       {activeModalProduct.features.map((feat, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <Check className="w-4 h-4 text-[#1c4a27] shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-[#57a42f] shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -498,7 +522,7 @@ export default function ProductSection({
                         setActiveModalProduct(null);
                         onOpenQuoteModal(name);
                       }}
-                      className="flex-1 py-3.5 rounded-xl bg-[#1c4a27] hover:bg-[#14371d] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all"
+                      className="flex-1 py-3.5 rounded-xl bg-[#57a42f] hover:bg-[#478726] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all"
                     >
                       <span>Request Quotation / Proforma</span>
                       <ArrowRight className="w-4 h-4" />

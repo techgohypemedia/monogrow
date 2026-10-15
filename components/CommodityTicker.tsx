@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { TrendingUp, ArrowUpRight } from "lucide-react";
 
 export default function CommodityTicker() {
   const items = [

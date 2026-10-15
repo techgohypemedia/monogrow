@@ -3,16 +3,15 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import CommodityTicker from "@/components/CommodityTicker";
 import CategorySection from "@/components/CategorySection";
 import ProductSection from "@/components/ProductSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WholesaleCalculator from "@/components/WholesaleCalculator";
 import Testimonials from "@/components/Testimonials";
+import MarketIntelligence from "@/components/MarketIntelligence";
 import Footer from "@/components/Footer";
 import VideoModal from "@/components/VideoModal";
 import QuoteModal from "@/components/QuoteModal";
-import { MessageCircle, PhoneCall } from "lucide-react";
 
 export default function Home() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -35,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcfcf9] selection:bg-[#1c4a27] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#fcfcf9] selection:bg-[#57a42f] selection:text-white">
       {/* 1. Top Navbar */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
@@ -46,10 +45,7 @@ export default function Home() {
           onOpenQuoteModal={handleOpenQuoteModal}
         />
 
-        {/* 3. Live Commodity Spot Ticker */}
-        <CommodityTicker />
-
-        {/* 4. Wholesale Commodity Categories (Rice, Coffee, Sugar, Dryfruits) */}
+        {/* 3. Wholesale Commodity Categories (Rice, Coffee, Sugar, Dryfruits) */}
         <CategorySection
           onSelectCategory={handleSelectCategory}
           onOpenQuoteModal={handleOpenQuoteModal}
@@ -69,9 +65,12 @@ export default function Home() {
 
         {/* 8. Verified Buyer Reviews & Testimonials */}
         <Testimonials />
+
+        {/* 9. Market Intelligence & Crop Reports (Matching Reference 3-Column Layout) */}
+        <MarketIntelligence />
       </main>
 
-      {/* 9. Premium Footer */}
+      {/* 10. Premium Footer */}
       <Footer onOpenQuoteModal={handleOpenQuoteModal} />
 
       {/* Interactive Modals */}
@@ -85,26 +84,6 @@ export default function Home() {
         onClose={() => setIsQuoteModalOpen(false)}
         initialCommodity={selectedCommodityForQuote}
       />
-
-      {/* Floating WhatsApp Action for High B2B Wholesale Conversion */}
-      <aside aria-label="Quick wholesale contact" className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
-        <div className="hidden sm:block bg-white text-stone-800 text-xs font-bold py-1.5 px-3 rounded-full shadow-lg border border-stone-200">
-          Chat with Export Desk
-        </div>
-        <button
-          onClick={() => {
-            const text = encodeURIComponent(
-              "Hello Monagrow Global Wholesale! I want to inquire about container bulk pricing."
-            );
-            window.open(`https://wa.me/9779801234567?text=${text}`, "_blank");
-          }}
-          className="w-14 h-14 rounded-full bg-[#25d366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 group"
-          title="Direct WhatsApp Export Hotline"
-          aria-label="Direct WhatsApp Export Hotline"
-        >
-          <MessageCircle className="w-7 h-7 fill-white" />
-        </button>
-      </aside>
     </div>
   );
 }
