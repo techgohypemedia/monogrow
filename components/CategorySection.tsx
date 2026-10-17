@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Sparkles, Check } from "lucide-react";
+import { ArrowUpRight, Sparkles, Check, Leaf } from "lucide-react";
 
 interface CategorySectionProps {
   onSelectCategory: (categoryId: string) => void;
@@ -32,11 +32,11 @@ export default function CategorySection({
   const commodities: CommodityItem[] = [
     {
       id: "basmati-aged",
-      title: "Organic Extra Long Basmati",
+      title: "Premium Extra Long Basmati 1121",
       category: "rice",
       price: "$1,450",
       unit: "/ MT",
-      description: "Aged Himalayan harvest, 8.9mm slender fragrant grains.",
+      description: "Aged Himalayan crop, 8.9mm slender fragrant grains.",
       image: "/assets/basmati-rice-grains.jpg",
       tag: "Flagship Basmati",
       origin: "Himalayan Foothills",
@@ -105,7 +105,6 @@ export default function CategorySection({
   ];
 
   const filterTabs = [
-    { id: "all", label: "All Commodities" },
     { id: "rice", label: "Extra Long Rice" },
     { id: "coffee", label: "Coffee Beans" },
     { id: "sugar", label: "Refined Cane Sugar" },
@@ -131,15 +130,15 @@ export default function CategorySection({
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl">
+          <div className="max-w-3xl lg:max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e8f5ec] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-3.5 border border-[#c3e6cd]">
-              <Sparkles className="w-3.5 h-3.5 text-[#57a42f]" />
-              <span>FRESH HARVEST COMMODITIES</span>
+              <Leaf className="w-3.5 h-3.5 text-[#57a42f]" />
+              <span>GLOBAL AGRO COMMODITIES</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
-              Sustainably Grown. Globally Exported.
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif tracking-tight text-[#0e2439] md:whitespace-nowrap">
+              Direct Origin. Globally Dispatched.
             </h2>
-            <p className="mt-3 text-stone-600 text-sm sm:text-base leading-relaxed">
+            <p className="mt-3 text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl">
               Standardized in ISO-certified processing facilities, packed under nitrogen flush, and dispatched worldwide in bulk commercial containers.
             </p>
           </div>
@@ -150,7 +149,7 @@ export default function CategorySection({
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveFilter(tab.id)}
+                onClick={() => setActiveFilter(activeFilter === tab.id ? "all" : tab.id)}
                 className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                   activeFilter === tab.id
                     ? "bg-[#57a42f] text-white shadow-md shadow-[#57a42f]/20"
@@ -172,7 +171,7 @@ export default function CategorySection({
               className="group flex flex-col cursor-pointer"
             >
               {/* 1. Large Image Container with Custom Inverted Rounded Corner Notch */}
-              <div className="relative aspect-square w-full rounded-[28px] sm:rounded-[32px] overflow-hidden bg-stone-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
+              <div className="relative aspect-square w-full rounded-[12px] overflow-hidden bg-stone-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
                 {/* Product Photograph */}
                 <Image
                   src={item.image}
@@ -189,40 +188,37 @@ export default function CategorySection({
                   </span>
                 </div>
 
-                {/* Bottom-Right Inverted Radius Cutout Dock */}
-                <div className="absolute bottom-0 right-0 bg-[#fcfcf9] pt-2.5 pl-2.5 rounded-tl-[24px] z-10">
-                  {/* Top Concave Scoop Curve (Vector Crisp) */}
-                  <div className="absolute -top-6 right-0 w-6 h-6 pointer-events-none overflow-hidden">
-                    <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
-                      <path d="M24 0 A24 24 0 0 0 0 24 L24 24 Z" />
-                    </svg>
-                  </div>
+                {/* Unified Butter-Smooth Bottom-Right Cutout Dock */}
+                <svg
+                  viewBox="0 0 68 68"
+                  className="absolute bottom-0 right-0 w-[68px] h-[68px] pointer-events-none z-10"
+                >
+                  <path
+                    d="M 68 0 A 14 14 0 0 0 54 14 L 28 14 A 14 14 0 0 0 14 28 L 14 54 A 14 14 0 0 0 0 68 L 68 68 L 68 0 Z"
+                    fill="#fcfcf9"
+                    stroke="#fcfcf9"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                </svg>
 
-                  {/* Left Concave Scoop Curve (Vector Crisp) */}
-                  <div className="absolute bottom-0 -left-6 w-6 h-6 pointer-events-none overflow-hidden">
-                    <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
-                      <path d="M0 24 A24 24 0 0 0 24 0 L24 24 Z" />
-                    </svg>
-                  </div>
-
-                  {/* The Signature Dark Green Floating Action / Submit Arrow Button */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleInquire(item);
-                    }}
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#57a42f] hover:bg-[#478726] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 group/btn cursor-pointer"
-                    aria-label={`View details for ${item.title}`}
-                    title="View Details"
-                  >
-                    {copiedId === item.id ? (
-                      <Check className="w-5 h-5 text-[#65b938] animate-bounce" />
-                    ) : (
-                      <ArrowUpRight className="w-5 h-5 text-white stroke-[2.5] transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                    )}
-                  </button>
-                </div>
+                {/* Floating Action / Submit Arrow Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleInquire(item);
+                  }}
+                  className="absolute bottom-2 right-2 w-10 h-10 rounded-xl bg-[#57a42f] hover:bg-[#478726] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 group/btn cursor-pointer z-20"
+                  aria-label={`View details for ${item.title}`}
+                  title="View Details"
+                >
+                  {copiedId === item.id ? (
+                    <Check className="w-4 h-4 text-[#65b938] animate-bounce" />
+                  ) : (
+                    <ArrowUpRight className="w-4 h-4 text-white stroke-[2.2] transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                  )}
+                </button>
               </div>
 
               {/* 2. Content Row 1: Title (Left) + Price (Right) */}
@@ -249,7 +245,7 @@ export default function CategorySection({
         </div>
 
         {/* Bottom Wholesale Advantage Bar */}
-        <div className="mt-16 p-6 sm:p-8 rounded-[24px] bg-[#edf5ee] border border-[#d6ebd9] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+        <div className="mt-16 p-6 sm:p-8 rounded-[12px] bg-[#edf5ee] border border-[#d6ebd9] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-[#57a42f] text-white flex items-center justify-center shrink-0 shadow-md">
               <Sparkles className="w-6 h-6 text-[#fbbf24]" />

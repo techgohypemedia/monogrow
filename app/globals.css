@@ -3,10 +3,16 @@
 :root {
   --font-sans: var(--font-sans, system-ui, -apple-system, sans-serif);
   --font-serif: var(--font-serif, Georgia, serif);
+  --font-antonio: var(--font-antonio, "Antonio", sans-serif);
+  --font-bebas: var(--font-bebas, "Bebas Neue", sans-serif);
   
   --primary: #57a42f;
   --primary-hover: #478726;
   --primary-light: #e8f5ec;
+  --maroon: #800020;
+  --maroon-dark: #650019;
+  --maroon-hover: #6e001c;
+  --maroon-light: #fcf1f3;
   --accent-gold: #c89d3c;
   --accent-gold-dark: #a47e27;
   --navy: #0e2439;
@@ -19,6 +25,10 @@
   --color-primary: #57a42f;
   --color-primary-dark: #478726;
   --color-primary-light: #e8f5ec;
+  --color-maroon: #800020;
+  --color-maroon-dark: #650019;
+  --color-maroon-hover: #6e001c;
+  --color-maroon-light: #fcf1f3;
   --color-gold: #c89d3c;
   --color-gold-dark: #a47e27;
   --color-navy: #0e2439;
@@ -38,6 +48,20 @@ body {
 
 .font-serif-luxury {
   font-family: var(--font-serif);
+}
+
+.font-condensed-display {
+  font-family: var(--font-bebas), var(--font-antonio), "Oswald", "Impact", -apple-system, sans-serif;
+  font-stretch: ultra-condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.font-navbar-brand {
+  font-family: var(--font-bebas), var(--font-antonio), "Oswald", "Impact", sans-serif;
+  font-stretch: ultra-condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Animations */

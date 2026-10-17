@@ -52,7 +52,7 @@ export default function QuoteModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-stone-200 z-10 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-xl bg-white rounded-[12px] overflow-hidden shadow-2xl border border-stone-200 z-10 max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="bg-[#0e2439] p-6 text-white flex items-center justify-between">
           <div>

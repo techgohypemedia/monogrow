@@ -1,192 +1,228 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { 
-  ShieldCheck, 
-  ArrowUpRight, 
-  MapPin, 
-  Play
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface HeroProps {
-  onOpenVideoModal: () => void;
+  onOpenVideoModal?: () => void;
   onOpenQuoteModal: (productName?: string) => void;
 }
 
-export default function Hero({ onOpenVideoModal, onOpenQuoteModal }: HeroProps) {
+export default function Hero({ onOpenQuoteModal }: HeroProps) {
+  const [scrollY, setScrollY] = useState(0);
+  const [isSpread, setIsSpread] = useState(false);
+  const [isIntroComplete, setIsIntroComplete] = useState(false);
+
+  useEffect(() => {
+    // 1. Smoothly trigger the GPU slide-out transition once after page mount
+    const timer = setTimeout(() => {
+      setIsSpread(true);
+    }, 180);
+
+    const completeTimer = setTimeout(() => {
+      setIsIntroComplete(true);
+    }, 1450);
+
+    // 2. Ultra-smooth 60fps/120fps scroll tracking
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(completeTimer);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Scroll drift calculations:
+  // As user scrolls down, products subtly glide upwards and towards the right along the half circle
+  const scrollOffset = isIntroComplete ? Math.min(scrollY, 700) : 0;
+  const driftX = scrollOffset * 0.22; // moves rightwards
+  const driftY = -(scrollOffset * 0.18); // moves upwards
+  const driftTilt = scrollOffset * 0.025; // curves along the right half circle
+
+  // GPU Hardware-accelerated transforms (translate3d):
+  // Initial 3D stack is positioned on the middle product, then smoothly unfolds once on visit
+  const riceTransform = !isSpread
+    ? "translate3d(-10vw, 40vh, 0) rotate(3deg) scale(0.96)"
+    : `translate3d(${driftX * 0.85}px, ${driftY * 0.85}px, 0) rotate(${14 + driftTilt}deg) scale(1)`;
+
+  const middleTransform = !isSpread
+    ? "translate3d(0, 0, 0) rotate(-6deg) scale(0.98)"
+    : `translate3d(${driftX * 1.0}px, ${driftY * 1.0}px, 0) rotate(${-6 + driftTilt}deg) scale(1)`;
+
+  const sugarTransform = !isSpread
+    ? "translate3d(46vw, -27vh, 0) rotate(-14deg) scale(0.94)"
+    : `translate3d(${driftX * 1.15}px, ${driftY * 1.15}px, 0) rotate(${-12 + driftTilt}deg) scale(1)`;
+
+  // High-performance transition curve:
+  const transitionStyle = !isIntroComplete
+    ? "transform 1.25s cubic-bezier(0.2, 0.95, 0.3, 1)"
+    : "transform 0.08s ease-out";
+
   return (
-    <section className="bg-white py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 xl:px-12">
-      <div className="w-full max-w-[1440px] mx-auto">
-        {/* Main 2-Column Hero Grid matching reference layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch">
+    <section
+      id="home"
+      className="relative min-h-[105vh] lg:min-h-[120vh] bg-white flex flex-col justify-center overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-20 sm:pb-28 lg:pb-36 select-none"
+    >
+      <div className="w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-18 relative z-20">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-12">
           
-          {/* Left Column (Main Headline Card + Bottom 2 Cards Row) */}
-          <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-5">
+          {/* LEFT COLUMN: Arched Badge, Giant Headline, Description, Pill CTA, then Product 3 placed cleanly BELOW */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start text-left z-20 pt-4 lg:pt-0">
             
-            {/* 1. Top Main Hero Card */}
-            <div className="flex-1 bg-[#edf5ee] border border-[#dbece0] rounded-[32px] p-8 sm:p-12 lg:p-14 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-sm">
-              {/* Top Trust Pill Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#dbeee0] border border-[#c6e4cc] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-5 shadow-xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#57a42f]" />
-                <span>100% TRUSTED WHOLESALE PLATFORM</span>
-              </div>
+            {/* 1. Arched Badge above the main headline (matching "Alcohol Infused" arc from screenshot) */}
+            <div className="relative -mb-3 sm:-mb-5 -ml-2 sm:-ml-4 overflow-visible">
+              <svg
+                viewBox="0 0 300 85"
+                className="w-56 sm:w-64 md:w-72 h-16 sm:h-20 overflow-visible"
+                aria-hidden="true"
+              >
+                <defs>
+                  <path
+                    id="heroArcPath"
+                    d="M 20,78 Q 150,12 280,78"
+                    fill="transparent"
+                  />
+                </defs>
+                <text
+                  className="font-navbar-brand text-[26px] sm:text-[30px] md:text-[34px] tracking-[0.16em] font-black uppercase select-none"
+                  style={{
+                    fill: "#800020",
+                    stroke: "#800020",
+                    strokeWidth: "0.5px",
+                    paintOrder: "stroke fill",
+                  }}
+                >
+                  <textPath href="#heroArcPath" startOffset="50%" textAnchor="middle">
+                    Direct Origin
+                  </textPath>
+                </text>
+              </svg>
+            </div>
 
-              {/* Main Bold Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0e2439] tracking-tight leading-[1.12] mb-4">
-                Fresh. Organic. <br />
-                <span className="text-[#57a42f]">Sustainable.</span>
-              </h1>
+            {/* 2. Giant Headline (Matching "FRUIT JAM" layout & condensed typography from screenshot) */}
+            <h1 className="font-navbar-brand text-6xl sm:text-7xl md:text-8xl lg:text-[108px] xl:text-[128px] font-black leading-[0.84] tracking-tight uppercase mb-7 select-none text-[#800020]">
+              <span className="block">AGRI</span>
+              <span className="block mt-1">COMMODITIES</span>
+            </h1>
 
-              {/* Subtitle / Value Proposition */}
-              <p className="text-stone-600 text-xs sm:text-sm md:text-base font-medium max-w-lg mb-7 leading-relaxed">
-                Direct export-grade supplier of Extra Long Basmati Rice, Estate Coffee Beans, Pure Refined Sugar, and California Dry Fruits.
-              </p>
+            {/* 3. Subtitle / Value Proposition from website */}
+            <p className="text-stone-600 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-lg mb-9">
+              An amazing, all-natural bulk commodity supply of premium Basmati Rice, Refined Cane Sugar, and Specialty Estate Coffee for global markets.
+            </p>
 
-              {/* CTA Button: Lime Green Pill with Up-Right Arrow (Exact Reference Style) */}
+            {/* 4. Action Button (Pill button with offset shadow matching reference screenshot, zero green) */}
+            <div className="flex items-center mb-16 sm:mb-20 lg:mb-24">
               <button
                 type="button"
                 onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
-                className="inline-flex items-center gap-3 pl-6 pr-2 py-2 rounded-full bg-[#65b938] hover:bg-[#57a42f] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#65b938]/30 hover:shadow-xl hover:scale-105 transition-all duration-300 group cursor-pointer"
+                className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase border-2 border-[#800020] shadow-[5px_7px_0px_#1c1917] hover:shadow-[2px_3px_0px_#1c1917] hover:translate-x-[3px] hover:translate-y-[4px] active:shadow-none active:translate-x-[5px] active:translate-y-[7px] transition-all cursor-pointer inline-flex items-center gap-2.5 group"
               >
-                <span>Shop Wholesale Products</span>
-                <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110">
-                  <ArrowUpRight className="w-4 h-4 text-[#65b938] stroke-[2.5]" />
-                </span>
+                <span>REQUEST WHOLESALE QUOTE</span>
+                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </button>
             </div>
 
-            {/* 2. Bottom Row: 2 Cards (Farm Aerial Card & Harvest Proof Card) */}
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 lg:gap-5">
-              
-              {/* Bottom-Left Card: Farm Aerial View with Interactive Pins & Video Background */}
-              <div className="sm:col-span-7 relative rounded-[28px] overflow-hidden min-h-[220px] sm:min-h-[240px] border border-stone-200/80 shadow-md group">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  poster="/assets/hero-harvest.jpg"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
-                >
-                  <source src="/assets/paddy-fields-loop.webm" type="video/webm" />
-                  <source src="/assets/paddy-fields-loop.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/5 transition-colors z-[1]" />
-
-                {/* Location Map Pin 1 (Top Left with radar pulse) */}
-                <div className="absolute top-5 left-6 flex items-center justify-center z-10">
-                  <span className="absolute w-7 h-7 rounded-full bg-[#22c55e]/40 animate-ping" />
-                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
-                    <MapPin className="w-3 h-3" />
-                  </div>
-                </div>
-
-                {/* Location Map Pin 2 (Top Right with radar pulse) */}
-                <div className="absolute top-5 right-7 flex items-center justify-center z-10">
-                  <span className="absolute w-7 h-7 rounded-full bg-[#22c55e]/40 animate-ping" />
-                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
-                    <MapPin className="w-3 h-3" />
-                  </div>
-                </div>
-
-                {/* Location Map Pin 3 (Bottom Left) */}
-                <div className="absolute bottom-5 left-7 flex items-center justify-center z-10">
-                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
-                    <MapPin className="w-3 h-3" />
-                  </div>
-                </div>
-
-                {/* Location Map Pin 4 (Bottom Right) */}
-                <div className="absolute bottom-5 right-7 flex items-center justify-center z-10">
-                  <div className="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center shadow-lg border-2 border-white">
-                    <MapPin className="w-3 h-3" />
-                  </div>
-                </div>
-
-                {/* Center Floating Sourcing Card */}
-                <div className="absolute inset-0 m-auto w-fit h-fit bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200/90 shadow-xl flex items-center gap-2.5 transition-transform duration-300 group-hover:scale-105 z-10">
-                  <div className="w-8 h-8 rounded-xl bg-[#e8f5ec] flex items-center justify-center text-base shrink-0">
-                    🌾
-                  </div>
-                  <div>
-                    <div className="text-xs font-black text-[#0e2439] leading-tight">
-                      Basmati Paddy Belt
-                    </div>
-                    <div className="text-[10px] text-stone-500 font-medium">
-                      Terai Basin • Direct Farm Sourcing
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom-Right Card: Harvest Proof & Certification Badge */}
-              <div className="sm:col-span-5 relative rounded-[28px] overflow-hidden min-h-[220px] sm:min-h-[240px] border border-stone-200/80 shadow-md group">
-                <Image
-                  src="/assets/dryfruits-showcase.jpg"
-                  alt="Monagrow Premium Harvest Commodities"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
-
-                {/* Top Overlay Badge: Social Proof */}
-                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-stone-200/90 shadow-md flex items-center gap-1.5">
-                  <div className="flex -space-x-1">
-                    <span className="w-4 h-4 rounded-full bg-[#57a42f] text-[9px] text-white flex items-center justify-center font-bold">M</span>
-                    <span className="w-4 h-4 rounded-full bg-[#fbbf24] text-[9px] text-[#0e2439] flex items-center justify-center font-bold">G</span>
-                    <span className="w-4 h-4 rounded-full bg-[#22c55e] text-[9px] text-white flex items-center justify-center font-bold">18+</span>
-                  </div>
-                  <span className="text-[10px] font-bold text-stone-800">+1,200 Shipments</span>
-                </div>
-
-                {/* Bottom Overlay Badge: Lab Quality Assurance */}
-                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md px-3 py-2 rounded-2xl border border-stone-200/90 shadow-lg text-center">
-                  <span className="text-[11px] font-black text-[#57a42f] block leading-tight">
-                    100% SGS Lab Tested
-                  </span>
-                  <span className="text-[10px] text-stone-600 font-medium">
-                    Export Grade & ISO 22000
-                  </span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right Column (Tall Agricultural Specialist Showcase Card) */}
-          <div className="lg:col-span-5 relative rounded-[32px] overflow-hidden min-h-[480px] lg:min-h-full border border-stone-200/80 shadow-lg group">
-            <Image
-              src="/assets/hero-farmer-hd.jpg"
-              alt="Monagrow Agricultural Producer & Farm Specialist"
-              fill
-              className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-
-            {/* Top-Right Quick Sourcing Film Button */}
-            <button
-              type="button"
-              onClick={onOpenVideoModal}
-              className="absolute top-4 right-4 flex items-center gap-2 bg-white/95 hover:bg-white backdrop-blur-md text-[#0e2439] text-xs font-bold px-3.5 py-2 rounded-full shadow-lg border border-stone-200 transition-all hover:scale-105 cursor-pointer z-10"
-              title="Play farm sourcing film"
+            {/* 
+              PRODUCT 3: Monagrow 5kg Refined Sugar Bag (Green Bag)
+              Starts stacked in 3D on the middle product, then smoothly slides down-left below the text!
+            */}
+            <div 
+              className="relative ml-10 sm:ml-20 lg:ml-36 pointer-events-auto transform-gpu"
+              style={{
+                zIndex: !isSpread ? 10 : 25,
+                transform: sugarTransform,
+                transition: transitionStyle,
+                willChange: "transform",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
             >
-              <span className="w-5 h-5 rounded-full bg-[#57a42f] text-white flex items-center justify-center">
-                <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
-              </span>
-              <span>Sourcing Film</span>
-            </button>
-
-            {/* Bottom-Left Floating Tag: Monagrow Agro Commodities */}
-            <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-full border border-stone-200/90 shadow-xl flex items-center gap-2 font-bold text-xs sm:text-sm text-[#0e2439] z-10">
-              <span>Monagrow Agro Commodities</span>
-              <span className="text-sm">🌾☕🌱</span>
+              <div className="relative w-44 sm:w-52 md:w-60 lg:w-72 xl:w-80 aspect-[3/4] group">
+                <Image
+                  src="/assets/monagrow-sugar-bag-cutout.png"
+                  alt="Monagrow 5kg Refined Cane Sugar Bag"
+                  fill
+                  priority
+                  className="object-contain drop-shadow-[0_24px_34px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 208px, 320px"
+                />
+              </div>
             </div>
+
           </div>
+
+          {/* RIGHT COLUMN SPACER FOR DESKTOP (Allows the two right products to have ample breathing room) */}
+          <div className="hidden lg:block w-1/2 h-full pointer-events-none" />
 
         </div>
       </div>
+
+      {/* 
+        RIGHT SIDE PRODUCTS:
+        - Product 1 (Basmati Rice): Slides from 3D stack up-right to Top-Right
+        - Product 2 (Middle Product): Base of the 3D stack, anchors Center-Right
+      */}
+
+      {/* PRODUCT 1: Monagrow 5kg Basmati Rice Bag (Top-Right) */}
+      <div 
+        className="absolute top-[5%] sm:top-[6%] lg:top-[7%] right-[4%] sm:right-[7%] lg:right-[9%] pointer-events-auto select-none transform-gpu"
+        style={{
+          zIndex: !isSpread ? 30 : 20,
+          transform: riceTransform,
+          transition: transitionStyle,
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
+      >
+        <div className="relative w-40 sm:w-48 md:w-56 lg:w-68 xl:w-72 aspect-[3/4] group">
+          <Image
+            src="/assets/monagrow-rice-bag-cutout.png"
+            alt="Monagrow 5kg Basmati Rice Bag"
+            fill
+            priority
+            className="object-contain drop-shadow-[0_24px_34px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 192px, 288px"
+          />
+        </div>
+      </div>
+
+      {/* PRODUCT 2: Middle Product / Specialty Coffee Bag (Center-Right Anchor of the 3D Stack) */}
+      <div 
+        className="absolute top-[44%] sm:top-[46%] lg:top-[48%] right-[6%] sm:right-[12%] lg:right-[19%] pointer-events-auto select-none transform-gpu"
+        style={{
+          zIndex: !isSpread ? 20 : 15,
+          transform: middleTransform,
+          transition: transitionStyle,
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
+      >
+        <div className="relative w-40 sm:w-48 md:w-56 lg:w-68 xl:w-72 aspect-[3/4] group">
+          <Image
+            src="/assets/monagrow-coffee-bag-cutout.png"
+            alt="Monagrow 2.5kg Specialty Estate Coffee Bag"
+            fill
+            priority
+            className="object-contain drop-shadow-[0_24px_34px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 192px, 288px"
+          />
+        </div>
+      </div>
+
     </section>
   );
 }

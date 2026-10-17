@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcfcf9] selection:bg-[#57a42f] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white selection:bg-[#800020] selection:text-white">
       {/* 1. Top Navbar */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 

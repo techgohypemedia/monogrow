@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display, Antonio, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -14,10 +14,22 @@ const playfair = Playfair_Display({
   weight: ["500", "600", "700", "800"],
 });
 
+const antonio = Antonio({
+  variable: "--font-antonio",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "Monagrow Global | Wholesale Commodities - Rice, Coffee, Sugar & Dry Fruits",
   description:
-    "Leading wholesale exporter and B2B supplier of Premium Basmati Rice, Specialty Coffee, Refined Sugar, and Handpicked Dry Fruits. Direct farm sourcing with international export standards.",
+    "Leading wholesale exporter and B2B supplier of Premium Basmati Rice, Specialty Coffee, Refined Sugar, and Handpicked Dry Fruits. Direct origin sourcing with international export standards.",
   keywords: [
     "Monagrow",
     "wholesale rice",
@@ -45,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${playfair.variable} scroll-smooth`}
+      className={`${plusJakarta.variable} ${playfair.variable} ${antonio.variable} ${bebasNeue.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>

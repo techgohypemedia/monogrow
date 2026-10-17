@@ -115,7 +115,7 @@ export default function Testimonials() {
 
           {/* Right Column: Exact Photo Block from Screenshot */}
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full rounded-t-[32px] sm:rounded-t-[40px] rounded-br-[32px] sm:rounded-br-[40px] rounded-bl-none overflow-hidden bg-stone-100 shadow-xl">
+            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full rounded-t-[12px] rounded-br-[12px] rounded-bl-none overflow-hidden bg-stone-100 shadow-xl">
               {/* Main Commodity Photograph corresponding to what they bought */}
               <Image
                 key={activeReview.id}

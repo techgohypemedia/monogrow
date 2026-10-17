@@ -79,7 +79,7 @@ export default function WholesaleCalculator({
           </div>
 
           {/* Right Interactive Calculator Box */}
-          <div className="lg:col-span-7 bg-white text-stone-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-stone-200">
+          <div className="lg:col-span-7 bg-white text-stone-900 rounded-[12px] p-6 sm:p-8 shadow-2xl border border-stone-200">
             <h3 className="text-xl font-black text-[#0e2439] mb-6 flex items-center justify-between">
               <span>Calculate Container Requirements</span>
               <span className="text-xs font-bold uppercase text-[#57a42f] px-3 py-1 rounded-full bg-[#e8f5ec]">

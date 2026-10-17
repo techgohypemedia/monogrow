@@ -24,7 +24,7 @@ export default function Footer({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           
           {/* 1. LEFT TALL CARD: Brand, Mission & CTA Button */}
-          <div className="lg:col-span-4 xl:col-span-4 bg-[#f9faf9] rounded-[28px] sm:rounded-[36px] p-8 sm:p-10 border border-stone-200/60 shadow-xs flex flex-col justify-between">
+          <div className="lg:col-span-4 xl:col-span-4 bg-[#f9faf9] rounded-[12px] p-8 sm:p-10 border border-stone-200/60 shadow-xs flex flex-col justify-between">
             {/* Top Logo */}
             <div>
               <div className="inline-block bg-white px-5 py-2.5 rounded-2xl shadow-xs border border-stone-200/60">
@@ -67,7 +67,7 @@ export default function Footer({
           <div className="lg:col-span-8 xl:col-span-8 flex flex-col gap-5 sm:gap-6 justify-between">
             
             {/* Top-Right Card: Quick Link, Contact & Core Commodities */}
-            <div className="bg-[#f6f9f8] rounded-[28px] sm:rounded-[36px] p-8 sm:p-10 border border-stone-200/60 shadow-xs">
+            <div className="bg-[#f6f9f8] rounded-[12px] p-8 sm:p-10 border border-stone-200/60 shadow-xs">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 lg:gap-8">
                 
                 {/* Column 1: Quick Navigation */}
@@ -165,7 +165,7 @@ export default function Footer({
             </div>
 
             {/* Bottom-Right Card: Produce Accents & Centered Social Media Buttons */}
-            <div className="bg-[#f9faf9] rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 border border-stone-200/60 shadow-xs flex items-center justify-between overflow-hidden">
+            <div className="bg-[#f9faf9] rounded-[12px] p-6 sm:p-8 border border-stone-200/60 shadow-xs flex items-center justify-between overflow-hidden">
               
               {/* Left Produce Graphic Badge */}
               <div className="w-12 h-16 sm:w-16 sm:h-20 shrink-0 relative overflow-hidden rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm shadow-xs border border-stone-200/60 bg-stone-100">

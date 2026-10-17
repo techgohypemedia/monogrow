@@ -16,12 +16,12 @@ export default function VideoModal({ isOpen, onClose }: VideoModalProps) {
       {/* Click outside to close */}
       <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-4xl bg-[#0e2439] rounded-3xl overflow-hidden shadow-2xl border border-white/20 z-10">
+      <div className="relative w-full max-w-4xl bg-[#0e2439] rounded-[12px] overflow-hidden shadow-2xl border border-white/20 z-10">
         {/* Top Header */}
         <div className="px-6 py-4 flex items-center justify-between border-b border-white/10 text-white">
           <div className="flex items-center gap-2 text-sm font-bold">
             <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e] animate-ping" />
-            <span>Monagrow Farm-to-Port Sourcing Documentary</span>
+            <span>Monagrow Origin-to-Port Global Supply Chain</span>
           </div>
           <button
             onClick={onClose}

@@ -37,7 +37,7 @@ export default function MarketIntelligence() {
           {/* Middle Column: Two Stacked Rounded Image Cards */}
           <div className="lg:col-span-4 flex flex-col gap-4 sm:gap-6 justify-center max-w-sm sm:max-w-md mx-auto lg:mx-0 w-full">
             {/* Top Image: Premium Wholesale Dry Fruits */}
-            <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-sm bg-white">
+            <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-[12px] overflow-hidden shadow-sm bg-white">
               <Image
                 src="/assets/dryfruits-showcase.jpg"
                 alt="Monagrow wholesale premium dry fruits and nuts"
@@ -49,7 +49,7 @@ export default function MarketIntelligence() {
             </div>
 
             {/* Bottom Image: Extra Long Grain Basmati Rice */}
-            <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-sm bg-white">
+            <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-[12px] overflow-hidden shadow-sm bg-white">
               <Image
                 src="/assets/basmati-rice-grains.jpg"
                 alt="Monagrow export grade basmati rice grains"

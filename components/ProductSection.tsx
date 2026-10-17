@@ -179,7 +179,7 @@ export default function ProductSection({
       features: [
         "Natural caramel aroma and mineral content",
         "Unbleached golden crystal structure",
-        "High consumer demand in organic and wellness retail",
+        "High commercial demand across retail packaging and food service",
       ],
     },
     {
@@ -301,7 +301,7 @@ export default function ProductSection({
 
         {/* Products Grid: 3-Column Luxury Produce Layout with Inverted Corner Cutout Dock */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-stone-200 p-8 shadow-sm">
+          <div className="text-center py-16 bg-white rounded-[12px] border border-stone-200 p-8 shadow-sm">
             <p className="text-stone-600 font-medium">
               No commodities found matching &ldquo;{searchTerm}&rdquo;
             </p>
@@ -324,7 +324,7 @@ export default function ProductSection({
                 className="group flex flex-col cursor-pointer"
               >
                 {/* 1. Large Image Container with Custom Inverted Rounded Corner Notch */}
-                <div className="relative aspect-square w-full rounded-[28px] sm:rounded-[32px] overflow-hidden bg-stone-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
+                <div className="relative aspect-square w-full rounded-[12px] overflow-hidden bg-stone-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
                   {/* Product Photograph */}
                   <Image
                     src={product.image}
@@ -347,36 +347,33 @@ export default function ProductSection({
                     </span>
                   </div>
 
-                  {/* Bottom-Right Inverted Radius Cutout Dock */}
-                  <div className="absolute bottom-0 right-0 bg-[#fcfcf9] pt-2.5 pl-2.5 rounded-tl-[24px] z-10">
-                    {/* Top Concave Scoop Curve (Vector Crisp) */}
-                    <div className="absolute -top-6 right-0 w-6 h-6 pointer-events-none overflow-hidden">
-                      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
-                        <path d="M24 0 A24 24 0 0 0 0 24 L24 24 Z" />
-                      </svg>
-                    </div>
+                  {/* Unified Butter-Smooth Bottom-Right Cutout Dock */}
+                  <svg
+                    viewBox="0 0 68 68"
+                    className="absolute bottom-0 right-0 w-[68px] h-[68px] pointer-events-none z-10"
+                  >
+                    <path
+                      d="M 68 0 A 14 14 0 0 0 54 14 L 28 14 A 14 14 0 0 0 14 28 L 14 54 A 14 14 0 0 0 0 68 L 68 68 L 68 0 Z"
+                      fill="#fcfcf9"
+                      stroke="#fcfcf9"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
 
-                    {/* Left Concave Scoop Curve (Vector Crisp) */}
-                    <div className="absolute bottom-0 -left-6 w-6 h-6 pointer-events-none overflow-hidden">
-                      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#fcfcf9]">
-                        <path d="M0 24 A24 24 0 0 0 24 0 L24 24 Z" />
-                      </svg>
-                    </div>
-
-                    {/* Submit Button Arrow Icon matching Fresh Harvest Commodities */}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openProductModal(product);
-                      }}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#57a42f] hover:bg-[#478726] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 group/btn cursor-pointer"
-                      aria-label={`View specs and quote for ${product.name}`}
-                      title="View Specifications & Request Quote"
-                    >
-                      <ArrowUpRight className="w-5 h-5 text-white stroke-[2.5] transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                    </button>
-                  </div>
+                  {/* Submit Button Arrow Icon matching Fresh Harvest Commodities */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openProductModal(product);
+                    }}
+                    className="absolute bottom-2 right-2 w-10 h-10 rounded-xl bg-[#57a42f] hover:bg-[#478726] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 group/btn cursor-pointer z-20"
+                    aria-label={`View specs and quote for ${product.name}`}
+                    title="View Specifications & Request Quote"
+                  >
+                    <ArrowUpRight className="w-4 h-4 text-white stroke-[2.2] transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                  </button>
                 </div>
 
                 {/* 2. Content Row 1: Title (Left) + Price (Right) */}
@@ -407,7 +404,7 @@ export default function ProductSection({
             onClick={() => setActiveModalProduct(null)}
           />
 
-          <div className="relative w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-stone-200 z-10 max-h-[92vh] flex flex-col">
+          <div className="relative w-full max-w-4xl bg-white rounded-[12px] overflow-hidden shadow-2xl border border-stone-200 z-10 max-h-[92vh] flex flex-col">
             {/* Modal Top Header */}
             <div className="bg-[#0e2439] p-5 sm:p-6 text-white flex items-center justify-between">
               <div>

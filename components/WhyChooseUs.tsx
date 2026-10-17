@@ -61,17 +61,17 @@ export default function WhyChooseUs({
     },
     {
       icon: Truck,
-      title: "Farm-to-Port Export Logistics",
+      title: "Direct Port & Freight Logistics",
       subtitle: "Direct freight, seamless clearance.",
       desc: "We coordinate end-to-end multimodal logistics from agricultural processing mills directly to primary international seaports and container freight stations.",
       tag: "Global Freight",
     },
     {
       icon: HandSproutIcon,
-      title: "Sustainable & Ethical Farming",
-      subtitle: "Direct farmer partnerships.",
-      desc: "Partnered directly with over 3,200 rural farming families across Nepal and India, ensuring fair trade purchase prices and zero harmful synthetic residues.",
-      tag: "Eco Integrity",
+      title: "Direct Origin Sourcing & Mill Network",
+      subtitle: "Primary grower & mill contracts.",
+      desc: "Direct supply agreements with audited cultivation clusters and processing mills across South Asia, guaranteeing stable commodity availability and physical grade consistency.",
+      tag: "Origin Sourced",
     },
     {
       icon: TrustedHandsIcon,
@@ -83,8 +83,9 @@ export default function WhyChooseUs({
   ];
 
   return (
-    <section id="why-choose-us" className="py-20 bg-white relative">
+    <section id="why-choose-us" className="py-20 bg-white relative scroll-mt-16">
       <div id="about" className="absolute -top-20" />
+      <div id="about-us" className="absolute -top-20" />
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -102,11 +103,11 @@ export default function WhyChooseUs({
         {/* Layout matching Reference 1 & 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Large Visual Feature Card - Crystal Clear Sunny Farm Landscape */}
-          <div className="lg:col-span-5 relative rounded-3xl overflow-hidden shadow-xl border border-stone-200 min-h-[480px] lg:min-h-[520px] flex flex-col justify-between p-6 sm:p-8 text-white group">
+          <div className="lg:col-span-5 relative rounded-[12px] overflow-hidden shadow-xl border border-stone-200 min-h-[480px] lg:min-h-[520px] flex flex-col justify-between p-6 sm:p-8 text-white group">
             {/* Crystal-clear bright sunny terraced farm hills image */}
             <Image
               src="/assets/monagrow-sunny-hills.jpg"
-              alt="Monagrow Terraced Organic Farm"
+              alt="Monagrow Agricultural Sourcing Region"
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -116,21 +117,21 @@ export default function WhyChooseUs({
             {/* Soft bottom-only gradient so upper hills and blue sunny sky remain 100% bright and clear */}
             <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#0e2439]/90 via-[#0e2439]/45 to-transparent pointer-events-none" />
 
-            {/* Top Badge: "Direct from mountain valleys" with GREEN leaf */}
+            {/* Top Badge: "Direct Origin Sourcing" */}
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200/60 text-xs font-bold text-[#0e2439] shadow-md">
                 <Leaf className="w-3.5 h-3.5 text-[#57a42f] fill-[#57a42f]" />
-                <span>Direct from mountain valleys</span>
+                <span>Direct Origin Sourcing</span>
               </div>
             </div>
 
             {/* Bottom Content Area */}
             <div className="relative z-10 space-y-3 mt-auto pt-10">
               <h3 className="text-2xl sm:text-3xl font-black font-serif leading-tight text-white drop-shadow-sm">
-                Uncompromising Sourcing Ethics & Traceability
+                Uncompromising Origin Quality & Grade Consistency
               </h3>
               <p className="text-xs sm:text-sm text-stone-100/95 leading-relaxed drop-shadow-sm">
-                From lush Himalayan valleys to state-of-the-art optical laser sorting mills in Kathmandu, our supply chain guarantees purity in every grain.
+                From primary agricultural origin belts to state-of-the-art optical laser sorting mills, our commercial supply chain guarantees standardized specifications in every container.
               </p>
 
               {/* "Partner as a Distributor" floating card directly referring to the screenshot */}
@@ -191,7 +192,7 @@ export default function WhyChooseUs({
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-3xl p-6 sm:p-7 border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-default"
+                  className="bg-white rounded-[12px] p-6 sm:p-7 border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-default"
                 >
                   <div>
                     {/* Top Icon & Tag with Speech-Bubble Shaped Container from Screenshot */}
