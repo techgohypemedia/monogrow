@@ -64,7 +64,7 @@ export default function Testimonials() {
           {/* Left Column: Heading, Statement, Customer Quote & Info */}
           <div className="lg:col-span-6 flex flex-col justify-center">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e8f5ec] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-4 border border-[#c3e6cd] w-fit">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fae8eb] text-[#800020] text-xs font-bold uppercase tracking-wider mb-4 border border-[#f3c4ce] w-fit">
               <span>Testimonial</span>
             </div>
 
@@ -98,15 +98,15 @@ export default function Testimonials() {
                   {activeReview.name}
                 </span>
                 <span className="text-stone-300 font-medium">|</span>
-                <span className="text-xs sm:text-sm font-semibold text-[#57a42f]">
+                <span className="text-xs sm:text-sm font-semibold text-[#800020]">
                   {activeReview.role}, {activeReview.company}
                 </span>
               </div>
 
               {/* What they bought from us */}
               <div className="mt-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#e8f5ec] text-[#57a42f] border border-[#c3e6cd]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#57a42f]" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#fae8eb] text-[#800020] border border-[#f3c4ce]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#800020]" />
                   <span>Verified Purchase: {activeReview.commodity} ({activeReview.commodityTag})</span>
                 </span>
               </div>
@@ -129,7 +129,7 @@ export default function Testimonials() {
 
               {/* Top-Right Commodity Badge */}
               <div className="absolute top-4 right-4 z-10">
-                <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md text-[#57a42f] shadow-sm border border-stone-200/60">
+                <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md text-[#800020] shadow-sm border border-stone-200/60">
                   {activeReview.commodity}
                 </span>
               </div>
@@ -155,7 +155,7 @@ export default function Testimonials() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-[38px] h-[38px] rounded-full bg-[#111827] hover:bg-[#57a42f] text-white flex items-center justify-center transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 group/next cursor-pointer shrink-0"
+                  className="w-[38px] h-[38px] rounded-full bg-[#111827] hover:bg-[#800020] text-white flex items-center justify-center transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 group/next cursor-pointer shrink-0"
                   aria-label="Next review"
                   title="Next Review"
                 >

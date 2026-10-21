@@ -75,7 +75,7 @@ export default function QuoteModal({
         <div className="p-6 overflow-y-auto">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 rounded-full bg-[#e8f5ec] text-[#57a42f] flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 rounded-full bg-[#fae8eb] text-[#800020] flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h4 className="text-2xl font-black text-[#0e2439]">
@@ -115,7 +115,7 @@ export default function QuoteModal({
                       setFormData({ ...formData, name: e.target.value })
                     }
                     placeholder="e.g. John Doe"
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                   />
                 </div>
 
@@ -131,7 +131,7 @@ export default function QuoteModal({
                       setFormData({ ...formData, company: e.target.value })
                     }
                     placeholder="e.g. Al-Mansoor Trading LLC"
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                   />
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function QuoteModal({
                       setFormData({ ...formData, email: e.target.value })
                     }
                     placeholder="procurement@company.com"
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                   />
                 </div>
 
@@ -165,7 +165,7 @@ export default function QuoteModal({
                       setFormData({ ...formData, phone: e.target.value })
                     }
                     placeholder="+971 50 123 4567"
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                   />
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function QuoteModal({
                   onChange={(e) =>
                     setFormData({ ...formData, commodity: e.target.value })
                   }
-                  className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                  className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                 />
               </div>
 
@@ -194,7 +194,7 @@ export default function QuoteModal({
                     onChange={(e) =>
                       setFormData({ ...formData, volume: e.target.value })
                     }
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f] bg-white"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020] bg-white"
                   >
                     <option value="Sample Pack (5kg - 25kg)">Sample Pack (Lab Testing)</option>
                     <option value="5 Metric Tons LCL">5 Metric Tons</option>
@@ -215,7 +215,7 @@ export default function QuoteModal({
                       setFormData({ ...formData, destinationPort: e.target.value })
                     }
                     placeholder="e.g. Jebel Ali, Dubai / Felixstowe, UK"
-                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                    className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                   />
                 </div>
               </div>
@@ -231,14 +231,14 @@ export default function QuoteModal({
                     setFormData({ ...formData, message: e.target.value })
                   }
                   placeholder="Tell us if you require custom private labelling, special moisture limits, or third party SGS inspection..."
-                  className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#57a42f]"
+                  className="w-full p-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#800020]"
                 />
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <button
                   type="submit"
-                  className="flex-1 py-3.5 rounded-xl bg-[#57a42f] hover:bg-[#478726] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all"
+                  className="flex-1 py-3.5 rounded-xl bg-[#800020] hover:bg-[#68001a] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all"
                 >
                   <Send className="w-4 h-4" />
                   <span>Submit Wholesale RFQ</span>
@@ -255,7 +255,7 @@ export default function QuoteModal({
               </div>
 
               <div className="flex items-center justify-center gap-2 text-[10px] text-stone-400 text-center pt-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#57a42f]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#800020]" />
                 <span>NDA & Trade confidentiality strictly observed. Direct mill pricing guaranteed.</span>
               </div>
             </form>

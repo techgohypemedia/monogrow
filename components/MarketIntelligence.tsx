@@ -17,19 +17,19 @@ export default function MarketIntelligence() {
   };
 
   return (
-    <section id="market-intelligence" className="py-20 lg:py-28 bg-[#edf5ee] relative">
+    <section id="market-intelligence" className="py-20 lg:py-28 bg-[#faf6f7] relative">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 items-center">
           
           {/* Left Column: Eyebrow + Massive Headline */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             {/* Category Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#57a42f]/10 text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-5 w-fit">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#800020]/10 text-[#800020] text-xs font-bold uppercase tracking-wider mb-5 w-fit">
               <span>Market Intelligence &amp; Crop Reports</span>
             </div>
 
-            {/* Giant Bold Headline (Matching Screenshot Typography) */}
-            <h2 className="text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] font-extrabold tracking-tight text-[#0a2907] leading-[1.08] max-w-md">
+            {/* Giant Bold Headline */}
+            <h2 className="text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] font-extrabold tracking-tight text-[#1c1917] leading-[1.08] max-w-md">
               Get Weekly Wholesale Spot Rates &amp; Harvest Updates
             </h2>
           </div>
@@ -63,7 +63,7 @@ export default function MarketIntelligence() {
           {/* Right Column: Newsletter Heading + Paragraph + Subscription Pill Input */}
           <div className="lg:col-span-3 xl:col-span-3 flex flex-col justify-center">
             {/* Newsletter Title */}
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0a2907] mb-3">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1c1917] mb-3">
               Newsletter
             </h3>
 
@@ -74,14 +74,14 @@ export default function MarketIntelligence() {
 
             {/* Subscription Pill Form */}
             {isSubscribed ? (
-              <div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#57a42f] text-white text-xs sm:text-sm font-semibold shadow-sm w-fit">
-                <CheckCircle2 className="w-4 h-4 text-emerald-100 shrink-0" />
+              <div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#800020] text-white text-xs sm:text-sm font-semibold shadow-sm w-fit">
+                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                 <span>Subscribed to Trade Dispatch</span>
               </div>
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="bg-white rounded-full p-1.5 pl-4 sm:pl-5 shadow-sm border border-stone-200/50 flex items-center gap-2 w-full max-w-md transition-all focus-within:ring-2 focus-within:ring-[#57a42f]/30"
+                className="bg-white rounded-full p-1.5 pl-4 sm:pl-5 shadow-sm border border-stone-200/50 flex items-center gap-2 w-full max-w-md transition-all focus-within:ring-2 focus-within:ring-[#800020]/30"
               >
                 <input
                   type="email"
@@ -93,7 +93,7 @@ export default function MarketIntelligence() {
                 />
                 <button
                   type="submit"
-                  className="bg-[#57a42f] hover:bg-[#478726] text-white text-xs sm:text-sm font-semibold px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm shrink-0 active:scale-95 cursor-pointer"
+                  className="bg-[#800020] hover:bg-[#68001a] text-white text-xs sm:text-sm font-semibold px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm shrink-0 active:scale-95 cursor-pointer"
                 >
                   Subscribe
                 </button>

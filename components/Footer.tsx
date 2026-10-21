@@ -27,13 +27,13 @@ export default function Footer({
           <div className="lg:col-span-4 xl:col-span-4 bg-[#f9faf9] rounded-[12px] p-8 sm:p-10 border border-stone-200/60 shadow-xs flex flex-col justify-between">
             {/* Top Logo */}
             <div>
-              <div className="inline-block bg-white px-5 py-2.5 rounded-2xl shadow-xs border border-stone-200/60">
+              <div className="inline-block bg-white px-6 sm:px-8 py-4 sm:py-5 rounded-2xl shadow-xs border border-stone-200/70">
                 <Image
-                  src="/assets/monagrow-logo-exact.jpg"
+                  src="/assets/monagrow-logo-transparent.png"
                   alt="Monagrow"
-                  width={180}
-                  height={50}
-                  className="h-8 w-auto object-contain"
+                  width={260}
+                  height={170}
+                  className="h-16 sm:h-20 md:h-24 w-auto object-contain"
                 />
               </div>
 
@@ -77,22 +77,22 @@ export default function Footer({
                   </h4>
                   <ul className="space-y-2.5 text-xs sm:text-sm text-stone-600">
                     <li>
-                      <a href="#" className="hover:text-[#57a42f] transition-colors">Home Overview</a>
+                      <a href="#" className="hover:text-[#800020] transition-colors">Home Overview</a>
                     </li>
                     <li>
-                      <a href="#categories" className="hover:text-[#57a42f] transition-colors">Commodity Categories</a>
+                      <a href="#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
                     </li>
                     <li>
-                      <a href="#products" className="hover:text-[#57a42f] transition-colors">Wholesale Product Lots</a>
+                      <a href="#products" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
                     </li>
                     <li>
-                      <a href="#why-choose-us" className="hover:text-[#57a42f] transition-colors">Why Choose Us</a>
+                      <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
                     </li>
                     <li>
-                      <a href="#calculator" className="hover:text-[#57a42f] transition-colors">Container Estimator</a>
+                      <a href="#calculator" className="hover:text-[#800020] transition-colors">Container Estimator</a>
                     </li>
                     <li>
-                      <a href="#testimonials" className="hover:text-[#57a42f] transition-colors">Buyer Testimonials</a>
+                      <a href="#testimonials" className="hover:text-[#800020] transition-colors">Buyer Testimonials</a>
                     </li>
                   </ul>
                 </div>
@@ -104,27 +104,27 @@ export default function Footer({
                   </h4>
                   <ul className="space-y-3 text-xs sm:text-sm text-stone-600">
                     <li className="flex items-start gap-2.5">
-                      <Phone className="w-4 h-4 text-[#57a42f] shrink-0 mt-0.5" />
+                      <Phone className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
                       <div>
                         <span className="block font-medium text-stone-800">+977 1 4589200</span>
                         <span className="block text-stone-500 text-xs">+977 9801234567</span>
                       </div>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <Mail className="w-4 h-4 text-[#57a42f] shrink-0 mt-0.5" />
+                      <Mail className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
                       <div className="break-all">
                         <span className="block font-medium text-stone-800">info@monagrow.com</span>
                         <span className="block text-stone-500 text-xs">wholesale@monagrow.com</span>
                       </div>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <MapPin className="w-4 h-4 text-[#57a42f] shrink-0 mt-0.5" />
+                      <MapPin className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
                       <span className="text-stone-600 leading-snug">
                         Kathmandu, Bagmati, Nepal (Direct Mill &amp; Port Logistics)
                       </span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <Globe className="w-4 h-4 text-[#57a42f] shrink-0 mt-0.5" />
+                      <Globe className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
                       <span className="text-stone-600 leading-snug">
                         FOB, CIF &amp; CFR to 18+ Ports Worldwide
                       </span>
@@ -139,22 +139,22 @@ export default function Footer({
                   </h4>
                   <ul className="space-y-2.5 text-xs sm:text-sm text-stone-600">
                     <li>
-                      <a href="#products" className="hover:text-[#57a42f] transition-colors">Monagrow Basmati Rice 8.9mm</a>
+                      <a href="#products" className="hover:text-[#800020] transition-colors">Monagrow Basmati Rice 8.9mm</a>
                     </li>
                     <li>
-                      <a href="#products" className="hover:text-[#57a42f] transition-colors">Specialty Estate Arabica Coffee</a>
+                      <a href="#products" className="hover:text-[#800020] transition-colors">Specialty Estate Arabica Coffee</a>
                     </li>
                     <li>
-                      <a href="#products" className="hover:text-[#57a42f] transition-colors">Refined Sugar ICUMSA 45</a>
+                      <a href="#products" className="hover:text-[#800020] transition-colors">Refined Sugar ICUMSA 45</a>
                     </li>
                     <li>
-                      <a href="#products" className="hover:text-[#57a42f] transition-colors">California Jumbo Almonds</a>
+                      <a href="#products" className="hover:text-[#800020] transition-colors">California Jumbo Almonds</a>
                     </li>
-                    <li className="pt-1 flex items-center gap-1.5 text-xs text-[#57a42f] font-semibold">
+                    <li className="pt-1 flex items-center gap-1.5 text-xs text-[#800020] font-semibold">
                       <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                       <span>ISO 22000 &amp; HACCP Certified</span>
                     </li>
-                    <li className="flex items-center gap-1.5 text-xs text-[#57a42f] font-semibold">
+                    <li className="flex items-center gap-1.5 text-xs text-[#800020] font-semibold">
                       <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                       <span>Halal World Council Approved</span>
                     </li>
@@ -185,7 +185,7 @@ export default function Footer({
                   href="https://discord.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#57a42f] hover:border-[#57a42f]/30 hover:scale-105 active:scale-95 transition-all"
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
                   aria-label="Discord"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export default function Footer({
                   href="https://x.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#57a42f] hover:border-[#57a42f]/30 hover:scale-105 active:scale-95 transition-all"
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
                   aria-label="X (formerly Twitter)"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -211,7 +211,7 @@ export default function Footer({
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#57a42f] hover:border-[#57a42f]/30 hover:scale-105 active:scale-95 transition-all"
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
                   aria-label="Instagram"
                 >
                   <svg className="w-5 h-5 fill-none stroke-current stroke-[1.8]" viewBox="0 0 24 24">
@@ -226,7 +226,7 @@ export default function Footer({
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#57a42f] hover:border-[#57a42f]/30 hover:scale-105 active:scale-95 transition-all"
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">

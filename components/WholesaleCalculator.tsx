@@ -36,7 +36,7 @@ export default function WholesaleCalculator({
   return (
     <section id="calculator" className="py-20 bg-[#0e2439] text-white relative overflow-hidden">
       {/* Decorative background glows */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#57a42f]/30 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#800020]/20 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#c89d3c]/20 rounded-full blur-3xl -z-10" />
 
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
@@ -58,19 +58,19 @@ export default function WholesaleCalculator({
 
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-3 text-stone-200 text-sm font-semibold">
-                <div className="w-6 h-6 rounded-full bg-[#57a42f] text-white flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 rounded-full bg-[#800020] text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
                 <span>Direct Ex-Mill or Port Delivery (FOB, CFR, CIF)</span>
               </div>
               <div className="flex items-center gap-3 text-stone-200 text-sm font-semibold">
-                <div className="w-6 h-6 rounded-full bg-[#57a42f] text-white flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 rounded-full bg-[#800020] text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
                 <span>Flexible Payment: Irrevocable Confirmed L/C or T/T</span>
               </div>
               <div className="flex items-center gap-3 text-stone-200 text-sm font-semibold">
-                <div className="w-6 h-6 rounded-full bg-[#57a42f] text-white flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 rounded-full bg-[#800020] text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
                 <span>Physical Lab Sample Dispatch via DHL / FedEx</span>
@@ -82,7 +82,7 @@ export default function WholesaleCalculator({
           <div className="lg:col-span-7 bg-white text-stone-900 rounded-[12px] p-6 sm:p-8 shadow-2xl border border-stone-200">
             <h3 className="text-xl font-black text-[#0e2439] mb-6 flex items-center justify-between">
               <span>Calculate Container Requirements</span>
-              <span className="text-xs font-bold uppercase text-[#57a42f] px-3 py-1 rounded-full bg-[#e8f5ec]">
+              <span className="text-xs font-bold uppercase text-[#800020] px-3 py-1 rounded-full bg-[#fae8eb]">
                 Interactive Tool
               </span>
             </h3>
@@ -106,7 +106,7 @@ export default function WholesaleCalculator({
                       onClick={() => setCommodity(c.id)}
                       className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all ${
                         commodity === c.id
-                          ? "bg-[#57a42f] text-white border-[#57a42f] shadow"
+                          ? "bg-[#800020] text-white border-[#800020] shadow"
                           : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100"
                       }`}
                     >
@@ -122,7 +122,7 @@ export default function WholesaleCalculator({
                   <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
                     2. Order Volume (Metric Tons)
                   </label>
-                  <span className="text-base font-black text-[#57a42f]">
+                  <span className="text-base font-black text-[#800020]">
                     {metricTons} MT
                   </span>
                 </div>
@@ -133,7 +133,7 @@ export default function WholesaleCalculator({
                   step="5"
                   value={metricTons}
                   onChange={(e) => setMetricTons(Number(e.target.value))}
-                  className="w-full accent-[#57a42f] cursor-pointer"
+                  className="w-full accent-[#800020] cursor-pointer"
                 />
                 <div className="flex justify-between text-[11px] text-stone-400 font-semibold mt-1">
                   <span>5 MT (Min MOQ)</span>
@@ -152,7 +152,7 @@ export default function WholesaleCalculator({
                   <select
                     value={packaging}
                     onChange={(e) => setPackaging(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#57a42f] bg-white"
+                    className="w-full p-2.5 rounded-xl border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#800020] bg-white"
                   >
                     <option value="5kg">5kg Standup Box Bag (Retail Ready)</option>
                     <option value="25kg">25kg PP Non-Woven Bag</option>
@@ -168,7 +168,7 @@ export default function WholesaleCalculator({
                   <select
                     value={incoterm}
                     onChange={(e) => setIncoterm(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#57a42f] bg-white"
+                    className="w-full p-2.5 rounded-xl border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#800020] bg-white"
                   >
                     <option value="CIF">CIF (Cost, Insurance & Freight to Port)</option>
                     <option value="FOB">FOB (Free on Board - Origin Port)</option>
@@ -190,7 +190,7 @@ export default function WholesaleCalculator({
                 </div>
                 <div className="flex justify-between text-stone-600">
                   <span>Indicative Bulk Value ({incoterm}):</span>
-                  <strong className="text-[#57a42f] font-black text-sm">
+                  <strong className="text-[#800020] font-black text-sm">
                     ~${estimatedCost.toLocaleString()} USD
                   </strong>
                 </div>
@@ -214,7 +214,7 @@ export default function WholesaleCalculator({
                       `Estimated ${metricTons} MT of ${selectedData.name} in ${packaging} (${incoterm})`
                     )
                   }
-                  className="py-3 px-4 rounded-xl bg-[#0e2439] hover:bg-[#57a42f] text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all"
+                  className="py-3 px-4 rounded-xl bg-[#0e2439] hover:bg-[#800020] text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all"
                 >
                   <span>Request Official Proforma</span>
                   <ArrowRight className="w-4 h-4" />

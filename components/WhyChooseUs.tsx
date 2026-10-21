@@ -89,7 +89,7 @@ export default function WhyChooseUs({
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e8f5ec] text-[#57a42f] text-xs font-bold uppercase tracking-wider mb-4 border border-[#c3e6cd]">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fae8eb] text-[#800020] text-xs font-bold uppercase tracking-wider mb-4 border border-[#f3c4ce]">
             <span>THE MONAGROW ADVANTAGE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
@@ -120,7 +120,7 @@ export default function WhyChooseUs({
             {/* Top Badge: "Direct Origin Sourcing" */}
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200/60 text-xs font-bold text-[#0e2439] shadow-md">
-                <Leaf className="w-3.5 h-3.5 text-[#57a42f] fill-[#57a42f]" />
+                <Leaf className="w-3.5 h-3.5 text-[#800020] fill-[#800020]" />
                 <span>Direct Origin Sourcing</span>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function WhyChooseUs({
                 onClick={() => onOpenQuoteModal("Logistics & Sourcing Partnership")}
                 className="mt-3 inline-flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-white/95 hover:bg-white text-stone-900 shadow-xl backdrop-blur-md border border-white/60 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group/partner"
               >
-                {/* 3 Circular Avatars + Green Badge */}
+                {/* 3 Circular Avatars + Maroon Badge */}
                 <div className="flex items-center -space-x-2 shrink-0">
                   <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative shadow-sm">
                     <Image
@@ -166,19 +166,19 @@ export default function WhyChooseUs({
                       className="object-cover"
                     />
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#57a42f] text-white border-2 border-white flex items-center justify-center text-[10px] font-black shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#800020] text-white border-2 border-white flex items-center justify-center text-[10px] font-black shadow-sm">
                     +3.2k
                   </div>
                 </div>
 
                 {/* Text referring to screenshot */}
                 <div className="pr-1">
-                  <span className="text-[10px] font-bold text-[#57a42f] uppercase tracking-wider block">
+                  <span className="text-[10px] font-bold text-[#800020] uppercase tracking-wider block">
                     Join Wholesale Network
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-[#0e2439] group-hover/partner:text-[#57a42f] transition-colors flex items-center gap-1.5">
+                  <span className="text-xs sm:text-sm font-bold text-[#0e2439] group-hover/partner:text-[#800020] transition-colors flex items-center gap-1.5">
                     Partner as a distributor
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[#57a42f] group-hover/partner:translate-x-0.5 group-hover/partner:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#800020] group-hover/partner:translate-x-0.5 group-hover/partner:-translate-y-0.5 transition-transform" />
                   </span>
                 </div>
               </button>
@@ -197,7 +197,7 @@ export default function WhyChooseUs({
                   <div>
                     {/* Top Icon & Tag with Speech-Bubble Shaped Container from Screenshot */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl rounded-bl-[4px] bg-[#edf6ee] text-[#57a42f] flex items-center justify-center group-hover:bg-[#57a42f] group-hover:text-white transition-all duration-300 shadow-xs">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl rounded-bl-[4px] bg-[#fae8eb] text-[#800020] flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all duration-300 shadow-xs">
                         <Icon className="w-6 h-6" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">
@@ -205,7 +205,7 @@ export default function WhyChooseUs({
                       </span>
                     </div>
 
-                    <h4 className="text-lg font-black text-[#0e2439] group-hover:text-[#57a42f] transition-colors">
+                    <h4 className="text-lg font-black text-[#0e2439] group-hover:text-[#800020] transition-colors">
                       {item.title}
                     </h4>
                     <p className="text-xs font-semibold text-[#c89d3c] mt-0.5">
@@ -217,9 +217,9 @@ export default function WhyChooseUs({
                   </div>
 
                   {/* Bottom Bar: Preserves Standard Guaranteed without any arrow */}
-                  <div className="pt-4 mt-4 border-t border-stone-200/60 flex items-center justify-between text-xs font-bold text-[#57a42f]">
+                  <div className="pt-4 mt-4 border-t border-stone-200/60 flex items-center justify-between text-xs font-bold text-[#800020]">
                     <span>Standard Guaranteed</span>
-                    <CheckCircle className="w-4 h-4 text-[#57a42f]" />
+                    <CheckCircle className="w-4 h-4 text-[#800020]" />
                   </div>
                 </div>
               );
