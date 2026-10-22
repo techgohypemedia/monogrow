@@ -65,8 +65,8 @@ export default function WhyChooseUs({
           <p className="text-[#800020] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
             The Monagrow advantage
           </p>
-          <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-navy leading-tight">
-            Why importers and wholesalers partner with us
+          <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-navy leading-tight uppercase">
+            WHY IMPORTERS AND WHOLESALERS PARTNER WITH US
           </h2>
           <p className="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
             Consistent grades, transparent pricing, and dependable supply for
