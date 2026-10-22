@@ -77,7 +77,7 @@ export default function ProductSection({
       name: "Monagrow 1121 Golden Sella Parboiled Basmati",
       category: "rice",
       tag: "High Volume Catering",
-      image: "/assets/rice-pack-front.jpg",
+      image: "/assets/monagrow-rice-bag-cutout.png",
       origin: "Himalayan Basmati Belt",
       specs: {
         grade: "1121 Parboiled Golden Grain (8.4mm)",
@@ -253,120 +253,117 @@ export default function ProductSection({
   ];
 
   return (
-    <section id="products" className="py-20 bg-[#fcfcf9] relative border-t border-stone-200/80 w-full">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fae8eb] text-[#800020] text-xs font-bold uppercase tracking-wider mb-3 border border-[#f3c4ce]">
-              <span>B2B BULK CATALOG</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
-              Featured Wholesale Lots & Packages
+    <section id="products" className="py-20 sm:py-24 bg-[#fcfcf9] relative border-t border-stone-200/80 w-full">
+      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        {/* Section header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div className="max-w-2xl">
+            <p className="text-[#800020] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
+              Bulk catalog
+            </p>
+            <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-navy leading-tight">
+              Wholesale lots and packages
             </h2>
-            <p className="mt-2 text-stone-600 text-sm sm:text-base max-w-2xl">
-              Click any commodity card to inspect complete lab specifications, packaging options, and request instant container pricing.
+            <p className="mt-3 text-base sm:text-lg text-stone-600 leading-relaxed">
+              Open any product for lab specifications, packaging options, and
+              container pricing.
             </p>
           </div>
 
-          {/* Quick Search */}
-          <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+          <label className="relative w-full md:w-72 shrink-0">
+            <span className="sr-only">Search products</span>
+            <Search className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
-              type="text"
-              placeholder="Search Basmati, Cashews, Makhana, Coffee, Sugar..."
+              type="search"
+              placeholder="Search products"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-full bg-white border border-stone-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#800020] shadow-sm"
+              className="w-full h-11 pl-11 pr-4 rounded-full bg-white border border-stone-200 text-sm text-navy placeholder:text-stone-400 focus:outline-none focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15"
             />
-          </div>
+          </label>
         </div>
 
-        {/* Filter Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                activeTab === tab.id
-                  ? "bg-[#800020] text-white shadow-md shadow-[#800020]/25 scale-105"
-                  : "bg-white text-stone-700 hover:bg-stone-100 border border-stone-200"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        {/* Filter tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 pb-1 mb-8">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                aria-pressed={isActive}
+                className={`h-10 px-5 rounded-full text-sm font-semibold whitespace-nowrap border transition-colors duration-200 cursor-pointer ${
+                  isActive
+                    ? "bg-[#800020] border-[#800020] text-white"
+                    : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-navy"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Products Grid: Responsive Cards with Image -> Name -> 1-Line Description -> Maroon Button */}
+        {/* Product grid */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-stone-200 p-8 shadow-sm">
-            <p className="text-stone-600 font-medium">
-              No commodities found matching &ldquo;{searchTerm}&rdquo;
+          <div className="text-center py-16 bg-white rounded-3xl border border-stone-200">
+            <p className="text-stone-600">
+              No products match &ldquo;{searchTerm}&rdquo;.
             </p>
             <button
+              type="button"
               onClick={() => {
                 setSearchTerm("");
                 setActiveTab("all");
               }}
-              className="mt-3 text-xs font-bold text-[#800020] hover:underline cursor-pointer"
+              className="mt-3 text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
             >
-              Reset filters & search
+              Clear search and filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
             {filteredProducts.map((product) => (
-              <div
+              <button
                 key={product.id}
+                type="button"
                 onClick={() => openProductModal(product)}
-                className="group bg-white rounded-[8px] overflow-hidden border border-stone-200/90 hover:border-[#800020]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer"
+                className="group text-left bg-white rounded-3xl overflow-hidden border border-stone-200/80 hover:border-stone-300 transition-colors duration-200 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/30"
               >
-                <div className="flex-1 flex flex-col justify-between">
-                  {/* 1. End-to-End Product Image */}
-                  <div className="relative aspect-[4/3] w-full bg-[#f8f8f5] flex items-center justify-center p-3 border-b border-stone-100">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-500 ease-out"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  </div>
+                {/* Image */}
+                <div className="relative aspect-square w-full bg-[#f6f3ec]">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-contain p-4 sm:p-5 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
 
-                  {/* 2. Below Image: Product Name (Full Visible), Description & Price */}
-                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Product Name (Fully Visible) */}
-                      <h3
-                        className="text-base sm:text-[17px] font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug mb-2"
-                        title={product.name}
-                      >
-                        {product.name}
-                      </h3>
+                {/* Body */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                    {product.tag}
+                  </p>
+                  <h3 className="mt-1.5 text-[15px] sm:text-base font-semibold text-navy leading-snug">
+                    {product.name}
+                  </h3>
 
-                      {/* Description (Max 2 lines with ellipsis) */}
-                      <p
-                        className="text-xs sm:text-sm text-stone-500 font-normal leading-relaxed line-clamp-2 mb-4"
-                        title={product.description}
-                      >
-                        {product.description}
+                  <div className="mt-auto pt-4 flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-[11px] text-stone-400">Wholesale</p>
+                      <p className="text-sm font-semibold text-navy tabular-nums truncate">
+                        {product.priceRange}
                       </p>
                     </div>
-
-                    {/* 3. Price Placed After the Description (Single Line) */}
-                    <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2 whitespace-nowrap">
-                      <span className="text-[11px] font-medium text-stone-400 uppercase tracking-wider shrink-0">
-                        Wholesale Rate
-                      </span>
-                      <span className="text-sm sm:text-base font-bold text-[#800020] text-right shrink-0">
-                        {product.priceRange}
-                      </span>
-                    </div>
+                    <span className="w-8 h-8 rounded-full border border-stone-200 text-navy flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-[#800020] group-hover:border-[#800020] group-hover:text-white">
+                      <ArrowUpRight className="w-4 h-4 stroke-[2.2]" />
+                    </span>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         )}

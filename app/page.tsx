@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import CategorySection from "@/components/CategorySection";
-import ProductSection from "@/components/ProductSection";
+import CompanyPhilosophy from "@/components/CompanyPhilosophy";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WholesaleCalculator from "@/components/WholesaleCalculator";
 import Testimonials from "@/components/Testimonials";
@@ -16,20 +16,10 @@ export default function Home() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedCommodityForQuote, setSelectedCommodityForQuote] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const handleOpenQuoteModal = (productName?: string) => {
     setSelectedCommodityForQuote(productName || "Monagrow Bulk Commodities");
     setIsQuoteModalOpen(true);
-  };
-
-  const handleSelectCategory = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    // Smooth scroll down to products
-    const el = document.getElementById("products");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   return (
@@ -46,17 +36,13 @@ export default function Home() {
 
         {/* 3. Wholesale Commodity Categories (Rice, Coffee, Sugar, Dryfruits) */}
         <CategorySection
-          onSelectCategory={handleSelectCategory}
           onOpenQuoteModal={handleOpenQuoteModal}
         />
 
-        {/* 5. Bulk Product Lots Showcase (Front & Back packaging for Monagrow Rice) */}
-        <ProductSection
-          selectedCategory={selectedCategory}
-          onOpenQuoteModal={handleOpenQuoteModal}
-        />
+        {/* 4. Company Philosophy & Details (Direct Origin Story & Purity Manifesto) */}
+        <CompanyPhilosophy onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 6. Why Choose Us / Monagrow Wholesale Advantage (Matching Reference Layout) */}
+        {/* 5. Why Choose Us / Monagrow Wholesale Advantage (Matching Reference Layout) */}
         <WhyChooseUs onOpenQuoteModal={handleOpenQuoteModal} />
 
         {/* 7. Interactive Bulk Container & Volume Estimator */}

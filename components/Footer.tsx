@@ -6,7 +6,6 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Globe, 
   CheckCircle2,
   ArrowRight
 } from "lucide-react";
@@ -70,23 +69,22 @@ export default function Footer({
           1. FLOATING NEWSLETTER BANNER (Matching Screenshot 1 Layout)
           Overlaps the white footer below with negative bottom margin
           ======================================================== */}
-      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mb-20 sm:-mb-24 lg:-mb-28">
-        <div 
-          style={{ boxShadow: "none" }}
-          className="bg-[#800020] rounded-[14px] p-6 sm:p-8 lg:p-10 shadow-none relative overflow-hidden border border-[#961332]"
-        >
-          
-          {/* Subtle Ambient Background Lighting inside the Card */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
-            
+      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-20 -mb-16 sm:-mb-20 lg:-mb-24">
+        <div className="rounded-3xl px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12 relative overflow-hidden text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
             {/* Left Column: Automated Cycling Monagrow Products with Smooth Crossfade */}
-            <div className="lg:col-span-5 flex items-center justify-center">
-              <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-square flex items-center justify-center p-2 group">
-                
-                {/* Subtle Grounding Stage Shadow */}
-                <div className="absolute bottom-4 inset-x-12 h-3.5 bg-black/30 rounded-[100%] blur-md pointer-events-none" />
+            <div className="flex items-center justify-center">
+              <div className="relative w-56 sm:w-64 lg:w-72 aspect-square flex items-center justify-center">
+                {/* Glow */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-full bg-white/20 blur-3xl scale-110 pointer-events-none"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-6 rounded-full bg-[#ffd6a5]/20 blur-2xl pointer-events-none"
+                />
 
                 {/* All 4 Real Website Products Crossfading One by One */}
                 {NEWSLETTER_PRODUCTS.map((prod, idx) => {
@@ -104,9 +102,9 @@ export default function Footer({
                         src={prod.image}
                         alt={prod.alt}
                         fill
-                        priority={idx === 0}
-                        className="object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)] group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 1024px) 100vw, 340px"
+                        preload={idx === 0}
+                        className="object-contain drop-shadow-[0_20px_32px_rgba(0,0,0,0.4)]"
+                        sizes="(max-width: 640px) 224px, 288px"
                       />
                     </div>
                   );
@@ -115,16 +113,16 @@ export default function Footer({
             </div>
 
             {/* Right Column: Newsletter Heading, Subtitle, Pill Form & Disclaimers */}
-            <div className="lg:col-span-7 flex flex-col justify-center text-white">
-              
+            <div className="flex flex-col justify-center text-white text-center lg:text-left items-center lg:items-start">
+
               {/* Streamlined Headline */}
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight leading-tight text-white mb-2">
-                Weekly Wholesale Rates &amp; Harvest Updates
+              <h2 className="font-serif text-2xl sm:text-3xl font-semibold tracking-tight leading-tight text-white mb-2">
+                Weekly wholesale rates and harvest updates
               </h2>
 
               {/* Streamlined Subtitle */}
-              <p className="text-white text-xs sm:text-sm leading-relaxed mb-5 max-w-lg font-medium">
-                Weekly FOB port pricing, container availability, and seasonal harvest reports.
+              <p className="text-white/80 text-sm sm:text-[15px] leading-relaxed mb-5 max-w-lg">
+                FOB port pricing, container availability, and seasonal harvest reports, every week.
               </p>
 
               {/* 14px Border Radius Email Field */}
@@ -160,9 +158,9 @@ export default function Footer({
               )}
 
               {/* Streamlined Single-Line Disclaimer */}
-              <p className="mt-3 text-[11px] text-white font-medium">
+              <p className="mt-3 text-xs text-white/70">
                 Unsubscribe anytime &bull;{" "}
-                <a href="#privacy" className="underline text-white hover:text-white/80 transition-colors">
+                <a href="#privacy" className="underline underline-offset-2 text-white/80 hover:text-white transition-colors">
                   Privacy policy
                 </a>
               </p>
@@ -178,11 +176,11 @@ export default function Footer({
           2. MAIN WHITE FOOTER (Matching Screenshot 1 Layout)
           Clean 5-column structure with pure white background
           ======================================================== */}
-      <footer className="bg-white pt-28 sm:pt-36 lg:pt-40 pb-10 border-t border-stone-200/80">
-        <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <footer className="bg-white pt-28 sm:pt-32 lg:pt-36 pb-10 border-t border-stone-200/80">
+        <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
           
           {/* Main Layout: Brand Column on Left, 4 Evenly Spaced Columns on Right */}
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-8 xl:gap-12 pb-12 sm:pb-16 border-b border-stone-200/80 w-full">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-8 xl:gap-12 pb-10 border-b border-stone-200/80 w-full">
             
             {/* Column 1 (Left): Brand Logo, Description & Social Icons */}
             <div className="w-full lg:w-[240px] xl:w-[280px] shrink-0 flex flex-col justify-between">
@@ -195,8 +193,7 @@ export default function Footer({
                       alt="Monagrow"
                       width={240}
                       height={160}
-                      className="h-16 sm:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
-                      priority
+                      className="h-16 sm:h-24 lg:h-32 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
                     />
                   </a>
                 </div>
@@ -253,7 +250,7 @@ export default function Footer({
             </div>
 
             {/* Right Container: 4 Evenly Distributed Columns (Company, Support, Resources, Contact Us) */}
-            <div className="flex-1 w-full grid grid-cols-2 gap-8 sm:flex sm:flex-row sm:justify-between sm:items-start sm:gap-6 lg:gap-0">
+            <div className="flex-1 w-full grid grid-cols-2 gap-x-6 gap-y-8 sm:flex sm:flex-row sm:justify-between sm:items-start sm:gap-6 lg:gap-0">
               
               {/* Column 1: Company Navigation */}
               <div className="sm:min-w-[130px]">
@@ -268,7 +265,7 @@ export default function Footer({
                     <a href="#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
                   </li>
                   <li>
-                    <a href="#products" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
+                    <a href="#categories" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
                   </li>
                   <li>
                     <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
@@ -323,13 +320,13 @@ export default function Footer({
                 </h4>
                 <ul className="space-y-2 text-xs sm:text-sm text-stone-600">
                   <li>
-                    <a href="#products" className="hover:text-[#800020] transition-colors">Basmati Rice 8.9mm</a>
+                    <a href="#categories" className="hover:text-[#800020] transition-colors">Basmati Rice 8.9mm</a>
                   </li>
                   <li>
-                    <a href="#products" className="hover:text-[#800020] transition-colors">Estate Arabica Coffee</a>
+                    <a href="#categories" className="hover:text-[#800020] transition-colors">Estate Arabica Coffee</a>
                   </li>
                   <li>
-                    <a href="#products" className="hover:text-[#800020] transition-colors">Refined Sugar ICUMSA</a>
+                    <a href="#categories" className="hover:text-[#800020] transition-colors">Refined Sugar ICUMSA</a>
                   </li>
                   <li className="pt-0.5">
                     <span className="text-[#800020] font-semibold text-xs block whitespace-nowrap">
@@ -340,7 +337,7 @@ export default function Footer({
               </div>
 
               {/* Column 4: Contact Us */}
-              <div className="sm:min-w-[180px] sm:max-w-[230px]">
+              <div className="col-span-2 sm:col-span-1 pt-2 sm:pt-0 border-t border-stone-200/80 sm:border-0 sm:min-w-45 sm:max-w-57.5">
                 <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
                   Contact Us
                 </h4>
@@ -365,6 +362,20 @@ export default function Footer({
                     </span>
                   </li>
                 </ul>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenQuoteModal?.("Footer Inquiry")}
+                  className="mt-5 inline-flex items-center gap-2.5 pl-5 pr-1.5 py-1.5 rounded-full bg-[#800020] hover:bg-primary-dark active:bg-[#520014] text-white font-semibold text-sm whitespace-nowrap transition-colors duration-200 cursor-pointer group"
+                >
+                  <span>Get wholesale quote</span>
+                  <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
+                    <ArrowRight className="w-4 h-4 text-[#800020] stroke-[2.5]" />
+                  </span>
+                </button>
+                <p className="mt-3 text-xs text-stone-500">
+                  Replies within one business day.
+                </p>
               </div>
 
             </div>

@@ -95,7 +95,13 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
                   "0 8px 30px 0 rgba(0, 0, 0, 0.07), inset 0 1px 0 0 rgba(255, 255, 255, 0.95)",
               }
             : {
-                backgroundColor: "transparent",
+                // Dark frosted glass while the hero video is behind the navbar
+                backgroundColor: "rgba(8, 10, 16, 0.35)",
+                backdropFilter: "blur(18px) saturate(160%)",
+                WebkitBackdropFilter: "blur(18px) saturate(160%)",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.14)",
+                boxShadow:
+                  "0 8px 30px 0 rgba(0, 0, 0, 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.10)",
               }
         }
         className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${

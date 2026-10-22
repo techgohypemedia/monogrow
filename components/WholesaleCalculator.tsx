@@ -1,256 +1,256 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calculator, ArrowRight, MessageCircle, Check } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+
+const COMMODITIES = [
+  { id: "rice", label: "Basmati Rice", name: "Monagrow Basmati Rice (8.9mm)", ratePerTon: 1180 },
+  { id: "coffee", label: "Coffee", name: "Specialty Arabica Dark Roast", ratePerTon: 4650 },
+  { id: "sugar", label: "Sugar", name: "Refined Cane Sugar (ICUMSA 45)", ratePerTon: 520 },
+  { id: "dryfruits", label: "Cashews", name: "Royal Whole Cashews W240", ratePerTon: 6200 },
+] as const;
+
+const PACKAGING = [
+  { id: "5kg", label: "5 kg retail bag", kg: 5 },
+  { id: "25kg", label: "25 kg PP bag", kg: 25 },
+  { id: "50kg", label: "50 kg jute sack", kg: 50 },
+  { id: "1mt", label: "1 MT jumbo bag", kg: 1000 },
+] as const;
+
+const INCOTERMS = [
+  { id: "CIF", label: "CIF · Cost, insurance and freight" },
+  { id: "FOB", label: "FOB · Free on board" },
+  { id: "CFR", label: "CFR · Cost and freight" },
+  { id: "EXW", label: "EXW · Ex-works Kathmandu" },
+] as const;
+
+const INCLUDED = [
+  "Ex-mill or port delivery on FOB, CFR, or CIF terms",
+  "Payment by confirmed irrevocable L/C or T/T",
+  "Lab samples dispatched by DHL or FedEx",
+];
+
+const MIN_MT = 5;
+const MAX_MT = 200;
+const MT_PER_CONTAINER = 25;
+
+const labelClass = "block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-2";
+const selectClass =
+  "w-full h-11 px-3 rounded-xl border border-stone-200 bg-white text-sm font-medium text-navy focus:outline-none focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 cursor-pointer";
 
 export default function WholesaleCalculator({
   onOpenQuoteModal,
 }: {
   onOpenQuoteModal: (details?: string) => void;
 }) {
-  const [commodity, setCommodity] = useState("rice");
+  const [commodityId, setCommodityId] = useState<(typeof COMMODITIES)[number]["id"]>("rice");
   const [metricTons, setMetricTons] = useState(25);
-  const [packaging, setPackaging] = useState("5kg");
-  const [incoterm, setIncoterm] = useState("CIF");
+  const [packagingId, setPackagingId] = useState<(typeof PACKAGING)[number]["id"]>("5kg");
+  const [incoterm, setIncoterm] = useState<(typeof INCOTERMS)[number]["id"]>("CIF");
 
-  // Commodity baseline calculation
-  const commodityData: Record<string, { name: string; ratePerTon: number; bagWeightKg: number }> = {
-    rice: { name: "Monagrow Basmati Rice (8.9mm)", ratePerTon: 1180, bagWeightKg: 5 },
-    coffee: { name: "Specialty Arabica Dark Roast", ratePerTon: 4650, bagWeightKg: 2.5 },
-    sugar: { name: "Refined Cane Sugar (ICUMSA 45)", ratePerTon: 520, bagWeightKg: 50 },
-    dryfruits: { name: "California Whole Almonds", ratePerTon: 6200, bagWeightKg: 10 },
-  };
+  const commodity = COMMODITIES.find((c) => c.id === commodityId) ?? COMMODITIES[0];
+  const packaging = PACKAGING.find((p) => p.id === packagingId) ?? PACKAGING[0];
 
-  const selectedData = commodityData[commodity] || commodityData.rice;
-  const estimatedCost = metricTons * selectedData.ratePerTon;
-  const totalBags = Math.round((metricTons * 1000) / (packaging === "5kg" ? 5 : packaging === "25kg" ? 25 : packaging === "50kg" ? 50 : 2.5));
-  const containerCount = (metricTons / 25).toFixed(1);
+  const estimatedCost = metricTons * commodity.ratePerTon;
+  const totalBags = Math.round((metricTons * 1000) / packaging.kg);
+  const containers = (metricTons / MT_PER_CONTAINER).toFixed(1);
+  const sliderPercent = ((metricTons - MIN_MT) / (MAX_MT - MIN_MT)) * 100;
 
-  const handleWhatsAppRedirect = () => {
+  const summaryText = `${metricTons} MT of ${commodity.name}, ${packaging.label}, ${incoterm}`;
+
+  const sendToWhatsApp = () => {
     const text = encodeURIComponent(
-      `Hello Monagrow Global Wholesale! I would like to request an official wholesale quotation for:\n• Commodity: ${selectedData.name}\n• Volume: ${metricTons} Metric Tons (~${containerCount} FCL Containers)\n• Packaging: ${packaging}\n• Term: ${incoterm}\nPlease send proforma invoice and sample policy.`
+      `Hello Monagrow, I would like a wholesale quotation for:\n• Commodity: ${commodity.name}\n• Volume: ${metricTons} MT (about ${containers} x 20ft containers)\n• Packaging: ${packaging.label}\n• Term: ${incoterm}\nPlease send a proforma invoice and sample policy.`
     );
-    window.open(`https://wa.me/9779801234567?text=${text}`, "_blank");
+    window.open(`https://wa.me/9779801234567?text=${text}`, "_blank", "noopener");
   };
 
   return (
-    <section 
-      id="calculator" 
-      className="py-20 lg:py-24 relative overflow-hidden bg-gradient-to-br from-[#6b001b] via-[#800020] via-45% to-white border-y border-stone-200/80"
+    <section
+      id="calculator"
+      className="relative overflow-hidden py-20 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]"
     >
-      {/* Precision Blueprint Dual Grid Pattern */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.45) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
-        }}
+      {/* Soft highlight for depth */}
+      <div
+        aria-hidden
+        className="absolute -top-40 -left-40 w-160 h-160 rounded-full bg-white/10 blur-3xl pointer-events-none"
       />
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.12]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(128, 0, 32, 0.35) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(128, 0, 32, 0.35) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
-        }}
+      <div
+        aria-hidden
+        className="absolute -bottom-48 right-0 w-140 h-140 rounded-full bg-[#2a000b]/40 blur-3xl pointer-events-none"
       />
-
-      {/* Subtle radial ambient highlight */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
-          {/* Left Text Explanation (Wider Column) */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 text-[#fbbf24] text-xs font-bold uppercase tracking-wider border border-white/20 backdrop-blur-xs">
-              <Calculator className="w-3.5 h-3.5" />
-              <span>CONTAINER & BULK ESTIMATOR</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-white leading-tight">
-              Instant Wholesale Volume Estimator
+      <div className="relative w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left: copy */}
+          <div className="lg:col-span-6 xl:col-span-7">
+            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/70">
+              Container and bulk estimator
+            </p>
+            <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              Estimate your wholesale order in seconds
             </h2>
-
-            <p className="text-stone-100 text-sm sm:text-base leading-relaxed max-w-xl">
-              Calculate container volumes, estimated packaging unit counts, and receive a binding proforma quotation tailored to your destination port.
+            <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-xl">
+              Pick a commodity, set the volume, and see bag counts, container
+              loads, and an indicative value before you request a proforma.
             </p>
 
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-3 text-white text-sm font-medium">
-                <div className="w-5.5 h-5.5 rounded-full bg-white text-[#800020] flex items-center justify-center shrink-0 shadow-xs">
-                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-                <span>Direct Ex-Mill or Port Delivery (FOB, CFR, CIF)</span>
-              </div>
-              <div className="flex items-center gap-3 text-white text-sm font-medium">
-                <div className="w-5.5 h-5.5 rounded-full bg-white text-[#800020] flex items-center justify-center shrink-0 shadow-xs">
-                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-                <span>Flexible Payment: Irrevocable Confirmed L/C or T/T</span>
-              </div>
-              <div className="flex items-center gap-3 text-white text-sm font-medium">
-                <div className="w-5.5 h-5.5 rounded-full bg-white text-[#800020] flex items-center justify-center shrink-0 shadow-xs">
-                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-                <span>Physical Lab Sample Dispatch via DHL / FedEx</span>
-              </div>
-            </div>
+            <ul className="mt-8 max-w-xl border-t border-white/15">
+              {INCLUDED.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 py-3.5 border-b border-white/15 text-sm sm:text-[15px] text-white/90"
+                >
+                  <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-white/70 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Right Interactive Calculator Box (Decreased Size, Compact Elegance) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="w-full max-w-[480px] bg-white text-stone-900 rounded-[20px] p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-stone-200/90">
-              <h3 className="text-base sm:text-lg font-black text-[#0e2439] mb-4 flex items-center justify-between">
-                <span>Calculate Container Requirements</span>
-                <span className="text-[10px] font-bold uppercase text-[#800020] px-2.5 py-0.5 rounded-full bg-[#fae8eb] border border-[#f3c4ce]">
-                  Interactive Tool
-                </span>
+          {/* Right: calculator */}
+          <div className="lg:col-span-6 xl:col-span-5 flex lg:justify-end">
+            <div className="w-full max-w-130 bg-white text-navy rounded-3xl p-6 sm:p-8">
+              <h3 className="font-serif text-xl sm:text-2xl font-semibold leading-snug">
+                Container requirements
               </h3>
 
-              <div className="space-y-4">
-                {/* 1. Select Commodity */}
+              <div className="mt-6 space-y-6">
+                {/* Commodity */}
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                    1. Select Commodity
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                    {[
-                      { id: "rice", label: "Basmati Rice" },
-                      { id: "coffee", label: "Specialty Coffee" },
-                      { id: "sugar", label: "Refined Sugar" },
-                      { id: "dryfruits", label: "Dry Fruits" },
-                    ].map((c) => (
-                      <button
-                        key={c.id}
-                        type="button"
-                        onClick={() => setCommodity(c.id)}
-                        className={`py-1.5 px-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                          commodity === c.id
-                            ? "bg-[#800020] text-white border-[#800020] shadow-xs"
-                            : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100"
-                        }`}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
+                  <span className={labelClass}>Commodity</span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" role="group" aria-label="Commodity">
+                    {COMMODITIES.map((c) => {
+                      const isActive = c.id === commodityId;
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setCommodityId(c.id)}
+                          aria-pressed={isActive}
+                          className={`h-10 px-2 rounded-xl text-sm font-semibold border transition-colors cursor-pointer ${
+                            isActive
+                              ? "bg-[#800020] border-[#800020] text-white"
+                              : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-navy"
+                          }`}
+                        >
+                          {c.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* 2. Volume Slider */}
+                {/* Volume */}
                 <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider">
-                      2. Order Volume (Metric Tons)
+                  <div className="flex items-baseline justify-between mb-2">
+                    <label htmlFor="calc-volume" className={`${labelClass} mb-0`}>
+                      Order volume
                     </label>
-                    <span className="text-sm font-black text-[#800020]">
-                      {metricTons} MT
-                    </span>
+                    <span className="text-sm font-bold tabular-nums">{metricTons} MT</span>
                   </div>
                   <input
+                    id="calc-volume"
                     type="range"
-                    min="5"
-                    max="200"
-                    step="5"
+                    min={MIN_MT}
+                    max={MAX_MT}
+                    step={5}
                     value={metricTons}
                     onChange={(e) => setMetricTons(Number(e.target.value))}
-                    className="w-full accent-[#800020] cursor-pointer h-1.5 bg-stone-200 rounded-lg"
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-[#800020] bg-stone-200"
+                    style={{
+                      background: `linear-gradient(to right, #800020 ${sliderPercent}%, #e7e5e4 ${sliderPercent}%)`,
+                    }}
                   />
-                  <div className="flex justify-between text-[10px] text-stone-400 font-semibold mt-0.5">
-                    <span>5 MT (Min MOQ)</span>
-                    <span>50 MT</span>
-                    <span>100 MT</span>
-                    <span>200 MT (Max Bulk)</span>
+                  <div className="flex justify-between text-[11px] text-stone-400 mt-2 tabular-nums">
+                    <span>{MIN_MT} MT minimum</span>
+                    <span>{MAX_MT} MT</span>
                   </div>
                 </div>
 
-                {/* 3. Packaging & 4. Incoterm Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Packaging and incoterm */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
-                      3. Packaging Option
+                    <label htmlFor="calc-packaging" className={labelClass}>
+                      Packaging
                     </label>
                     <select
-                      value={packaging}
-                      onChange={(e) => setPackaging(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#800020] bg-white cursor-pointer"
+                      id="calc-packaging"
+                      value={packagingId}
+                      onChange={(e) => setPackagingId(e.target.value as typeof packagingId)}
+                      className={selectClass}
                     >
-                      <option value="5kg">5kg Standup Box Bag (Retail Ready)</option>
-                      <option value="25kg">25kg PP Non-Woven Bag</option>
-                      <option value="50kg">50kg Heavy Jute / Poly Sack</option>
-                      <option value="1mt">1 Metric Ton Jumbo Bulk Bag</option>
+                      {PACKAGING.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
-
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
-                      4. Trade Incoterm
+                    <label htmlFor="calc-incoterm" className={labelClass}>
+                      Incoterm
                     </label>
                     <select
+                      id="calc-incoterm"
                       value={incoterm}
-                      onChange={(e) => setIncoterm(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#800020] bg-white cursor-pointer"
+                      onChange={(e) => setIncoterm(e.target.value as typeof incoterm)}
+                      className={selectClass}
                     >
-                      <option value="CIF">CIF (Cost, Insurance & Freight)</option>
-                      <option value="FOB">FOB (Free on Board)</option>
-                      <option value="CFR">CFR (Cost & Freight)</option>
-                      <option value="EXW">EXW (Ex-Works Kathmandu)</option>
+                      {INCOTERMS.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
 
-                {/* Calculation Summary Box */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-[#fbfbf8] border border-stone-200 space-y-1.5 text-xs">
-                  <div className="flex justify-between text-stone-600">
-                    <span>Total Equivalent Bags:</span>
-                    <strong className="text-stone-900 font-bold">~{totalBags.toLocaleString()} Units</strong>
+                {/* Summary */}
+                <dl className="border-t border-stone-200 text-sm">
+                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
+                    <dt className="text-stone-500">Bags</dt>
+                    <dd className="font-semibold tabular-nums">~{totalBags.toLocaleString()}</dd>
                   </div>
-                  <div className="flex justify-between text-stone-600">
-                    <span>Full Container Load (FCL):</span>
-                    <strong className="text-stone-900 font-bold">~{containerCount} x 20ft Containers</strong>
+                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
+                    <dt className="text-stone-500">20 ft containers</dt>
+                    <dd className="font-semibold tabular-nums">~{containers}</dd>
                   </div>
-                  <div className="flex justify-between text-stone-600 pt-0.5 border-t border-stone-200/60">
-                    <span>Indicative Bulk Value ({incoterm}):</span>
-                    <strong className="text-[#800020] font-black text-sm">
-                      ~${estimatedCost.toLocaleString()} USD
-                    </strong>
+                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
+                    <dt className="text-stone-500">Indicative value ({incoterm})</dt>
+                    <dd className="font-bold text-lg text-[#800020] tabular-nums">
+                      ~${estimatedCost.toLocaleString()}
+                    </dd>
                   </div>
-                </div>
+                </dl>
 
-                {/* Action Buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                {/* Actions */}
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
                   <button
                     type="button"
-                    onClick={handleWhatsAppRedirect}
-                    className="py-2.5 px-3 rounded-xl bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                    onClick={() => onOpenQuoteModal(summaryText)}
+                    className="inline-flex items-center gap-2.5 pl-5 pr-1.5 py-1.5 rounded-full bg-[#800020] hover:bg-primary-dark active:bg-[#520014] text-white font-semibold text-sm transition-colors duration-200 cursor-pointer group"
                   >
-                    <MessageCircle className="w-3.5 h-3.5 fill-white" />
-                    <span>Send to WhatsApp</span>
+                    <span>Request proforma</span>
+                    <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
+                      <ArrowUpRight className="w-4 h-4 text-[#800020] stroke-[2.5]" />
+                    </span>
                   </button>
-
                   <button
                     type="button"
-                    onClick={() =>
-                      onOpenQuoteModal(
-                        `Estimated ${metricTons} MT of ${selectedData.name} in ${packaging} (${incoterm})`
-                      )
-                    }
-                    className="py-2.5 px-3 rounded-xl bg-[#0e2439] hover:bg-[#800020] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                    onClick={sendToWhatsApp}
+                    className="text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
                   >
-                    <span>Request Proforma</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    Send on WhatsApp
                   </button>
                 </div>
 
+                <p className="text-[11px] text-stone-400 leading-relaxed">
+                  Indicative figures only. Final pricing depends on destination
+                  port, season, and lot availability.
+                </p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -2,13 +2,53 @@
 
 import React from "react";
 import Image from "next/image";
-import { 
-  Leaf, 
-  CheckCircle, 
-  Truck,
-  ShieldCheck,
-  Package
-} from "lucide-react";
+
+interface PhotoCardProps {
+  src: string;
+  alt: string;
+  eyebrow: string;
+  title: string;
+  text?: string;
+  className?: string;
+}
+
+/** Full-bleed photo card with a quiet caption pinned to the bottom. */
+function PhotoCard({ src, alt, eyebrow, title, text, className = "" }: PhotoCardProps) {
+  return (
+    <div
+      className={`relative rounded-3xl overflow-hidden flex flex-col justify-end p-6 sm:p-7 text-white group ${className}`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        sizes="(max-width: 1024px) 100vw, 33vw"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-t from-black/75 via-black/30 to-transparent pointer-events-none"
+      />
+      <div className="relative">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+          {eyebrow}
+        </p>
+        <h3 className="mt-2 font-serif text-xl sm:text-2xl font-semibold leading-snug">
+          {title}
+        </h3>
+        {text && (
+          <p className="mt-2 text-sm text-white/80 leading-relaxed max-w-sm">{text}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const PACKING_FACTS: { label: string; value: string }[] = [
+  { label: "Bag sizes", value: "1, 5, 10, 25 and 50 kg" },
+  { label: "Materials", value: "BOPP, non-woven, jute, kraft" },
+  { label: "Quality system", value: "ISO 22000 graded lots" },
+];
 
 export default function WhyChooseUs({
   onOpenQuoteModal,
@@ -16,236 +56,120 @@ export default function WhyChooseUs({
   onOpenQuoteModal: (topic?: string) => void;
 }) {
   return (
-    <section id="why-choose-us" className="py-20 bg-white relative scroll-mt-16">
+    <section id="why-choose-us" className="py-20 sm:py-24 bg-white relative scroll-mt-16">
       <div id="about" className="absolute -top-20" />
       <div id="about-us" className="absolute -top-20" />
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fae8eb] text-[#800020] text-xs font-bold uppercase tracking-wider mb-4 border border-[#f3c4ce]">
-            <span>THE MONAGROW ADVANTAGE</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-serif tracking-tight text-[#0e2439]">
-            Why Global Importers & Wholesalers Partner With Us
+      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        {/* Section header */}
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-14">
+          <p className="text-[#800020] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
+            The Monagrow advantage
+          </p>
+          <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-navy leading-tight">
+            Why importers and wholesalers partner with us
           </h2>
           <p className="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
-            Reliability, standard consistency, and transparent commodity pricing make Monagrow the preferred supplier for supermarket chains and bulk distributors worldwide.
+            Consistent grades, transparent pricing, and dependable supply for
+            supermarket chains and bulk distributors worldwide.
           </p>
         </div>
 
-        {/* Bento Grid: 3-Column Layout Matching Reference */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-          
-          {/* =========================================================
-              COLUMN 1 (Left): Top Graphic Card + Bottom Tall Scenic Card
-              ========================================================= */}
-          <div className="flex flex-col gap-6">
-            {/* Card 1A (Top): Direct Origin Sourcing & Mill Network (Full-Bleed Cover Card) */}
-            <div className="relative rounded-[28px] overflow-hidden min-h-[360px] sm:min-h-[400px] flex flex-col justify-between p-6 sm:p-7 text-white group border border-stone-200/70 shadow-2xs">
-              {/* Full-Bleed Cover Background Image */}
-              <Image
-                src="/assets/why-rice-sheaves.jpg"
-                alt="Direct Origin Agricultural Crops"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/95 via-[#0e2439]/70 to-[#0e2439]/45 pointer-events-none" />
-
-              {/* Content Layer (Above Image) */}
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0e2439] text-[11px] font-bold uppercase tracking-wider mb-3.5 shadow-md">
-                    <Leaf className="w-3.5 h-3.5 text-[#800020]" />
-                    <span>ORIGIN SOURCED</span>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <h3 className="font-serif text-xl sm:text-2xl font-black text-white leading-tight mb-1.5 group-hover:text-[#f3c4ce] transition-colors">
-                    Direct Origin Sourcing & Mill Network
-                  </h3>
-                  <p className="text-xs sm:text-sm font-bold text-[#fbbf24] mb-3">
-                    Primary grower & mill contracts.
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
-                    Direct supply agreements with audited cultivation clusters and processing mills across South Asia, guaranteeing stable commodity availability and physical grade consistency.
-                  </p>
-                </div>
-
-                {/* Standard Guaranteed Footer */}
-                <div className="mt-6 pt-3.5 border-t border-white/20 flex items-center justify-between text-xs font-bold text-[#fecdd3]">
-                  <span>Standard Guaranteed</span>
-                  <CheckCircle className="w-4 h-4 text-[#fbbf24]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 1B (Bottom): Full-Bleed Vertical Scenic Landscape Card */}
-            <div className="relative rounded-[28px] overflow-hidden min-h-[320px] sm:min-h-[360px] flex-1 flex flex-col justify-between p-6 text-white group border border-stone-200/70 shadow-2xs">
-              <Image
-                src="/assets/why-terrace-scenic.jpg"
-                alt="Primary Cultivation Clusters in South Asia"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/95 via-[#0e2439]/35 to-transparent pointer-events-none" />
-
-              {/* Top Tag */}
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0e2439] text-[11px] font-bold uppercase tracking-wider shadow-md">
-                  <span className="w-2 h-2 rounded-full bg-[#800020] animate-pulse" />
-                  <span>Primary Cultivation Belts</span>
-                </div>
-              </div>
-
-              {/* Bottom Caption */}
-              <div className="relative z-10 mt-auto pt-8">
-                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-stone-300 block mb-1">
-                  Single-Origin Terraces & Basmati Plains
-                </span>
-                <h4 className="text-xl sm:text-2xl font-black font-serif text-white leading-tight">
-                  Direct Farm Clusters & Processing Mills
-                </h4>
-                <p className="text-xs sm:text-sm text-stone-200/90 mt-1.5 leading-relaxed">
-                  Single-origin basmati plains and volcanic coffee slopes cultivated under certified GAP agricultural standards.
-                </p>
-              </div>
-            </div>
+        {/* Bento grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+          {/* Column 1 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            <PhotoCard
+              src="/assets/why-rice-sheaves.jpg"
+              alt="Rice sheaves and crop foliage at origin"
+              eyebrow="Origin sourced"
+              title="Direct origin sourcing and mill network"
+              text="Supply agreements with audited growers and processing mills across South Asia keep availability and grade steady."
+              className="min-h-90 sm:min-h-100"
+            />
+            <PhotoCard
+              src="/assets/why-terrace-scenic.jpg"
+              alt="Terraced farmland in South Asia"
+              eyebrow="Primary cultivation belts"
+              title="Farm clusters and processing mills"
+              text="Single-origin basmati plains and volcanic coffee slopes grown under certified GAP standards."
+              className="min-h-80 sm:min-h-90 flex-1"
+            />
           </div>
 
-          {/* =========================================================
-              COLUMN 2 (Center): Tall Full-Height Card with Feature + Inspection Visual
-              ========================================================= */}
-          <div className="bg-[#EEF5ED] border border-[#D7E5D6] rounded-[28px] p-6 sm:p-8 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-300 h-full group">
+          {/* Column 2: light card */}
+          <div className="bg-[#f1f6f0] rounded-3xl p-6 sm:p-8 flex flex-col justify-between h-full">
             <div>
-              {/* Feature: Private Label & Custom Packing */}
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-[#800020]/15 text-[#800020] text-[11px] font-bold uppercase tracking-wider mb-3.5 shadow-2xs">
-                  <Package className="w-3.5 h-3.5 text-[#800020]" />
-                  <span>OEM READY</span>
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl lg:text-[26px] font-black text-[#0e2439] leading-tight mb-1.5 group-hover:text-[#800020] transition-colors">
-                  Private Label & Custom Packing
-                </h3>
-                <p className="text-xs sm:text-sm font-bold text-[#b45309] mb-3">
-                  Your brand, our manufacturing power.
-                </p>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                  Custom printed 1kg, 5kg, 10kg, 25kg, and 50kg bags in BOPP, non-woven, jute, or kraft paper tailored to your supermarket and wholesale distributor specs.
-                </p>
-                <div className="mt-4 pt-3.5 border-t border-[#D5E3D5] flex items-center justify-between text-xs font-bold text-[#800020]">
-                  <span>Standard Guaranteed</span>
-                  <CheckCircle className="w-4 h-4 text-[#800020]" />
-                </div>
-              </div>
-            </div>
+              <p className="text-[#800020] text-[11px] font-semibold uppercase tracking-[0.18em]">
+                Private label
+              </p>
+              <h3 className="mt-2 font-serif text-xl sm:text-2xl lg:text-[26px] font-semibold text-navy leading-snug">
+                Custom packing under your brand
+              </h3>
+              <p className="mt-3 text-sm text-stone-600 leading-relaxed">
+                Printed retail and bulk bags made to your supermarket or
+                distributor specification, filled and sealed at the mill.
+              </p>
 
-            {/* Center Bottom Visual: Agricultural Quality Inspection Table */}
-            <div className="relative w-full h-64 sm:h-72 lg:h-80 rounded-2xl overflow-hidden mt-6 shadow-xs border border-[#CDE0CC]">
-              <Image
-                src="/assets/why-grain-inspector.jpg"
-                alt="Agricultural Quality Inspector at Laboratory Grading Table"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/80 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-3 left-4 right-4 text-white text-xs font-semibold flex items-center justify-between z-10">
-                <span className="flex items-center gap-1.5 drop-shadow-sm">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  Optical Grading & Quality Assurance
-                </span>
-                <span className="text-[10px] uppercase font-bold bg-[#800020] px-2.5 py-0.5 rounded-full text-white shadow-xs">
-                  ISO 22000
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* =========================================================
-              COLUMN 3 (Right): Top Wide Scenic Card + Bottom Product Card
-              ========================================================= */}
-          <div className="flex flex-col gap-6">
-            {/* Card 3A (Top): Full-Bleed Deep-Sea Port Logistics Card */}
-            <div className="relative rounded-[28px] overflow-hidden min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] flex flex-col justify-between p-6 text-white group border border-stone-200/70 shadow-2xs">
-              <Image
-                src="/assets/why-freight-port.jpg"
-                alt="Global Multimodal Freight & Deep-Sea Port Terminal"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/95 via-[#0e2439]/35 to-transparent pointer-events-none" />
-
-              {/* Top Tag */}
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0e2439] text-[11px] font-bold uppercase tracking-wider shadow-md">
-                  <Truck className="w-3.5 h-3.5 text-[#800020]" />
-                  <span>Deep-Sea Freight</span>
-                </div>
-              </div>
-
-              {/* Bottom Caption */}
-              <div className="relative z-10 mt-auto pt-6">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-stone-300 block mb-1">
-                  CFS & Containerized Logistics
-                </span>
-                <h4 className="text-xl sm:text-2xl font-black font-serif text-white leading-tight">
-                  Direct Port & Multimodal Marine Transit
-                </h4>
-              </div>
-            </div>
-
-            {/* Card 3B (Bottom): Direct Port & Freight Logistics Card (Full-Bleed Cover Card) */}
-            <div className="relative rounded-[28px] overflow-hidden min-h-[360px] sm:min-h-[400px] flex flex-col justify-between p-6 sm:p-7 text-white group border border-stone-200/70 shadow-2xs flex-1">
-              {/* Full-Bleed Cover Background Image */}
-              <Image
-                src="/assets/why-jute-sack.jpg"
-                alt="Direct Port & Freight Logistics"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e2439]/95 via-[#0e2439]/70 to-[#0e2439]/45 pointer-events-none" />
-
-              {/* Content Layer (Above Image) */}
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0e2439] text-[11px] font-bold uppercase tracking-wider mb-3.5 shadow-md">
-                    <Truck className="w-3.5 h-3.5 text-[#800020]" />
-                    <span>GLOBAL FREIGHT</span>
+              <dl className="mt-5 border-t border-[#d9e4d8]">
+                {PACKING_FACTS.map((fact) => (
+                  <div
+                    key={fact.label}
+                    className="flex items-baseline justify-between gap-4 py-2.5 border-b border-[#d9e4d8]"
+                  >
+                    <dt className="text-[11px] font-semibold uppercase tracking-wider text-stone-400 shrink-0">
+                      {fact.label}
+                    </dt>
+                    <dd className="text-sm font-semibold text-navy text-right">
+                      {fact.value}
+                    </dd>
                   </div>
+                ))}
+              </dl>
 
-                  {/* Title & Subtitle */}
-                  <h3 className="font-serif text-xl sm:text-2xl font-black text-white leading-tight mb-1.5 group-hover:text-[#f3c4ce] transition-colors">
-                    Direct Port & Freight Logistics
-                  </h3>
-                  <p className="text-xs sm:text-sm font-bold text-[#fbbf24] mb-3">
-                    Direct freight, seamless clearance.
-                  </p>
+              <button
+                type="button"
+                onClick={() => onOpenQuoteModal("Private Label Packing")}
+                className="mt-5 text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
+              >
+                Ask about private label
+              </button>
+            </div>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
-                    We coordinate end-to-end multimodal logistics from agricultural processing mills directly to primary international seaports and container freight stations.
-                  </p>
-                </div>
-
-                {/* Standard Guaranteed Footer */}
-                <div className="mt-6 pt-3.5 border-t border-white/20 flex items-center justify-between text-xs font-bold text-[#fecdd3]">
-                  <span>Standard Guaranteed</span>
-                  <CheckCircle className="w-4 h-4 text-[#fbbf24]" />
-                </div>
+            <div className="mt-6 sm:mt-8">
+              <div className="relative w-full h-56 sm:h-64 lg:h-72 rounded-2xl overflow-hidden">
+                <Image
+                  src="/assets/why-grain-inspector.jpg"
+                  alt="Quality inspector grading grain samples"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                />
               </div>
+              <p className="mt-3 text-xs text-stone-500">
+                Optical grading and lab checks on every lot before dispatch.
+              </p>
             </div>
           </div>
 
+          {/* Column 3 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            <PhotoCard
+              src="/assets/why-freight-port.jpg"
+              alt="Container terminal at a deep-sea port"
+              eyebrow="Deep-sea freight"
+              title="Direct port and multimodal marine transit"
+              className="min-h-60 sm:min-h-65 lg:min-h-70"
+            />
+            <PhotoCard
+              src="/assets/why-jute-sack.jpg"
+              alt="Jute sacks of grain ready for export"
+              eyebrow="Global freight"
+              title="End-to-end freight and clearance"
+              text="We coordinate logistics from processing mill to international seaport and container freight station."
+              className="min-h-90 sm:min-h-100 flex-1"
+            />
+          </div>
         </div>
-
       </div>
     </section>
   );

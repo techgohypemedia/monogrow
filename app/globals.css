@@ -107,7 +107,6 @@ body {
   width: 200%;
   animation: marquee 35s linear infinite;
 }
-
 @keyframes fadeInScale {
   0% {
     opacity: 0;
