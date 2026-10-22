@@ -8,7 +8,6 @@ import ProductSection from "@/components/ProductSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WholesaleCalculator from "@/components/WholesaleCalculator";
 import Testimonials from "@/components/Testimonials";
-import MarketIntelligence from "@/components/MarketIntelligence";
 import Footer from "@/components/Footer";
 import VideoModal from "@/components/VideoModal";
 import QuoteModal from "@/components/QuoteModal";
@@ -65,9 +64,6 @@ export default function Home() {
 
         {/* 8. Verified Buyer Reviews & Testimonials */}
         <Testimonials />
-
-        {/* 9. Market Intelligence & Crop Reports (Matching Reference 3-Column Layout) */}
-        <MarketIntelligence />
       </main>
 
       {/* 10. Premium Footer */}

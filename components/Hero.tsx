@@ -395,77 +395,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
           />
         </div>
 
-        {/* ========================================================
-            CENTER CONTENT: BRAND HEADLINE, DESCRIPTION & CTA (IMAGE 2)
-            Fixed in place over the 3D parallax frame canvas
-            ======================================================== */}
-        <div className="relative z-30 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-18 pointer-events-none flex items-center justify-start">
-          
-          {/* LEFT COLUMN: Arched Badge, Giant Headline, Description, Pill CTA */}
-          <div 
-            className="w-full max-w-xl text-left pointer-events-auto"
-          >
-            {/* 1. Arched Badge above main headline */}
-            <div className="relative -mb-2 sm:-mb-3 -ml-1 sm:-ml-2 overflow-visible">
-              <svg
-                viewBox="0 0 300 85"
-                className="w-36 sm:w-44 md:w-52 h-10 sm:h-14 overflow-visible"
-                aria-hidden="true"
-              >
-                <defs>
-                  <path
-                    id="heroArcPath"
-                    d="M 20,78 Q 150,12 280,78"
-                    fill="transparent"
-                  />
-                </defs>
-                <text
-                  className="font-navbar-brand text-[18px] sm:text-[22px] md:text-[25px] tracking-[0.16em] font-bold uppercase select-none"
-                  style={{
-                    fill: "#800020",
-                    stroke: "#800020",
-                    strokeWidth: "0.2px",
-                    paintOrder: "stroke fill",
-                  }}
-                >
-                  <textPath href="#heroArcPath" startOffset="50%" textAnchor="middle">
-                    Direct Origin
-                  </textPath>
-                </text>
-              </svg>
-            </div>
 
-            {/* 2. Headline: AGRI COMMODITIES (Decreased font size for elegant balance) */}
-            <h1 className="font-navbar-brand text-4xl sm:text-5xl md:text-6xl lg:text-[60px] xl:text-[68px] font-bold leading-[0.88] tracking-tight uppercase mb-5 select-none text-[#800020] drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]">
-              <span className="block">AGRI</span>
-              <span className="block mt-1">COMMODITIES</span>
-            </h1>
-
-            {/* 3. Description: Shortened to "The Taste of Purity" + 1 concise line */}
-            <p className="max-w-md mb-7 drop-shadow-sm leading-snug">
-              <span className="block text-white font-semibold text-base sm:text-lg md:text-xl tracking-wide">
-                The Taste of Purity.
-              </span>
-              <span className="block text-stone-300 text-xs sm:text-sm md:text-base font-normal mt-1 leading-relaxed">
-                Direct-origin bulk commodities sourced for global markets.
-              </span>
-            </p>
-
-            {/* 4. Action Button with offset shadow */}
-            <div className="flex items-center">
-              <button
-                type="button"
-                onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
-                className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase border-2 border-[#800020] shadow-[5px_7px_0px_#1c1917] hover:shadow-[2px_3px_0px_#1c1917] hover:translate-x-[3px] hover:translate-y-[4px] active:shadow-none active:translate-x-[5px] active:translate-y-[7px] transition-all cursor-pointer inline-flex items-center gap-2.5 group"
-              >
-                <span>REQUEST WHOLESALE QUOTE</span>
-                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
-            </div>
-
-          </div>
-
-        </div>
 
       </div>
     </section>

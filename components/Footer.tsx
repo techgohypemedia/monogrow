@@ -1,278 +1,402 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { 
   Mail, 
   Phone, 
   MapPin, 
   Globe, 
-  ArrowUpRight, 
-  ShieldCheck 
+  CheckCircle2,
+  ArrowRight
 } from "lucide-react";
+
+const NEWSLETTER_PRODUCTS = [
+  {
+    name: "Basmati Rice 8.9mm",
+    tag: "Flagship Grain",
+    image: "/assets/monagrow-rice-bag-cutout.png",
+    alt: "Monagrow Extra Long Grain Basmati Rice",
+  },
+  {
+    name: "Specialty Estate Coffee",
+    tag: "Highland Arabica",
+    image: "/assets/monagrow-coffee-bag-cutout.png",
+    alt: "Monagrow Specialty Estate Coffee",
+  },
+  {
+    name: "Refined Sugar ICUMSA 45",
+    tag: "Pure Cane Sugar",
+    image: "/assets/monagrow-sugar-bag-cutout.png",
+    alt: "Monagrow Refined Sugar ICUMSA 45",
+  },
+  {
+    name: "Royal Cashew Kernels",
+    tag: "Export W320 Grade",
+    image: "/assets/monagrow-cashews-bag-cutout.png",
+    alt: "Monagrow Royal Cashew Kernels",
+  },
+];
 
 export default function Footer({
   onOpenQuoteModal,
 }: {
-  onOpenQuoteModal: (topic?: string) => void;
+  onOpenQuoteModal?: (topic?: string) => void;
 }) {
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [activeProductIndex, setActiveProductIndex] = useState(0);
+
+  // Auto-cycle products one by one with a smooth crossfade transition
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveProductIndex((prev) => (prev + 1) % NEWSLETTER_PRODUCTS.length);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubscribed(true);
+      setEmail("");
+    }
+  };
+
   return (
-    <footer id="contact" className="bg-[#fcfcf9] py-14 sm:py-20 border-t border-stone-200/60">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
-        
-        {/* Main Bento Box Grid (Matching Reference Screenshot Layout) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
+    <div id="contact" className="relative bg-[#fbf9f8] pt-12 sm:pt-16 lg:pt-20">
+      
+      {/* ========================================================
+          1. FLOATING NEWSLETTER BANNER (Matching Screenshot 1 Layout)
+          Overlaps the white footer below with negative bottom margin
+          ======================================================== */}
+      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mb-20 sm:-mb-24 lg:-mb-28">
+        <div 
+          style={{ boxShadow: "none" }}
+          className="bg-[#800020] rounded-[14px] p-6 sm:p-8 lg:p-10 shadow-none relative overflow-hidden border border-[#961332]"
+        >
           
-          {/* 1. LEFT TALL CARD: Brand, Mission & CTA Button */}
-          <div className="lg:col-span-4 xl:col-span-4 bg-[#f9faf9] rounded-[12px] p-8 sm:p-10 border border-stone-200/60 shadow-xs flex flex-col justify-between">
-            {/* Top Logo */}
-            <div>
-              <div className="inline-block bg-white px-6 sm:px-8 py-4 sm:py-5 rounded-2xl shadow-xs border border-stone-200/70">
-                <Image
-                  src="/assets/monagrow-logo-transparent.png"
-                  alt="Monagrow"
-                  width={260}
-                  height={170}
-                  className="h-16 sm:h-20 md:h-24 w-auto object-contain"
-                />
+          {/* Subtle Ambient Background Lighting inside the Card */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
+            
+            {/* Left Column: Automated Cycling Monagrow Products with Smooth Crossfade */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-square flex items-center justify-center p-2 group">
+                
+                {/* Subtle Grounding Stage Shadow */}
+                <div className="absolute bottom-4 inset-x-12 h-3.5 bg-black/30 rounded-[100%] blur-md pointer-events-none" />
+
+                {/* All 4 Real Website Products Crossfading One by One */}
+                {NEWSLETTER_PRODUCTS.map((prod, idx) => {
+                  const isActive = idx === activeProductIndex;
+                  return (
+                    <div
+                      key={prod.name}
+                      className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out ${
+                        isActive
+                          ? "opacity-100 scale-100 translate-y-0 z-10 pointer-events-auto"
+                          : "opacity-0 scale-95 translate-y-2 z-0 pointer-events-none"
+                      }`}
+                    >
+                      <Image
+                        src={prod.image}
+                        alt={prod.alt}
+                        fill
+                        priority={idx === 0}
+                        className="object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)] group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 1024px) 100vw, 340px"
+                      />
+                    </div>
+                  );
+                })}
               </div>
+            </div>
 
-              {/* Heading */}
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-[#0e2439] tracking-tight mt-8 mb-4">
-                Get in Touch
-              </h3>
+            {/* Right Column: Newsletter Heading, Subtitle, Pill Form & Disclaimers */}
+            <div className="lg:col-span-7 flex flex-col justify-center text-white">
+              
+              {/* Streamlined Headline */}
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight leading-tight text-white mb-2">
+                Weekly Wholesale Rates &amp; Harvest Updates
+              </h2>
 
-              {/* Description from current website */}
-              <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
-                Premier agricultural commodity wholesaler and exporter. Specializing in Extra Long Grain Basmati Rice, Specialty Estate Coffee, Refined Sugar, and Premium Dry Fruits.
+              {/* Streamlined Subtitle */}
+              <p className="text-white text-xs sm:text-sm leading-relaxed mb-5 max-w-lg font-medium">
+                Weekly FOB port pricing, container availability, and seasonal harvest reports.
               </p>
+
+              {/* 14px Border Radius Email Field */}
+              {isSubscribed ? (
+                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-[14px] bg-white text-[#800020] text-xs sm:text-sm font-bold shadow-none w-fit">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Subscribed! Check your inbox soon.</span>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubscribe}
+                  style={{ boxShadow: "none" }}
+                  className="bg-white/15 backdrop-blur-md border border-white/30 rounded-[14px] p-1.5 pl-4 sm:pl-5 flex items-center gap-2 w-full max-w-lg transition-all focus-within:bg-white/20 focus-within:border-white shadow-none"
+                >
+                  <Mail className="w-4 h-4 text-white/70 shrink-0 hidden sm:block" />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="bg-transparent text-white placeholder-white/70 text-xs sm:text-sm focus:outline-none flex-1 min-w-0"
+                  />
+                  <button
+                    type="submit"
+                    style={{ boxShadow: "none" }}
+                    className="bg-white hover:bg-stone-100 text-[#800020] text-[15px] sm:text-base font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] transition-all duration-200 shrink-0 active:scale-95 cursor-pointer flex items-center gap-2 group shadow-none"
+                  >
+                    <span className="text-[15px] sm:text-base font-bold tracking-normal">Subscribe</span>
+                    <ArrowRight className="w-4.5 h-4.5 text-[#800020] transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </button>
+                </form>
+              )}
+
+              {/* Streamlined Single-Line Disclaimer */}
+              <p className="mt-3 text-[11px] text-white font-medium">
+                Unsubscribe anytime &bull;{" "}
+                <a href="#privacy" className="underline text-white hover:text-white/80 transition-colors">
+                  Privacy policy
+                </a>
+              </p>
+
             </div>
 
-            {/* Bottom CTA Pill Button */}
-            <div className="pt-8">
-              <button
-                type="button"
-                onClick={() => onOpenQuoteModal()}
-                className="w-full sm:w-auto inline-flex items-center justify-between gap-4 bg-[#71d932] hover:bg-[#62c428] text-stone-900 font-bold text-xs sm:text-sm px-6 py-3 rounded-full transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-98 group cursor-pointer"
-              >
-                <span>Request Proforma Invoice</span>
-                <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 shadow-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                  <ArrowUpRight className="w-4 h-4 text-stone-900 stroke-[2.4]" />
-                </span>
-              </button>
-            </div>
           </div>
 
-          {/* 2. RIGHT CONTAINER: Top Links Card + Bottom Social Media Card */}
-          <div className="lg:col-span-8 xl:col-span-8 flex flex-col gap-5 sm:gap-6 justify-between">
+        </div>
+      </div>
+
+      {/* ========================================================
+          2. MAIN WHITE FOOTER (Matching Screenshot 1 Layout)
+          Clean 5-column structure with pure white background
+          ======================================================== */}
+      <footer className="bg-white pt-28 sm:pt-36 lg:pt-40 pb-10 border-t border-stone-200/80">
+        <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Main Layout: Brand Column on Left, 4 Evenly Spaced Columns on Right */}
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-8 xl:gap-12 pb-12 sm:pb-16 border-b border-stone-200/80 w-full">
             
-            {/* Top-Right Card: Quick Link, Contact & Core Commodities */}
-            <div className="bg-[#f6f9f8] rounded-[12px] p-8 sm:p-10 border border-stone-200/60 shadow-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 lg:gap-8">
-                
-                {/* Column 1: Quick Navigation */}
-                <div>
-                  <h4 className="text-base font-bold text-[#0e2439] mb-4">
-                    Quick Link
-                  </h4>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-stone-600">
-                    <li>
-                      <a href="#" className="hover:text-[#800020] transition-colors">Home Overview</a>
-                    </li>
-                    <li>
-                      <a href="#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
-                    </li>
-                    <li>
-                      <a href="#products" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
-                    </li>
-                    <li>
-                      <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
-                    </li>
-                    <li>
-                      <a href="#calculator" className="hover:text-[#800020] transition-colors">Container Estimator</a>
-                    </li>
-                    <li>
-                      <a href="#testimonials" className="hover:text-[#800020] transition-colors">Buyer Testimonials</a>
-                    </li>
-                  </ul>
+            {/* Column 1 (Left): Brand Logo, Description & Social Icons */}
+            <div className="w-full lg:w-[240px] xl:w-[280px] shrink-0 flex flex-col justify-between">
+              <div>
+                {/* Original Brand Logo */}
+                <div className="mb-5">
+                  <a href="#" className="inline-block select-none group" aria-label="Monagrow Home">
+                    <Image
+                      src="/assets/monagrow-logo-transparent.png"
+                      alt="Monagrow"
+                      width={240}
+                      height={160}
+                      className="h-16 sm:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+                      priority
+                    />
+                  </a>
                 </div>
 
-                {/* Column 2: Contact (Wholesale Export Desk & Inquiries) */}
-                <div>
-                  <h4 className="text-base font-bold text-[#0e2439] mb-4">
-                    Contact
-                  </h4>
-                  <ul className="space-y-3 text-xs sm:text-sm text-stone-600">
-                    <li className="flex items-start gap-2.5">
-                      <Phone className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
-                      <div>
-                        <span className="block font-medium text-stone-800">+977 1 4589200</span>
-                        <span className="block text-stone-500 text-xs">+977 9801234567</span>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <Mail className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
-                      <div className="break-all">
-                        <span className="block font-medium text-stone-800">info@monagrow.com</span>
-                        <span className="block text-stone-500 text-xs">wholesale@monagrow.com</span>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <MapPin className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
-                      <span className="text-stone-600 leading-snug">
-                        Kathmandu, Bagmati, Nepal (Direct Mill &amp; Port Logistics)
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <Globe className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
-                      <span className="text-stone-600 leading-snug">
-                        FOB, CIF &amp; CFR to 18+ Ports Worldwide
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Column 3: Core Commodities & Certifications (Resource) */}
-                <div>
-                  <h4 className="text-base font-bold text-[#0e2439] mb-4">
-                    Resource
-                  </h4>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-stone-600">
-                    <li>
-                      <a href="#products" className="hover:text-[#800020] transition-colors">Monagrow Basmati Rice 8.9mm</a>
-                    </li>
-                    <li>
-                      <a href="#products" className="hover:text-[#800020] transition-colors">Specialty Estate Arabica Coffee</a>
-                    </li>
-                    <li>
-                      <a href="#products" className="hover:text-[#800020] transition-colors">Refined Sugar ICUMSA 45</a>
-                    </li>
-                    <li>
-                      <a href="#products" className="hover:text-[#800020] transition-colors">California Jumbo Almonds</a>
-                    </li>
-                    <li className="pt-1 flex items-center gap-1.5 text-xs text-[#800020] font-semibold">
-                      <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                      <span>ISO 22000 &amp; HACCP Certified</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 text-xs text-[#800020] font-semibold">
-                      <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                      <span>Halal World Council Approved</span>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Bottom-Right Card: Produce Accents & Centered Social Media Buttons */}
-            <div className="bg-[#f9faf9] rounded-[12px] p-6 sm:p-8 border border-stone-200/60 shadow-xs flex items-center justify-between overflow-hidden">
-              
-              {/* Left Produce Graphic Badge */}
-              <div className="w-12 h-16 sm:w-16 sm:h-20 shrink-0 relative overflow-hidden rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm shadow-xs border border-stone-200/60 bg-stone-100">
-                <Image
-                  src="/assets/dryfruits-showcase.jpg"
-                  alt="Monagrow wholesale dry fruits"
-                  fill
-                  className="object-cover"
-                />
+                {/* Description from Screenshot 2 */}
+                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed max-w-sm mb-5">
+                  Premier agricultural commodity wholesaler &amp; exporter of certified premium agro products.
+                </p>
               </div>
 
-              {/* Centered Social Media Buttons (Discord, X, Instagram, LinkedIn) */}
-              <div className="flex items-center gap-3 sm:gap-4 justify-center">
-                
-                {/* 1. Discord Button */}
+              {/* Social Media Icons Row: Facebook, Twitter/X, Instagram Only */}
+              <div className="flex items-center gap-2.5 pt-1">
+                {/* Facebook */}
                 <a
-                  href="https://discord.com"
+                  href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
-                  aria-label="Discord"
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-[#800020] text-stone-700 hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:scale-110 active:scale-95"
+                  aria-label="Facebook"
                 >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
 
-                {/* 2. X (Twitter) Button */}
+                {/* Twitter / X */}
                 <a
                   href="https://x.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
-                  aria-label="X (formerly Twitter)"
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-[#800020] text-stone-700 hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:scale-110 active:scale-95"
+                  aria-label="X (Twitter)"
                 >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
                 </a>
 
-                {/* 3. Instagram Button */}
+                {/* Instagram */}
                 <a
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-[#800020] text-stone-700 hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:scale-110 active:scale-95"
                   aria-label="Instagram"
                 >
-                  <svg className="w-5 h-5 fill-none stroke-current stroke-[1.8]" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 fill-none stroke-current stroke-[2]" viewBox="0 0 24 24">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                   </svg>
                 </a>
+              </div>
+            </div>
 
-                {/* 4. LinkedIn Button */}
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-center justify-center text-stone-800 hover:text-[#800020] hover:border-[#800020]/30 hover:scale-105 active:scale-95 transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.64a1.65 1.65 0 0 0-1.66 1.66 1.66 1.66 0 0 0 1.66 1.66 1.66 1.66 0 0 0 1.66-1.66 1.66 1.66 0 0 0-1.66-1.66Z" />
-                  </svg>
-                </a>
-
+            {/* Right Container: 4 Evenly Distributed Columns (Company, Support, Resources, Contact Us) */}
+            <div className="flex-1 w-full grid grid-cols-2 gap-8 sm:flex sm:flex-row sm:justify-between sm:items-start sm:gap-6 lg:gap-0">
+              
+              {/* Column 1: Company Navigation */}
+              <div className="sm:min-w-[130px]">
+                <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
+                  Company
+                </h4>
+                <ul className="space-y-2 text-xs sm:text-sm text-stone-600">
+                  <li>
+                    <a href="#" className="hover:text-[#800020] transition-colors">Home Overview</a>
+                  </li>
+                  <li>
+                    <a href="#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
+                  </li>
+                  <li>
+                    <a href="#products" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
+                  </li>
+                  <li>
+                    <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
+                  </li>
+                </ul>
               </div>
 
-              {/* Right Produce Graphic Badge */}
-              <div className="w-12 h-16 sm:w-16 sm:h-20 shrink-0 relative overflow-hidden rounded-tl-2xl rounded-br-2xl rounded-tr-sm rounded-bl-sm shadow-xs border border-stone-200/60 bg-stone-100">
-                <Image
-                  src="/assets/basmati-rice-grains.jpg"
-                  alt="Monagrow export grade basmati rice"
-                  fill
-                  className="object-cover"
-                />
+              {/* Column 2: Support & Export Logistics */}
+              <div className="sm:min-w-[130px]">
+                <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
+                  Support
+                </h4>
+                <ul className="space-y-2 text-xs sm:text-sm text-stone-600">
+                  <li>
+                    <a 
+                      href="#contact" 
+                      onClick={(e) => {
+                        if (onOpenQuoteModal) {
+                          e.preventDefault();
+                          onOpenQuoteModal("Export Inquiries");
+                        }
+                      }}
+                      className="hover:text-[#800020] transition-colors"
+                    >
+                      Export Inquiry Desk
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Multimodal Freight</a>
+                  </li>
+                  <li>
+                    <a 
+                      href="#contact" 
+                      onClick={(e) => {
+                        if (onOpenQuoteModal) {
+                          e.preventDefault();
+                          onOpenQuoteModal("Proforma Invoice");
+                        }
+                      }}
+                      className="hover:text-[#800020] transition-colors font-medium text-[#800020]"
+                    >
+                      Proforma Invoice
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 3: Resources & Quality Certifications */}
+              <div className="sm:min-w-[165px]">
+                <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
+                  Resources
+                </h4>
+                <ul className="space-y-2 text-xs sm:text-sm text-stone-600">
+                  <li>
+                    <a href="#products" className="hover:text-[#800020] transition-colors">Basmati Rice 8.9mm</a>
+                  </li>
+                  <li>
+                    <a href="#products" className="hover:text-[#800020] transition-colors">Estate Arabica Coffee</a>
+                  </li>
+                  <li>
+                    <a href="#products" className="hover:text-[#800020] transition-colors">Refined Sugar ICUMSA</a>
+                  </li>
+                  <li className="pt-0.5">
+                    <span className="text-[#800020] font-semibold text-xs block whitespace-nowrap">
+                      ✓ ISO 22000 &amp; Halal Certified
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 4: Contact Us */}
+              <div className="sm:min-w-[180px] sm:max-w-[230px]">
+                <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
+                  Contact Us
+                </h4>
+                <ul className="space-y-2.5 text-xs sm:text-sm text-stone-600">
+                  {/* Phone */}
+                  <li className="flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-[#800020] shrink-0" />
+                    <span className="font-semibold text-stone-800 text-xs sm:text-sm">+977 1 4589200</span>
+                  </li>
+
+                  {/* Email */}
+                  <li className="flex items-center gap-2">
+                    <Mail className="w-3.5 h-3.5 text-[#800020] shrink-0" />
+                    <span className="font-semibold text-stone-800 text-xs sm:text-sm break-all">info@monagrow.com</span>
+                  </li>
+
+                  {/* Location & Ports */}
+                  <li className="flex items-start gap-2 pt-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#800020] shrink-0 mt-0.5" />
+                    <span className="text-stone-600 text-xs leading-snug">
+                      Kathmandu, Nepal (Port &amp; CFS Network)
+                    </span>
+                  </li>
+                </ul>
               </div>
 
             </div>
 
           </div>
 
-        </div>
-
-        {/* 3. BOTTOM COPYRIGHT & LEGAL BAR */}
-        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-          <div>
-            &copy;Copyright Monagrow.com. All rights reserved. 2026
+          {/* ========================================================
+              3. BOTTOM COPYRIGHT & LEGAL BAR (Matching Screenshot 1)
+              ======================================================== */}
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+            <div>
+              &copy; Copyright by Monagrow. All rights reserved. 2026
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-stone-500">
+              <a href="#privacy" className="hover:text-stone-900 transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#terms" className="hover:text-stone-900 transition-colors">
+                Terms of Use
+              </a>
+              <a href="#legal" className="hover:text-stone-900 transition-colors">
+                Export Terms &amp; Incoterms 2020
+              </a>
+              <a href="#safety" className="hover:text-stone-900 transition-colors">
+                Food Safety Compliance
+              </a>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-stone-500">
-            <span className="hover:text-stone-900 cursor-pointer transition-colors">
-              Export Terms &amp; Incoterms 2020
-            </span>
-            <span>&bull;</span>
-            <span className="hover:text-stone-900 cursor-pointer transition-colors">
-              Privacy Policy
-            </span>
-            <span>&bull;</span>
-            <span className="hover:text-stone-900 cursor-pointer transition-colors">
-              Food Safety Compliance
-            </span>
-          </div>
-        </div>
 
-      </div>
-    </footer>
+        </div>
+      </footer>
+
+    </div>
   );
 }

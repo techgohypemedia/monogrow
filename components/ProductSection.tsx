@@ -62,7 +62,7 @@ export default function ProductSection({
         moq: "500 Bags (or 2.5 MT Container)",
         purityOrMoisture: "100% Pure, Naturally Aged",
       },
-      priceRange: "$1.45 - $1.85 / kg (Bulk FOB)",
+      priceRange: "₹125 - ₹160 / kg",
       description:
         "Carefully sourced from the finest paddy fields, naturally aged to perfection, and laser-processed to deliver extra long, slender grains with an exquisite aroma and non-sticky fluffiness upon cooking.",
       features: [
@@ -85,7 +85,7 @@ export default function ProductSection({
         moq: "20 MT (1 x 20ft Container)",
         purityOrMoisture: "Moisture < 12.5%, Purity 98%",
       },
-      priceRange: "$950 - $1,150 / Metric Ton",
+      priceRange: "₹82,000 - ₹98,000 / MT",
       description:
         "Specially parboiled to seal in natural grain nutrients. Withstands commercial batch cooking and prolonged warming tables without breaking, making it the top choice for international hotels and catering distributors.",
       features: [
@@ -107,7 +107,7 @@ export default function ProductSection({
         moq: "500 kg Wholesale",
         purityOrMoisture: "Moisture < 11.5%, Slow Drum Roasted",
       },
-      priceRange: "$4.60 - $5.50 / kg",
+      priceRange: "₹395 - ₹475 / kg",
       description:
         "Slow-roasted dark Arabica blend crafted from handpicked high-altitude beans. Yields a full-bodied cup with tasting notes of bitter chocolate, roasted caramel, and toasted hazelnut.",
       features: [
@@ -129,7 +129,7 @@ export default function ProductSection({
         moq: "3 Metric Tons",
         purityOrMoisture: "Moisture 10-12%, Defect count < 5",
       },
-      priceRange: "$3,800 - $4,200 / MT",
+      priceRange: "₹3,25,000 - ₹3,60,000 / MT",
       description:
         "Clean, wet-processed unroasted green coffee beans ready for commercial roasters. Hermetically protected inside GrainPro liners to maintain stable cup freshness across sea freight voyages.",
       features: [
@@ -151,7 +151,7 @@ export default function ProductSection({
         moq: "25 Metric Tons",
         purityOrMoisture: "99.8% Polarization, Moisture < 0.04%",
       },
-      priceRange: "$510 - $560 / Metric Ton",
+      priceRange: "₹44,000 - ₹48,000 / MT",
       description:
         "High-purity refined crystal white cane sugar suitable for confectioneries, carbonated beverages, bakeries, and consumer packaging. Free flowing with 99.8% polarization minimum.",
       features: [
@@ -173,7 +173,7 @@ export default function ProductSection({
         moq: "10 Metric Tons",
         purityOrMoisture: "Rich Molasses Content, 98.2% Pol",
       },
-      priceRange: "$480 - $520 / Metric Ton",
+      priceRange: "₹41,000 - ₹45,000 / MT",
       description:
         "Natural raw cane sugar retaining delicious golden molasses minerals. Excellent for specialty artisan food brands, baking, and gourmet retail packaging.",
       features: [
@@ -195,7 +195,7 @@ export default function ProductSection({
         moq: "500 kg Wholesale",
         purityOrMoisture: "Zero Infestation, Moisture < 5%",
       },
-      priceRange: "$7.40 - $8.20 / kg",
+      priceRange: "₹640 - ₹710 / kg",
       description:
         "King-size ivory whole cashew kernels hand-graded for flawless crescent curve and natural butter crunch.",
       features: [
@@ -217,7 +217,7 @@ export default function ProductSection({
         moq: "500 kg Wholesale",
         purityOrMoisture: "100% Organic, Moisture < 8%",
       },
-      priceRange: "$8.50 - $9.80 / kg",
+      priceRange: "₹730 - ₹850 / kg",
       description:
         "Handpicked jumbo organic lotus seeds roasted and hygienically packed for superfood crunch and nutrition.",
       features: [
@@ -323,7 +323,7 @@ export default function ProductSection({
                 onClick={() => openProductModal(product)}
                 className="group bg-white rounded-[8px] overflow-hidden border border-stone-200/90 hover:border-[#800020]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer"
               >
-                <div>
+                <div className="flex-1 flex flex-col justify-between">
                   {/* 1. End-to-End Product Image */}
                   <div className="relative aspect-[4/3] w-full bg-[#f8f8f5] flex items-center justify-center p-3 border-b border-stone-100">
                     <Image
@@ -333,35 +333,37 @@ export default function ProductSection({
                       className="object-contain p-2 group-hover:scale-105 transition-transform duration-500 ease-out"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    {/* Subtle Tag / Grade Badge */}
-                    <div className="absolute top-2.5 left-2.5 z-10">
-                      <span className="px-2.5 py-1 rounded-[4px] text-[10px] sm:text-[11px] font-bold bg-white/95 text-[#800020] border border-stone-200/80 shadow-xs">
-                        {product.tag}
-                      </span>
-                    </div>
                   </div>
 
-                  {/* 2. Below Image: Product Name & Price */}
-                  <div className="p-4 sm:p-5">
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                  {/* 2. Below Image: Product Name (Full Visible), Description & Price */}
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      {/* Product Name (Fully Visible) */}
                       <h3
-                        className="text-base font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug line-clamp-1"
+                        className="text-base sm:text-[17px] font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug mb-2"
                         title={product.name}
                       >
                         {product.name}
                       </h3>
-                      <span className="shrink-0 text-xs sm:text-sm font-bold text-[#800020] whitespace-nowrap pt-0.5">
+
+                      {/* Description (Max 2 lines with ellipsis) */}
+                      <p
+                        className="text-xs sm:text-sm text-stone-500 font-normal leading-relaxed line-clamp-2 mb-4"
+                        title={product.description}
+                      >
+                        {product.description}
+                      </p>
+                    </div>
+
+                    {/* 3. Price Placed After the Description (Single Line) */}
+                    <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2 whitespace-nowrap">
+                      <span className="text-[11px] font-medium text-stone-400 uppercase tracking-wider shrink-0">
+                        Wholesale Rate
+                      </span>
+                      <span className="text-sm sm:text-base font-bold text-[#800020] text-right shrink-0">
                         {product.priceRange}
                       </span>
                     </div>
-
-                    {/* 3. Below: Description */}
-                    <p
-                      className="text-xs sm:text-sm text-stone-500 font-normal leading-relaxed line-clamp-2"
-                      title={product.description}
-                    >
-                      {product.description}
-                    </p>
                   </div>
                 </div>
               </div>

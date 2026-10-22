@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
@@ -11,6 +11,7 @@ interface NavbarProps {
 export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isPastParallax, setIsPastParallax] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Track scroll position:
   // 1. When scrolled past the hero parallax section, buttons turn maroon
@@ -21,8 +22,10 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
       const heroEl = document.getElementById("home");
       if (heroEl) {
         const rect = heroEl.getBoundingClientRect();
-        // rect.bottom is the bottom of the hero section relative to viewport top
-        setIsPastParallax(rect.bottom <= 80);
+        // The hero parallax section has scrolled off when its bottom passes the navbar
+        setIsPastParallax(rect.bottom <= 120);
+      } else {
+        setIsPastParallax(window.scrollY > 100);
       }
 
       // Check if footer has appeared
@@ -36,15 +39,41 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
       }
     };
 
+    const handleResize = () => {
+      handleScroll();
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setIsMobileMenuOpen(false);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { name: "Categories", href: "#categories" },
@@ -53,67 +82,185 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full bg-transparent transition-all duration-300 py-3 sm:py-4 pointer-events-auto ${
-        isVisible
-          ? "translate-y-0 opacity-100"
-          : "-translate-y-full opacity-0 pointer-events-none"
-      }`}
-    >
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 flex items-center justify-between">
-        
-        {/* Left: Navigation Buttons (White before parallax, Maroon after parallax) */}
-        <div className="flex-1 flex items-center justify-start">
-          <nav className="flex items-center gap-2.5 sm:gap-4 md:gap-7">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`${
-                  isPastParallax
-                    ? "text-[#800020] hover:text-[#520014]"
-                    : "text-white hover:text-stone-300"
-                } font-bold text-sm sm:text-base md:text-lg tracking-wide transition-colors duration-200 py-1 whitespace-nowrap`}
+    <>
+      <header
+        style={
+          isPastParallax
+            ? {
+                backgroundColor: "rgba(255, 255, 255, 0.82)",
+                backdropFilter: "blur(20px) saturate(190%)",
+                WebkitBackdropFilter: "blur(20px) saturate(190%)",
+                borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+                boxShadow:
+                  "0 8px 30px 0 rgba(0, 0, 0, 0.07), inset 0 1px 0 0 rgba(255, 255, 255, 0.95)",
+              }
+            : {
+                backgroundColor: "transparent",
+              }
+        }
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${
+          isVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        } ${
+          isPastParallax
+            ? "py-2.5 sm:py-3.5"
+            : "py-3 sm:py-4"
+        }`}
+      >
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 flex items-center justify-between">
+          
+          {/* Left: Navigation Buttons on Desktop, Custom 3-Bar Hamburger on Mobile */}
+          <div className="flex-1 flex items-center justify-start">
+            {/* Desktop Navigation Links */}
+            <nav className="hidden md:flex items-center gap-4 lg:gap-7">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`${
+                    isPastParallax
+                      ? "text-[#800020] hover:text-[#520014]"
+                      : "text-white hover:text-stone-300"
+                  } font-bold text-sm sm:text-base md:text-lg tracking-wide transition-colors duration-200 py-1 whitespace-nowrap`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            {/* Mobile Hamburger Button (Custom 3-Vertical-Bar Icon from user) */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${
+                isPastParallax
+                  ? "text-[#800020] hover:bg-black/5 active:bg-black/10"
+                  : "text-white hover:bg-white/10 active:bg-white/20"
+              }`}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              <svg
+                viewBox="0 0 18 22"
+                fill="currentColor"
+                className="w-5 h-6 drop-shadow-xs"
+                aria-hidden="true"
               >
-                {link.name}
+                {/* Left Bar (medium height) */}
+                <rect x="1" y="4" width="3.2" height="14" rx="1.6" />
+                {/* Middle Bar (tallest, vertically centered) */}
+                <rect x="7.4" y="1" width="3.2" height="20" rx="1.6" />
+                {/* Right Bar (medium height) */}
+                <rect x="13.8" y="4" width="3.2" height="14" rx="1.6" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Center: Brand Wordmark in pure Maroon without any glow effect */}
+          <div className="flex items-center justify-center shrink-0 px-2 sm:px-4">
+            <a
+              href="#"
+              className="inline-flex items-center justify-center select-none group py-1"
+              aria-label="MonaGrow Home"
+            >
+              <Image
+                src="/assets/monagrow-wordmark-transparent.png"
+                alt="MonaGrow"
+                width={320}
+                height={52}
+                priority
+                className="h-5.5 sm:h-6.5 md:h-8 lg:h-[38px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+              />
+            </a>
+          </div>
+
+          {/* Right: "Get Wholesale Quote" CTA button with Maroon Color and NO shadow */}
+          <div className="flex-1 flex items-center justify-end">
+            <button
+              type="button"
+              onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
+              className="flex items-center gap-1.5 sm:gap-2.5 pl-3 sm:pl-4 md:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm border border-white/20 transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none hover:shadow-none"
+            >
+              <span className="tracking-wide hidden xs:inline sm:inline">Get Wholesale Quote</span>
+              <span className="tracking-wide xs:hidden sm:hidden">Quote</span>
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-none">
+                <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#800020] stroke-[2.5]" />
+              </span>
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      {/* Mobile Drawer Overlay & Panel */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 md:hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 flex flex-col justify-start"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          <div
+            className="w-full bg-white/95 backdrop-blur-2xl border-b border-stone-200 shadow-2xl px-6 pt-5 pb-8 flex flex-col gap-6 animate-in slide-in-from-top-4 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header row inside Drawer */}
+            <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+              <a
+                href="#"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="inline-flex items-center"
+              >
+                <Image
+                  src="/assets/monagrow-wordmark-transparent.png"
+                  alt="MonaGrow"
+                  width={240}
+                  height={40}
+                  className="h-6 w-auto object-contain"
+                />
               </a>
-            ))}
-          </nav>
-        </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-full text-stone-600 hover:text-[#800020] hover:bg-stone-100 active:bg-stone-200 transition-colors cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6 stroke-[2.2]" />
+              </button>
+            </div>
 
-        {/* Center: Brand Logo in pure Maroon without any glow effect */}
-        <div className="flex items-center justify-center shrink-0">
-          <a
-            href="#"
-            className="inline-flex items-center justify-center select-none group py-0.5"
-            aria-label="MonaGrow Home"
-          >
-            <Image
-              src="/assets/monagrow-logo-transparent.png"
-              alt="MonaGrow"
-              width={320}
-              height={200}
-              priority
-              className="h-14 sm:h-18 md:h-22 lg:h-[84px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
-            />
-          </a>
-        </div>
+            {/* Mobile Nav Links */}
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
 
-        {/* Right: "Get Wholesale Quote" CTA button with Maroon Color and NO shadow */}
-        <div className="flex-1 flex items-center justify-end">
-          <button
-            type="button"
-            onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
-            className="flex items-center gap-1.5 sm:gap-2.5 pl-3.5 sm:pl-4 md:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm border border-white/20 transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none hover:shadow-none"
-          >
-            <span className="tracking-wide">Get Wholesale Quote</span>
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-none">
-              <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#800020] stroke-[2.5]" />
-            </span>
-          </button>
+            {/* Mobile Quote Action Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenQuoteModal("Quick Wholesale Price List");
+                }}
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-bold text-sm sm:text-base tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
+              >
+                <span>Get Wholesale Quote</span>
+                <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#800020] stroke-[2.5]" />
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
-
-      </div>
-    </header>
+      )}
+    </>
   );
 }
