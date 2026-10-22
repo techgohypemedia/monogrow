@@ -1,42 +1,43 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, MessageCircle, ShieldCheck, FileText, Send } from "lucide-react";
 
 const COMMODITIES = [
-  { id: "rice", label: "Basmati Rice", name: "Monagrow Basmati Rice (8.9mm)", ratePerTon: 1180 },
-  { id: "coffee", label: "Coffee", name: "Specialty Arabica Dark Roast", ratePerTon: 4650 },
-  { id: "sugar", label: "Sugar", name: "Refined Cane Sugar (ICUMSA 45)", ratePerTon: 520 },
-  { id: "dryfruits", label: "Cashews", name: "Royal Whole Cashews W240", ratePerTon: 6200 },
+  { id: "rice", label: "Basmati Rice", name: "Monagrow Basmati Rice (1121 Supreme)" },
+  { id: "coffee", label: "Coffee", name: "Specialty Arabica Dark Roast" },
+  { id: "sugar", label: "Sugar", name: "Refined Cane Sugar (ICUMSA 45)" },
+  { id: "cashews", label: "Cashews", name: "Royal Whole Cashews W240" },
 ] as const;
 
-const PACKAGING = [
-  { id: "5kg", label: "5 kg retail bag", kg: 5 },
-  { id: "25kg", label: "25 kg PP bag", kg: 25 },
-  { id: "50kg", label: "50 kg jute sack", kg: 50 },
-  { id: "1mt", label: "1 MT jumbo bag", kg: 1000 },
-] as const;
-
-const INCOTERMS = [
-  { id: "CIF", label: "CIF · Cost, insurance and freight" },
-  { id: "FOB", label: "FOB · Free on board" },
-  { id: "CFR", label: "CFR · Cost and freight" },
-  { id: "EXW", label: "EXW · Ex-works Kathmandu" },
-] as const;
-
-const INCLUDED = [
-  "Ex-mill or port delivery on FOB, CFR, or CIF terms",
-  "Payment by confirmed irrevocable L/C or T/T",
-  "Lab samples dispatched by DHL or FedEx",
+const VOLUMES = [
+  "Trial Lot (5 - 10 MT)",
+  "1 x 20ft Container (25 MT)",
+  "2 x 20ft Containers (50 MT)",
+  "4 x 20ft Containers (100 MT)",
+  "Bulk Contract (200+ MT)",
 ];
 
-const MIN_MT = 5;
-const MAX_MT = 200;
-const MT_PER_CONTAINER = 25;
+const PACKAGING_OPTIONS = [
+  "5 kg Retail Standup Box Bag",
+  "25 kg PP Woven Export Bag",
+  "50 kg Heavy Jute Sack",
+  "1 MT Industrial Jumbo Bag",
+];
 
-const labelClass = "block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-2";
-const selectClass =
-  "w-full h-11 px-3 rounded-xl border border-stone-200 bg-white text-sm font-medium text-navy focus:outline-none focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 cursor-pointer";
+const INCOTERMS = [
+  "CIF · Cost, Insurance & Freight",
+  "FOB · Free on Board (Origin Port)",
+  "CFR · Cost & Freight",
+  "EXW · Ex-Works Origin Mill",
+];
+
+const INCLUDED = [
+  "Direct origin pricing from registered mills with zero broker markups",
+  "Official SGS / Bureau Veritas pre-shipment quality inspection",
+  "Flexible trade financing: Confirmed Irrevocable L/C or T/T",
+  "Air-courier laboratory sample boxes dispatched via DHL / FedEx",
+];
 
 export default function WholesaleCalculator({
   onOpenQuoteModal,
@@ -44,23 +45,46 @@ export default function WholesaleCalculator({
   onOpenQuoteModal: (details?: string) => void;
 }) {
   const [commodityId, setCommodityId] = useState<(typeof COMMODITIES)[number]["id"]>("rice");
-  const [metricTons, setMetricTons] = useState(25);
-  const [packagingId, setPackagingId] = useState<(typeof PACKAGING)[number]["id"]>("5kg");
-  const [incoterm, setIncoterm] = useState<(typeof INCOTERMS)[number]["id"]>("CIF");
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    volume: VOLUMES[1],
+    packaging: PACKAGING_OPTIONS[0],
+    incoterm: "CIF",
+    destinationPort: "",
+    message: "",
+  });
 
-  const commodity = COMMODITIES.find((c) => c.id === commodityId) ?? COMMODITIES[0];
-  const packaging = PACKAGING.find((p) => p.id === packagingId) ?? PACKAGING[0];
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const estimatedCost = metricTons * commodity.ratePerTon;
-  const totalBags = Math.round((metricTons * 1000) / packaging.kg);
-  const containers = (metricTons / MT_PER_CONTAINER).toFixed(1);
-  const sliderPercent = ((metricTons - MIN_MT) / (MAX_MT - MIN_MT)) * 100;
+  const selectedCommodity = COMMODITIES.find((c) => c.id === commodityId) ?? COMMODITIES[0];
 
-  const summaryText = `${metricTons} MT of ${commodity.name}, ${packaging.label}, ${incoterm}`;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 600);
+  };
 
-  const sendToWhatsApp = () => {
+  const handleWhatsApp = () => {
     const text = encodeURIComponent(
-      `Hello Monagrow, I would like a wholesale quotation for:\n• Commodity: ${commodity.name}\n• Volume: ${metricTons} MT (about ${containers} x 20ft containers)\n• Packaging: ${packaging.label}\n• Term: ${incoterm}\nPlease send a proforma invoice and sample policy.`
+      `Hello Monagrow Global Wholesale! I would like to request an official wholesale quotation:\n` +
+      `• Commodity: ${selectedCommodity.name}\n` +
+      `• Buyer Name: ${formData.name || "Trade Buyer"}\n` +
+      `• Company: ${formData.company || "Direct Procurement"}\n` +
+      `• Email: ${formData.email || "N/A"}\n` +
+      `• Phone/WhatsApp: ${formData.phone || "N/A"}\n` +
+      `• Volume: ${formData.volume}\n` +
+      `• Packaging: ${formData.packaging}\n` +
+      `• Delivery Term: ${formData.incoterm}\n` +
+      `• Destination Port: ${formData.destinationPort || "To be confirmed"}\n` +
+      (formData.message ? `• Note: ${formData.message}\n` : "") +
+      `Please provide current export pricing, COA specifications, and container availability.`
     );
     window.open(`https://wa.me/9779801234567?text=${text}`, "_blank", "noopener");
   };
@@ -70,7 +94,7 @@ export default function WholesaleCalculator({
       id="calculator"
       className="relative overflow-hidden py-20 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]"
     >
-      {/* Soft highlight for depth */}
+      {/* Soft ambient highlights */}
       <div
         aria-hidden
         className="absolute -top-40 -left-40 w-160 h-160 rounded-full bg-white/10 blur-3xl pointer-events-none"
@@ -79,176 +103,333 @@ export default function WholesaleCalculator({
         aria-hidden
         className="absolute -bottom-48 right-0 w-140 h-140 rounded-full bg-[#2a000b]/40 blur-3xl pointer-events-none"
       />
+
       <div className="relative w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left: copy */}
-          <div className="lg:col-span-6 xl:col-span-7">
-            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/70">
-              Container and bulk estimator
-            </p>
-            <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
-              Estimate your wholesale order in seconds
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+          {/* Left Column: B2B Procurement Trust Copy */}
+          <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-28">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-xs font-bold uppercase tracking-widest text-white mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#e9c46a]" />
+              <span>B2B Wholesale Procurement</span>
+            </div>
+
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              Request Your Direct-Origin Quotation
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-xl">
-              Pick a commodity, set the volume, and see bag counts, container
-              loads, and an indicative value before you request a proforma.
+
+            <p className="mt-4 text-base sm:text-lg text-white/85 leading-relaxed max-w-lg">
+              Submit your commodity specifications, volume requirements, and destination port. Our export operations team will issue an official proforma invoice, COA metrics, and maritime shipping schedules.
             </p>
 
-            <ul className="mt-8 max-w-xl border-t border-white/15">
+            <ul className="mt-8 max-w-lg border-t border-white/15">
               {INCLUDED.map((item) => (
                 <li
                   key={item}
                   className="flex items-start gap-3 py-3.5 border-b border-white/15 text-sm sm:text-[15px] text-white/90"
                 >
-                  <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-white/70 shrink-0" />
-                  {item}
+                  <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-[#e9c46a] shrink-0" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
+
+            <div className="mt-8 flex items-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/80">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#e9c46a]" /> ISO 22000 Certified
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#e9c46a]" /> 100% Sortex Clean
+              </span>
+            </div>
           </div>
 
-          {/* Right: calculator */}
-          <div className="lg:col-span-6 xl:col-span-5 flex lg:justify-end">
-            <div className="w-full max-w-130 bg-white text-navy rounded-3xl p-6 sm:p-8">
-              <h3 className="font-serif text-xl sm:text-2xl font-semibold leading-snug">
-                Container requirements
-              </h3>
+          {/* Right Column: Direct Wholesale Quote Form */}
+          <div className="lg:col-span-7 xl:col-span-7">
+            <div className="w-full bg-white text-neutral-900 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-white/20">
+              {isSubmitted ? (
+                /* Success Confirmation State */
+                <div className="py-8 text-center space-y-6">
+                  <div className="w-16 h-16 rounded-full bg-[#fae8eb] text-[#800020] flex items-center justify-center mx-auto shadow-inner">
+                    <CheckCircle2 className="w-10 h-10" />
+                  </div>
 
-              <div className="mt-6 space-y-6">
-                {/* Commodity */}
-                <div>
-                  <span className={labelClass}>Commodity</span>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" role="group" aria-label="Commodity">
-                    {COMMODITIES.map((c) => {
-                      const isActive = c.id === commodityId;
-                      return (
-                        <button
-                          key={c.id}
-                          type="button"
-                          onClick={() => setCommodityId(c.id)}
-                          aria-pressed={isActive}
-                          className={`h-10 px-2 rounded-xl text-sm font-semibold border transition-colors cursor-pointer ${
-                            isActive
-                              ? "bg-[#800020] border-[#800020] text-white"
-                              : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-navy"
-                          }`}
-                        >
-                          {c.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Volume */}
-                <div>
-                  <div className="flex items-baseline justify-between mb-2">
-                    <label htmlFor="calc-volume" className={`${labelClass} mb-0`}>
-                      Order volume
-                    </label>
-                    <span className="text-sm font-bold tabular-nums">{metricTons} MT</span>
-                  </div>
-                  <input
-                    id="calc-volume"
-                    type="range"
-                    min={MIN_MT}
-                    max={MAX_MT}
-                    step={5}
-                    value={metricTons}
-                    onChange={(e) => setMetricTons(Number(e.target.value))}
-                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-[#800020] bg-stone-200"
-                    style={{
-                      background: `linear-gradient(to right, #800020 ${sliderPercent}%, #e7e5e4 ${sliderPercent}%)`,
-                    }}
-                  />
-                  <div className="flex justify-between text-[11px] text-stone-400 mt-2 tabular-nums">
-                    <span>{MIN_MT} MT minimum</span>
-                    <span>{MAX_MT} MT</span>
-                  </div>
-                </div>
-
-                {/* Packaging and incoterm */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="calc-packaging" className={labelClass}>
-                      Packaging
-                    </label>
-                    <select
-                      id="calc-packaging"
-                      value={packagingId}
-                      onChange={(e) => setPackagingId(e.target.value as typeof packagingId)}
-                      className={selectClass}
-                    >
-                      {PACKAGING.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="calc-incoterm" className={labelClass}>
-                      Incoterm
-                    </label>
-                    <select
-                      id="calc-incoterm"
-                      value={incoterm}
-                      onChange={(e) => setIncoterm(e.target.value as typeof incoterm)}
-                      className={selectClass}
-                    >
-                      {INCOTERMS.map((t) => (
-                        <option key={t.id} value={t.id}>
-                          {t.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Summary */}
-                <dl className="border-t border-stone-200 text-sm">
-                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
-                    <dt className="text-stone-500">Bags</dt>
-                    <dd className="font-semibold tabular-nums">~{totalBags.toLocaleString()}</dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
-                    <dt className="text-stone-500">20 ft containers</dt>
-                    <dd className="font-semibold tabular-nums">~{containers}</dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-4 py-3 border-b border-stone-200">
-                    <dt className="text-stone-500">Indicative value ({incoterm})</dt>
-                    <dd className="font-bold text-lg text-[#800020] tabular-nums">
-                      ~${estimatedCost.toLocaleString()}
-                    </dd>
-                  </div>
-                </dl>
-
-                {/* Actions */}
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => onOpenQuoteModal(summaryText)}
-                    className="inline-flex items-center gap-2.5 pl-5 pr-1.5 py-1.5 rounded-full bg-[#800020] hover:bg-primary-dark active:bg-[#520014] text-white font-semibold text-sm transition-colors duration-200 cursor-pointer group"
-                  >
-                    <span>Request proforma</span>
-                    <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
-                      <ArrowUpRight className="w-4 h-4 text-[#800020] stroke-[2.5]" />
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold uppercase tracking-widest text-[#800020]">
+                      RFQ Successfully Dispatched
                     </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={sendToWhatsApp}
-                    className="text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
-                  >
-                    Send on WhatsApp
-                  </button>
-                </div>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900">
+                      Thank You, {formData.name || "Trade Partner"}!
+                    </h3>
+                    <p className="text-sm sm:text-base text-neutral-600 max-w-md mx-auto leading-relaxed">
+                      Your wholesale inquiry for{" "}
+                      <strong className="text-neutral-900 font-semibold">{formData.volume}</strong> of{" "}
+                      <strong className="text-neutral-900 font-semibold">{selectedCommodity.name}</strong> has been logged. Our export desk will email your binding proforma invoice and laboratory certificates within 4 business hours.
+                    </p>
+                  </div>
 
-                <p className="text-[11px] text-stone-400 leading-relaxed">
-                  Indicative figures only. Final pricing depends on destination
-                  port, season, and lot availability.
-                </p>
-              </div>
+                  {/* Summary of submitted values */}
+                  <div className="bg-stone-50 rounded-2xl p-4 sm:p-5 max-w-md mx-auto text-left border border-stone-200 text-xs sm:text-sm space-y-2">
+                    <div className="flex justify-between border-b border-stone-200 pb-2">
+                      <span className="text-stone-500">Commodity:</span>
+                      <span className="font-semibold text-neutral-900">{selectedCommodity.name}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-stone-200 pb-2">
+                      <span className="text-stone-500">Volume:</span>
+                      <span className="font-semibold text-neutral-900">{formData.volume}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-stone-200 pb-2">
+                      <span className="text-stone-500">Destination:</span>
+                      <span className="font-semibold text-neutral-900">{formData.destinationPort || "Not specified"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-500">Contact:</span>
+                      <span className="font-semibold text-neutral-900">{formData.email || formData.phone}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleWhatsApp}
+                      className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#25d366] hover:bg-[#20ba5a] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Instant Follow-Up on WhatsApp</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({
+                          name: "",
+                          company: "",
+                          email: "",
+                          phone: "",
+                          volume: VOLUMES[1],
+                          packaging: PACKAGING_OPTIONS[0],
+                          incoterm: "CIF",
+                          destinationPort: "",
+                          message: "",
+                        });
+                      }}
+                      className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-sm transition-colors cursor-pointer"
+                    >
+                      Submit Another Inquiry
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Interactive Form State */
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 leading-snug">
+                      Wholesale Order Specification
+                    </h3>
+                    <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                      Select your commodity and supply details for an immediate quotation review.
+                    </p>
+                  </div>
+
+                  {/* 1. Commodity Selector Pills */}
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-2.5">
+                      Select Commodity
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                      {COMMODITIES.map((c) => {
+                        const isActive = c.id === commodityId;
+                        return (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => setCommodityId(c.id)}
+                            className={`h-11 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer flex items-center justify-center text-center ${
+                              isActive
+                                ? "bg-[#800020] border-[#800020] text-white shadow-md"
+                                : "bg-stone-50 hover:bg-stone-100 border-stone-200 text-stone-700 hover:border-stone-300"
+                            }`}
+                          >
+                            {c.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 2. Contact Information (2 Columns) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Your Full Name <span className="text-[#800020]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="e.g. Tariq Al-Mansoor"
+                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Company / Business Name <span className="text-[#800020]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        placeholder="e.g. Al-Madina Trading LLC"
+                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 3. Email & Phone (2 Columns) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Work Email Address <span className="text-[#800020]">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="tariq@almadinatrade.com"
+                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Phone / WhatsApp Number <span className="text-[#800020]">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+971 50 123 4567"
+                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 4. Volume & Delivery Incoterm (2 Columns) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Required Volume
+                      </label>
+                      <select
+                        value={formData.volume}
+                        onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
+                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
+                      >
+                        {VOLUMES.map((v) => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Incoterm Delivery Term
+                      </label>
+                      <select
+                        value={formData.incoterm}
+                        onChange={(e) => setFormData({ ...formData, incoterm: e.target.value })}
+                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
+                      >
+                        {INCOTERMS.map((t) => (
+                          <option key={t} value={t}>
+                            {t}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* 5. Destination Port & Packaging (2 Columns) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Destination Discharge Port <span className="text-[#800020]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.destinationPort}
+                        onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
+                        placeholder="e.g. Jebel Ali / Rotterdam / Jeddah"
+                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                        Packaging Preference
+                      </label>
+                      <select
+                        value={formData.packaging}
+                        onChange={(e) => setFormData({ ...formData, packaging: e.target.value })}
+                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
+                      >
+                        {PACKAGING_OPTIONS.map((p) => (
+                          <option key={p} value={p}>
+                            {p}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* 6. Optional Message */}
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                      Specific Requirements or Target Delivery Date (Optional)
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="e.g. Please include SGS inspection report and dispatch sample box before contract signing."
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all resize-none"
+                    />
+                  </div>
+
+                  {/* 7. Action Buttons */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full sm:flex-1 py-4 px-6 rounded-xl bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
+                    >
+                      <span>{isSubmitting ? "Submitting Inquiry..." : "Submit Quotation Request"}</span>
+                      <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleWhatsApp}
+                      className="w-full sm:w-auto py-3.5 px-5 rounded-xl border border-stone-300 hover:border-[#25d366] hover:bg-[#25d366]/5 text-stone-700 hover:text-[#25d366] font-bold text-xs uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#25d366]" />
+                      <span>WhatsApp Quick Inquiry</span>
+                    </button>
+                  </div>
+
+                  <p className="text-[11px] text-stone-400 text-center leading-relaxed">
+                    By submitting, your request is dispatched directly to Monagrow&apos;s trade desk. Your data is strictly confidential.
+                  </p>
+                </form>
+              )}
             </div>
           </div>
         </div>

@@ -12,13 +12,17 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
   return (
     <section id="about-us" className="relative w-full bg-white text-neutral-900 selection:bg-[#800020] selection:text-white">
       {/* ─────────────────────────────────────────────────────────────
-          1. CLEAN WHITE CANVAS: "SAY NO MORE"
+          1. CLEAN WHITE CANVAS: "PURITY DIRECT FROM ORIGIN"
       ────────────────────────────────────────────────────────────── */}
-      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12 pt-20 sm:pt-28 pb-16 sm:pb-24">
-        {/* Giant Top Headline */}
-        <div className="text-center md:text-left mb-12 sm:mb-16 lg:mb-20">
-          <h2 className="text-[clamp(44px,8vw,112px)] font-bold uppercase tracking-wide text-neutral-900 leading-[0.95]">
-            SAY NO MORE
+      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12 pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24">
+        {/* Editorial Section Header */}
+        <div className="text-center md:text-left mb-10 sm:mb-14 lg:mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fae8eb] border border-[#800020]/20 text-xs font-bold uppercase tracking-widest text-[#800020] mb-4">
+            <span className="w-2 h-2 rounded-full bg-[#800020]" />
+            <span>Our Origin Standard</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
+            Purity Direct <span className="text-[#800020]">From Origin</span>
           </h2>
         </div>
 
@@ -27,8 +31,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
           {/* Left Column (5 Cols): Editorial paragraph + Angled Pouch Photo */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-10 sm:space-y-12">
             <div>
-              <p className="text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-neutral-800 max-w-md">
-                Monagrow is engineered as the direct, unadulterated alternative to layered broker networks. We source certified Grade-A Basmati, single-estate Arabica, pure refined cane sugar, and handpicked cashews straight from registered origin mills to global ports.
+              <p className="text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-neutral-700 max-w-md">
+                Monagrow bridges international buyers directly with registered origin mills and estates. We deliver certified Grade-A Basmati, single-estate Arabica coffee, pure refined cane sugar, and handpicked jumbo cashews with zero speculative broker layers.
               </p>
               <div className="mt-5 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-neutral-500">
                 <span className="w-2 h-2 rounded-full bg-[#800020]" />
@@ -69,11 +73,11 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
 
             {/* Editorial Statement Below Studio Image */}
             <div className="max-w-xl">
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-normal text-neutral-900 leading-snug">
-                A REFINED SOURCE CREATES A PERFECT COMPOSITION OF PURITY AND COMMODITY EXCELLENCE.
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-tight text-neutral-900 leading-snug">
+                UNCOMPROMISING PURITY AT EVERY LINK OF THE COMMODITY CHAIN.
               </h3>
               <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed">
-                Every container load leaves origin with independent SGS/Bureau Veritas inspection, verifiable moisture metrics, and airtight maritime packaging.
+                Every container shipment departs origin with verifiable moisture metrics, Sortex optical cleaning, and sealed container loading overseen by accredited inspection agencies.
               </p>
             </div>
           </div>
@@ -102,8 +106,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
             {/* Right: Headline + Honest Philosophy + Standard Statement */}
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
               <div>
-                <h3 className="text-[clamp(38px,6vw,84px)] font-bold uppercase tracking-wide text-neutral-900 leading-[0.95]">
-                  NO MARKETING<br />JARGON
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
+                  TRANSPARENT<br /><span className="text-[#3f6b2f]">LAB SPECIFICATIONS</span>
                 </h3>
               </div>
 
@@ -133,15 +137,15 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          3. WARM HONEY MUSTARD PANEL: "WHY NOT TRY RIGHT NOW?"
+          3. WARM HONEY MUSTARD PANEL: "REQUEST ORIGIN SAMPLES"
       ────────────────────────────────────────────────────────────── */}
       <div className="w-full bg-[#ecd998] py-16 sm:py-24 border-b border-[#ddca88]">
         <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Headline + Description + Call to Action Button */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-              <h3 className="text-[clamp(40px,7.5vw,96px)] font-bold uppercase tracking-wide text-neutral-900 leading-[0.95]">
-                WHY NOT<br />VERIFY RIGHT<br />NOW?
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
+                REQUEST ORIGIN<br />SAMPLES &amp; QUOTE
               </h3>
 
               <p className="text-base sm:text-lg lg:text-xl text-neutral-800 leading-relaxed max-w-lg font-medium">

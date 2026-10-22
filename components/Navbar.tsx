@@ -10,29 +10,17 @@ interface NavbarProps {
 
 export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
-  const [isPastParallax, setIsPastParallax] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Track scroll position:
-  // 1. When scrolled past the hero parallax section, buttons turn maroon
-  // 2. Hide navbar ONLY when the footer appears
   useEffect(() => {
     const handleScroll = () => {
-      // Check if scrolled past hero parallax section (#home)
-      const heroEl = document.getElementById("home");
-      if (heroEl) {
-        const rect = heroEl.getBoundingClientRect();
-        // The hero parallax section has scrolled off when its bottom passes the navbar
-        setIsPastParallax(rect.bottom <= 120);
-      } else {
-        setIsPastParallax(window.scrollY > 100);
-      }
+      setIsScrolled(window.scrollY > 20);
 
-      // Check if footer has appeared
+      // Hide navbar when footer appears
       const footerEl = document.getElementById("contact") || document.querySelector("footer");
       if (footerEl) {
         const rect = footerEl.getBoundingClientRect();
-        // Hide when the footer begins appearing in the viewport
         setIsVisible(rect.top > window.innerHeight);
       } else {
         setIsVisible(true);
@@ -84,66 +72,43 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   return (
     <>
       <header
-        style={
-          isPastParallax
-            ? {
-                backgroundColor: "rgba(255, 255, 255, 0.82)",
-                backdropFilter: "blur(20px) saturate(190%)",
-                WebkitBackdropFilter: "blur(20px) saturate(190%)",
-                borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-                boxShadow:
-                  "0 8px 30px 0 rgba(0, 0, 0, 0.07), inset 0 1px 0 0 rgba(255, 255, 255, 0.95)",
-              }
-            : {
-                // Dark frosted glass while the hero video is behind the navbar
-                backgroundColor: "rgba(8, 10, 16, 0.35)",
-                backdropFilter: "blur(18px) saturate(160%)",
-                WebkitBackdropFilter: "blur(18px) saturate(160%)",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.14)",
-                boxShadow:
-                  "0 8px 30px 0 rgba(0, 0, 0, 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.10)",
-              }
-        }
+        style={{
+          backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.94)" : "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(20px) saturate(180%)",
+          WebkitBackdropFilter: "blur(20px) saturate(180%)",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
+          boxShadow: isScrolled
+            ? "0 8px 30px 0 rgba(0, 0, 0, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.9)"
+            : "none",
+        }}
         className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${
           isVisible
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
-        } ${
-          isPastParallax
-            ? "py-2.5 sm:py-3.5"
-            : "py-3 sm:py-4"
-        }`}
+        } ${isScrolled ? "py-2.5 sm:py-3.5" : "py-3 sm:py-4"}`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 flex items-center justify-between">
           
-          {/* Left: Navigation Buttons on Desktop, Custom 3-Bar Hamburger on Mobile */}
+          {/* Left: Navigation Links on Desktop, 3-Bar Hamburger Icon on Mobile */}
           <div className="flex-1 flex items-center justify-start">
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-4 lg:gap-7">
+            <nav className="hidden md:flex items-center gap-5 lg:gap-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`${
-                    isPastParallax
-                      ? "text-[#800020] hover:text-[#520014]"
-                      : "text-white hover:text-stone-300"
-                  } font-bold text-sm sm:text-base md:text-lg tracking-wide transition-colors duration-200 py-1 whitespace-nowrap`}
+                  className="text-[#800020] hover:text-[#520014] font-bold text-sm sm:text-base md:text-lg tracking-wide transition-colors duration-200 py-1 whitespace-nowrap"
                 >
                   {link.name}
                 </a>
               ))}
             </nav>
 
-            {/* Mobile Hamburger Button (Custom 3-Vertical-Bar Icon from user) */}
+            {/* Mobile Hamburger Button (Custom 3-Vertical-Bar Icon) */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${
-                isPastParallax
-                  ? "text-[#800020] hover:bg-black/5 active:bg-black/10"
-                  : "text-white hover:bg-white/10 active:bg-white/20"
-              }`}
+              className="md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg text-[#800020] hover:bg-black/5 active:bg-black/10 transition-colors duration-200 cursor-pointer"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >
@@ -153,17 +118,14 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
                 className="w-5 h-6 drop-shadow-xs"
                 aria-hidden="true"
               >
-                {/* Left Bar (medium height) */}
                 <rect x="1" y="4" width="3.2" height="14" rx="1.6" />
-                {/* Middle Bar (tallest, vertically centered) */}
                 <rect x="7.4" y="1" width="3.2" height="20" rx="1.6" />
-                {/* Right Bar (medium height) */}
                 <rect x="13.8" y="4" width="3.2" height="14" rx="1.6" />
               </svg>
             </button>
           </div>
 
-          {/* Center: Brand Wordmark in pure Maroon without any glow effect */}
+          {/* Center: Brand Wordmark in pure Maroon */}
           <div className="flex items-center justify-center shrink-0 px-2 sm:px-4">
             <a
               href="#"
@@ -176,21 +138,21 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
                 width={320}
                 height={52}
                 priority
-                className="h-5.5 sm:h-6.5 md:h-8 lg:h-[38px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+                className="h-5.5 sm:h-6.5 md:h-8 lg:h-[34px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </a>
           </div>
 
-          {/* Right: "Get Wholesale Quote" CTA button with Maroon Color and NO shadow */}
+          {/* Right: "Get Wholesale Quote" CTA button with Maroon Color */}
           <div className="flex-1 flex items-center justify-end">
             <button
               type="button"
               onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
-              className="flex items-center gap-1.5 sm:gap-2.5 pl-3 sm:pl-4 md:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm border border-white/20 transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none hover:shadow-none"
+              className="flex items-center gap-1.5 sm:gap-2.5 pl-3 sm:pl-4 md:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
             >
               <span className="tracking-wide hidden xs:inline sm:inline">Get Wholesale Quote</span>
               <span className="tracking-wide xs:hidden sm:hidden">Quote</span>
-              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-none">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-xs">
                 <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#800020] stroke-[2.5]" />
               </span>
             </button>
