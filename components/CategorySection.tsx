@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 
 interface CategorySectionProps {
   onSelectCategory?: (categoryId: string) => void;
-  onOpenQuoteModal: (categoryName: string) => void;
+  onOpenQuoteModal?: (categoryName: string) => void;
 }
 
 interface Spec {
@@ -33,6 +33,8 @@ interface Commodity {
   ink: string;
   /** Which side the blurb sits on at desktop widths. */
   blurbSide: "left" | "right";
+  /** Optional custom base scale for the pack image */
+  scale?: number;
 }
 
 const COMMODITIES: Commodity[] = [
@@ -109,7 +111,7 @@ const COMMODITIES: Commodity[] = [
     name: "Royal Whole Cashews W240",
     shortTitle: "Royal Cashews",
     size: "2.5 kg",
-    image: "/assets/monagrow-cashews-bag-cutout.png",
+    image: "/assets/monagrow-cashews-packaging-new.png",
     alt: "Monagrow 2.5kg Royal Cashews Pouch",
     blurb:
       "Hand-picked jumbo kernels with a sweet, buttery snap. Nitrogen-flushed at origin to stay crisp for 24 months.",
@@ -123,6 +125,7 @@ const COMMODITIES: Commodity[] = [
     blob: "#dac8e5",
     ink: "#4a2d63",
     blurbSide: "right",
+    scale: 0.82,
   },
 ];
 
@@ -158,7 +161,8 @@ function getVisualStyles(item: Commodity, idx: number, p: number, reduceMotion: 
 
   const packY = -diff * 110 * m;
   const packRotate = item.tilt + -diff * 18 * m;
-  const packScale = 1 - (1 - fade) * 0.08 * m;
+  const baseScale = item.scale ?? 1;
+  const packScale = baseScale * (1 - (1 - fade) * 0.08 * m);
 
   const wordX = -diff * 220 * m;
   const blobScale = 0.86 + 0.14 * fade;
@@ -231,7 +235,7 @@ export default function CategorySection({
       onSelectCategory(category);
       return;
     }
-    onOpenQuoteModal(category);
+    onOpenQuoteModal?.(category);
   };
 
   const textState = (isActive: boolean) =>
@@ -358,13 +362,6 @@ export default function CategorySection({
                           <ArrowUpRight className="w-4 h-4 text-[#800020] stroke-[2.5]" />
                         </span>
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => onOpenQuoteModal(item.name)}
-                        className="text-sm font-semibold text-navy underline underline-offset-4 decoration-black/20 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
-                      >
-                        Request quote
-                      </button>
                     </div>
                   </div>
                 </React.Fragment>
@@ -409,13 +406,6 @@ export default function CategorySection({
                       <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
                         <ArrowUpRight className="w-3.5 h-3.5 text-[#800020] stroke-[2.5]" />
                       </span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onOpenQuoteModal(item.name)}
-                      className="text-xs font-semibold text-navy underline underline-offset-4 cursor-pointer"
-                    >
-                      Request quote
                     </button>
                   </div>
                 </div>

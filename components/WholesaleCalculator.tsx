@@ -33,10 +33,9 @@ const INCOTERMS = [
 ];
 
 const INCLUDED = [
-  "Direct origin pricing from registered mills with zero broker markups",
-  "Official SGS / Bureau Veritas pre-shipment quality inspection",
-  "Flexible trade financing: Confirmed Irrevocable L/C or T/T",
-  "Air-courier laboratory sample boxes dispatched via DHL / FedEx",
+  "Direct origin pricing with zero broker markups",
+  "SGS / Bureau Veritas pre-shipment inspection",
+  "Flexible trade financing (L/C or T/T)",
 ];
 
 export default function WholesaleCalculator({
@@ -117,23 +116,23 @@ export default function WholesaleCalculator({
               Request Your Direct-Origin Quotation
             </h2>
 
-            <p className="mt-4 text-base sm:text-lg text-white/85 leading-relaxed max-w-lg">
-              Submit your commodity specifications, volume requirements, and destination port. Our export operations team will issue an official proforma invoice, COA metrics, and maritime shipping schedules.
+            <p className="mt-3 text-sm sm:text-base text-white/85 leading-relaxed max-w-md">
+              Direct-origin pricing, verified COA metrics, and fast proforma quotes within 24 hours.
             </p>
 
-            <ul className="mt-8 max-w-lg border-t border-white/15">
+            <ul className="mt-6 max-w-md border-t border-white/15">
               {INCLUDED.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-3 py-3.5 border-b border-white/15 text-sm sm:text-[15px] text-white/90"
+                  className="flex items-center gap-2.5 py-2.5 border-b border-white/15 text-sm text-white/90"
                 >
-                  <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-[#e9c46a] shrink-0" />
+                  <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#e9c46a] shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-8 flex items-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/80">
+            <div className="mt-6 flex items-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/80">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#e9c46a]" /> ISO 22000 Certified
               </span>
@@ -404,24 +403,15 @@ export default function WholesaleCalculator({
                     />
                   </div>
 
-                  {/* 7. Action Buttons */}
-                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                  {/* 7. Action Button (Centered) */}
+                  <div className="pt-2 flex justify-center">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:flex-1 py-4 px-6 rounded-xl bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
+                      className="w-full sm:w-auto sm:min-w-[320px] py-4 px-8 rounded-xl bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
                     >
                       <span>{isSubmitting ? "Submitting Inquiry..." : "Submit Quotation Request"}</span>
                       <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleWhatsApp}
-                      className="w-full sm:w-auto py-3.5 px-5 rounded-xl border border-stone-300 hover:border-[#25d366] hover:bg-[#25d366]/5 text-stone-700 hover:text-[#25d366] font-bold text-xs uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
-                    >
-                      <MessageCircle className="w-4 h-4 text-[#25d366]" />
-                      <span>WhatsApp Quick Inquiry</span>
                     </button>
                   </div>
 

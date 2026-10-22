@@ -51,11 +51,11 @@ const PACKS: Pack[] = [
   },
   {
     id: "cashews",
-    image: "/assets/monagrow-cashews-bag-cutout.png",
+    image: "/assets/monagrow-cashews-packaging-new.png",
     alt: "Monagrow 2.5kg Royal Cashews Pouch",
     commodityName: "Royal Cashews",
     className:
-      "top-[44%] sm:top-[46%] lg:top-[48%] right-[16%] sm:right-[19%] lg:right-[21%] w-[32vw] sm:w-[25vw] lg:w-[19vw] max-w-[300px] min-w-[180px]",
+      "top-[44%] sm:top-[46%] lg:top-[48%] right-[16%] sm:right-[19%] lg:right-[21%] w-[25vw] sm:w-[20vw] lg:w-[15vw] max-w-[240px] min-w-[145px]",
     animationName: "curveInCashews",
     delay: 220,
     parallaxY: -0.24,
@@ -69,7 +69,7 @@ const PACKS: Pack[] = [
     alt: "Monagrow 2.5kg Specialty Estate Coffee Bag",
     commodityName: "Estate Coffee",
     className:
-      "bottom-[-10%] sm:bottom-[-8%] lg:bottom-[-6%] left-[34%] sm:left-[38%] lg:left-[41%] w-[34vw] sm:w-[26vw] lg:w-[20vw] max-w-[320px] min-w-[190px]",
+      "bottom-[3%] sm:bottom-[3.5%] lg:bottom-[4%] left-[34%] sm:left-[38%] lg:left-[41%] w-[34vw] sm:w-[26vw] lg:w-[20vw] max-w-[320px] min-w-[190px]",
     animationName: "curveInCoffee",
     delay: 340,
     parallaxY: -0.36,
@@ -83,7 +83,7 @@ const PACKS: Pack[] = [
     alt: "Monagrow 5kg Refined Cane Sugar Bag",
     commodityName: "Refined Cane Sugar",
     className:
-      "bottom-[-16%] sm:bottom-[-14%] lg:bottom-[-12%] left-[6%] sm:left-[8%] lg:left-[10%] w-[36vw] sm:w-[28vw] lg:w-[21vw] max-w-[340px] min-w-[200px]",
+      "bottom-[2%] sm:bottom-[2.5%] lg:bottom-[3%] left-[6%] sm:left-[8%] lg:left-[10%] w-[36vw] sm:w-[28vw] lg:w-[21vw] max-w-[340px] min-w-[200px]",
     animationName: "curveInSugar",
     delay: 460,
     parallaxY: -0.42,
@@ -138,7 +138,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative h-screen min-h-[760px] sm:min-h-[800px] lg:min-h-[860px] max-h-[1050px] overflow-hidden text-neutral-900 select-none"
+      className="relative min-h-[860px] sm:min-h-[940px] lg:min-h-[1020px] xl:min-h-[1100px] h-[106vh] lg:h-[112vh] overflow-hidden text-neutral-900 select-none"
       style={{
         background: "radial-gradient(ellipse at 45% 25%, #FFFFFF 0%, #FAF8F4 60%, #F3EDE7 100%)",
       }}
@@ -278,7 +278,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
               onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
               className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase border-2 border-[#800020] shadow-[5px_7px_0px_#1c1917] hover:shadow-[2px_3px_0px_#1c1917] hover:translate-x-[3px] hover:translate-y-[4px] active:shadow-none active:translate-x-[5px] active:translate-y-[7px] transition-all cursor-pointer inline-flex items-center gap-2.5 group"
             >
-              <span>Request wholesale quote</span>
+              <span>Get a Quote</span>
               <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>

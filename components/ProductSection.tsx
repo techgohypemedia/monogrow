@@ -187,7 +187,7 @@ export default function ProductSection({
       name: "Monagrow Royal W240 Whole Cashews",
       category: "dryfruits",
       tag: "Royal 2.5KG Pack",
-      image: "/assets/monagrow-cashews-bag-cutout.png",
+      image: "/assets/monagrow-cashews-packaging-new.png",
       origin: "Certified Cashew Plantations",
       specs: {
         grade: "White Whole W240 (220-240 nuts/lb)",

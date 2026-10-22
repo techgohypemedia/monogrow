@@ -2,13 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
-import { ArrowUpRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, ShieldCheck } from "lucide-react";
 
 interface CompanyPhilosophyProps {
-  onOpenQuoteModal: (productName?: string) => void;
+  onOpenQuoteModal?: (productName?: string) => void;
 }
 
-export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosophyProps) {
+export default function CompanyPhilosophy({ onOpenQuoteModal: _onOpenQuoteModal }: CompanyPhilosophyProps) {
   return (
     <section id="about-us" className="relative w-full bg-white text-neutral-900 selection:bg-[#800020] selection:text-white">
       {/* ─────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
       ────────────────────────────────────────────────────────────── */}
       <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12 pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24">
         {/* Editorial Section Header */}
-        <div className="text-center md:text-left mb-10 sm:mb-14 lg:mb-16">
+        <div className="text-center md:text-left mb-4 sm:mb-5 lg:mb-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fae8eb] border border-[#800020]/20 text-xs font-bold uppercase tracking-widest text-[#800020] mb-4">
             <span className="w-2 h-2 rounded-full bg-[#800020]" />
             <span>Our Origin Standard</span>
@@ -44,16 +44,13 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
             <div className="relative group max-w-md w-full">
               <div className="relative aspect-3/4 rounded-2xl overflow-hidden bg-neutral-100 shadow-xl border border-neutral-200/70 transition-transform duration-500 group-hover:scale-[1.01]">
                 <Image
-                  src="/assets/company-editorial-angle.jpg"
-                  alt="Monagrow single origin commodity packs in studio setting"
+                  src="/assets/monagrow-rice-sugar-pedestal.jpg"
+                  alt="Monagrow Basmati Rice and Refined Cane Sugar export packs on architectural pedestal"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 420px"
                 />
               </div>
-              <p className="mt-3 text-xs uppercase tracking-wider font-semibold text-neutral-500">
-                Single-origin harvest lots · Farm-to-vessel preservation
-              </p>
             </div>
           </div>
 
@@ -62,8 +59,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
             {/* Primary Studio Still Image */}
             <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-neutral-100 shadow-2xl border border-neutral-200/80">
               <Image
-                src="/assets/company-studio-still.jpg"
-                alt="Minimalist studio still life of premium basmati, roasted coffee, and jumbo cashews"
+                src="/assets/monagrow-studio-still.jpg"
+                alt="Monagrow Basmati rice, dark Arabica coffee, and royal cashews with glass tasting jars"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 720px"
@@ -94,7 +91,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
             <div className="lg:col-span-5 order-2 lg:order-1">
               <div className="relative aspect-16/10 rounded-2xl overflow-hidden shadow-lg border border-black/5 bg-[#dfeaca]">
                 <Image
-                  src="/assets/company-pouch-sage.jpg"
+                  src="/assets/monagrow-pouch-sage.jpg"
                   alt="Monagrow export pack resting on pale sage background"
                   fill
                   className="object-cover"
@@ -152,36 +149,24 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
                 Leave a trade inquiry and be among the institutional procurement teams to receive an official origin sample box or container-lot proforma quote.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => onOpenQuoteModal("Commercial Origin Sample Kit")}
-                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-neutral-900 hover:bg-black text-white font-bold text-sm sm:text-base tracking-wide transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer group"
-                >
-                  <span>Request Samples</span>
-                  <span className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-                    <ArrowUpRight className="w-4 h-4 text-white stroke-[2.5]" />
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenQuoteModal("Bulk Lot Proforma Invoice")}
-                  className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-transparent hover:bg-neutral-900/10 text-neutral-900 font-bold text-sm sm:text-base transition-colors duration-200 cursor-pointer"
-                >
-                  Request Proforma Invoice
-                </button>
+              <div className="pt-2 border-l-2 border-neutral-900/70 pl-4 py-1 space-y-1.5">
+                <p className="text-sm sm:text-base text-neutral-900 font-semibold leading-relaxed">
+                  Every commercial sample kit includes complete COA specifications, Sortex purity metrics, and verified harvest analysis.
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-neutral-800 tracking-wide">
+                  Dispatched worldwide via priority air courier within 48 hours for institutional lab evaluation.
+                </p>
               </div>
             </div>
 
-            {/* Right: Hand Holding Sample Jar */}
+            {/* Right: Monagrow Product Bag Showcase */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-sm aspect-3/4 rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-[#e4d08e]">
+              <div className="relative w-full max-w-sm aspect-3/4 flex items-center justify-center">
                 <Image
-                  src="/assets/company-sample-hand.jpg"
-                  alt="Hand holding Monagrow export sample jar with golden basmati rice"
+                  src="/assets/monagrow-rice-bag-cutout.png"
+                  alt="Monagrow 5kg Premium Basmati Rice export bag"
                   fill
-                  className="object-cover"
+                  className="object-contain drop-shadow-[0_24px_38px_rgba(0,0,0,0.22)] hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, 400px"
                 />
               </div>
