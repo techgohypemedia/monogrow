@@ -159,25 +159,25 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
 
       {/* Copy & Branding */}
       <div className="relative z-30 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-18 flex flex-col justify-start pt-24 sm:pt-28 lg:pt-32 pointer-events-none">
-        <div className="max-w-xl lg:max-w-2xl pointer-events-auto ml-4 sm:ml-10 lg:ml-16 xl:ml-20">
+        <div className="max-w-xl lg:max-w-2xl pointer-events-auto ml-2.5 sm:ml-5 lg:ml-8 xl:ml-10">
           {/* Outlined Straight Label: The Taste of Purity cleanly aligned over Monagrow */}
           <div
-            className="relative mb-2 sm:mb-2.5 ml-1 sm:ml-1.5 overflow-visible select-none inline-block pointer-events-none"
+            className="relative -mb-1 sm:-mb-1.5 ml-0.5 sm:ml-1 overflow-visible select-none inline-block pointer-events-none"
             style={textReveal(0)}
           >
             <svg
-              viewBox="0 0 260 26"
-              className="w-48 sm:w-56 md:w-64 h-6 sm:h-7 overflow-visible block"
+              viewBox="0 0 270 22"
+              className="w-56 sm:w-64 md:w-72 lg:w-80 h-6 sm:h-6.5 lg:h-7 overflow-visible block"
               aria-hidden="true"
             >
               <text
                 x="0"
-                y="19"
-                className="font-sans text-[18px] sm:text-[19px] md:text-[20px] font-bold tracking-wider select-none"
+                y="17"
+                className="font-sans text-[19px] sm:text-[20px] md:text-[21px] font-bold tracking-wider select-none"
                 style={{
                   fill: "transparent",
                   stroke: "#800020",
-                  strokeWidth: "1.4px",
+                  strokeWidth: "1.5px",
                   paintOrder: "stroke fill",
                 }}
               >
@@ -192,7 +192,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             style={{
               fontFamily: "var(--font-bebas), var(--font-antonio), 'Impact', sans-serif",
               fontWeight: 400,
-              letterSpacing: "0.025em",
+              letterSpacing: "-0.015em",
               lineHeight: 0.88,
               ...textReveal(80),
             }}
@@ -213,10 +213,10 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             <button
               type="button"
               onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
-              className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase border-2 border-[#800020] shadow-[5px_7px_0px_#1c1917] hover:shadow-[2px_3px_0px_#1c1917] hover:translate-x-[3px] hover:translate-y-[4px] active:shadow-none active:translate-x-[5px] active:translate-y-[7px] transition-all cursor-pointer inline-flex items-center gap-2.5 group"
+              className="px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase border-2 border-[#800020] shadow-[4px_5px_0px_#1c1917] hover:shadow-[2px_2px_0px_#1c1917] hover:translate-x-[2px] hover:translate-y-[3px] active:shadow-none active:translate-x-[4px] active:translate-y-[5px] transition-all cursor-pointer inline-flex items-center gap-2 group"
             >
               <span>Get a Quote</span>
-              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
         </div>
