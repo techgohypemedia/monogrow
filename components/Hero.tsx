@@ -16,13 +16,16 @@ interface Pack {
   commodityName: string;
   /** Positioning classes along the curve */
   className: string;
-  /** CSS keyframe animation name */
-  animationName: string;
   /** Fly-in stagger delay (ms) */
   delay: number;
-  /** Parallax drift on scroll */
+  /** Upward drift rate on scroll */
   parallaxY: number;
+  /** Rightward drift rate on scroll */
   parallaxX: number;
+  /** Non-linear rightward arc factor (curvature) */
+  curveX: number;
+  /** Non-linear upward arc factor (curvature) */
+  curveY: number;
   /** How much the pack tilts dynamically as you scroll */
   tiltRate: number;
   zIndex: number;
@@ -31,8 +34,8 @@ interface Pack {
 /**
  * 4 Commodities:
  * - Straight (upright at 0deg) at initial load
- * - Last 2 images (Coffee and Sugar) positioned in the bottom half
- * - Dynamically tilts as the user scrolls
+ * - Visible along their curve formation with a smooth entrance transition
+ * - Dynamically curves upwards and to the right on scroll
  */
 const PACKS: Pack[] = [
   {
@@ -41,12 +44,13 @@ const PACKS: Pack[] = [
     alt: "Monagrow 5kg Basmati Rice Bag",
     commodityName: "Basmati Rice",
     className:
-      "top-[10%] sm:top-[11%] lg:top-[12%] right-[2%] sm:right-[3%] lg:right-[4%] w-[38vw] sm:w-[30vw] lg:w-[23vw] max-w-[370px] min-w-[220px]",
-    animationName: "curveInRice",
-    delay: 100,
+      "top-[6%] sm:top-[7%] lg:top-[8%] right-[5%] sm:right-[6%] lg:right-[8%] w-[33vw] sm:w-[26vw] lg:w-[20vw] max-w-[325px] min-w-[195px]",
+    delay: 80,
     parallaxY: -0.16,
-    parallaxX: 0.03,
-    tiltRate: 0.016, // tilts clockwise on scroll
+    parallaxX: 0.12,
+    curveX: 90,
+    curveY: 45,
+    tiltRate: 0.012, // tilts clockwise into the rightward curve
     zIndex: 25,
   },
   {
@@ -55,12 +59,13 @@ const PACKS: Pack[] = [
     alt: "Monagrow 2.5kg Royal Cashews Pouch",
     commodityName: "Royal Cashews",
     className:
-      "top-[44%] sm:top-[46%] lg:top-[48%] right-[16%] sm:right-[19%] lg:right-[21%] w-[25vw] sm:w-[20vw] lg:w-[15vw] max-w-[240px] min-w-[145px]",
-    animationName: "curveInCashews",
-    delay: 220,
-    parallaxY: -0.24,
-    parallaxX: 0.02,
-    tiltRate: 0.011, // subtle clockwise tilt on scroll
+      "top-[33%] sm:top-[34%] lg:top-[35%] right-[19%] sm:right-[22%] lg:right-[25%] w-[28vw] sm:w-[22vw] lg:w-[17vw] max-w-[270px] min-w-[160px]",
+    delay: 160,
+    parallaxY: -0.22,
+    parallaxX: 0.16,
+    curveX: 130,
+    curveY: 60,
+    tiltRate: 0.014,
     zIndex: 22,
   },
   {
@@ -69,12 +74,13 @@ const PACKS: Pack[] = [
     alt: "Monagrow 2.5kg Specialty Estate Coffee Bag",
     commodityName: "Estate Coffee",
     className:
-      "bottom-[3%] sm:bottom-[3.5%] lg:bottom-[4%] left-[34%] sm:left-[38%] lg:left-[41%] w-[34vw] sm:w-[26vw] lg:w-[20vw] max-w-[320px] min-w-[190px]",
-    animationName: "curveInCoffee",
-    delay: 340,
-    parallaxY: -0.36,
-    parallaxX: -0.02,
-    tiltRate: -0.012, // tilts counter-clockwise on scroll
+      "bottom-[8%] sm:bottom-[8.5%] lg:bottom-[9%] left-[28%] sm:left-[31%] lg:left-[34%] w-[37vw] sm:w-[29vw] lg:w-[22vw] max-w-[355px] min-w-[210px]",
+    delay: 240,
+    parallaxY: -0.28,
+    parallaxX: 0.20,
+    curveX: 160,
+    curveY: 75,
+    tiltRate: 0.016,
     zIndex: 20,
   },
   {
@@ -83,12 +89,13 @@ const PACKS: Pack[] = [
     alt: "Monagrow 5kg Refined Cane Sugar Bag",
     commodityName: "Refined Cane Sugar",
     className:
-      "bottom-[2%] sm:bottom-[2.5%] lg:bottom-[3%] left-[6%] sm:left-[8%] lg:left-[10%] w-[36vw] sm:w-[28vw] lg:w-[21vw] max-w-[340px] min-w-[200px]",
-    animationName: "curveInSugar",
-    delay: 460,
-    parallaxY: -0.42,
-    parallaxX: -0.03,
-    tiltRate: -0.018, // tilts counter-clockwise on scroll
+      "bottom-[2%] sm:bottom-[2.5%] lg:bottom-[3%] left-[2%] sm:left-[3%] lg:left-[4%] w-[39vw] sm:w-[31vw] lg:w-[23vw] max-w-[375px] min-w-[220px]",
+    delay: 320,
+    parallaxY: -0.34,
+    parallaxX: 0.24,
+    curveX: 190,
+    curveY: 90,
+    tiltRate: 0.018,
     zIndex: 18,
   },
 ];
@@ -105,14 +112,19 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
     updateMotion();
     mq.addEventListener("change", updateMotion);
 
-    // Initial slight pause then trigger entrance
-    const readyTimer = setTimeout(() => setIsReady(true), 120);
-    const settledTimer = setTimeout(() => setIsSettled(true), 2100);
+    // Initial slight pause then trigger smooth entrance
+    const readyTimer = setTimeout(() => setIsReady(true), 80);
+    const settledTimer = setTimeout(() => setIsSettled(true), 600);
 
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setScrollY(window.scrollY));
+      frame = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        if (window.scrollY > 8) {
+          setIsSettled(true);
+        }
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -138,120 +150,45 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative min-h-[860px] sm:min-h-[940px] lg:min-h-[1020px] xl:min-h-[1100px] h-[106vh] lg:h-[112vh] overflow-hidden text-neutral-900 select-none"
+      className="relative min-h-[760px] sm:min-h-[820px] lg:min-h-[900px] xl:min-h-[950px] h-[96vh] lg:h-[98vh] overflow-hidden text-neutral-900 select-none"
       style={{
         background: "radial-gradient(ellipse at 45% 25%, #FFFFFF 0%, #FAF8F4 60%, #F3EDE7 100%)",
       }}
     >
-      <style>{`
-        @keyframes curveInRice {
-          0% {
-            opacity: 0;
-            transform: translate3d(24vw, -95vh, 0) rotate(24deg) scale(0.85);
-          }
-          50% {
-            opacity: 1;
-            transform: translate3d(-2vw, -20px, 0) rotate(-3deg) scale(1.02);
-          }
-          75% {
-            transform: translate3d(1vw, -4px, 0) rotate(1.5deg) scale(0.99);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-          }
-        }
 
-        @keyframes curveInCashews {
-          0% {
-            opacity: 0;
-            transform: translate3d(26vw, -105vh, 0) rotate(20deg) scale(0.85);
-          }
-          50% {
-            opacity: 1;
-            transform: translate3d(-2.5vw, -30px, 0) rotate(-3deg) scale(1.02);
-          }
-          75% {
-            transform: translate3d(1vw, -5px, 0) rotate(1deg) scale(0.99);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-          }
-        }
-
-        @keyframes curveInCoffee {
-          0% {
-            opacity: 0;
-            transform: translate3d(12vw, -112vh, 0) rotate(18deg) scale(0.85);
-          }
-          50% {
-            opacity: 1;
-            transform: translate3d(-3vw, -35px, 0) rotate(-4deg) scale(1.02);
-          }
-          75% {
-            transform: translate3d(1vw, -6px, 0) rotate(1deg) scale(0.99);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-          }
-        }
-
-        @keyframes curveInSugar {
-          0% {
-            opacity: 0;
-            transform: translate3d(-24vw, -102vh, 0) rotate(-22deg) scale(0.85);
-          }
-          50% {
-            opacity: 1;
-            transform: translate3d(3vw, -35px, 0) rotate(4deg) scale(1.02);
-          }
-          75% {
-            transform: translate3d(-1vw, -6px, 0) rotate(-1.5deg) scale(0.99);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-          }
-        }
-      `}</style>
 
       {/* Copy & Branding */}
       <div className="relative z-30 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-18 flex flex-col justify-start pt-24 sm:pt-28 lg:pt-32 pointer-events-none">
-        <div className="max-w-xl lg:max-w-2xl pointer-events-auto">
-          {/* Outlined Arched Label: The Taste of Purity hugging the top-left shoulder of Monagrow */}
+        <div className="max-w-xl lg:max-w-2xl pointer-events-auto ml-4 sm:ml-10 lg:ml-16 xl:ml-20">
+          {/* Outlined Straight Label: The Taste of Purity cleanly aligned over Monagrow */}
           <div
-            className="relative -mb-3 sm:-mb-5 -ml-2 sm:-ml-4 overflow-visible select-none inline-block pointer-events-none"
+            className="relative mb-2 sm:mb-2.5 ml-1 sm:ml-1.5 overflow-visible select-none inline-block pointer-events-none"
             style={textReveal(0)}
           >
             <svg
-              viewBox="0 0 360 95"
-              className="w-64 sm:w-76 md:w-88 h-16 sm:h-20 overflow-visible"
+              viewBox="0 0 260 26"
+              className="w-48 sm:w-56 md:w-64 h-6 sm:h-7 overflow-visible block"
               aria-hidden="true"
             >
-              <defs>
-                <path id="heroArcPath" d="M 12,85 Q 165,10 335,42" fill="transparent" />
-              </defs>
               <text
-                className="font-sans text-[21px] sm:text-[23px] md:text-[26px] font-black tracking-wide select-none"
+                x="0"
+                y="19"
+                className="font-sans text-[18px] sm:text-[19px] md:text-[20px] font-bold tracking-wider select-none"
                 style={{
                   fill: "transparent",
                   stroke: "#800020",
-                  strokeWidth: "1.6px",
+                  strokeWidth: "1.4px",
                   paintOrder: "stroke fill",
                 }}
               >
-                <textPath href="#heroArcPath" startOffset="50%" textAnchor="middle">
-                  The Taste of Purity
-                </textPath>
+                The Taste of Purity
               </text>
             </svg>
           </div>
 
           {/* Headline: Company name MONAGROW in Bebas Neue display */}
           <h1
-            className="text-7xl sm:text-8xl md:text-9xl lg:text-[108px] xl:text-[124px] uppercase mb-6 select-none text-[#800020]"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-[92px] xl:text-[104px] uppercase mb-5 sm:mb-6 select-none text-[#800020]"
             style={{
               fontFamily: "var(--font-bebas), var(--font-antonio), 'Impact', sans-serif",
               fontWeight: 400,
@@ -292,8 +229,12 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         - Last 2 images in the bottom half rising with scroll
       */}
       {PACKS.map((pack) => {
-        const driftX = (drift * pack.parallaxX).toFixed(1);
-        const driftY = (drift * pack.parallaxY).toFixed(1);
+        // Normalized scroll factor
+        const t = drift / 1000;
+        // Non-linear rightward and upward curved trajectory
+        const curveFactor = Math.pow(t, 1.35);
+        const driftX = (drift * pack.parallaxX + curveFactor * pack.curveX).toFixed(1);
+        const driftY = (drift * pack.parallaxY - curveFactor * pack.curveY).toFixed(1);
         const dynamicTilt = (drift * pack.tiltRate).toFixed(2);
 
         return (
@@ -303,7 +244,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             style={{
               zIndex: pack.zIndex,
               transform: `translate3d(${driftX}px, ${driftY}px, 0) rotate(${dynamicTilt}deg)`,
-              transition: isSettled ? "transform 0.08s ease-out" : "none",
+              transition: isSettled ? "transform 0.06s ease-out" : "none",
               willChange: "transform",
             }}
           >
@@ -313,10 +254,11 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
               title={`Request wholesale quote for ${pack.commodityName}`}
               style={{
                 opacity: isReady ? 1 : 0,
-                animation: isReady && !reduceMotion
-                  ? `${pack.animationName} 1.4s cubic-bezier(0.16, 1, 0.3, 1) ${pack.delay}ms forwards`
-                  : undefined,
-                transform: reduceMotion ? "rotate(0deg)" : undefined,
+                transform: isReady || reduceMotion
+                  ? "translate3d(0, 0, 0) scale(1)"
+                  : "translate3d(0, 18px, 0) scale(0.96)",
+                transition: "opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: `${pack.delay}ms`,
                 willChange: "transform, opacity",
               }}
             >
