@@ -230,13 +230,7 @@ export default function CategorySection({
   const activeIndex = Math.min(TOTAL - 1, Math.max(0, Math.round(p)));
   const active = COMMODITIES[activeIndex];
 
-  const viewDetails = (category: string) => {
-    if (onSelectCategory) {
-      onSelectCategory(category);
-      return;
-    }
-    onOpenQuoteModal?.(category);
-  };
+
 
   const textState = (isActive: boolean) =>
     isActive
@@ -287,12 +281,7 @@ export default function CategorySection({
             </div>
 
             {/* Pack */}
-            <button
-              type="button"
-              onClick={() => viewDetails(active.category)}
-              aria-label={`View details for ${active.name}`}
-              className="absolute inset-0 flex items-center justify-center cursor-pointer"
-            >
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
               <div className="relative h-[72%] sm:h-[84%] lg:h-[88%] aspect-3/4 max-w-full">
                 {COMMODITIES.map((item, idx) => {
                   const s = getVisualStyles(item, idx, p, reduceMotion);
@@ -310,7 +299,7 @@ export default function CategorySection({
                   );
                 })}
               </div>
-            </button>
+            </div>
 
             {/* Desktop text blocks, pinned to opposite corners */}
             {COMMODITIES.map((item, idx) => {
@@ -352,16 +341,15 @@ export default function CategorySection({
                       ))}
                     </dl>
                     <div className="mt-5 flex items-center gap-5">
-                      <button
-                        type="button"
-                        onClick={() => viewDetails(item.category)}
+                      <a
+                        href="#calculator"
                         className="inline-flex items-center gap-2.5 pl-5 pr-1.5 py-1.5 rounded-full bg-[#800020] hover:bg-primary-dark text-white font-semibold text-sm transition-colors duration-200 cursor-pointer group"
                       >
                         <span>View details</span>
                         <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
                           <ArrowUpRight className="w-4 h-4 text-[#800020] stroke-[2.5]" />
                         </span>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </React.Fragment>
@@ -397,16 +385,15 @@ export default function CategorySection({
                     ))}
                   </div>
                   <div className="mt-3 flex items-center gap-4">
-                    <button
-                      type="button"
-                      onClick={() => viewDetails(item.category)}
+                    <a
+                      href="#calculator"
                       className="inline-flex items-center gap-2 pl-4 pr-1.5 py-1 rounded-full bg-[#800020] text-white font-semibold text-xs cursor-pointer"
                     >
                       <span>View details</span>
                       <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
                         <ArrowUpRight className="w-3.5 h-3.5 text-[#800020] stroke-[2.5]" />
                       </span>
-                    </button>
+                    </a>
                   </div>
                 </div>
               );

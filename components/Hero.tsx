@@ -74,7 +74,7 @@ const PACKS: Pack[] = [
     alt: "Monagrow 2.5kg Specialty Estate Coffee Bag",
     commodityName: "Estate Coffee",
     className:
-      "bottom-[8%] sm:bottom-[8.5%] lg:bottom-[9%] left-[28%] sm:left-[31%] lg:left-[34%] w-[37vw] sm:w-[29vw] lg:w-[22vw] max-w-[355px] min-w-[210px]",
+      "bottom-[8%] sm:bottom-[8.5%] lg:bottom-[9%] left-[24%] sm:left-[26%] lg:left-[29%] w-[37vw] sm:w-[29vw] lg:w-[22vw] max-w-[355px] min-w-[210px]",
     delay: 240,
     parallaxY: -0.28,
     parallaxX: 0.20,
