@@ -87,12 +87,12 @@ export default function CompanyPhilosophy({ onOpenQuoteModal: _onOpenQuoteModal 
       <div className="w-full bg-[#e8f1dc] py-16 sm:py-24 border-y border-[#d9e5cb]">
         <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left: Tilted Pouch Image */}
+            {/* Left: Product Testing & Quality Lab Image */}
             <div className="lg:col-span-5 order-2 lg:order-1">
               <div className="relative aspect-16/10 rounded-2xl overflow-hidden shadow-lg border border-black/5 bg-[#dfeaca]">
                 <Image
-                  src="/assets/monagrow-pouch-sage.jpg"
-                  alt="Monagrow export pack resting on pale sage background"
+                  src="/assets/monagrow-product-testing-lab.jpg"
+                  alt="Monagrow quality assurance specialist conducting commodity lab testing and optical analysis"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 500px"

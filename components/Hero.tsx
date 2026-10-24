@@ -59,7 +59,7 @@ const PACKS: Pack[] = [
     alt: "Monagrow 2.5kg Royal Cashews Pouch",
     commodityName: "Royal Cashews",
     className:
-      "top-[33%] sm:top-[34%] lg:top-[35%] right-[19%] sm:right-[22%] lg:right-[25%] w-[28vw] sm:w-[22vw] lg:w-[17vw] max-w-[270px] min-w-[160px]",
+      "top-[33%] sm:top-[34%] lg:top-[35%] right-[23%] sm:right-[26%] lg:right-[29%] w-[28vw] sm:w-[22vw] lg:w-[17vw] max-w-[270px] min-w-[160px]",
     delay: 160,
     parallaxY: -0.22,
     parallaxX: 0.16,

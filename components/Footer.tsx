@@ -259,16 +259,16 @@ export default function Footer({
                 </h4>
                 <ul className="space-y-2 text-xs sm:text-sm text-stone-600">
                   <li>
-                    <a href="#" className="hover:text-[#800020] transition-colors">Home Overview</a>
+                    <a href="/" className="hover:text-[#800020] transition-colors">Home Overview</a>
                   </li>
                   <li>
-                    <a href="#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
+                    <a href="/about-us" className="hover:text-[#800020] transition-colors">About Monagrow</a>
                   </li>
                   <li>
-                    <a href="#categories" className="hover:text-[#800020] transition-colors">Wholesale Product Lots</a>
+                    <a href="/#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
                   </li>
                   <li>
-                    <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
+                    <a href="/#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
                   </li>
                 </ul>
               </div>

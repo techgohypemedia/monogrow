@@ -64,9 +64,9 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "Categories", href: "#categories" },
-    { name: "About Us", href: "#about-us" },
-    { name: "Contact", href: "#contact" },
+    { name: "Categories", href: "/#categories" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -128,7 +128,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
           {/* Center: Brand Wordmark in pure Maroon */}
           <div className="flex items-center justify-center shrink-0 px-2 sm:px-4">
             <a
-              href="#"
+              href="/"
               className="inline-flex items-center justify-center select-none group py-1"
               aria-label="MonaGrow Home"
             >
@@ -174,7 +174,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
             {/* Header row inside Drawer */}
             <div className="flex items-center justify-between border-b border-stone-100 pb-4">
               <a
-                href="#"
+                href="/"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="inline-flex items-center"
               >
