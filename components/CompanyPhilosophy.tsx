@@ -1,177 +1,129 @@
 "use client";
 
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import styles from "./CompanyPhilosophy.module.css";
 
 interface CompanyPhilosophyProps {
   onOpenQuoteModal?: (productName?: string) => void;
 }
 
-export default function CompanyPhilosophy({ onOpenQuoteModal: _onOpenQuoteModal }: CompanyPhilosophyProps) {
+const stages = [
+  {
+    name: "Origin", title: "Good things begin with good ground.",
+    copy: "From Basmati-growing regions to coffee estates, we work directly with registered origin mills and growers. A shorter route to the source means a clearer story behind every lot.",
+    tags: ["Direct sourcing", "Registered mills", "Origin traceability"],
+    image: "/assets/about-farm-estate.jpg", alt: "Sunlight falling across green terraced farmland in a mountain valley",
+  },
+  {
+    name: "Selection", title: "Carefully selected. Never left to chance.",
+    copy: "Long-grain Basmati, estate Arabica, refined cane sugar and handpicked cashews. Each commodity is selected to its own specification, with attention to the details that matter to your business.",
+    tags: ["Basmati & Arabica", "Sugar & cashews", "Lot specifications"],
+    image: "/assets/why-grain-inspector.jpg", alt: "A quality specialist examining grain samples beside trays and jars of commodities",
+  },
+  {
+    name: "Verification", title: "Purity you can put to the test.",
+    copy: "Know what you are buying before you commit. Laboratory specifications, moisture metrics and harvest information bring clarity to the conversation, from your first sample to your shipment.",
+    tags: ["Lab specifications", "Moisture checks", "Sample evaluation"],
+    image: "/assets/monagrow-product-testing-lab.jpg", alt: "A laboratory specialist using a microscope to examine food commodity samples",
+  },
+  {
+    name: "Dispatch", title: "From our origins to your next chapter.",
+    copy: "Care continues beyond the harvest. Documented lots, coordinated container loading and export support connect the quality at origin with the needs of buyers around the world.",
+    tags: ["Export documentation", "Container loading", "Global trade"],
+    image: "/assets/about-global-port.jpg", alt: "Shipping containers and cargo cranes at an illuminated international port",
+  },
+];
+
+export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosophyProps) {
+  const [active, setActive] = useState(0);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const steps = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const height = window.innerHeight;
+      const mobile = window.innerWidth < 768;
+      const target = mobile ? Math.min(height * .8, (panel.current?.getBoundingClientRect().bottom ?? 0) + (height * .18)) : height * .52;
+      let closest = 0;
+      let distance = Infinity;
+      steps.current.forEach((step, index) => {
+        if (!step) return;
+        const rect = step.getBoundingClientRect();
+        const nextDistance = Math.abs(rect.top + rect.height / 2 - target);
+        if (nextDistance < distance) { distance = nextDistance; closest = index; }
+      });
+      setActive(closest);
+      if (heading.current) {
+        const top = heading.current.getBoundingClientRect().top;
+        const progress = Math.max(0, Math.min(1, (height - top) / (height * .65)));
+        const offset = reduced.matches ? 0 : Math.pow(1 - progress, 3) * Math.min(window.innerWidth * .45, 460);
+        heading.current.style.setProperty("--split-offset", `${offset}px`);
+      }
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    reduced.addEventListener("change", schedule);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      reduced.removeEventListener("change", schedule);
+    };
+  }, []);
+
   return (
-    <section id="about-us" className="relative w-full bg-white text-neutral-900 selection:bg-[#800020] selection:text-white">
-      {/* ─────────────────────────────────────────────────────────────
-          1. CLEAN WHITE CANVAS: "PURITY DIRECT FROM ORIGIN"
-      ────────────────────────────────────────────────────────────── */}
-      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12 pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24">
-        {/* Editorial Section Header */}
-        <div className="text-center md:text-left mb-4 sm:mb-5 lg:mb-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fae8eb] border border-[#800020]/20 text-xs font-bold uppercase tracking-widest text-[#800020] mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#800020]" />
-            <span>Our Origin Standard</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
-            Purity Direct <span className="text-[#800020]">From Origin</span>
+    <section id="about-us" className={styles.section} aria-labelledby="origin-heading">
+      <div className={styles.container}>
+        <header className={styles.intro}>
+          <p className={styles.eyebrow}><span /> Our origin standard</p>
+          <h2 id="origin-heading" ref={heading} className={styles.headline}>
+            <span>Rooted in origin,</span>
+            <span><em>delivered</em> with care.</span>
           </h2>
-        </div>
+          <div className={styles.principles}>
+            <p className={styles.lead}>Exceptional ingredients have a story. Ours starts at the source, with the people who grow them. No unnecessary layers. Just a shared respect for quality.</p>
+            <div className={styles.principle}><span className={styles.mark}>i</span><h3>Closer to source</h3><p>Direct relationships with origin mills and estates.</p></div>
+            <div className={styles.principle}><span className={styles.mark}>ii</span><h3>Clear by nature</h3><p>Documented specifications. Informed buying decisions.</p></div>
+            <div className={styles.principle}><span className={styles.mark}>iii</span><h3>Care in every lot</h3><p>Thoughtful selection, from the first sample to dispatch.</p></div>
+          </div>
+        </header>
 
-        {/* Two-Column Editorial Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 lg:gap-12 items-start">
-          {/* Left Column (5 Cols): Editorial paragraph + Angled Pouch Photo */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-10 sm:space-y-12">
-            <div>
-              <p className="text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-neutral-700 max-w-md">
-                Monagrow bridges international buyers directly with registered origin mills and estates. We deliver certified Grade-A Basmati, single-estate Arabica coffee, pure refined cane sugar, and handpicked jumbo cashews with zero speculative broker layers.
-              </p>
-              <div className="mt-5 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-neutral-500">
-                <span className="w-2 h-2 rounded-full bg-[#800020]" />
-                Direct Origin · Zero Speculative Middlemen
+        <div className={styles.storyLabel}><span>From origin to opportunity</span><span>Follow the journey <ArrowDown size={14} aria-hidden="true" /></span></div>
+        <div className={styles.story}>
+          <div ref={panel} className={styles.photoPanel}>
+            {stages.map((stage, index) => (
+              <div key={stage.name} className={`${styles.photo} ${active === index ? styles.photoActive : ""}`} aria-hidden={active !== index}>
+                <Image src={stage.image} alt={stage.alt} fill sizes="(max-width: 767px) 92vw, 48vw" />
               </div>
-            </div>
-
-            {/* Artistic Angled Pouch Photo */}
-            <div className="relative group max-w-md w-full">
-              <div className="relative aspect-3/4 rounded-2xl overflow-hidden bg-neutral-100 shadow-xl border border-neutral-200/70 transition-transform duration-500 group-hover:scale-[1.01]">
-                <Image
-                  src="/assets/monagrow-rice-sugar-pedestal.jpg"
-                  alt="Monagrow Basmati Rice and Refined Cane Sugar export packs on architectural pedestal"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 420px"
-                />
-              </div>
+            ))}
+            <div className={styles.shade} />
+            <div className={styles.photoCaption}>
+              <div className={styles.counter}>{String(active + 1).padStart(2, "0")}<span>/ 04</span></div>
+              <div className={styles.photoMeta}><span>{stages[active].name}</span><div className={styles.progress} aria-hidden="true">{stages.map((stage, index) => <span key={stage.name} data-active={index === active} />)}</div></div>
             </div>
           </div>
-
-          {/* Right Column (7 Cols): Studio Still Life Photo + Bold Editorial Statement */}
-          <div className="lg:col-span-7 flex flex-col space-y-8 sm:space-y-10">
-            {/* Primary Studio Still Image */}
-            <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-neutral-100 shadow-2xl border border-neutral-200/80">
-              <Image
-                src="/assets/monagrow-studio-still.jpg"
-                alt="Monagrow Basmati rice, dark Arabica coffee, and royal cashews with glass tasting jars"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 720px"
-                priority
-              />
-            </div>
-
-            {/* Editorial Statement Below Studio Image */}
-            <div className="max-w-xl">
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-tight text-neutral-900 leading-snug">
-                UNCOMPROMISING PURITY AT EVERY LINK OF THE COMMODITY CHAIN.
-              </h3>
-              <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed">
-                Every container shipment departs origin with verifiable moisture metrics, Sortex optical cleaning, and sealed container loading overseen by accredited inspection agencies.
-              </p>
-            </div>
+          <div className={styles.steps}>
+            {stages.map((stage, index) => (
+              <article key={stage.name} ref={(el) => { steps.current[index] = el; }} className={styles.step} data-active={active === index}>
+                <p className={styles.stepLabel}>{String(index + 1).padStart(2, "0")} <span>·</span> {stage.name}</p>
+                <h3>{stage.title}</h3>
+                <p className={styles.stepCopy}>{stage.copy}</p>
+                <ul className={styles.tags}>{stage.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+              </article>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* ─────────────────────────────────────────────────────────────
-          2. PALE SAGE FRESH PANEL: "NO MARKETING JARGON"
-      ────────────────────────────────────────────────────────────── */}
-      <div className="w-full bg-[#e8f1dc] py-16 sm:py-24 border-y border-[#d9e5cb]">
-        <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left: Product Testing & Quality Lab Image */}
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <div className="relative aspect-16/10 rounded-2xl overflow-hidden shadow-lg border border-black/5 bg-[#dfeaca]">
-                <Image
-                  src="/assets/monagrow-product-testing-lab.jpg"
-                  alt="Monagrow quality assurance specialist conducting commodity lab testing and optical analysis"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 500px"
-                />
-              </div>
-            </div>
-
-            {/* Right: Headline + Honest Philosophy + Standard Statement */}
-            <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
-              <div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
-                  TRANSPARENT<br /><span className="text-[#3f6b2f]">LAB SPECIFICATIONS</span>
-                </h3>
-              </div>
-
-              <p className="text-base sm:text-lg leading-relaxed text-neutral-800 max-w-xl">
-                We set out to build something transparent in a global trading ecosystem often clouded by broker markup and arbitrary quality claims. Monagrow provides verified laboratory specs, documented harvest dates, and guaranteed container moisture thresholds before contract signing.
-              </p>
-
-              {/* Condensed Accent Banner */}
-              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-black/10">
-                <div className="max-w-md">
-                  <p className="font-bold text-sm sm:text-base uppercase tracking-wide text-neutral-900 leading-snug">
-                    We supply only certified origin harvests and will never compromise on Grade-A standards.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs font-semibold text-neutral-800">
-                  <span className="px-3 py-1 rounded-full bg-white/70 border border-black/10 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#3f6b2f]" /> Sortex Clean
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-white/70 border border-black/10 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#3f6b2f]" /> ISO 22000
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ─────────────────────────────────────────────────────────────
-          3. WARM HONEY MUSTARD PANEL: "REQUEST ORIGIN SAMPLES"
-      ────────────────────────────────────────────────────────────── */}
-      <div className="w-full bg-[#ecd998] py-16 sm:py-24 border-b border-[#ddca88]">
-        <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left: Headline + Description + Call to Action Button */}
-            <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-neutral-900 leading-[1.05]">
-                REQUEST ORIGIN<br />SAMPLES &amp; QUOTE
-              </h3>
-
-              <p className="text-base sm:text-lg lg:text-xl text-neutral-800 leading-relaxed max-w-lg font-medium">
-                Leave a trade inquiry and be among the institutional procurement teams to receive an official origin sample box or container-lot proforma quote.
-              </p>
-
-              <div className="pt-2 border-l-2 border-neutral-900/70 pl-4 py-1 space-y-1.5">
-                <p className="text-sm sm:text-base text-neutral-900 font-semibold leading-relaxed">
-                  Every commercial sample kit includes complete COA specifications, Sortex purity metrics, and verified harvest analysis.
-                </p>
-                <p className="text-xs sm:text-sm font-medium text-neutral-800 tracking-wide">
-                  Dispatched worldwide via priority air courier within 48 hours for institutional lab evaluation.
-                </p>
-              </div>
-            </div>
-
-            {/* Right: Monagrow Product Bag Showcase */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-sm aspect-3/4 flex items-center justify-center">
-                <Image
-                  src="/assets/monagrow-rice-bag-cutout.png"
-                  alt="Monagrow 5kg Premium Basmati Rice export bag"
-                  fill
-                  className="object-contain drop-shadow-[0_24px_38px_rgba(0,0,0,0.22)] hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-              </div>
-            </div>
-          </div>
+        <div className={styles.invitation}>
+          <div><p className={styles.eyebrow}>Experience the origin</p><h3>Good partnerships start<br />with a <em>first sample.</em></h3></div>
+          <div><p>Explore the quality for yourself. Tell us what you need, and let’s start a conversation.</p><button type="button" onClick={() => onOpenQuoteModal?.("Origin samples & wholesale quote")}>Request samples & a quote <ArrowUpRight size={19} aria-hidden="true" /></button></div>
         </div>
       </div>
     </section>
