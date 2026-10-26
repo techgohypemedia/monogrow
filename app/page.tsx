@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ProductMarquee from "@/components/ProductMarquee";
 import CategorySection from "@/components/CategorySection";
 import CompanyPhilosophy from "@/components/CompanyPhilosophy";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -25,14 +26,16 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white selection:bg-[#800020] selection:text-white">
       {/* 1. Top Navbar */}
-      <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
+      <Navbar onOpenQuoteModal={handleOpenQuoteModal} immersiveHero />
 
-      {/* 2. Hero Section with Video Loop & Flagship Rice Showcase */}
+      {/* 2. Scroll-driven commodity showcase */}
       <main className="flex-1">
         <Hero
           onOpenVideoModal={() => setIsVideoModalOpen(true)}
           onOpenQuoteModal={handleOpenQuoteModal}
         />
+
+        <ProductMarquee />
 
         {/* 3. Wholesale Commodity Categories (Rice, Coffee, Sugar, Dryfruits) */}
         <CategorySection

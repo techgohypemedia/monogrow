@@ -1,279 +1,177 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { loadHeroMotion } from "./heroMotion";
+import styles from "./Hero.module.css";
 
 interface HeroProps {
   onOpenVideoModal?: () => void;
   onOpenQuoteModal: (productName?: string) => void;
 }
 
-interface Pack {
-  id: string;
-  image: string;
-  alt: string;
-  commodityName: string;
-  /** Positioning classes along the curve */
-  className: string;
-  /** Fly-in stagger delay (ms) */
-  delay: number;
-  /** Upward drift rate on scroll */
-  parallaxY: number;
-  /** Rightward drift rate on scroll */
-  parallaxX: number;
-  /** Non-linear rightward arc factor (curvature) */
-  curveX: number;
-  /** Non-linear upward arc factor (curvature) */
-  curveY: number;
-  /** How much the pack tilts dynamically as you scroll */
-  tiltRate: number;
-  zIndex: number;
-}
-
-/**
- * 4 Commodities:
- * - Straight (upright at 0deg) at initial load
- * - Visible along their curve formation with a smooth entrance transition
- * - Dynamically curves upwards and to the right on scroll
- */
-const PACKS: Pack[] = [
-  {
-    id: "rice",
-    image: "/assets/monagrow-rice-bag-cutout.png",
-    alt: "Monagrow 5kg Basmati Rice Bag",
-    commodityName: "Basmati Rice",
-    className:
-      "top-[6%] sm:top-[7%] lg:top-[8%] right-[5%] sm:right-[6%] lg:right-[8%] w-[33vw] sm:w-[26vw] lg:w-[20vw] max-w-[325px] min-w-[195px]",
-    delay: 80,
-    parallaxY: -0.16,
-    parallaxX: 0.12,
-    curveX: 90,
-    curveY: 45,
-    tiltRate: 0.012, // tilts clockwise into the rightward curve
-    zIndex: 25,
-  },
-  {
-    id: "cashews",
-    image: "/assets/monagrow-cashews-packaging-new.png",
-    alt: "Monagrow 2.5kg Royal Cashews Pouch",
-    commodityName: "Royal Cashews",
-    className:
-      "top-[33%] sm:top-[34%] lg:top-[35%] right-[23%] sm:right-[26%] lg:right-[29%] w-[28vw] sm:w-[22vw] lg:w-[17vw] max-w-[270px] min-w-[160px]",
-    delay: 160,
-    parallaxY: -0.22,
-    parallaxX: 0.16,
-    curveX: 130,
-    curveY: 60,
-    tiltRate: 0.014,
-    zIndex: 22,
-  },
-  {
-    id: "coffee",
-    image: "/assets/monagrow-coffee-bag-cutout.png",
-    alt: "Monagrow 2.5kg Specialty Estate Coffee Bag",
-    commodityName: "Estate Coffee",
-    className:
-      "bottom-[8%] sm:bottom-[8.5%] lg:bottom-[9%] left-[24%] sm:left-[26%] lg:left-[29%] w-[37vw] sm:w-[29vw] lg:w-[22vw] max-w-[355px] min-w-[210px]",
-    delay: 240,
-    parallaxY: -0.28,
-    parallaxX: 0.20,
-    curveX: 160,
-    curveY: 75,
-    tiltRate: 0.016,
-    zIndex: 20,
-  },
-  {
-    id: "sugar",
-    image: "/assets/monagrow-sugar-bag-cutout.png",
-    alt: "Monagrow 5kg Refined Cane Sugar Bag",
-    commodityName: "Refined Cane Sugar",
-    className:
-      "bottom-[2%] sm:bottom-[2.5%] lg:bottom-[3%] left-[2%] sm:left-[3%] lg:left-[4%] w-[39vw] sm:w-[31vw] lg:w-[23vw] max-w-[375px] min-w-[220px]",
-    delay: 320,
-    parallaxY: -0.34,
-    parallaxX: 0.24,
-    curveX: 190,
-    curveY: 90,
-    tiltRate: 0.018,
-    zIndex: 18,
-  },
+const PRODUCTS = [
+  { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#a6c8d3", glow: "#234c58", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain · Premium basmati", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
+  { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#633318", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark Arabica · Whole bean & ground", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
+  { name: "Royal Cashews", short: "Cashews", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-cashews-packaging-new.png", colour: "#dab2ed", glow: "#4e245c", note: "WHOLE & SELECTED", description: "Beautifully whole. Naturally buttery. Selected cashews that bring a little richness to the everyday.", detail: "W240 · Whole & selected", size: "2.5 kg", ingredient: "cashew", atlas: "0% 100%" },
+  { name: "Refined Cane Sugar", short: "Sugar", title: ["Pure cane.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#46552a", note: "REFINED CANE · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined cane sugar, ready for everything you create.", detail: "ICUMSA 45 · Refined cane", size: "5 kg", ingredient: "sugar", atlas: "100% 100%" },
 ];
 
+const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
+  x: ((i * 137.508) % 100), y: 14 + ((i * 31.71) % 73),
+  rotation: (i * 67) % 360, size: i % 9 === 0 ? 74 : 12 + (i % 5) * 7,
+  depth: i % 3,
+}));
+const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Jumbo Cashews W240", "Refined Cane Sugar (ICUMSA 45)"];
+const BACKGROUNDS = ["#102d36", "#382014", "#301a3c", "#26351a"];
+function blendColour(from: string, to: string, progress: number) {
+  const channels = [1, 3, 5].map(offset => {
+    const start = parseInt(from.slice(offset, offset + 2), 16);
+    return Math.round(start + (parseInt(to.slice(offset, offset + 2), 16) - start) * progress);
+  });
+  return `rgb(${channels.join(",")})`;
+}
+
 export default function Hero({ onOpenQuoteModal }: HeroProps) {
-  const [isReady, setIsReady] = useState(false);
-  const [isSettled, setIsSettled] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const root = useRef<HTMLElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotion = () => setReduceMotion(mq.matches);
-    updateMotion();
-    mq.addEventListener("change", updateMotion);
-
-    // Initial slight pause then trigger smooth entrance
-    const readyTimer = setTimeout(() => setIsReady(true), 80);
-    const settledTimer = setTimeout(() => setIsSettled(true), 600);
-
-    let frame = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-        if (window.scrollY > 8) {
-          setIsSettled(true);
-        }
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+    // Static product scenes are the default for touch layouts, reduced motion,
+    // JavaScript/CDN failure, and the server-rendered page.
+    loadHeroMotion().then(({ gsap, ScrollTrigger, Lenis }) => {
+      if (cancelled || !root.current || !stage.current) return;
+      gsap.registerPlugin(ScrollTrigger);
+      const media = gsap.matchMedia();
+      media.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        const section = root.current!;
+        const viewport = stage.current!;
+        const scenes = Array.from(viewport.querySelectorAll<HTMLElement>("[data-scene]"));
+        const layers = scenes.map(scene => ({
+          pack: scene.querySelector<HTMLElement>("[data-pack]")!,
+          orbit: scene.querySelector<HTMLElement>("[data-orbit]")!,
+          particles: Array.from(scene.querySelectorAll<SVGElement>("[data-particle]")),
+          sides: Array.from(scene.querySelectorAll<HTMLElement>("[data-side]")),
+        }));
+        section.dataset.enhanced = "true";
+        const driver = { value: 0 };
+        const paint = () => {
+          const index = Math.min(3, Math.round(driver.value));
+          const from = Math.max(0, Math.min(3, Math.floor(driver.value)));
+          const to = Math.min(3, from + 1);
+          const blend = Math.max(0, Math.min(1, driver.value - from));
+          viewport.style.setProperty("--glow", blendColour(PRODUCTS[from].glow, PRODUCTS[to].glow, blend));
+          viewport.style.setProperty("--backdrop", blendColour(BACKGROUNDS[from], BACKGROUNDS[to], blend));
+          viewport.style.setProperty("--accent", blendColour(PRODUCTS[from].colour, PRODUCTS[to].colour, blend));
+          scenes.forEach((scene, i) => {
+            const distance = i - driver.value;
+            const amount = Math.min(1, Math.abs(distance));
+            scene.style.opacity = String(1 - amount * amount * (3 - 2 * amount));
+            scene.style.visibility = amount < 1 ? "visible" : "hidden";
+            scene.inert = i !== index;
+            scene.setAttribute("aria-hidden", String(i !== index));
+            if (amount >= 1) return;
+            layers[i].pack.style.transform = `rotate(${-distance * 135}deg) scale(${1 - amount * .12})`;
+            layers[i].orbit.style.transform = `rotate(${driver.value * 240}deg)`;
+            layers[i].sides.forEach(side => {
+              // Arc through the resting position: enter from the lower right,
+              // then curve back toward the upper right without spinning.
+              const arcX = distance * distance * viewport.clientWidth * .18;
+              const arcY = distance * viewport.clientHeight * .65;
+              side.style.transform = `translate(${arcX}px, ${arcY}px) rotate(12deg)`;
+            });
+            layers[i].particles.forEach((particle, j) => {
+              const p = PARTICLES[j];
+              particle.style.transform = `translate3d(${(p.x - 50) * amount * 10}px,${-amount * (100 + p.depth * 150)}px,0) rotate(${p.rotation + distance * 150}deg)`;
+            });
+          });
+        };
+        paint();
+        const lenis = new Lenis({ lerp: .09, smoothWheel: true, anchors: true });
+        lenis.on("scroll", ScrollTrigger.update);
+        const tick = (t: number) => lenis.raf(t * 1000);
+        gsap.ticker.add(tick);
+        gsap.ticker.lagSmoothing(0);
+        const tween = gsap.to(driver, {
+          value: 3, ease: "none", onUpdate: paint,
+          scrollTrigger: { trigger: section, pin: viewport, start: "top top", end: () => `+=${window.innerHeight * 3.3}`, scrub: .8, invalidateOnRefresh: true },
+        });
+        const pointer = (event: PointerEvent) => {
+          if (event.pointerType !== "mouse") return;
+          viewport.style.setProperty("--mouse-x", `${(event.clientX / window.innerWidth - .5) * 22}px`);
+          viewport.style.setProperty("--mouse-y", `${(event.clientY / window.innerHeight - .5) * 18}px`);
+        };
+        const resetPointer = () => { viewport.style.setProperty("--mouse-x", "0px"); viewport.style.setProperty("--mouse-y", "0px"); };
+        viewport.addEventListener("pointermove", pointer);
+        viewport.addEventListener("pointerleave", resetPointer);
+        ScrollTrigger.refresh();
+        return () => {
+          viewport.removeEventListener("pointermove", pointer);
+          viewport.removeEventListener("pointerleave", resetPointer);
+          gsap.ticker.remove(tick);
+          lenis.destroy();
+          tween.kill();
+          delete section.dataset.enhanced;
+          viewport.removeAttribute("style");
+          scenes.forEach(scene => {
+            scene.style.removeProperty("opacity"); scene.style.removeProperty("visibility");
+            scene.removeAttribute("aria-hidden"); scene.inert = false;
+            scene.querySelectorAll<HTMLElement>("[data-pack], [data-orbit], [data-side]").forEach(el => el.removeAttribute("style"));
+            scene.querySelectorAll<SVGElement>("[data-particle]").forEach((el, j) => { el.style.transform = `rotate(${PARTICLES[j].rotation}deg)`; });
+          });
+        };
       });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      clearTimeout(readyTimer);
-      clearTimeout(settledTimer);
-      mq.removeEventListener("change", updateMotion);
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(frame);
-    };
+      dispose = () => media.revert();
+    }).catch(() => { /* The fully visible static scenes are the fallback. */ });
+    return () => { cancelled = true; dispose?.(); };
   }, []);
 
-  const drift = isSettled && !reduceMotion ? Math.min(scrollY, 1100) : 0;
-
-  const textReveal = (delayMs: number): React.CSSProperties => ({
-    opacity: isReady ? 1 : 0,
-    transform: isReady || reduceMotion ? "translate3d(0, 0, 0)" : "translate3d(0, 24px, 0)",
-    transition: "transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease-out",
-    transitionDelay: `${delayMs}ms`,
-  });
-
   return (
-    <section
-      id="home"
-      className="relative min-h-[760px] sm:min-h-[820px] lg:min-h-[900px] xl:min-h-[950px] h-[96vh] lg:h-[98vh] overflow-hidden text-neutral-900 select-none"
-      style={{
-        background: "radial-gradient(ellipse at 45% 25%, #FFFFFF 0%, #FAF8F4 60%, #F3EDE7 100%)",
-      }}
-    >
-
-
-      {/* Copy & Branding */}
-      <div className="relative z-30 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-18 flex flex-col justify-start pt-24 sm:pt-28 lg:pt-32 pointer-events-none">
-        <div className="max-w-xl lg:max-w-2xl pointer-events-auto ml-2.5 sm:ml-5 lg:ml-8 xl:ml-10">
-          {/* Outlined Straight Label: The Taste of Purity cleanly aligned over Monagrow */}
-          <div
-            className="relative -mb-1 sm:-mb-1.5 ml-0.5 sm:ml-1 overflow-visible select-none inline-block pointer-events-none"
-            style={textReveal(0)}
-          >
-            <svg
-              viewBox="0 0 270 22"
-              className="w-56 sm:w-64 md:w-72 lg:w-80 h-6 sm:h-6.5 lg:h-7 overflow-visible block"
-              aria-hidden="true"
-            >
-              <text
-                x="0"
-                y="17"
-                className="font-sans text-[19px] sm:text-[20px] md:text-[21px] font-bold tracking-wider select-none"
-                style={{
-                  fill: "transparent",
-                  stroke: "#800020",
-                  strokeWidth: "1.5px",
-                  paintOrder: "stroke fill",
-                }}
-              >
-                The Taste of Purity
-              </text>
-            </svg>
-          </div>
-
-          {/* Headline: Company name MONAGROW in Bebas Neue display */}
-          <h1
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-[92px] xl:text-[104px] uppercase mb-5 sm:mb-6 select-none text-[#800020]"
-            style={{
-              fontFamily: "var(--font-bebas), var(--font-antonio), 'Impact', sans-serif",
-              fontWeight: 400,
-              letterSpacing: "-0.015em",
-              lineHeight: 0.88,
-              ...textReveal(80),
-            }}
-          >
-            Monagrow
-          </h1>
-
-          {/* Description */}
-          <p
-            className="text-stone-600 text-sm sm:text-base md:text-lg font-normal leading-relaxed max-w-lg mb-7"
-            style={textReveal(180)}
-          >
-            Premium Basmati rice, refined cane sugar, estate coffee, and royal cashews, packed at origin and shipped in bulk to markets worldwide.
-          </p>
-
-          {/* Button: Completely clear of Sugar bag */}
-          <div className="mb-8 sm:mb-10" style={textReveal(260)}>
-            <button
-              type="button"
-              onClick={() => onOpenQuoteModal("All Wholesale Commodities")}
-              className="px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase border-2 border-[#800020] shadow-[4px_5px_0px_#1c1917] hover:shadow-[2px_2px_0px_#1c1917] hover:translate-x-[2px] hover:translate-y-[3px] active:shadow-none active:translate-x-[4px] active:translate-y-[5px] transition-all cursor-pointer inline-flex items-center gap-2 group"
-            >
-              <span>Get a Quote</span>
-              <ArrowUpRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 
-        COMMODITY PRODUCTS:
-        - Straight (0deg) at initial rest
-        - Tilts dynamically as the user scrolls
-        - Last 2 images in the bottom half rising with scroll
-      */}
-      {PACKS.map((pack) => {
-        // Normalized scroll factor
-        const t = drift / 1000;
-        // Non-linear rightward and upward curved trajectory
-        const curveFactor = Math.pow(t, 1.35);
-        const driftX = (drift * pack.parallaxX + curveFactor * pack.curveX).toFixed(1);
-        const driftY = (drift * pack.parallaxY - curveFactor * pack.curveY).toFixed(1);
-        const dynamicTilt = (drift * pack.tiltRate).toFixed(2);
-
-        return (
-          <div
-            key={pack.id}
-            className={`absolute aspect-3/4 pointer-events-auto ${pack.className}`}
-            style={{
-              zIndex: pack.zIndex,
-              transform: `translate3d(${driftX}px, ${driftY}px, 0) rotate(${dynamicTilt}deg)`,
-              transition: isSettled ? "transform 0.06s ease-out" : "none",
-              willChange: "transform",
-            }}
-          >
-            <div
-              className="relative w-full h-full cursor-pointer group"
-              onClick={() => onOpenQuoteModal(pack.commodityName)}
-              title={`Request wholesale quote for ${pack.commodityName}`}
-              style={{
-                opacity: isReady ? 1 : 0,
-                transform: isReady || reduceMotion
-                  ? "translate3d(0, 0, 0) scale(1)"
-                  : "translate3d(0, 18px, 0) scale(0.96)",
-                transition: "opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1)",
-                transitionDelay: `${pack.delay}ms`,
-                willChange: "transform, opacity",
-              }}
-            >
-              <Image
-                src={pack.image}
-                alt={pack.alt}
-                fill
-                preload={pack.id === "rice"}
-                className="object-contain drop-shadow-[0_24px_38px_rgba(25,15,5,0.18)] group-hover:scale-105 group-hover:drop-shadow-[0_32px_48px_rgba(25,15,5,0.25)] transition-all duration-300"
-                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 23vw"
-              />
+    <section id="home" ref={root} className={styles.hero} aria-label="Discover Monagrow commodities">
+      <svg className={styles.definitions} aria-hidden="true"><defs>
+        <radialGradient id="mg-bean" cx="32%" cy="25%"><stop stopColor="#b6814d"/><stop offset=".45" stopColor="#6b351c"/><stop offset="1" stopColor="#261107"/></radialGradient>
+        <linearGradient id="mg-grain" x2="1" y2="1"><stop stopColor="#fff7d9"/><stop offset="1" stopColor="#c9ad79"/></linearGradient>
+        <symbol id="mg-coffee" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="20" ry="27" fill="url(#mg-bean)" transform="rotate(30 30 30)"/><path d="M42 8C17 24 43 34 17 52" stroke="#241005" strokeWidth="4" fill="none"/><path d="M38 9C20 22 38 36 17 49" stroke="#ca9256" strokeWidth="1.2" fill="none"/><path d="M20 14Q9 25 12 35" fill="none" stroke="#e0b083" strokeWidth="2" opacity=".4"/></symbol>
+        <symbol id="mg-rice" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="7" ry="27" fill="url(#mg-grain)" transform="rotate(25 30 30)"/><path d="M39 8L21 51" stroke="#fff9e9" opacity=".5"/></symbol>
+        <symbol id="mg-cashew" viewBox="0 0 60 60"><path d="M39 6C8 0 0 38 24 51C43 63 62 42 51 35C44 30 43 43 32 39C18 34 24 19 34 22C47 26 51 10 39 6Z" fill="url(#mg-grain)"/><path d="M35 12C15 9 8 34 26 44" fill="none" stroke="#b9904d" strokeWidth="2" opacity=".6"/></symbol>
+        <symbol id="mg-sugar" viewBox="0 0 60 60"><path d="M13 14L39 7L51 24L44 49L17 52L7 33Z" fill="#eee8d6" fillOpacity=".75" stroke="#fff8e1"/><path d="M13 14L26 29L51 24M26 29L17 52M26 29L39 7" stroke="#fff" opacity=".6" fill="none"/></symbol>
+      </defs></svg>
+      <div ref={stage} className={styles.stage}>
+        <div className={styles.grain} aria-hidden="true" />
+        <div className={styles.topline}><span>ROOTED IN INDIA. SHARED WITH THE WORLD.</span><span>THE MONAGROW COLLECTION</span></div>
+        <h1 className="sr-only">Monagrow — the taste of purity</h1>
+        {PRODUCTS.map((product, index) => (
+          <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow } as CSSProperties} aria-label={product.name}>
+            <div className={styles.atmosphere} aria-hidden="true" />
+            <div className={styles.wordmark} aria-hidden="true" style={{ "--name-size": `${Math.min(18, 146 / product.name.length)}vw` } as CSSProperties}>{product.name}</div>
+            <div className={styles.particles} aria-hidden="true">{PARTICLES.map((particle, i) => <svg key={i} data-particle className={styles.particle} style={{ left: `${particle.x}%`, top: `${particle.y}%`, width: particle.size, height: particle.size, opacity: particle.depth === 0 ? .25 : .7, filter: `blur(${particle.depth === 0 ? 3 : particle.size > 60 ? 2 : 0}px)`, transform: `rotate(${particle.rotation}deg)` }}><use href={`#mg-${product.ingredient}`} /></svg>)}</div>
+            <div className={styles.copy}>
+              <p className={styles.eyebrow}><span /> THE TASTE OF PURITY</p>
+              <h2>{product.title[0]}<br/><em>{product.title[1]}</em></h2>
+              <p className={styles.description}>{product.description}</p>
+              <button className={styles.quote} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} onPointerMove={event => {
+                if (event.pointerType !== "mouse" || !window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches) return;
+                const bounds = event.currentTarget.getBoundingClientRect();
+                event.currentTarget.style.transform = `translate(${(event.clientX - bounds.left - bounds.width / 2) * .12}px, ${(event.clientY - bounds.top - bounds.height / 2) * .18}px)`;
+              }} onPointerLeave={event => { event.currentTarget.style.transform = ""; }}>Get a wholesale quote <ArrowUpRight size={18}/></button>
             </div>
-          </div>
-        );
-      })}
+            <div className={styles.productStage}>
+              <div className={styles.halo} aria-hidden="true" />
+              <svg data-orbit className={styles.orbit} viewBox="0 0 500 500" aria-hidden="true"><defs><path id={`mg-orbit-${index}`} d="M250,250 m-220,0 a220,220 0 1,1 440,0 a220,220 0 1,1 -440,0"/></defs><text><textPath href={`#mg-orbit-${index}`} textLength="1382">PACKED AT ORIGIN · MADE FOR THE WORLD · THE TASTE OF PURITY · MONAGROW · </textPath></text></svg>
+              <div className={styles.mouseLayer}><div data-pack className={styles.mainPack}><div className={styles.ingredientEntrance}><Image src={`/assets/hero-center-${product.ingredient}.png`} alt={`A wooden bowl of ${product.name.toLowerCase()}`} fill sizes="(max-width: 767px) 90vw, 43vw" preload={index === 0} className={styles.packImage} onLoad={event => { event.currentTarget.parentElement?.setAttribute("data-ready", "true"); }}/></div></div></div>
+              <div className={styles.productShadow} aria-hidden="true"/>
+            </div>
+            <div className={`${styles.ingredientCluster} ${styles.clusterLeft}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
+            <div className={`${styles.ingredientCluster} ${styles.clusterRight}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
+            <button data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage} onLoad={event => { event.currentTarget.parentElement?.setAttribute("data-ready", "true"); }}/></span></button>
+            <div className={styles.productInfo}><span className={styles.infoLine}/><p className={styles.eyebrow}>{product.note}</p><h3>{product.name}</h3><p>{product.detail}</p><span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span><button onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])}>Explore this product <ArrowRight size={17}/></button></div>
+            <span className={styles.sceneNumber} aria-hidden="true">0{index + 1} / 04</span>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

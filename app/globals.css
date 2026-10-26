@@ -43,8 +43,17 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-cream);
   color: #1a2920;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
+
+html { overflow-x: clip; }
+.monagrow-hero-nav[data-collection="true"] nav a,
+.monagrow-hero-nav[data-collection="true"] button[aria-expanded] { color: #f7efe1; }
+.monagrow-hero-nav[data-collection="true"] nav a:hover { color: #e9cfaa; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
 .font-serif-luxury {
   font-family: var(--font-serif);

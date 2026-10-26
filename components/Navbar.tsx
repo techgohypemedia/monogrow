@@ -2,20 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, X } from "lucide-react";
 
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
+  immersiveHero?: boolean;
 }
 
-export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
+export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [overHero, setOverHero] = useState(immersiveHero);
+  const [overCollection, setOverCollection] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      const collection = document.getElementById("categories")?.getBoundingClientRect();
+      setOverCollection(Boolean(collection && collection.top <= 45 && collection.bottom > 45));
+      if (immersiveHero) {
+        const hero = document.getElementById("home");
+        setOverHero(Boolean(hero && hero.getBoundingClientRect().bottom > 90));
+      }
 
       // Hide navbar when footer appears
       const footerEl = document.getElementById("contact") || document.querySelector("footer");
@@ -42,7 +52,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [immersiveHero]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -72,16 +82,16 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   return (
     <>
       <header
+        data-dark={overHero ? "true" : undefined}
+        data-collection={overCollection ? "true" : undefined}
         style={{
-          backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.94)" : "rgba(255, 255, 255, 0.88)",
-          backdropFilter: "blur(20px) saturate(180%)",
-          WebkitBackdropFilter: "blur(20px) saturate(180%)",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
-          boxShadow: isScrolled
-            ? "0 8px 30px 0 rgba(0, 0, 0, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.9)"
-            : "none",
+          backgroundColor: "transparent",
+          backdropFilter: "none",
+          WebkitBackdropFilter: "none",
+          borderBottom: "none",
+          boxShadow: "none",
         }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${
+        className={`monagrow-hero-nav fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${
           isVisible
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
@@ -127,20 +137,21 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
 
           {/* Center: Brand Wordmark in pure Maroon */}
           <div className="flex items-center justify-center shrink-0 px-2 sm:px-4">
-            <a
+            <Link
               href="/"
               className="inline-flex items-center justify-center select-none group py-1"
               aria-label="MonaGrow Home"
             >
               <Image
                 src="/assets/monagrow-wordmark-transparent.png"
+                style={{ filter: "none" }}
                 alt="MonaGrow"
                 width={320}
                 height={52}
                 priority
                 className="h-5.5 sm:h-6.5 md:h-8 lg:h-[34px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
-            </a>
+            </Link>
           </div>
 
           {/* Right: "Get Wholesale Quote" CTA button with Maroon Color */}
@@ -173,19 +184,20 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
           >
             {/* Header row inside Drawer */}
             <div className="flex items-center justify-between border-b border-stone-100 pb-4">
-              <a
+              <Link
                 href="/"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="inline-flex items-center"
               >
                 <Image
                   src="/assets/monagrow-wordmark-transparent.png"
+                  style={{ filter: "none" }}
                   alt="MonaGrow"
                   width={240}
                   height={40}
                   className="h-6 w-auto object-contain"
                 />
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(false)}
