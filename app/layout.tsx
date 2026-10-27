@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display, Antonio, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import MagneticCursor from "@/components/MagneticCursor";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -71,6 +72,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <MagneticCursor />
       </body>
     </html>
   );

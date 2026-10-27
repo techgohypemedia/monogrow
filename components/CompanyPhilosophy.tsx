@@ -113,7 +113,6 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
           <div className={styles.steps}>
             {stages.map((stage, index) => (
               <article key={stage.name} ref={(el) => { steps.current[index] = el; }} className={styles.step} data-active={active === index}>
-                <p className={styles.stepLabel}>{String(index + 1).padStart(2, "0")} <span>·</span> {stage.name}</p>
                 <h3>{stage.title}</h3>
                 <p className={styles.stepCopy}>{stage.copy}</p>
                 <ul className={styles.tags}>{stage.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>

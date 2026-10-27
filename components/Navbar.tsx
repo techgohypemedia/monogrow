@@ -95,19 +95,19 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
           isVisible
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
-        } ${isScrolled ? "py-2.5 sm:py-3.5" : "py-3 sm:py-4"}`}
+        } ${isScrolled ? "py-2 sm:py-2.5" : "py-2.5 sm:py-3.5"}`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 flex items-center justify-between">
           
           {/* Left: Navigation Links on Desktop, 3-Bar Hamburger Icon on Mobile */}
           <div className="flex-1 flex items-center justify-start">
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-5 lg:gap-8">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-[#800020] hover:text-[#520014] font-bold text-sm sm:text-base md:text-lg tracking-wide transition-colors duration-200 py-1 whitespace-nowrap"
+                  className="text-[#800020] hover:text-[#520014] font-bold text-base md:text-xl lg:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap"
                 >
                   {link.name}
                 </a>
@@ -135,21 +135,21 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
             </button>
           </div>
 
-          {/* Center: Brand Wordmark in pure Maroon */}
+          {/* Center: Official Brand Logo with Peacock Motif in pure Maroon */}
           <div className="flex items-center justify-center shrink-0 px-2 sm:px-4">
             <Link
               href="/"
-              className="inline-flex items-center justify-center select-none group py-1"
-              aria-label="MonaGrow Home"
+              className="inline-flex items-center justify-center select-none group py-0.5"
+              aria-label="Monagrow Home"
             >
               <Image
-                src="/assets/monagrow-wordmark-transparent.png"
+                src="/assets/monagrow-official-logo.png"
                 style={{ filter: "none" }}
-                alt="MonaGrow"
+                alt="Monagrow"
                 width={320}
-                height={52}
+                height={160}
                 priority
-                className="h-5.5 sm:h-6.5 md:h-8 lg:h-[34px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                className="h-12 sm:h-14 md:h-[68px] lg:h-[78px] xl:h-[84px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
               />
             </Link>
           </div>
@@ -159,7 +159,7 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
             <button
               type="button"
               onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
-              className="flex items-center gap-1.5 sm:gap-2.5 pl-3 sm:pl-4 md:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
+              className="flex items-center gap-1.5 sm:gap-2.5 pl-3.5 sm:pl-4.5 md:pl-5 pr-1.5 sm:pr-2 py-2 sm:py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm md:text-base border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
             >
               <span className="tracking-wide hidden xs:inline sm:inline">Get a Quote</span>
               <span className="tracking-wide xs:hidden sm:hidden">Quote</span>
@@ -190,12 +190,12 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
                 className="inline-flex items-center"
               >
                 <Image
-                  src="/assets/monagrow-wordmark-transparent.png"
+                  src="/assets/monagrow-official-logo.png"
                   style={{ filter: "none" }}
-                  alt="MonaGrow"
-                  width={240}
-                  height={40}
-                  className="h-6 w-auto object-contain"
+                  alt="Monagrow"
+                  width={220}
+                  height={110}
+                  className="h-9 sm:h-11 w-auto object-contain"
                 />
               </Link>
               <button

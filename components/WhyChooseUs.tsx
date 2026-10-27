@@ -209,14 +209,14 @@ const COMMODITY_JOURNEYS: CommodityJourney[] = [
     categoryTag: "Sparkling White Food Grade",
     originBadge: "Certified Agro Sugar Mills",
     productImage: "/assets/monagrow-sugar-bag-cutout.png",
-    productAlt: "Monagrow 5kg Refined Sugar Bag",
+    productAlt: "Monagrow 1kg Refined Sugar Bag",
     description:
       "Ultra-pure sparkling white crystal cane sugar with 99.85% polarization, zero chemical odor, and instant 100% solubility.",
     specs: [
       { label: "Purity Index", value: "ICUMSA 45 RBU Max" },
       { label: "Polarization", value: "99.85% Minimum" },
       { label: "Moisture", value: "< 0.04% Free-Flowing" },
-      { label: "Packaging", value: "5kg Retail / 50kg Sacks" },
+      { label: "Packaging", value: "1kg Retail / 50kg Sacks" },
     ],
     steps: {
       raw: {
