@@ -268,7 +268,7 @@ export default function Footer({
                     <a href="/#categories" className="hover:text-[#800020] transition-colors">Commodity Categories</a>
                   </li>
                   <li>
-                    <a href="/#why-choose-us" className="hover:text-[#800020] transition-colors">Why Choose Us</a>
+                    <a href="/#calculator" className="hover:text-[#800020] transition-colors">Trade Cost Estimator</a>
                   </li>
                 </ul>
               </div>
@@ -294,7 +294,7 @@ export default function Footer({
                     </a>
                   </li>
                   <li>
-                    <a href="#why-choose-us" className="hover:text-[#800020] transition-colors">Multimodal Freight</a>
+                    <a href="/#calculator" className="hover:text-[#800020] transition-colors">Multimodal Freight</a>
                   </li>
                   <li>
                     <a 
