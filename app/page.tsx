@@ -6,7 +6,6 @@ import Hero from "@/components/Hero";
 import ProductMarquee from "@/components/ProductMarquee";
 import CategorySection from "@/components/CategorySection";
 import CompanyPhilosophy from "@/components/CompanyPhilosophy";
-import WhyChooseUs from "@/components/WhyChooseUs";
 import WholesaleCalculator from "@/components/WholesaleCalculator";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
@@ -45,10 +44,7 @@ export default function Home() {
         {/* 4. Company Philosophy & Details (Direct Origin Story & Purity Manifesto) */}
         <CompanyPhilosophy onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 5. Why Choose Us / Monagrow Wholesale Advantage (Matching Reference Layout) */}
-        <WhyChooseUs onOpenQuoteModal={handleOpenQuoteModal} />
-
-        {/* 7. Interactive Bulk Container & Volume Estimator */}
+        {/* 5. Interactive Bulk Container & Volume Estimator */}
         <WholesaleCalculator onOpenQuoteModal={handleOpenQuoteModal} />
 
         {/* 8. Verified Buyer Reviews & Testimonials */}

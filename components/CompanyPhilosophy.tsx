@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import styles from "./CompanyPhilosophy.module.css";
 
 interface CompanyPhilosophyProps {
@@ -119,10 +119,6 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
               </article>
             ))}
           </div>
-        </div>
-        <div className={styles.invitation}>
-          <div><p className={styles.eyebrow}>Experience the origin</p><h3>Good partnerships start<br />with a <em>first sample.</em></h3></div>
-          <div><p>Explore the quality for yourself. Tell us what you need, and let’s start a conversation.</p><button type="button" onClick={() => onOpenQuoteModal?.("Origin samples & wholesale quote")}>Request samples & a quote <ArrowUpRight size={19} aria-hidden="true" /></button></div>
         </div>
       </div>
     </section>
