@@ -38,6 +38,34 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
   const stage = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const firstScene = stage.current?.querySelector<HTMLElement>("[data-scene]");
+    if (!firstScene) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const bowl = firstScene.querySelector<HTMLElement>(`.${styles.ingredientEntrance}`);
+    const pack = firstScene.querySelector<HTMLElement>(`.${styles.packEntrance}`);
+    const animations: Animation[] = [];
+    let cancelled = false;
+    const stop = () => animations.forEach(animation => animation.cancel());
+    const images = [bowl, pack].map(element => element?.querySelector("img"));
+
+    // Start together after both images decode, including images from cache.
+    Promise.all(images.map(image => image?.decode().catch(() => undefined))).then(() => {
+      if (cancelled || motion.matches || window.scrollY > window.innerHeight * .25) return;
+      if (bowl) animations.push(bowl.animate([
+        { opacity: 0, transform: "translateY(55px) scale(.82) rotate(-7deg)" },
+        { opacity: 1, transform: "translateY(-5px) scale(1.025) rotate(1deg)", offset: .72 },
+        { opacity: 1, transform: "translateY(0) scale(1) rotate(0)" },
+      ], { duration: 1150, easing: "cubic-bezier(.22, 1, .36, 1)", fill: "backwards" }));
+      if (pack) animations.push(pack.animate([
+        { opacity: 0, transform: "translateY(65px) scale(.88)" },
+        { opacity: 1, transform: "translateY(0) scale(1)" },
+      ], { duration: 950, delay: 160, easing: "cubic-bezier(.22, 1, .36, 1)", fill: "backwards" }));
+    });
+    motion.addEventListener("change", stop);
+    return () => { cancelled = true; stop(); motion.removeEventListener("change", stop); };
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
     let dispose: (() => void) | undefined;
     // Static product scenes are the default for touch layouts, reduced motion,
@@ -144,7 +172,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         <div className={styles.topline}><span>ROOTED IN INDIA. SHARED WITH THE WORLD.</span><span>THE MONAGROW COLLECTION</span></div>
         <h1 className="sr-only">Monagrow — the taste of purity</h1>
         {PRODUCTS.map((product, index) => (
-          <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow } as CSSProperties} aria-label={product.name}>
+          <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow, "--scene-backdrop": BACKGROUNDS[index] } as CSSProperties} aria-label={product.name}>
             <div className={styles.atmosphere} aria-hidden="true" />
             <div className={styles.wordmark} aria-hidden="true" style={{ "--name-size": `${Math.min(18, 146 / product.name.length)}vw` } as CSSProperties}>{product.name}</div>
             <div className={styles.particles} aria-hidden="true">{PARTICLES.map((particle, i) => <svg key={i} data-particle className={styles.particle} style={{ left: `${particle.x}%`, top: `${particle.y}%`, width: particle.size, height: particle.size, opacity: particle.depth === 0 ? .25 : .7, filter: `blur(${particle.depth === 0 ? 3 : particle.size > 60 ? 2 : 0}px)`, transform: `rotate(${particle.rotation}deg)` }}><use href={`#mg-${product.ingredient}`} /></svg>)}</div>
@@ -161,12 +189,12 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             <div className={styles.productStage}>
               <div className={styles.halo} aria-hidden="true" />
               <svg data-orbit className={styles.orbit} viewBox="0 0 500 500" aria-hidden="true"><defs><path id={`mg-orbit-${index}`} d="M250,250 m-220,0 a220,220 0 1,1 440,0 a220,220 0 1,1 -440,0"/></defs><text><textPath href={`#mg-orbit-${index}`} textLength="1382">PACKED AT ORIGIN · MADE FOR THE WORLD · THE TASTE OF PURITY · MONAGROW · </textPath></text></svg>
-              <div className={styles.mouseLayer}><div data-pack className={styles.mainPack}><div className={styles.ingredientEntrance}><Image src={`/assets/hero-center-${product.ingredient}.png`} alt={`A wooden bowl of ${product.name.toLowerCase()}`} fill sizes="(max-width: 767px) 90vw, 43vw" preload={index === 0} className={styles.packImage} onLoad={event => { event.currentTarget.parentElement?.setAttribute("data-ready", "true"); }}/></div></div></div>
+              <div className={styles.mouseLayer}><div data-pack className={styles.mainPack}><div className={styles.ingredientEntrance}><Image src={`/assets/hero-center-${product.ingredient}.png`} alt={`A wooden bowl of ${product.name.toLowerCase()}`} fill sizes="(max-width: 767px) 90vw, 43vw" preload={index === 0} className={styles.packImage}/></div></div></div>
               <div className={styles.productShadow} aria-hidden="true"/>
             </div>
             <div className={`${styles.ingredientCluster} ${styles.clusterLeft}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
             <div className={`${styles.ingredientCluster} ${styles.clusterRight}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
-            <button data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage} onLoad={event => { event.currentTarget.parentElement?.setAttribute("data-ready", "true"); }}/></span></button>
+            <button data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
             <div className={styles.productInfo}><span className={styles.infoLine}/><p className={styles.eyebrow}>{product.note}</p><h3>{product.name}</h3><p>{product.detail}</p><span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span><button onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])}>Explore this product <ArrowRight size={17}/></button></div>
             <span className={styles.sceneNumber} aria-hidden="true">0{index + 1} / 04</span>
           </article>

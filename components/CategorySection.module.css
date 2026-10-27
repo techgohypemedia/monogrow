@@ -1,5 +1,5 @@
 .section { position: relative; background: #800020; color: #f7efe1; isolation: isolate; }
-.stage { position: relative; overflow: clip; padding: 100px 6% 60px; background: radial-gradient(ellipse at 80% 10%, #b3444b80, transparent 60%), linear-gradient(140deg, #8e102d, #650019); }
+.stage { position: relative; overflow: clip; padding: 100px 6% 100px; background: radial-gradient(ellipse at 80% 10%, #b3444b80, transparent 60%), linear-gradient(140deg, #8e102d, #650019); }
 .stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath filter='url(%23g)' opacity='.6' d='M0 0h150v150H0z' fill='white'/%3E%3C/svg%3E"); }
 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: .22em; font-weight: 700; color: #e9cfaa; margin-bottom: 14px; }
 .eyebrow > span { width: 28px; height: 1px; background: currentColor; }
@@ -31,16 +31,16 @@
 .action button:hover, .action a:hover { background: #e9cfaa; transform: translateY(-2px); }
 .action button:focus-visible, .action a:focus-visible { outline: 2px solid #f7efe1; outline-offset: 5px; }
 .progress { display: none; }
-.section[data-animated] .stage { height: 100svh; min-height: 650px; padding: 110px 6% 30px; }
+.section[data-animated] .stage { height: calc(100svh + 80px); min-height: 730px; padding: 110px 6% 30px; }
 .section[data-animated] .heading { position: relative; z-index: 2; pointer-events: none; }
 .section[data-animated] .intro { position: absolute; left: 6%; top: 57%; width: 25%; margin: 0; opacity: clamp(0, calc(1 - var(--collection-progress, 0) * 5), 1); }
 .section[data-animated] .railWindow { position: absolute; inset: 0; pointer-events: none; }
-.section[data-animated] .track { position: absolute; top: 43%; left: 0; display: flex; gap: 30px; width: max-content; padding-left: 36vw; padding-right: 3vw; will-change: transform; }
+.section[data-animated] .track { position: absolute; top: 43svh; left: 0; display: flex; gap: 30px; width: max-content; padding-left: 36vw; padding-right: 3vw; will-change: transform; }
 .section[data-animated] .card { flex: 0 0 clamp(300px, 28vw, 440px); width: clamp(300px, 28vw, 440px); pointer-events: auto; }
 .section[data-animated] .visual { height: clamp(180px, 28vh, 300px); }
 .section[data-animated] .scrollCue { display: flex; align-items: center; gap: 30px; color: #e9cfaa; margin-top: 34px; font-size: 11px; }
 .section[data-animated] .progress { position: absolute; display: block; width: 20%; height: 2px; top: 33%; right: 6%; background: #f7efe12b; }
 .progress span { display: block; height: 100%; background: #e9cfaa; transform-origin: left; transform: scaleX(var(--collection-progress, 0)); }
-@media (min-width: 768px) and (max-height: 820px) { .section[data-animated] .stage { padding-top: 95px; } .heading h2 { font-size: clamp(32px, 3.8vw, 56px); } .section[data-animated] .track { top: 42%; } .section[data-animated] .visual { height: 145px; margin-top: -55px; } .cardBody { padding: 12px 20px 18px; } .cardBody h3 { font-size: 25px; } .description { font-size: 11px; margin: 10px 0; } .specs > div { padding: 5px 0; } .action { margin-top: 12px; } .intro > p { font-size: 13px; } }
-@media (max-width: 767px) { .stage { padding: 70px 6% 50px; } .heading h2 { font-size: clamp(29px, 6.8vw, 44px); } .eyebrow { font-size: 8px; } .intro { margin: 25px 0 100px; } .intro > p { font-size: 13px; } .track { grid-template-columns: 1fr; gap: 115px; } .card { max-width: 460px; width: 100%; margin: 0 auto; } .visual { height: 235px; } .cardBody h3 { font-size: 30px; } .description { font-size: 13px; } }
+@media (min-width: 768px) and (max-height: 820px) { .section[data-animated] .stage { padding-top: 95px; } .heading h2 { font-size: clamp(32px, 3.8vw, 56px); } .section[data-animated] .track { top: 42svh; } .section[data-animated] .visual { height: 145px; margin-top: -55px; } .cardBody { padding: 12px 20px 18px; } .cardBody h3 { font-size: 25px; } .description { font-size: 11px; margin: 10px 0; } .specs > div { padding: 5px 0; } .action { margin-top: 12px; } .intro > p { font-size: 13px; } }
+@media (max-width: 767px) { .stage { padding: 70px 6% 80px; } .heading h2 { font-size: clamp(29px, 6.8vw, 44px); } .eyebrow { font-size: 8px; } .intro { margin: 25px 0 100px; } .intro > p { font-size: 13px; } .track { grid-template-columns: 1fr; gap: 115px; } .card { max-width: 460px; width: 100%; margin: 0 auto; } .visual { height: 235px; } .cardBody h3 { font-size: 30px; } .description { font-size: 13px; } }
 @media (prefers-reduced-motion: reduce) { .action button, .action a { transition: none; } }
