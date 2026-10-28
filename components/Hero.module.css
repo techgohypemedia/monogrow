@@ -108,4 +108,24 @@
   .productNav button { font-size: 10px; }
   .productNav button::after { bottom: -18px; }
 }
+/* Keep the desktop scroll choreography in a compact, viewport-sized phone scene. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .hero[data-enhanced] .stage { min-height: 600px; }
+  .hero[data-enhanced] .scene { padding: 0; }
+  .hero[data-enhanced] .wordmark { top: 116px; }
+  .hero[data-enhanced] .productStage { width: min(88vw, 40svh, 380px); height: auto; aspect-ratio: 1; left: 50%; top: 23%; transform: translateX(-50%); }
+  .hero[data-enhanced] .orbit { width: 100%; height: 100%; left: 0; top: 0; max-height: none; }
+  .hero[data-enhanced] .mainPack { inset: 0; }
+  .hero[data-enhanced] .halo { width: 88%; left: 6%; top: 6%; }
+  .hero[data-enhanced] .sidePack { width: 27%; height: 24%; top: 39%; right: 8%; }
+  .hero[data-enhanced] .clusterLeft { width: 100px; left: 0; top: 28%; }
+  .hero[data-enhanced] .clusterRight { width: 100px; right: 28%; top: 48%; }
+  .hero[data-enhanced] .copy { position: absolute; left: 7%; top: 64%; width: 86%; }
+  .hero[data-enhanced] .copy .eyebrow { font-size: 10px; }
+  .hero[data-enhanced] .copy h2 { font-size: clamp(26px, 7vw, 34px); margin: 8px 0; }
+  .hero[data-enhanced] .description { max-width: 100%; font-size: 11px; line-height: 1.5; }
+  .hero[data-enhanced] .quote { margin-top: 12px; min-height: 44px; padding: 11px 16px; }
+  .hero[data-enhanced] .productInfo { display: none; }
+  .hero[data-enhanced] .sceneNumber { display: block; top: 90px; }
+}
 @media (prefers-reduced-motion: reduce) { .hero *, .hero *::after { transition: none !important; animation: none !important; } }

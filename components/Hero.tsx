@@ -68,13 +68,13 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
   useEffect(() => {
     let cancelled = false;
     let dispose: (() => void) | undefined;
-    // Static product scenes are the default for touch layouts, reduced motion,
+    // Static product scenes are the default for reduced motion,
     // JavaScript/CDN failure, and the server-rendered page.
     loadHeroMotion().then(({ gsap, ScrollTrigger, Lenis }) => {
       if (cancelled || !root.current || !stage.current) return;
       gsap.registerPlugin(ScrollTrigger);
       const media = gsap.matchMedia();
-      media.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      media.add("(prefers-reduced-motion: no-preference)", () => {
         const section = root.current!;
         const viewport = stage.current!;
         const scenes = Array.from(viewport.querySelectorAll<HTMLElement>("[data-scene]"));
@@ -125,7 +125,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         gsap.ticker.lagSmoothing(0);
         const tween = gsap.to(driver, {
           value: 3, ease: "none", onUpdate: paint,
-          scrollTrigger: { trigger: section, pin: viewport, start: "top top", end: () => `+=${window.innerHeight * 3.3}`, scrub: .8, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: section, pin: viewport, start: "top top", end: () => `+=${viewport.clientHeight * 3.3}`, scrub: .8, invalidateOnRefresh: true },
         });
         const pointer = (event: PointerEvent) => {
           if (event.pointerType !== "mouse") return;

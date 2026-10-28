@@ -1,0 +1,27 @@
+.mobileTitle, .mobileCommodity { display: none; }
+
+@media (max-width: 767px) {
+  .section { background: #fff; color: #292524; padding: 32px 0; scroll-margin-top: 84px; }
+  .section > div[aria-hidden] { display: none; }
+  .container { padding-inline: 16px; }
+  .layout { gap: 20px; }
+  .intro { padding-bottom: 18px; border-bottom: 1px solid #e7e5e4; }
+  .intro > div:first-child { padding: 0; border: 0; border-radius: 0; background: none; color: #800020; font-size: 10px; margin-bottom: 8px; }
+  .intro > div:first-child > span:first-child { background: #800020; }
+  .intro h2 { font-size: 24px; font-weight: 500; line-height: 1.2; }
+  .intro > p { color: #78716c; font-size: 13px; margin-top: 8px; }
+  .intro > ul, .intro > div:last-child { display: none; }
+  .card { padding: 0; border: 0; border-radius: 0; box-shadow: none; min-width: 0; }
+  .desktopTitle, .commodities { display: none; }
+  .mobileTitle { display: inline; }
+  .mobileCommodity { display: block; }
+  .form > :not(:last-child) { margin-block-end: 16px; }
+  .form h3 { font-size: 20px; font-weight: 600; }
+  .form label { font-size: 12px; font-weight: 500; text-transform: none; letter-spacing: 0; margin-bottom: 6px; }
+  .form > div { min-width: 0; }
+  .form input, .form select, .form textarea { width: 100%; min-width: 0; max-width: 100%; background: #fff; border: 1px solid #d6d3d1; border-radius: 6px; padding: 10px 12px; font-size: 16px; line-height: 1.4; box-shadow: none; }
+  .form input, .form select { height: 44px; }
+  .form textarea { min-height: 88px; resize: vertical; }
+  .form input:focus, .form select:focus, .form textarea:focus { outline: 2px solid #800020; outline-offset: 2px; }
+  .form button[type="submit"] { width: 100%; min-width: 0; min-height: 46px; padding: 12px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; box-shadow: none; }
+}

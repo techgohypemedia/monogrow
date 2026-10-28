@@ -176,7 +176,7 @@ export default function Footer({
           2. MAIN WHITE FOOTER (Matching Screenshot 1 Layout)
           Clean 5-column structure with pure white background
           ======================================================== */}
-      <footer className="bg-white pt-28 sm:pt-32 lg:pt-36 pb-10 border-t border-stone-200/80">
+      <footer className="bg-white pt-28 sm:pt-32 lg:pt-36 pb-3 sm:pb-10 border-t border-stone-200/80">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
           
           {/* Main Layout: Brand Column on Left, 4 Evenly Spaced Columns on Right */}
@@ -385,24 +385,24 @@ export default function Footer({
           {/* ========================================================
               3. BOTTOM COPYRIGHT & LEGAL BAR (Matching Screenshot 1)
               ======================================================== */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-            <div>
-              &copy; Copyright by Monagrow. All rights reserved. 2026
+          <div className="pt-3 sm:pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-4 text-xs text-stone-500">
+            <div className="leading-relaxed">
+              &copy; 2026 Monagrow. All rights reserved.
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-stone-500">
-              <a href="#privacy" className="hover:text-stone-900 transition-colors">
+            <nav aria-label="Legal information" className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-6 text-[11px] sm:text-xs text-stone-500">
+              <a href="#privacy" className="py-1 sm:py-0 flex items-center hover:text-stone-900 transition-colors">
                 Privacy Policy
               </a>
-              <a href="#terms" className="hover:text-stone-900 transition-colors">
+              <a href="#terms" className="py-1 sm:py-0 flex items-center hover:text-stone-900 transition-colors">
                 Terms of Use
               </a>
-              <a href="#legal" className="hover:text-stone-900 transition-colors">
+              <a href="#legal" className="py-1 sm:py-0 flex items-center leading-relaxed hover:text-stone-900 transition-colors">
                 Export Terms &amp; Incoterms 2020
               </a>
-              <a href="#safety" className="hover:text-stone-900 transition-colors">
+              <a href="#safety" className="py-1 sm:py-0 flex items-center leading-relaxed hover:text-stone-900 transition-colors">
                 Food Safety Compliance
               </a>
-            </div>
+            </nav>
           </div>
 
         </div>

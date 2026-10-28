@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import styles from "./CompanyPhilosophy.module.css";
@@ -40,6 +40,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
   const [active, setActive] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const story = useRef<HTMLDivElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
   const steps = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
@@ -49,7 +51,12 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
       frame = 0;
       const height = window.innerHeight;
       const mobile = window.innerWidth < 768;
-      const target = mobile ? Math.min(height * .8, (panel.current?.getBoundingClientRect().bottom ?? 0) + (height * .18)) : height * .52;
+      // Track the center of the reading area below the sticky mobile image.
+      // Its resting position stays stable while the browser toolbar changes.
+      const panelBottom = panel.current
+        ? parseFloat(getComputedStyle(panel.current).top) + panel.current.offsetHeight
+        : height * .4;
+      const target = mobile ? panelBottom + Math.max(0, height - panelBottom) * .5 : height * .52;
       let closest = 0;
       let distance = Infinity;
       steps.current.forEach((step, index) => {
@@ -58,6 +65,21 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
         const nextDistance = Math.abs(rect.top + rect.height / 2 - target);
         if (nextDistance < distance) { distance = nextDistance; closest = index; }
       });
+      const sideways = mobile && height >= 600 && !reduced.matches;
+      if (story.current && viewport.current) {
+        story.current.dataset.sideways = String(sideways);
+        if (sideways) {
+          const travel = story.current.offsetHeight - viewport.current.offsetHeight;
+          const progress = Math.max(0, Math.min(1, (84 - story.current.getBoundingClientRect().top) / Math.max(1, travel)));
+          // Pause briefly at each complete slide so its copy is easy to read.
+          const position = progress * (stages.length - 1);
+          const index = Math.min(stages.length - 1, Math.floor(position));
+          const fraction = Math.max(0, Math.min(1, (position - index - .45) / .55));
+          const slide = Math.min(stages.length - 1, index + fraction * fraction * (3 - 2 * fraction));
+          story.current.style.setProperty("--journey-progress", String(slide));
+          closest = Math.round(slide);
+        }
+      }
       setActive(closest);
       if (heading.current) {
         const top = heading.current.getBoundingClientRect().top;
@@ -97,10 +119,11 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
         </header>
 
         <div className={styles.storyLabel}><span>From origin to opportunity</span><span>Follow the journey <ArrowDown size={14} aria-hidden="true" /></span></div>
-        <div className={styles.story}>
+        <div ref={story} className={styles.story}>
+          <div ref={viewport} className={styles.storyViewport}>
           <div ref={panel} className={styles.photoPanel}>
             {stages.map((stage, index) => (
-              <div key={stage.name} className={`${styles.photo} ${active === index ? styles.photoActive : ""}`} aria-hidden={active !== index}>
+              <div key={stage.name} style={{ "--stage-index": index } as CSSProperties} className={`${styles.photo} ${active === index ? styles.photoActive : ""}`} aria-hidden={active !== index}>
                 <Image src={stage.image} alt={stage.alt} fill sizes="(max-width: 767px) 92vw, 48vw" />
               </div>
             ))}
@@ -118,6 +141,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
                 <ul className={styles.tags}>{stage.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
               </article>
             ))}
+          </div>
           </div>
         </div>
       </div>

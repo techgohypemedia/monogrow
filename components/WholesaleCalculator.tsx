@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ArrowUpRight, CheckCircle2, MessageCircle, ShieldCheck, FileText, Send } from "lucide-react";
+import styles from "./WholesaleCalculator.module.css";
 
 const COMMODITIES = [
   { id: "rice", label: "Basmati Rice", name: "Monagrow Basmati Rice (1121 Supreme)" },
@@ -91,7 +92,7 @@ export default function WholesaleCalculator({
   return (
     <section
       id="calculator"
-      className="relative overflow-hidden py-16 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]"
+      className={`${styles.section} relative overflow-hidden py-16 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]`}
     >
       {/* Soft ambient highlights */}
       <div
@@ -103,10 +104,10 @@ export default function WholesaleCalculator({
         className="absolute -bottom-48 right-0 w-140 h-140 rounded-full bg-[#2a000b]/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+      <div className={`${styles.container} relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12`}>
+        <div className={`${styles.layout} grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start`}>
           {/* Left Column: B2B Procurement Trust Copy */}
-          <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-28">
+          <div className={`${styles.intro} lg:col-span-5 xl:col-span-5 lg:sticky lg:top-28`}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-xs font-bold uppercase tracking-widest text-white mb-4">
               <span className="w-2 h-2 rounded-full bg-[#e9c46a]" />
               <span>B2B Wholesale Procurement</span>
@@ -144,7 +145,7 @@ export default function WholesaleCalculator({
 
           {/* Right Column: Direct Wholesale Quote Form */}
           <div className="lg:col-span-7 xl:col-span-7">
-            <div className="w-full bg-white text-neutral-900 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl border border-white/20">
+            <div className={`${styles.card} w-full bg-white text-neutral-900 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl border border-white/20`}>
               {isSubmitted ? (
                 /* Success Confirmation State */
                 <div className="py-8 text-center space-y-6">
@@ -220,10 +221,11 @@ export default function WholesaleCalculator({
                 </div>
               ) : (
                 /* Interactive Form State */
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className={`${styles.form} space-y-6`}>
                   <div>
                     <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 leading-snug">
-                      Wholesale Order Specification
+                      <span className={styles.desktopTitle}>Wholesale Order Specification</span>
+                      <span className={styles.mobileTitle}>Request a wholesale quote</span>
                     </h3>
                     <p className="text-xs sm:text-sm text-stone-500 mt-1">
                       Select your commodity and supply details for an immediate quotation review.
@@ -232,16 +234,20 @@ export default function WholesaleCalculator({
 
                   {/* 1. Commodity Selector Pills */}
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-2.5">
+                    <label htmlFor="wholesale-commodity" className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-2.5">
                       Select Commodity
                     </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <select id="wholesale-commodity" className={styles.mobileCommodity} value={commodityId} onChange={(event) => setCommodityId(event.target.value as typeof commodityId)}>
+                      {COMMODITIES.map((commodity) => <option key={commodity.id} value={commodity.id}>{commodity.label}</option>)}
+                    </select>
+                    <div className={`${styles.commodities} grid grid-cols-2 sm:grid-cols-4 gap-2.5`}>
                       {COMMODITIES.map((c) => {
                         const isActive = c.id === commodityId;
                         return (
                           <button
                             key={c.id}
                             type="button"
+                            aria-pressed={isActive}
                             onClick={() => setCommodityId(c.id)}
                             className={`h-11 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer flex items-center justify-center text-center ${
                               isActive

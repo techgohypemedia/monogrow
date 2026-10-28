@@ -24,6 +24,7 @@
 .storyLabel { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid #dcd0c3; padding: 24px 0 35px; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .storyLabel > span:last-child { display: flex; align-items: center; gap: 12px; }
 .story { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(45px, 6vw, 100px); position: relative; }
+.storyViewport { display: contents; }
 .photoPanel { position: sticky; top: 110px; height: min(680px, calc(100svh - 145px)); min-height: 350px; border-radius: 28px; overflow: hidden; background: #b8b2a2; box-shadow: 0 24px 45px -30px #30241e70; }
 .photo { position: absolute; inset: 0; opacity: 0; transform: scale(1.055); transition: opacity .7s ease, transform 1.2s ease; }
 .photoActive { opacity: 1; transform: scale(1); }
@@ -68,18 +69,27 @@
   .principle p { grid-column: 2; font-size: 12px; }
   .storyLabel { font-size: 9px; letter-spacing: .09em; padding: 20px 0; }
   .storyLabel > span:last-child { font-size: 0; gap: 0; }
-  .story { display: block; }
-  .photoPanel { top: 84px; height: 34svh; min-height: 180px; max-height: 320px; border-radius: 18px; z-index: 2; box-shadow: 0 -16px 0 0 var(--paper), 0 12px 0 0 var(--paper); }
+  .story { display: block; --photo-height: clamp(150px, 26svh, 240px); }
+  .photoPanel { top: 84px; height: var(--photo-height); min-height: 0; max-height: none; border-radius: 18px; z-index: 2; box-shadow: 0 -16px 0 0 var(--paper), 0 12px 0 0 var(--paper); }
   .photoCaption { bottom: 18px; left: 20px; right: 20px; }
   .counter { font-size: 48px; }
   .counter > span { font-size: 20px; }
-  .step { min-height: 65svh; padding: 46px 0; opacity: .55; }
-  .step h3 { font-size: 34px; max-width: 450px; margin-bottom: 18px; }
+  .step { min-height: calc(100svh - 84px - var(--photo-height)); padding: 28px 0; opacity: .55; scroll-margin-top: calc(100px + var(--photo-height)); }
+  .step h3 { font-size: clamp(26px, 7.5vw, 32px); max-width: 450px; margin-bottom: 14px; }
   .stepLabel { font-size: 18px; margin-bottom: 15px; }
-  .stepCopy { font-size: 14px; line-height: 1.85; }
+  .stepCopy { font-size: 14px; line-height: 1.65; }
   .tags { margin-top: 20px; gap: 6px; }
   .tags li { padding: 7px 10px; font-size: 9px; }
   .invitation { grid-template-columns: 1fr; gap: 24px; margin-top: 20px; padding-top: 40px; }
+}
+@media (max-width: 767px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .section { padding-bottom: 20px; }
+  .story[data-sideways="true"] { height: calc(340svh - 84px); }
+  .story[data-sideways="true"] .storyViewport { display: block; position: sticky; top: 84px; overflow: clip; background: var(--paper); }
+  .story[data-sideways="true"] .photoPanel { position: relative; top: auto; box-shadow: none; }
+  .story[data-sideways="true"] .photo { opacity: 1; transition: none; transform: translateX(calc((var(--stage-index) - var(--journey-progress, 0)) * 100%)); }
+  .story[data-sideways="true"] .steps { display: flex; transform: translateX(calc(var(--journey-progress, 0) * -100%)); }
+  .story[data-sideways="true"] .step { flex: 0 0 100%; min-width: 0; min-height: 0; box-sizing: border-box; justify-content: flex-start; padding: 24px 0; opacity: 1; transition: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .headline > span, .photo { transform: none !important; }
