@@ -16,6 +16,7 @@ const PRODUCTS = [
   { id: "coffee", name: "Estate coffee", quote: "Specialty Estate Coffee", image: "coffee", pack: "monagrow-coffee-bag-cutout.png", size: "2.5 kg", label: "DARK ROAST ARABICA", description: "Deeply aromatic estate coffee with notes of dark cocoa, roasted pecan, and caramel.", specs: [["Roast", "Artisan dark"], ["Elevation", "1,450 m+"], ["Format", "Whole bean & ground"]] },
   { id: "dryfruits", name: "Royal cashews", quote: "Royal Jumbo Cashews W240", image: "cashew", pack: "monagrow-cashews-packaging-new.png", size: "2.5 kg", label: "WHOLE & SELECTED", description: "Whole golden kernels, a buttery bite, and natural richness. Carefully selected at origin.", specs: [["Grade", "W240 whole"], ["Moisture", "Under 4.5%"], ["Packaging", "Nitrogen flushed"]] },
   { id: "sugar", name: "Pure cane sugar", quote: "Refined Cane Sugar (ICUMSA 45)", image: "sugar", pack: "monagrow-sugar-bag-cutout.png", size: "1 kg", label: "REFINED CANE", description: "Fine, sparkling crystals with clean sweetness. Made for kitchens, confectionery, and more.", specs: [["Grade", "ICUMSA 45"], ["Polarization", "99.85%"], ["Source", "Refined sugarcane"]] },
+  { id: "katarni", name: "Katarni rice", quote: "Katarni Premium Rice", image: "rice", pack: "monagrow-katarni-bag-cutout.png", size: "5 kg", label: "NATURALLY AROMATIC", description: "Naturally aromatic everyday grain with unmatched fragrance and tender texture. A heritage staple, cultivated with care.", specs: [["Aroma", "Naturally rich"], ["Grade", "Premium selected"], ["Quality", "100% Sortex"]] },
 ];
 
 export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: CategorySectionProps) {
@@ -73,7 +74,7 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
         };
       });
       cleanup = () => media.revert();
-    }).catch(() => { /* All four product cards remain visible without animation. */ });
+    }).catch(() => { /* All five product cards remain visible without animation. */ });
     return () => { cancelled = true; cleanup?.(); };
   }, []);
 
@@ -82,10 +83,10 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
       <div ref={stage} className={styles.stage}>
         <header className={styles.heading}>
           <p className={styles.eyebrow}><span /> THE MONAGROW COLLECTION</p>
-          <h2 id="collection-title">FOUR STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
+          <h2 id="collection-title">FIVE STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
         </header>
         <div className={styles.intro}>
-          <p>Good food starts with good ingredients. Explore our collection of rice, coffee, cashews, and sugar—packed at origin, ready for your business.</p>
+          <p>Good food starts with good ingredients. Explore our collection of Basmati rice, Katarni rice, estate coffee, royal cashews, and pure cane sugar—packed at origin, ready for your business.</p>
           <span className={styles.origin}><span /> SOURCED WITH CARE. SUPPLIED IN BULK.</span>
           <span className={styles.scrollCue}>Scroll to explore <ArrowRight size={18} /></span>
         </div>

@@ -69,8 +69,8 @@ export default function Footer({
           1. FLOATING NEWSLETTER BANNER (Matching Screenshot 1 Layout)
           Overlaps the white footer below with negative bottom margin
           ======================================================== */}
-      <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-20 -mb-16 sm:-mb-20 lg:-mb-24">
-        <div className="rounded-3xl px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12 relative overflow-hidden text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-20 -mb-16 sm:-mb-20 lg:-mb-24">
+        <div className="rounded-3xl px-5 py-7 sm:px-10 sm:py-10 lg:px-14 lg:py-12 relative overflow-hidden text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
             {/* Left Column: Automated Cycling Monagrow Products with Smooth Crossfade */}
@@ -149,10 +149,10 @@ export default function Footer({
                   <button
                     type="submit"
                     style={{ boxShadow: "none" }}
-                    className="bg-white hover:bg-stone-100 text-[#800020] text-[15px] sm:text-base font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] transition-all duration-200 shrink-0 active:scale-95 cursor-pointer flex items-center gap-2 group shadow-none"
+                    className="bg-white hover:bg-stone-100 text-[#800020] text-xs sm:text-base font-bold px-4 sm:px-8 py-2.5 sm:py-3 rounded-[10px] transition-all duration-200 shrink-0 active:scale-95 cursor-pointer flex items-center gap-1.5 sm:gap-2 group shadow-none"
                   >
-                    <span className="text-[15px] sm:text-base font-bold tracking-normal">Subscribe</span>
-                    <ArrowRight className="w-4.5 h-4.5 text-[#800020] transition-transform duration-200 group-hover:translate-x-0.5" />
+                    <span className="font-bold tracking-normal">Subscribe</span>
+                    <ArrowRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#800020] transition-transform duration-200 group-hover:translate-x-0.5" />
                   </button>
                 </form>
               )}
@@ -177,7 +177,7 @@ export default function Footer({
           Clean 5-column structure with pure white background
           ======================================================== */}
       <footer className="bg-white pt-28 sm:pt-32 lg:pt-36 pb-10 border-t border-stone-200/80">
-        <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
           
           {/* Main Layout: Brand Column on Left, 4 Evenly Spaced Columns on Right */}
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-8 xl:gap-12 pb-10 border-b border-stone-200/80 w-full">
@@ -337,7 +337,7 @@ export default function Footer({
               </div>
 
               {/* Column 4: Contact Us */}
-              <div className="col-span-2 sm:col-span-1 pt-2 sm:pt-0 border-t border-stone-200/80 sm:border-0 sm:min-w-45 sm:max-w-57.5">
+              <div className="col-span-2 sm:col-span-1 pt-2 sm:pt-0 border-t border-stone-200/80 sm:border-0 sm:min-w-[180px] sm:max-w-[230px]">
                 <h4 className="text-xs sm:text-sm font-bold text-[#0e2439] uppercase tracking-wider mb-3.5">
                   Contact Us
                 </h4>

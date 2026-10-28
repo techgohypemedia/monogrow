@@ -91,7 +91,7 @@ export default function WholesaleCalculator({
   return (
     <section
       id="calculator"
-      className="relative overflow-hidden py-20 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]"
+      className="relative overflow-hidden py-16 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]"
     >
       {/* Soft ambient highlights */}
       <div
@@ -103,7 +103,7 @@ export default function WholesaleCalculator({
         className="absolute -bottom-48 right-0 w-140 h-140 rounded-full bg-[#2a000b]/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+      <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           {/* Left Column: B2B Procurement Trust Copy */}
           <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-28">
@@ -144,7 +144,7 @@ export default function WholesaleCalculator({
 
           {/* Right Column: Direct Wholesale Quote Form */}
           <div className="lg:col-span-7 xl:col-span-7">
-            <div className="w-full bg-white text-neutral-900 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-white/20">
+            <div className="w-full bg-white text-neutral-900 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl border border-white/20">
               {isSubmitted ? (
                 /* Success Confirmation State */
                 <div className="py-8 text-center space-y-6">

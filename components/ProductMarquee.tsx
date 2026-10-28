@@ -5,7 +5,7 @@ import { loadHeroMotion } from "./heroMotion";
 import styles from "./ProductMarquee.module.css";
 
 const ROWS = [
-  ["Basmati rice", "Estate coffee", "Royal cashews", "Pure cane sugar"],
+  ["Basmati rice", "Katarni rice", "Estate coffee", "Royal cashews", "Pure cane sugar"],
   ["Grown with care", "Packed at origin", "Shared with the world"],
 ];
 

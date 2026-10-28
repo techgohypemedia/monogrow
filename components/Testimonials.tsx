@@ -224,8 +224,65 @@ export default function Testimonials() {
     setCurrentIndex((prev) => prev - 1);
   };
 
+  // Screen size detection for responsive transform step: 1 (mobile < 640), 2 (tablet 640-1023), 3 (desktop >= 1024)
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardsPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2);
+      } else {
+        setCardsPerView(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+    // Detect horizontal swipe if deltaX is dominant and over threshold (35px)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 35) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+    setIsPaused(false);
+  };
+
+  // Dynamic CSS transform string based on active responsive breakpoint
+  const getTransform = () => {
+    if (cardsPerView === 1) {
+      return `translate3d(calc(-${currentIndex} * (100% + 1.5rem)), 0, 0)`;
+    }
+    if (cardsPerView === 2) {
+      return `translate3d(calc(-${currentIndex} * (50% + 0.75rem)), 0, 0)`;
+    }
+    return `translate3d(calc(-${currentIndex} * (100% / 3 + 0.5rem)), 0, 0)`;
+  };
+
   // Center review index in original base array (0 to 4)
-  const activeCenterBaseIndex = ((currentIndex + 1) % TOTAL_BASE + TOTAL_BASE) % TOTAL_BASE;
+  const activeBaseIndex = cardsPerView === 1
+    ? ((currentIndex % TOTAL_BASE) + TOTAL_BASE) % TOTAL_BASE
+    : (((currentIndex + 1) % TOTAL_BASE) + TOTAL_BASE) % TOTAL_BASE;
 
   return (
     <section
@@ -287,14 +344,14 @@ export default function Testimonials() {
             </p>
           </div>
 
-          {/* Navigation Controls: Stationary in header */}
-          <div className="hidden sm:flex items-center gap-2.5">
+          {/* Navigation Controls: Stationary in header, visible & accessible on all screens */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
             <button
               type="button"
               onClick={handlePrev}
               title="Previous reviews"
               aria-label="Previous reviews"
-              className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer"
+              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
             >
               ←
             </button>
@@ -303,7 +360,7 @@ export default function Testimonials() {
               onClick={handleNext}
               title="Next reviews"
               aria-label="Next reviews"
-              className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer"
+              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
             >
               →
             </button>
@@ -311,20 +368,22 @@ export default function Testimonials() {
         </div>
 
         {/* ========================================================
-            HORIZONTAL AUTO-SCROLLING 3-CARD CAROUSEL:
+            HORIZONTAL AUTO-SCROLLING RESPONSIVE CAROUSEL:
+            - Seamless on mobile (1 card), tablet (2 cards), desktop (3 cards)
             - With generous vertical clearance (py-18 sm:py-20 -my-12 sm:-my-14)
-              so center card NEVER gets cut from above or bottom while moving!
-            - Exactly 3 cards showing across the desktop container width.
-            - Auto-scrolls horizontally every 3.5 seconds.
-            - CENTER card position moves vertically while scrolling (parallelOffset).
-            - Left and Right cards remain unchanged (0px vertical offset).
+            - Touch swipe support (left/right) for natural mobile interaction
+            - Highlighted card moves subtly in parallel with vertical page scroll
             ======================================================== */}
-        <div className="relative w-full overflow-hidden py-18 sm:py-20 -my-12 sm:-my-14 px-1">
+        <div 
+          className="relative w-full overflow-hidden py-18 sm:py-20 -my-12 sm:-my-14 px-1 touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div
             ref={trackRef}
             onTransitionEnd={handleTransitionEnd}
             style={{
-              transform: `translate3d(calc(-${currentIndex} * (100% / 3 + 1.5rem / 3)), 0, 0)`,
+              transform: getTransform(),
               transition: isTransitioning
                 ? "transform 650ms cubic-bezier(0.2, 0.9, 0.3, 1)"
                 : "none",
@@ -332,9 +391,13 @@ export default function Testimonials() {
             className="flex items-start gap-6 will-change-transform"
           >
             {DISPLAY_REVIEWS.map((review, idx) => {
-              // Check if this card currently sits in the CENTER position of the 3 visible cards
-              const isCenterCard = idx === currentIndex + 1;
-              const cardYOffset = isCenterCard ? parallelOffset : 0;
+              // Highlighted card: on mobile it is current card (idx === currentIndex), on tablet/desktop it is the center card (idx === currentIndex + 1)
+              const isHighlighted = cardsPerView === 1 
+                ? idx === currentIndex 
+                : idx === currentIndex + 1;
+              const cardYOffset = isHighlighted 
+                ? (cardsPerView === 1 ? parallelOffset * 0.35 : parallelOffset) 
+                : 0;
 
               return (
                 <div
@@ -344,13 +407,13 @@ export default function Testimonials() {
                     willChange: "transform",
                   }}
                   className={`w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] shrink-0 rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 flex flex-col justify-between min-h-[250px] sm:min-h-[270px] lg:min-h-[290px] backdrop-blur-xl transition-colors duration-300 relative group ${
-                    isCenterCard
+                    isHighlighted
                       ? "bg-white/95 border border-stone-200/90 shadow-[0_16px_40px_rgba(128,0,32,0.12)] hover:shadow-[0_24px_50px_rgba(128,0,32,0.18)] hover:border-[#800020]/60"
                       : "bg-white/90 border border-stone-200/80 shadow-[0_10px_28px_rgba(28,25,23,0.06)] hover:shadow-[0_18px_40px_rgba(128,0,32,0.12)] hover:border-[#800020]/40"
                   }`}
                 >
                   {/* Subtle top vivid maroon accent highlight for center card */}
-                  {isCenterCard && (
+                  {isHighlighted && (
                     <div className="absolute -top-px left-8 right-8 h-0.5 bg-linear-to-r from-transparent via-[#800020]/60 to-transparent pointer-events-none" />
                   )}
 
@@ -403,12 +466,12 @@ export default function Testimonials() {
               type="button"
               onClick={() => {
                 setIsTransitioning(true);
-                setCurrentIndex(TOTAL_BASE + dotIdx - 1);
+                setCurrentIndex(cardsPerView === 1 ? TOTAL_BASE + dotIdx : TOTAL_BASE + dotIdx - 1);
               }}
               title={`Jump to review ${dotIdx + 1}`}
               aria-label={`Jump to review ${dotIdx + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                activeCenterBaseIndex === dotIdx
+                activeBaseIndex === dotIdx
                   ? "w-6 bg-[#800020]"
                   : "w-2 bg-stone-300 hover:bg-stone-400"
               }`}

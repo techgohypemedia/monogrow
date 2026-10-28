@@ -70,13 +70,13 @@
 @media (max-width: 767px) {
   .topline { top: 88px; left: 6%; right: 6%; font-size: 7px; letter-spacing: .12em; }
   .topline span:last-child { display: none; }
-  .wordmark { top: 116px; }
+  .wordmark { top: 116px; max-width: 96%; overflow: hidden; }
   .scene:not(:first-of-type) .wordmark { top: 20px; }
   .scene { height: auto; min-height: 920px; padding: 600px 7% 40px; }
   .scene:not(:first-of-type) { min-height: 800px; padding-top: 460px; }
   .copy { position: relative; left: auto; top: auto; width: 100%; max-width: none; }
   .eyebrow { font-size: 8px; }
-  .copy h2 { font-size: 36px; margin: 13px 0; }
+  .copy h2 { font-size: clamp(28px, 8vw, 36px); margin: 13px 0; word-break: break-word; }
   .description { max-width: 340px; font-size: 12px; }
   .quote { margin-top: 20px; padding: 13px 18px; }
   .productStage { width: 92%; left: 4%; height: 410px; top: 180px; }
