@@ -1,432 +1,149 @@
 "use client";
 
-import React, { useState } from "react";
-import { ArrowUpRight, CheckCircle2, MessageCircle, ShieldCheck, FileText, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import Image from "next/image";
+import { ArrowUpRight, ArrowDown, Check, Package, Ship, SlidersHorizontal, Download, MessageCircle } from "lucide-react";
+import { calculateTradeEstimate } from "./tradeEstimate";
 import styles from "./WholesaleCalculator.module.css";
 
-const COMMODITIES = [
-  { id: "rice", label: "Basmati Rice", name: "Monagrow Basmati Rice (1121 Supreme)" },
-  { id: "coffee", label: "Coffee", name: "Specialty Arabica Dark Roast" },
-  { id: "sugar", label: "Sugar", name: "Refined Cane Sugar (ICUMSA 45)" },
-  { id: "cashews", label: "Cashews", name: "Royal Whole Cashews W240" },
-] as const;
-
-const VOLUMES = [
-  "Trial Lot (5 - 10 MT)",
-  "1 x 20ft Container (25 MT)",
-  "2 x 20ft Containers (50 MT)",
-  "4 x 20ft Containers (100 MT)",
-  "Bulk Contract (200+ MT)",
+const PRODUCTS = [
+  { label: "Basmati rice", image: "rice", rate: 1050, varieties: ["1121 Basmati", "Traditional Basmati"], processes: ["Sella / parboiled", "Steam", "Raw / white"], grades: ["Premium long grain", "Standard long grain"] },
+  { label: "Cashews", image: "cashew", rate: 6500, varieties: ["Whole cashews", "Cashew pieces"], processes: ["Raw", "Roasted"], grades: ["W240", "W320", "Pieces"] },
+  { label: "Cane sugar", image: "sugar", rate: 550, varieties: ["Refined cane sugar"], processes: ["Crystalline"], grades: ["ICUMSA 45", "ICUMSA 100"] },
+  { label: "Estate coffee", image: "coffee", rate: 4200, varieties: ["Arabica", "Robusta"], processes: ["Whole bean", "Ground", "Green bean"], grades: ["Estate selection", "Commercial grade"] },
 ];
-
-const PACKAGING_OPTIONS = [
-  "5 kg Retail Standup Box Bag",
-  "25 kg PP Woven Export Bag",
-  "50 kg Heavy Jute Sack",
-  "1 MT Industrial Jumbo Bag",
+const DESTINATIONS = [
+  { country: "United Arab Emirates", port: "Jebel Ali" },
+  { country: "Saudi Arabia", port: "Jeddah" },
+  { country: "United Kingdom", port: "Felixstowe" },
+  { country: "Netherlands", port: "Rotterdam" },
+  { country: "India", port: "Mundra" },
 ];
+const PACKS = [{ kg: 5, label: "Retail pouch", cost: .3 }, { kg: 10, label: "Laminated bag", cost: .35 }, { kg: 20, label: "PP woven bag", cost: .45 }, { kg: 50, label: "Bulk woven bag", cost: .7 }];
+const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Royal Jumbo Cashews W240", "Refined Cane Sugar (ICUMSA 45)", "Specialty Estate Coffee"];
+const money = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(n);
+const number = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(n);
 
-const INCOTERMS = [
-  "CIF · Cost, Insurance & Freight",
-  "FOB · Free on Board (Origin Port)",
-  "CFR · Cost & Freight",
-  "EXW · Ex-Works Origin Mill",
-];
+export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteModal: (details?: string) => void }) {
+  const [retail, setRetail] = useState(false);
+  const [step, setStep] = useState(0);
+  const stepHeading = useRef<HTMLHeadingElement>(null);
+  const steps = retail ? [0, 1, 3, 4] : [0, 1, 2, 3, 4];
+  const stepNames = ["Product", "Quantity", "Delivery", "Rates", "Estimate"];
+  const stepTitles = ["Start with your product", "How much do you need?", "Where is your order going?", "Review your planning rates", "Your estimate is ready"];
+  const stepIndex = steps.indexOf(step);
+  const [productIndex, setProductIndex] = useState(0);
+  const product = PRODUCTS[productIndex];
+  const [variety, setVariety] = useState(PRODUCTS[0].varieties[0]);
+  const [processing, setProcessing] = useState(PRODUCTS[0].processes[0]);
+  const [grade, setGrade] = useState(PRODUCTS[0].grades[0]);
+  const [origin, setOrigin] = useState("India");
+  const [quantity, setQuantity] = useState("25");
+  const [unit, setUnit] = useState("mt");
+  const [packIndex, setPackIndex] = useState(2);
+  const pack = PACKS[packIndex];
+  const [destination, setDestination] = useState(0);
+  const [port, setPort] = useState(DESTINATIONS[0].port);
+  const [shipping, setShipping] = useState<"sea" | "air">("sea");
+  const [incoterm, setIncoterm] = useState("CIF");
+  const [rates, setRates] = useState({ rate: "1050", freight: "1600", inland: "20", handling: "30", insurance: "0.3", duty: "0", tax: "0", other: "0" });
+  const [exportError, setExportError] = useState("");
+  const amount = Number(quantity);
+  const maxQuantity = unit === "mt" ? 200 : unit === "bags" ? 200000 / pack.kg : 200000;
+  const validQuantity = quantity !== "" && Number.isFinite(amount) && amount > 0 && amount <= maxQuantity && (unit !== "bags" || Number.isInteger(amount));
+  const validRates = Object.entries(rates).filter(([key]) => !retail || ["rate", "freight", "tax", "other"].includes(key)).every(([key, value]) => value !== "" && Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= (["insurance", "duty", "tax"].includes(key) ? 100 : 1000000));
+  const valid = validQuantity && validRates;
+  const kg = validQuantity ? amount * (unit === "mt" ? 1000 : unit === "bags" ? pack.kg : 1) : 0;
+  const estimate = calculateTradeEstimate({ kg, bagKg: pack.kg, bagCost: pack.cost, shipping, retail, rate: Number(rates.rate), inland: Number(rates.inland), handling: Number(rates.handling), freight: Number(rates.freight), insurance: Number(rates.insurance), duty: Number(rates.duty), tax: Number(rates.tax), other: Number(rates.other) });
+  const basis = incoterm === "EXW" ? estimate.exw : incoterm === "FOB" ? estimate.fob : incoterm === "CFR" ? estimate.cfr : estimate.cif;
+  const rows: [string, number][] = [["Commodity", estimate.commodity], ["Packaging", estimate.packaging]];
+  if (!retail) rows.push(["Inland transport", estimate.inland], ["Origin handling", estimate.handling]);
+  rows.push([retail ? "Local delivery" : shipping === "sea" ? "Sea freight" : "Air freight", estimate.freight]);
+  if (!retail) rows.push(["Cargo insurance", estimate.insurance], ["Import duty (assumed)", estimate.duty]);
+  rows.push(["Tax (assumed)", estimate.tax], ["Other charges", estimate.other]);
+  const rateFields: [keyof typeof rates, string][] = [["rate", "Commodity / MT"], ["freight", retail ? "Delivery / order" : shipping === "sea" ? "Freight / 20ft container" : "Air freight / kg"]];
+  if (!retail) rateFields.push(["inland", "Inland transport / MT"], ["handling", "Origin handling / MT"], ["insurance", "Insurance %"], ["duty", "Import duty %"]);
+  rateFields.push(["tax", retail ? "Sales tax %" : "Import tax %"], ["other", "Other charges"]);
+  const summary = ["MONAGROW — ILLUSTRATIVE TRADE ESTIMATE", "All amounts in USD. Not an official quotation.", "", `${product.label} / ${variety} / ${processing} / ${grade}`, `Origin preference: ${origin}`, `Quantity: ${number(kg)} kg · ${number(estimate.bags)} × ${pack.kg} kg bags`, `Packaging: ${pack.label} (${money(pack.cost)} / bag)`, retail ? "Retail planning / local delivery" : `Destination: ${DESTINATIONS[destination].country}, ${port} · ${shipping} freight · ${incoterm}`, "ASSUMPTIONS", ...rateFields.map(([key, label]) => `${label}: ${rates[key]}`), "", "COST BREAKDOWN", ...rows.map(([label, value]) => `${label}: ${money(value)}`), ...(!retail ? [`${incoterm} planning subtotal: ${money(basis)}`] : []), "", `Estimated ${retail ? "delivered" : "landed"} total: ${money(estimate.total)}`, `Per MT: ${money(estimate.perMt)} · Per kg: ${money(estimate.perKg)}`, "", "Sample assumptions only. Specifications, origin and destination do not automatically update rates. Confirm prices, taxes, freight and availability with the trade desk."].join("\n");
 
-const INCLUDED = [
-  "Direct origin pricing with zero broker markups",
-  "SGS / Bureau Veritas pre-shipment inspection",
-  "Flexible trade financing (L/C or T/T)",
-];
-
-export default function WholesaleCalculator({
-  onOpenQuoteModal,
-}: {
-  onOpenQuoteModal: (details?: string) => void;
-}) {
-  const [commodityId, setCommodityId] = useState<(typeof COMMODITIES)[number]["id"]>("rice");
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    volume: VOLUMES[1],
-    packaging: PACKAGING_OPTIONS[0],
-    incoterm: "CIF",
-    destinationPort: "",
-    message: "",
-  });
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const selectedCommodity = COMMODITIES.find((c) => c.id === commodityId) ?? COMMODITIES[0];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 600);
-  };
-
-  const handleWhatsApp = () => {
-    const text = encodeURIComponent(
-      `Hello Monagrow Global Wholesale! I would like to request an official wholesale quotation:\n` +
-      `• Commodity: ${selectedCommodity.name}\n` +
-      `• Buyer Name: ${formData.name || "Trade Buyer"}\n` +
-      `• Company: ${formData.company || "Direct Procurement"}\n` +
-      `• Email: ${formData.email || "N/A"}\n` +
-      `• Phone/WhatsApp: ${formData.phone || "N/A"}\n` +
-      `• Volume: ${formData.volume}\n` +
-      `• Packaging: ${formData.packaging}\n` +
-      `• Delivery Term: ${formData.incoterm}\n` +
-      `• Destination Port: ${formData.destinationPort || "To be confirmed"}\n` +
-      (formData.message ? `• Note: ${formData.message}\n` : "") +
-      `Please provide current export pricing, COA specifications, and container availability.`
-    );
-    window.open(`https://wa.me/9779801234567?text=${text}`, "_blank", "noopener");
-  };
+  function changeProduct(index: number) { const next = PRODUCTS[index]; setProductIndex(index); setVariety(next.varieties[0]); setProcessing(next.processes[0]); setGrade(next.grades[0]); setRates(previous => ({ ...previous, rate: String(next.rate) })); }
+  function changeMode(next: boolean) { if (next === retail) return; setRetail(next); setStep(0); setUnit(next ? "kg" : "mt"); setQuantity("25"); setRates(previous => ({ ...previous, freight: next ? "12" : shipping === "sea" ? "1600" : "4" })); }
+  function goToStep(next: number) {
+    setStep(next);
+    requestAnimationFrame(() => {
+      stepHeading.current?.focus({ preventScroll: true });
+      stepHeading.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    });
+  }
+  const canContinue = step === 1 ? validQuantity : step === 2 ? port.trim().length > 0 : step === 3 ? valid : true;
+  function changeUnit(next: string) { setQuantity(String(next === "mt" ? kg / 1000 : next === "bags" ? Math.ceil(kg / pack.kg) : kg)); setUnit(next); }
+  function printEstimate() {
+    const popup = window.open("", "_blank", "width=850,height=900");
+    if (!popup) { setExportError("Allow pop-ups to open the printable estimate, then choose Save as PDF."); return; }
+    setExportError(""); popup.opener = null; popup.document.title = "Monagrow trade estimate";
+    const style = popup.document.createElement("style");
+    style.textContent = "body{padding:40px;color:#30241e;font-family:Arial,sans-serif}h1{color:#800020;font-size:26px}pre{white-space:pre-wrap;font:14px/1.7 Arial,sans-serif}button{padding:12px 20px;margin-bottom:24px;cursor:pointer}@media print{button{display:none}body{padding:0}}";
+    popup.document.head.append(style);
+    const title = popup.document.createElement("h1"); title.textContent = "Your trade estimate";
+    const content = popup.document.createElement("pre"); content.textContent = summary;
+    const button = popup.document.createElement("button"); button.textContent = "Print / Save as PDF"; button.onclick = () => popup.print();
+    popup.document.body.append(title, button, content); popup.focus(); popup.print();
+  }
 
   return (
-    <section
-      id="calculator"
-      className={`${styles.section} relative overflow-hidden py-16 sm:py-24 text-white bg-linear-to-br from-[#4f0014] via-[#800020] to-[#a01c3c]`}
-    >
-      {/* Soft ambient highlights */}
-      <div
-        aria-hidden
-        className="absolute -top-40 -left-40 w-160 h-160 rounded-full bg-white/10 blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute -bottom-48 right-0 w-140 h-140 rounded-full bg-[#2a000b]/40 blur-3xl pointer-events-none"
-      />
-
-      <div className={`${styles.container} relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12`}>
-        <div className={`${styles.layout} grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start`}>
-          {/* Left Column: B2B Procurement Trust Copy */}
-          <div className={`${styles.intro} lg:col-span-5 xl:col-span-5 lg:sticky lg:top-28`}>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-xs font-bold uppercase tracking-widest text-white mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#e9c46a]" />
-              <span>B2B Wholesale Procurement</span>
-            </div>
-
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
-              Request Your Direct-Origin Quotation
-            </h2>
-
-            <p className="mt-3 text-sm sm:text-base text-white/85 leading-relaxed max-w-md">
-              Direct-origin pricing, verified COA metrics, and fast proforma quotes within 24 hours.
-            </p>
-
-            <ul className="mt-6 max-w-md border-t border-white/15">
-              {INCLUDED.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-2.5 py-2.5 border-b border-white/15 text-sm text-white/90"
-                >
-                  <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#e9c46a] shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-6 flex items-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/80">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-[#e9c46a]" /> ISO 22000 Certified
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#e9c46a]" /> 100% Sortex Clean
-              </span>
-            </div>
+    <section id="calculator" className={styles.section} aria-labelledby="estimate-heading">
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <div><p className={styles.kicker}>Monagrow / Trade tools</p><h2 id="estimate-heading">Plan your order.<br /><em>See the whole picture.</em></h2></div>
+          <div className={styles.introduction}><p>A clearer view of your next shipment. Explore quantities, packaging and delivery costs before starting a conversation with our trade desk.</p><a href="#estimate-inputs">Build your estimate <ArrowDown size={16} /></a></div>
+        </header>
+        <div className={styles.layout}>
+          <nav className={styles.stepper} aria-label="Estimator progress"><ol>{steps.map((value, index) => <li key={value}><button type="button" disabled={index > stepIndex} aria-current={step === value ? "step" : undefined} onClick={() => goToStep(value)}><span>{index < stepIndex ? <Check size={14} /> : index + 1}</span>{stepNames[value]}</button></li>)}</ol></nav>
+          <div className={styles.stepIntro}><p className={styles.kicker}>Step {stepIndex + 1} of {steps.length} · {retail ? "Retail" : "Wholesale"}</p><h3 ref={stepHeading} tabIndex={-1}>{stepTitles[step]}</h3></div>
+          <div id="estimate-inputs" className={styles.inputs}>
+            {step === 0 && <div className={styles.mode} role="group" aria-label="Estimate type"><button type="button" aria-pressed={!retail} onClick={() => changeMode(false)}>Wholesale / B2B</button><button type="button" aria-pressed={retail} onClick={() => changeMode(true)}>Retail / B2C</button></div>}
+            <fieldset hidden={step !== 0} className={styles.group}><legend>Choose your commodity</legend>
+              <div className={styles.products}>{PRODUCTS.map((item, index) => <button key={item.image} type="button" aria-pressed={productIndex === index} onClick={() => changeProduct(index)}><Image src={`/assets/hero-center-${item.image}.png`} alt="" width={90} height={90} sizes="90px" /><span>{item.label}</span>{productIndex === index && <Check size={14} className={styles.check} />}</button>)}</div>
+              <div className={styles.fields}>
+                <label>Variety<select value={variety} onChange={event => setVariety(event.target.value)}>{product.varieties.map(value => <option key={value}>{value}</option>)}</select></label>
+                <label>Processing<select value={processing} onChange={event => setProcessing(event.target.value)}>{product.processes.map(value => <option key={value}>{value}</option>)}</select></label>
+                <label>Origin preference<select value={origin} onChange={event => setOrigin(event.target.value)}>{["India", "Pakistan", "Nepal", "Other / discuss with us"].map(value => <option key={value}>{value}</option>)}</select></label>
+                <label>Grade<select value={grade} onChange={event => setGrade(event.target.value)}>{product.grades.map(value => <option key={value}>{value}</option>)}</select></label>
+              </div><p className={styles.hint}>Specifications are preferences for your enquiry, subject to availability.</p>
+            </fieldset>
+            <fieldset hidden={step !== 1} className={styles.group}><legend>Quantity & packaging</legend>
+              <div className={styles.fields}><label>Order quantity<input type="number" min={unit === "bags" ? 1 : .001} max={maxQuantity} step={unit === "bags" ? 1 : "any"} value={quantity} onChange={event => setQuantity(event.target.value)} aria-invalid={!validQuantity} aria-describedby={!validQuantity ? "quantity-error" : undefined} /></label><label>Measure in<select value={unit} onChange={event => changeUnit(event.target.value)}><option value="mt">Metric tonnes (MT)</option><option value="kg">Kilograms (kg)</option><option value="bags">Number of bags</option></select></label></div>
+              {!validQuantity && <p id="quantity-error" className={styles.error}>Enter a positive quantity up to 200 MT. Bag quantities must be whole numbers.</p>}
+              {!retail && <label className={styles.rangeLabel}>Adjust quantity <span>{number(kg / 1000)} MT</span><input aria-label="Quantity in metric tonnes" type="range" min="1" max="200" step="1" value={Math.max(1, kg / 1000)} onChange={event => { setUnit("mt"); setQuantity(event.target.value); }} /></label>}
+              <div className={styles.packages} role="group" aria-label="Bag size">{PACKS.map((item, index) => <button key={item.kg} type="button" aria-pressed={packIndex === index} onClick={() => setPackIndex(index)}><Package size={19} /><strong>{item.kg} kg</strong><small>{item.label}</small></button>)}</div>
+              <p className={styles.hint}>{number(estimate.bags)} bags at {pack.kg} kg each. {kg % pack.kg !== 0 ? "The final bag is partially filled; packaging is rounded up." : "Packaging is included in the estimate."}</p>
+            </fieldset>
+            {!retail && <fieldset hidden={step !== 2} className={styles.group}><legend>Destination & delivery</legend><div className={styles.fields}>
+              <label>Destination country<select value={destination} onChange={event => { const index = Number(event.target.value); setDestination(index); setPort(DESTINATIONS[index].port); }}>{DESTINATIONS.map((item, index) => <option key={item.country} value={index}>{item.country}</option>)}</select></label>
+              <label>{shipping === "sea" ? "Destination port" : "Delivery location"}<input required aria-invalid={!port.trim()} value={port} onChange={event => setPort(event.target.value)} placeholder="Port or delivery location" /></label>
+              <label>Shipping mode<select value={shipping} onChange={event => { const value = event.target.value as "sea" | "air"; setShipping(value); setRates(previous => ({ ...previous, freight: value === "sea" ? "1600" : "4" })); if (value === "air") setIncoterm("EXW"); }}><option value="sea">Sea freight</option><option value="air">Air freight</option></select></label>
+              <label>Quotation basis<select value={incoterm} onChange={event => setIncoterm(event.target.value)}><option value="EXW">EXW · Ex works</option>{shipping === "sea" && <><option value="FOB">FOB · Free on board</option><option value="CFR">CFR · Cost & freight</option><option value="CIF">CIF · Cost, insurance & freight</option></>}</select></label>
+            </div>{!port.trim() && <p className={styles.error}>Enter a destination port or delivery location to continue.</p>}<p className={styles.hint}>Changing the destination does not fetch live freight or tariffs. Review the route assumptions in the next step.</p></fieldset>}
+            <div hidden={step !== 3} className={styles.assumptions}><h4><SlidersHorizontal size={17} /> Rate assumptions <span>USD</span></h4><p>Sample inputs for planning. Edit with your supplier or freight partner&apos;s rates. Duty and tax start at 0% and need confirmation.</p><div className={styles.fields}>
+              {rateFields.map(([key, label]) => <label key={key}>{label}<input type="number" min="0" max={["insurance", "duty", "tax"].includes(key) ? 100 : 1000000} step="any" value={rates[key]} onChange={event => setRates(previous => ({ ...previous, [key]: event.target.value }))} /></label>)}
+            </div>{!validRates && <p className={styles.error}>Enter non-negative rates up to 1,000,000. Percentages must be between 0 and 100.</p>}<p>Packaging: {money(pack.cost)} / bag. {retail ? "Retail uses the same sample commodity rate; retail margins are not included." : "Insurance applies to goods plus freight. Tax applies to CIF plus duty. Actual assessment rules may differ."}</p></div>
           </div>
-
-          {/* Right Column: Direct Wholesale Quote Form */}
-          <div className="lg:col-span-7 xl:col-span-7">
-            <div className={`${styles.card} w-full bg-white text-neutral-900 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl border border-white/20`}>
-              {isSubmitted ? (
-                /* Success Confirmation State */
-                <div className="py-8 text-center space-y-6">
-                  <div className="w-16 h-16 rounded-full bg-[#fae8eb] text-[#800020] flex items-center justify-center mx-auto shadow-inner">
-                    <CheckCircle2 className="w-10 h-10" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-widest text-[#800020]">
-                      RFQ Successfully Dispatched
-                    </span>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900">
-                      Thank You, {formData.name || "Trade Partner"}!
-                    </h3>
-                    <p className="text-sm sm:text-base text-neutral-600 max-w-md mx-auto leading-relaxed">
-                      Your wholesale inquiry for{" "}
-                      <strong className="text-neutral-900 font-semibold">{formData.volume}</strong> of{" "}
-                      <strong className="text-neutral-900 font-semibold">{selectedCommodity.name}</strong> has been logged. Our export desk will email your binding proforma invoice and laboratory certificates within 4 business hours.
-                    </p>
-                  </div>
-
-                  {/* Summary of submitted values */}
-                  <div className="bg-stone-50 rounded-2xl p-4 sm:p-5 max-w-md mx-auto text-left border border-stone-200 text-xs sm:text-sm space-y-2">
-                    <div className="flex justify-between border-b border-stone-200 pb-2">
-                      <span className="text-stone-500">Commodity:</span>
-                      <span className="font-semibold text-neutral-900">{selectedCommodity.name}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-stone-200 pb-2">
-                      <span className="text-stone-500">Volume:</span>
-                      <span className="font-semibold text-neutral-900">{formData.volume}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-stone-200 pb-2">
-                      <span className="text-stone-500">Destination:</span>
-                      <span className="font-semibold text-neutral-900">{formData.destinationPort || "Not specified"}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-stone-500">Contact:</span>
-                      <span className="font-semibold text-neutral-900">{formData.email || formData.phone}</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <button
-                      type="button"
-                      onClick={handleWhatsApp}
-                      className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#25d366] hover:bg-[#20ba5a] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Instant Follow-Up on WhatsApp</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsSubmitted(false);
-                        setFormData({
-                          name: "",
-                          company: "",
-                          email: "",
-                          phone: "",
-                          volume: VOLUMES[1],
-                          packaging: PACKAGING_OPTIONS[0],
-                          incoterm: "CIF",
-                          destinationPort: "",
-                          message: "",
-                        });
-                      }}
-                      className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-sm transition-colors cursor-pointer"
-                    >
-                      Submit Another Inquiry
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                /* Interactive Form State */
-                <form onSubmit={handleSubmit} className={`${styles.form} space-y-6`}>
-                  <div>
-                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 leading-snug">
-                      <span className={styles.desktopTitle}>Wholesale Order Specification</span>
-                      <span className={styles.mobileTitle}>Request a wholesale quote</span>
-                    </h3>
-                    <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                      Select your commodity and supply details for an immediate quotation review.
-                    </p>
-                  </div>
-
-                  {/* 1. Commodity Selector Pills */}
-                  <div>
-                    <label htmlFor="wholesale-commodity" className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-2.5">
-                      Select Commodity
-                    </label>
-                    <select id="wholesale-commodity" className={styles.mobileCommodity} value={commodityId} onChange={(event) => setCommodityId(event.target.value as typeof commodityId)}>
-                      {COMMODITIES.map((commodity) => <option key={commodity.id} value={commodity.id}>{commodity.label}</option>)}
-                    </select>
-                    <div className={`${styles.commodities} grid grid-cols-2 sm:grid-cols-4 gap-2.5`}>
-                      {COMMODITIES.map((c) => {
-                        const isActive = c.id === commodityId;
-                        return (
-                          <button
-                            key={c.id}
-                            type="button"
-                            aria-pressed={isActive}
-                            onClick={() => setCommodityId(c.id)}
-                            className={`h-11 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer flex items-center justify-center text-center ${
-                              isActive
-                                ? "bg-[#800020] border-[#800020] text-white shadow-md"
-                                : "bg-stone-50 hover:bg-stone-100 border-stone-200 text-stone-700 hover:border-stone-300"
-                            }`}
-                          >
-                            {c.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* 2. Contact Information (2 Columns) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Your Full Name <span className="text-[#800020]">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Tariq Al-Mansoor"
-                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Company / Business Name <span className="text-[#800020]">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        placeholder="e.g. Al-Madina Trading LLC"
-                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  {/* 3. Email & Phone (2 Columns) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Work Email Address <span className="text-[#800020]">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="tariq@almadinatrade.com"
-                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Phone / WhatsApp Number <span className="text-[#800020]">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+971 50 123 4567"
-                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  {/* 4. Volume & Delivery Incoterm (2 Columns) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Required Volume
-                      </label>
-                      <select
-                        value={formData.volume}
-                        onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
-                      >
-                        {VOLUMES.map((v) => (
-                          <option key={v} value={v}>
-                            {v}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Incoterm Delivery Term
-                      </label>
-                      <select
-                        value={formData.incoterm}
-                        onChange={(e) => setFormData({ ...formData, incoterm: e.target.value })}
-                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
-                      >
-                        {INCOTERMS.map((t) => (
-                          <option key={t} value={t}>
-                            {t}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* 5. Destination Port & Packaging (2 Columns) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Destination Discharge Port <span className="text-[#800020]">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.destinationPort}
-                        onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
-                        placeholder="e.g. Jebel Ali / Rotterdam / Jeddah"
-                        className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                        Packaging Preference
-                      </label>
-                      <select
-                        value={formData.packaging}
-                        onChange={(e) => setFormData({ ...formData, packaging: e.target.value })}
-                        className="w-full h-11 px-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer font-medium"
-                      >
-                        {PACKAGING_OPTIONS.map((p) => (
-                          <option key={p} value={p}>
-                            {p}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* 6. Optional Message */}
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                      Specific Requirements or Target Delivery Date (Optional)
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="e.g. Please include SGS inspection report and dispatch sample box before contract signing."
-                      className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50/70 text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all resize-none"
-                    />
-                  </div>
-
-                  {/* 7. Action Button (Centered) */}
-                  <div className="pt-2 flex justify-center">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full sm:w-auto sm:min-w-[320px] py-4 px-8 rounded-xl bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
-                    >
-                      <span>{isSubmitting ? "Submitting Inquiry..." : "Submit Quotation Request"}</span>
-                      <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </button>
-                  </div>
-
-                  <p className="text-[11px] text-stone-400 text-center leading-relaxed">
-                    By submitting, your request is dispatched directly to Monagrow&apos;s trade desk. Your data is strictly confidential.
-                  </p>
-                </form>
-              )}
-            </div>
+          {step === 4 && <aside className={styles.result} aria-labelledby="estimate-result-heading">
+            <div className={styles.resultTop}><span className={styles.kicker}>Your planning estimate</span><span className={styles.badge}>Illustrative</span></div>
+            <h3 id="estimate-result-heading">{product.label}<span>{variety} · {grade}</span></h3>
+            <div className={styles.metrics}><div><small>Total quantity</small><strong>{number(estimate.mt)} <span>MT</span></strong><small>{number(kg)} kg</small></div><div><small>{pack.kg} kg bags</small><strong>{number(estimate.bags)}</strong><small>{pack.label}</small></div></div>
+            <div className={styles.route}><Ship size={19} /><div>{retail ? "Local delivery estimate" : shipping === "sea" ? `${estimate.containers} × 20ft container${estimate.containers === 1 ? "" : "s"} (approx.)` : "Air cargo estimate"}<small>{retail ? "Delivery and tax assumptions shown below" : `${origin} → ${DESTINATIONS[destination].country} · ${port || "Location to confirm"}`}</small></div></div>
+            <div className={styles.breakdown}><h4>Cost breakdown <span>USD</span></h4><dl>{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{money(value)}</dd></div>)}</dl></div>
+            {!retail && <p className={styles.basis}>{incoterm} planning subtotal <strong>{money(basis)}</strong><small>The landed total also includes costs beyond this delivery term.</small></p>}
+            <div className={styles.total} aria-live="polite" aria-atomic="true"><span>Estimated {retail ? "delivered" : "landed"} total</span><strong>{valid ? money(estimate.total) : "—"}</strong><div><span>{money(estimate.perMt)} / MT</span><span>{money(estimate.perKg)} / kg</span></div></div>
+            <p className={styles.disclaimer}>A planning guide, not an offer. Sample rates exclude unlisted charges and are not live market prices. Container capacity assumes 25 MT and must be checked against cargo dimensions and route limits.</p>
+            <button className={styles.primary} type="button" disabled={!valid} onClick={() => onOpenQuoteModal(QUOTE_NAMES[productIndex])}>Request an official quote <ArrowUpRight size={18} /></button>
+            <div className={styles.actions}><button type="button" disabled={!valid} onClick={printEstimate}><Download size={16} /> Save as PDF</button><button type="button" disabled={!valid} onClick={() => window.open(`https://wa.me/9779801234567?text=${encodeURIComponent(summary)}`, "_blank", "noopener,noreferrer")}><MessageCircle size={16} /> WhatsApp enquiry</button></div>
+            {exportError && <p role="alert" className={styles.error}>{exportError}</p>}
+          </aside>}
+          <div className={styles.navigation}>
+            <button type="button" className={styles.back} disabled={stepIndex === 0} onClick={() => goToStep(steps[stepIndex - 1])}>Back</button>
+            {step !== 4 ? <button type="button" className={styles.continue} disabled={!canContinue} onClick={() => goToStep(steps[stepIndex + 1])}>{step === 3 ? "See my estimate" : `Continue to ${stepNames[steps[stepIndex + 1]].toLowerCase()}`} <ArrowUpRight size={17} /></button> : <button type="button" className={styles.back} onClick={() => goToStep(0)}>Edit product details</button>}
           </div>
         </div>
       </div>
