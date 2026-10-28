@@ -24,7 +24,7 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
       setOverCollection(Boolean(collection && collection.top <= 45 && collection.bottom > 45));
       if (immersiveHero) {
         const hero = document.getElementById("home");
-        setOverHero(Boolean(hero && hero.getBoundingClientRect().bottom > 90));
+        setOverHero(Boolean(hero && hero.getBoundingClientRect().bottom > 80 && hero.getBoundingClientRect().top <= 80));
       }
 
       // Hide navbar when footer appears
@@ -107,7 +107,11 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-[#800020] hover:text-[#520014] font-bold text-base md:text-xl lg:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap"
+                  className={`font-bold text-base md:text-xl lg:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap ${
+                    overHero
+                      ? "text-white hover:text-[#800020]"
+                      : "text-[#800020] hover:text-[#520014]"
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -118,7 +122,11 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg text-[#800020] hover:bg-black/5 active:bg-black/10 transition-colors duration-200 cursor-pointer"
+              className={`md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${
+                overHero
+                  ? "text-white hover:bg-white/10 active:bg-white/20"
+                  : "text-[#800020] hover:bg-black/5 active:bg-black/10"
+              }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >

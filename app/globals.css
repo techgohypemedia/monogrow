@@ -47,6 +47,9 @@ body {
 }
 
 html { overflow-x: clip; }
+.monagrow-hero-nav[data-dark="true"] nav a,
+.monagrow-hero-nav[data-dark="true"] button[aria-expanded] { color: #ffffff !important; }
+.monagrow-hero-nav[data-dark="true"] nav a:hover { color: #800020 !important; }
 .monagrow-hero-nav[data-collection="true"] nav a,
 .monagrow-hero-nav[data-collection="true"] button[aria-expanded] { color: #f7efe1; }
 .monagrow-hero-nav[data-collection="true"] nav a:hover { color: #e9cfaa; }

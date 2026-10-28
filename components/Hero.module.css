@@ -1,6 +1,6 @@
-.hero { --accent: #a6c8d3; --glow: #234c58; background: #0b0d0d; color: #f5e6cc; position: relative; isolation: isolate; }
+.hero { --accent: #a6c8d3; --glow: #448a9e; background: #244955; color: #f5e6cc; position: relative; isolation: isolate; }
 .definitions { position: absolute; width: 0; height: 0; overflow: hidden; }
-.stage { position: relative; overflow: clip; background: #0b0d0d; }
+.stage { position: relative; overflow: clip; background: #244955; }
 .grain { position: absolute; inset: 0; z-index: 15; pointer-events: none; opacity: .045; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.6' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
 .topline { position: absolute; z-index: 5; top: 115px; left: 4.5%; right: 4.5%; display: flex; justify-content: space-between; font-size: 9px; font-weight: 600; letter-spacing: .22em; color: #c0baac; }
 .wordmark { position: absolute; top: 145px; left: 2%; width: 96%; z-index: 1; text-align: center; margin: 0; font-family: Arial, sans-serif; font-weight: 900; font-size: clamp(26px, var(--name-size), 250px); line-height: 1; letter-spacing: -.065em; text-transform: uppercase; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px #d4d5bd3d; pointer-events: none; }
@@ -53,7 +53,7 @@
 .productNav button[aria-current]::after { transform: scaleX(1); }
 .allProducts { display: flex; align-items: center; gap: 20px; color: #d8d1bf; font-size: 10px; }
 .progress { position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; z-index: 22; background: var(--accent); transform: scaleX(var(--progress, 0)); transform-origin: left; }
-.hero[data-enhanced] .stage { height: 100svh; min-height: 680px; background: radial-gradient(ellipse at 52% 48%, var(--glow) 0%, transparent 72%), var(--backdrop, #102d36); }
+.hero[data-enhanced] .stage { height: 100svh; min-height: 680px; background: radial-gradient(ellipse at 52% 48%, var(--glow) 0%, transparent 72%), var(--backdrop, #306778); }
 .hero[data-enhanced] .atmosphere { opacity: 0; }
 .hero[data-enhanced] .orbit { animation: ringTurn 38s linear infinite; }
 .hero[data-enhanced] .scene { position: absolute; inset: 0; min-height: 0; height: 100%; border: none; }

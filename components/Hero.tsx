@@ -12,10 +12,10 @@ interface HeroProps {
 }
 
 const PRODUCTS = [
-  { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#a6c8d3", glow: "#234c58", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain · Premium basmati", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
-  { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#633318", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark Arabica · Whole bean & ground", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
-  { name: "Royal Cashews", short: "Cashews", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-cashews-packaging-new.png", colour: "#dab2ed", glow: "#4e245c", note: "WHOLE & SELECTED", description: "Beautifully whole. Naturally buttery. Selected cashews that bring a little richness to the everyday.", detail: "W240 · Whole & selected", size: "2.5 kg", ingredient: "cashew", atlas: "0% 100%" },
-  { name: "Refined Cane Sugar", short: "Sugar", title: ["Pure cane.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#46552a", note: "REFINED CANE · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined cane sugar, ready for everything you create.", detail: "ICUMSA 45 · Refined cane", size: "1 kg", ingredient: "sugar", atlas: "100% 100%" },
+  { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#a6c8d3", glow: "#448a9e", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain · Premium basmati", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
+  { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#aa633c", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark Arabica · Whole bean & ground", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
+  { name: "Royal Cashews", short: "Cashews", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-cashews-packaging-new.png", colour: "#dab2ed", glow: "#89439f", note: "WHOLE & SELECTED", description: "Beautifully whole. Naturally buttery. Selected cashews that bring a little richness to the everyday.", detail: "W240 · Whole & selected", size: "2.5 kg", ingredient: "cashew", atlas: "0% 100%" },
+  { name: "Refined Cane Sugar", short: "Sugar", title: ["Pure cane.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#7e994c", note: "REFINED CANE · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined cane sugar, ready for everything you create.", detail: "ICUMSA 45 · Refined cane", size: "1 kg", ingredient: "sugar", atlas: "100% 100%" },
 ];
 
 const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
@@ -24,7 +24,7 @@ const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
   depth: i % 3,
 }));
 const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Jumbo Cashews W240", "Refined Cane Sugar (ICUMSA 45)"];
-const BACKGROUNDS = ["#102d36", "#382014", "#301a3c", "#26351a"];
+const BACKGROUNDS = ["#306778", "#754832", "#5d376f", "#516b3b"];
 function blendColour(from: string, to: string, progress: number) {
   const channels = [1, 3, 5].map(offset => {
     const start = parseInt(from.slice(offset, offset + 2), 16);

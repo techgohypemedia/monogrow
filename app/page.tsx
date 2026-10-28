@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import AboutMonagrow from "@/components/AboutMonagrow";
 import ProductMarquee from "@/components/ProductMarquee";
 import CategorySection from "@/components/CategorySection";
 import CompanyPhilosophy from "@/components/CompanyPhilosophy";
@@ -33,6 +34,9 @@ export default function Home() {
           onOpenVideoModal={() => setIsVideoModalOpen(true)}
           onOpenQuoteModal={handleOpenQuoteModal}
         />
+
+        {/* 3. About Monagrow - Direct Origin & Wholesale Partnerships */}
+        <AboutMonagrow onOpenQuoteModal={handleOpenQuoteModal} />
 
         <ProductMarquee />
 

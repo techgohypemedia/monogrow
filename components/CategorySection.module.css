@@ -1,5 +1,5 @@
-.section { position: relative; background: #800020; color: #f7efe1; isolation: isolate; }
-.stage { position: relative; overflow: clip; padding: 100px 6% 100px; background: radial-gradient(ellipse at 80% 10%, #b3444b80, transparent 60%), linear-gradient(140deg, #8e102d, #650019); }
+.section { position: relative; background: #961834; color: #f7efe1; isolation: isolate; }
+.stage { position: relative; overflow: clip; padding: 100px 6% 100px; background: radial-gradient(ellipse at 80% 10%, #e06f7e80, transparent 60%), linear-gradient(140deg, #bc3454, #8e1531); }
 .stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath filter='url(%23g)' opacity='.6' d='M0 0h150v150H0z' fill='white'/%3E%3C/svg%3E"); }
 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: .22em; font-weight: 700; color: #e9cfaa; margin-bottom: 14px; }
 .eyebrow > span { width: 28px; height: 1px; background: currentColor; }
@@ -10,7 +10,7 @@
 .origin > span { width: 6px; height: 6px; border-radius: 50%; background: #d9c58b; }
 .scrollCue { display: none; }
 .track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 110px 35px; }
-.card { position: relative; border: 1px solid #f7efe12b; border-radius: 30px; background: linear-gradient(155deg, #48051450, #510518b3); box-shadow: 0 20px 50px #35000d20; min-width: 0; }
+.card { position: relative; border: 1px solid #f7efe12b; border-radius: 30px; background: linear-gradient(155deg, rgba(90, 10, 28, 0.4), rgba(115, 16, 36, 0.65)); box-shadow: 0 20px 50px rgba(70, 5, 20, 0.2); min-width: 0; }
 .number { position: absolute; top: -42px; right: 23px; font: 800 20px/1 Arial, sans-serif; color: #e9cfaa; }
 .visual { position: relative; height: 240px; margin-top: -72px; }
 .bowl { position: absolute; width: 86%; height: 120%; top: -12%; left: 2%; filter: drop-shadow(0 15px 18px #24000970); }
