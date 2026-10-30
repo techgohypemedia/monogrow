@@ -183,12 +183,9 @@ export const PRODUCTS: CommodityProduct[] = [
     retailSizes: ["1 kg Retail Box Pouch", "5 kg Standup Box Bag with Handle"],
     bulkSizes: ["20 kg Woven Poly Sacks", "25 kg / 50 kg Export Jute & PP", "20ft FCL Container Loads"],
     specs: [
-      { label: "Milled Grain Length", value: "8.9 mm+ Slender" },
-      { label: "Cooked Elongation", value: "Over 2.2x Fluffiness" },
-      { label: "Moisture Threshold", value: "Under 11.5% Cured" },
-      { label: "Purity & Cleanliness", value: "100% Sortex Laser Clean" },
-      { label: "Natural Curing", value: "2 Full Seasons Aged" },
-      { label: "Broken Grain Ratio", value: "Under 1.0% Maximum" },
+      { label: "Grain Length", value: "8.9 mm+" },
+      { label: "Cooked Elongation", value: "Over 2.2x" },
+      { label: "Purity", value: "100% Sortex" },
     ],
     keyHighlights: [
       "Direct origin mill contracts with zero speculative middlemen",
@@ -214,12 +211,9 @@ export const PRODUCTS: CommodityProduct[] = [
     retailSizes: ["1 kg Aroma-Lock Pouch", "5 kg Standup Box Bag"],
     bulkSizes: ["25 kg Moisture-Barrier Sacks", "50 kg Woven Export Bags", "Custom Palletized Lots"],
     specs: [
-      { label: "Aroma Profile", value: "Naturally Rich Floral Perfume" },
-      { label: "Grain Classification", value: "Tender Medium-Short Kernel" },
-      { label: "Sorting Grade", value: "100% Sortex Optical Separation" },
-      { label: "Moisture Content", value: "Under 12.0% Optimized" },
-      { label: "Heirloom Status", value: "Traditional Non-GMO Seed" },
-      { label: "Cooked Texture", value: "Silky, Soft & Digestible" },
+      { label: "Aroma Profile", value: "Naturally Rich" },
+      { label: "Grain Type", value: "Medium-Short Kernel" },
+      { label: "Sorting Grade", value: "100% Sortex" },
     ],
     keyHighlights: [
       "Authentic heritage cultivar preserved with artisanal cooperatives",

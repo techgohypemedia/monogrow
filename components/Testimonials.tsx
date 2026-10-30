@@ -294,19 +294,19 @@ export default function Testimonials() {
       aria-label="Verified Customer Testimonials"
     >
       {/* Background Image: Bowls of Rice, Sugar, Coffee Beans and Dry Fruits */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-[#FAF9F6]">
         <Image
           src="/assets/testimonials-commodities-bg.jpg"
           alt="Artisan ceramic bowls with basmati rice, white sugar, roasted coffee beans, and dry fruits"
           fill
           sizes="100vw"
           priority
-          className="object-cover object-center scale-100"
+          className="object-cover object-center scale-100 opacity-60"
         />
-        {/* Subtle warm gradient veil for perfect contrast */}
+        {/* Softening veil to gently fade background photographic contrast */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-white/25"
+          className="absolute inset-0 bg-gradient-to-b from-white/35 via-white/20 to-white/30"
         />
       </div>
 

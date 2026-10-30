@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, ArrowUpRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { X, ArrowUpRight, CheckCircle2, ShieldCheck, ChevronDown } from "lucide-react";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -45,6 +45,14 @@ export default function QuoteModal({
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [prevCommodity, setPrevCommodity] = useState(initialCommodity);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.max(50, textareaRef.current.scrollHeight)}px`;
+    }
+  }, [formData.message, isOpen]);
 
   if (initialCommodity !== prevCommodity) {
     setPrevCommodity(initialCommodity);
@@ -75,35 +83,26 @@ export default function QuoteModal({
       {/* Click outside backdrop */}
       <div className="absolute inset-0" onClick={handleResetAndClose} />
 
-      {/* Modal Dialog Card: Wider max-w-2xl layout */}
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-stone-200/80 z-10 max-h-[92vh] flex flex-col animate-fadeIn">
+      {/* Modal Dialog Card: Compact, fits viewport without scrolling */}
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl border border-stone-200/80 z-10 max-h-[96vh] flex flex-col animate-fadeIn">
         
-        {/* Simple Themed Header */}
-        <div className="px-6 sm:px-10 pt-7 pb-4 bg-white border-b border-stone-100 flex items-start justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fae8eb] text-[#800020] text-[11px] font-bold uppercase tracking-wider mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#800020]" />
-              <span>Direct Wholesale Quote</span>
-            </div>
-            <h3 className="font-sans text-2xl sm:text-3xl font-bold text-stone-900 leading-tight">
-              Request Official Quotation
-            </h3>
-            <p className="text-xs sm:text-sm text-stone-500 mt-1">
-              Binding proforma invoice &amp; COA specs sent within 4 hours.
-            </p>
-          </div>
+        {/* Centered Themed Header */}
+        <div className="relative px-6 sm:px-9 py-4 bg-white border-b border-stone-100 flex items-center justify-center shrink-0">
+          <h3 className="font-sans text-2xl sm:text-[28px] font-bold text-stone-900 leading-tight text-center">
+            Request Official Quotation
+          </h3>
 
           <button
             onClick={handleResetAndClose}
-            className="p-2 -mr-2 -mt-1 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
-        <div className="px-6 sm:px-10 py-6 overflow-y-auto">
+        {/* Modal Body without scrollbar */}
+        <div className="px-6 sm:px-9 py-4 sm:py-5 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {submitted ? (
             /* Success State */
             <div className="text-center py-8 space-y-5">
@@ -133,30 +132,33 @@ export default function QuoteModal({
             </div>
           ) : (
             /* Clean, Wide & Simple Form */
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
               
               {/* Commodity Selector */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                   Commodity
                 </label>
-                <select
-                  value={formData.commodity}
-                  onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
-                  className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer"
-                >
-                  {COMMODITIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={formData.commodity}
+                    onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
+                    className="w-full h-10 pl-3.5 pr-11 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer appearance-none"
+                  >
+                    {COMMODITIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-stone-500 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" />
+                </div>
               </div>
 
               {/* Name & Company (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Your Full Name <span className="text-[#800020]">*</span>
                   </label>
                   <input
@@ -165,12 +167,12 @@ export default function QuoteModal({
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. John Doe"
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Company Name <span className="text-[#800020]">*</span>
                   </label>
                   <input
@@ -179,15 +181,15 @@ export default function QuoteModal({
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     placeholder="e.g. Al-Mansoor Trading"
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
                   />
                 </div>
               </div>
 
               {/* Work Email & Phone / WhatsApp (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Work Email <span className="text-[#800020]">*</span>
                   </label>
                   <input
@@ -196,12 +198,12 @@ export default function QuoteModal({
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="buyer@company.com"
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Phone / Contact Number <span className="text-[#800020]">*</span>
                   </label>
                   <input
@@ -210,32 +212,35 @@ export default function QuoteModal({
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+971 50 123 4567"
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
                   />
                 </div>
               </div>
 
               {/* Volume & Destination Port (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Order Volume
                   </label>
-                  <select
-                    value={formData.volume}
-                    onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer"
-                  >
-                    {VOLUMES.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={formData.volume}
+                      onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
+                      className="w-full h-10 pl-3.5 pr-11 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer appearance-none"
+                    >
+                      {VOLUMES.map((v) => (
+                        <option key={v} value={v}>
+                          {v}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-stone-500 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
                     Destination Port / Country
                   </label>
                   <input
@@ -243,31 +248,32 @@ export default function QuoteModal({
                     value={formData.destinationPort}
                     onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
                     placeholder="e.g. Jebel Ali / Rotterdam"
-                    className="w-full h-11 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
                   />
                 </div>
               </div>
 
               {/* Optional Message */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                  Packaging / Special Specs (Optional)
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
+                  Packaging / Special Specs
                 </label>
                 <textarea
+                  ref={textareaRef}
                   rows={2}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="e.g. 5kg box bag packaging, moisture limit under 12%, SGS certificate..."
-                  className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all resize-none"
+                  className="w-full min-h-[50px] py-2 px-3 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all resize-none overflow-hidden"
                 />
               </div>
 
-              {/* Centered, Reduced Submit Button */}
-              <div className="pt-3 flex justify-center">
+              {/* Centered Submit Button */}
+              <div className="pt-2 flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 sm:px-10 py-3 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
+                  className="px-8 sm:px-10 py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
                 >
                   <span>{isSubmitting ? "Submitting..." : "Submit Quote Request"}</span>
                   <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -275,7 +281,7 @@ export default function QuoteModal({
               </div>
 
               {/* Trust Reassurance */}
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-stone-400 text-center pt-1">
+              <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-stone-400 text-center pt-0.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#800020]" />
                 <span>Direct mill pricing · Commercial confidentiality strictly observed</span>
               </div>

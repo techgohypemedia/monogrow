@@ -65,7 +65,6 @@ export default function RicePageClient() {
           <div className={styles.inner}>
             <header className={styles.header}>
               <h2>Find your rice.</h2>
-              <span>Monagrow · From origin to your table</span>
             </header>
             {products.map((product, index) => (
               <article key={product.id} id={product.id} className={styles.product}>
@@ -76,12 +75,11 @@ export default function RicePageClient() {
                   <div id={index === 0 ? "rice-target-bowl" : undefined} className={styles.bowl}>
                     <Image src={product.bowlImg} alt={product.bowlAlt} fill className="object-contain drop-shadow-lg" sizes="(max-width: 767px) 115px, 145px" />
                   </div>
-                  <p className={styles.caption}>{product.originBadge}</p>
                 </div>
                 <div data-rice-details={index === 0 ? "" : undefined} className={styles.details}>
-                  <p className={styles.kicker}>{product.kicker}</p>
+                  
                   <h3>{product.name}</h3>
-                  <p className={styles.tagline}>{product.tagline}</p>
+                  
                   <p className={styles.description}>{product.description}</p>
                   <dl className={styles.specs}>
                     {product.specs.map(spec => (
@@ -117,11 +115,7 @@ export default function RicePageClient() {
         <section className={styles.quality} aria-labelledby="rice-quality-heading">
           <div className={styles.inner}>
             <div className={styles.qualityHeading}>
-              <div>
-                <p className={styles.kicker}>Care at every step</p>
-                <h2 id="rice-quality-heading">Good rice starts<br />long before your kitchen.</h2>
-              </div>
-              <p>From natural ageing to careful packing, discover the process behind every Monagrow rice lot.</p>
+              <h2 id="rice-quality-heading">Good rice starts<br />long before your kitchen.</h2>
             </div>
             <div className={styles.qualityLayout}>
               <a href="#basmati-rice" className={styles.qualityProduct}>
@@ -130,7 +124,6 @@ export default function RicePageClient() {
                   <Image src={products[0].packImg} alt={products[0].packAlt} fill sizes="(max-width: 767px) 180px, 210px" className="object-contain drop-shadow-xl" />
                 </div>
                 <span className={styles.qualityProductName}>1121 Supreme Basmati</span>
-                <span className={styles.link}>View product details</span>
               </a>
               <ol className={styles.qualitySteps}>
                 {category.qualityBullets.map((bullet, index) => (
