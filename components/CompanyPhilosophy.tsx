@@ -39,6 +39,8 @@ const stages = [
 export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosophyProps) {
   const [active, setActive] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
+  const lineLeftRef = useRef<HTMLSpanElement>(null);
+  const lineRightRef = useRef<HTMLSpanElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const story = useRef<HTMLDivElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
@@ -82,6 +84,30 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
         }
       }
       setActive(closest);
+
+      // Scroll-driven smooth sliding animation for headline lines
+      if (heading.current && lineLeftRef.current && lineRightRef.current) {
+        if (reduced.matches) {
+          lineLeftRef.current.style.transform = "none";
+          lineRightRef.current.style.transform = "none";
+          lineLeftRef.current.style.opacity = "1";
+          lineRightRef.current.style.opacity = "1";
+        } else {
+          const rect = heading.current.getBoundingClientRect();
+          const enterTrigger = height * 0.95;
+          const lockTrigger = height * 0.40;
+          const progress = Math.max(0, Math.min(1, (enterTrigger - rect.top) / Math.max(1, enterTrigger - lockTrigger)));
+          const ease = 1 - Math.pow(1 - progress, 2.5);
+          const maxDist = Math.min(window.innerWidth * 0.35, 200);
+          const leftOffset = -maxDist * (1 - ease);
+          const rightOffset = maxDist * (1 - ease);
+          lineLeftRef.current.style.transform = `translate3d(${leftOffset.toFixed(2)}px, 0, 0)`;
+          lineRightRef.current.style.transform = `translate3d(${rightOffset.toFixed(2)}px, 0, 0)`;
+          const opacity = Math.min(1, Math.max(0.15, 0.15 + 0.85 * ease));
+          lineLeftRef.current.style.opacity = opacity.toFixed(2);
+          lineRightRef.current.style.opacity = opacity.toFixed(2);
+        }
+      }
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
     schedule();
@@ -100,10 +126,10 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
     <section id="philosophy" className={styles.section} aria-labelledby="origin-heading">
       <div className={styles.container}>
         <header className={styles.intro}>
-          <p className={styles.eyebrow}><span /> Our origin standard</p>
+
           <h2 id="origin-heading" ref={heading} className={styles.headline}>
-            <span>Rooted in origin,</span>
-            <span><em>delivered</em> with care.</span>
+            <span ref={lineLeftRef} className={styles.headlineLeft}>Rooted in origin,</span>
+            <span ref={lineRightRef} className={styles.headlineRight}><em>delivered</em> with care.</span>
           </h2>
           <div className={styles.principles}>
             <p className={styles.lead}>Exceptional ingredients have a story. Ours starts at the source, with the people who grow them. No unnecessary layers. Just a shared respect for quality.</p>

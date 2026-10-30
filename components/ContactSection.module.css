@@ -1,0 +1,402 @@
+.contactSection {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 20%, #fdfbf7 0%, #f6efe6 60%, #efe4d6 100%);
+  color: #30241e;
+  padding: 130px 0 80px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.container {
+  position: relative;
+  width: min(1380px, 92%);
+  margin: 0 auto;
+  z-index: 10;
+}
+
+/* -------------------------------------------------------------
+   Compact Glassmorphic Card (Decreased Width, Centered)
+   ------------------------------------------------------------- */
+.unifiedGlassCard {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 50px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  box-shadow: 
+    0 24px 60px -15px rgba(128, 0, 32, 0.10),
+    0 10px 24px -5px rgba(48, 36, 30, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  padding: clamp(32px, 4.5vw, 48px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 5;
+  transition: box-shadow 0.3s ease;
+}
+
+.unifiedGlassCard:hover {
+  box-shadow: 
+    0 32px 75px -15px rgba(128, 0, 32, 0.14),
+    0 12px 28px -5px rgba(48, 36, 30, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* -------------------------------------------------------------
+   Card Header: "Get In Touch With Us" in Maroon Typography
+   ------------------------------------------------------------- */
+.cardHeader {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.cardTitle {
+  font-family: var(--font-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #800020;
+  margin: 0 0 10px;
+}
+
+.cardDesc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #726359;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* -------------------------------------------------------------
+   Form Inside Card
+   ------------------------------------------------------------- */
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.twoCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #4a3b34;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fieldLabel span {
+  color: #800020;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  color: #800020;
+  opacity: 0.65;
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+}
+
+.textInput,
+.selectInput,
+.textareaInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(128, 0, 32, 0.15);
+  border-radius: 12px;
+  padding: 11px 14px 11px 40px;
+  font-size: 13.5px;
+  color: #30241e;
+  outline: none;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.selectInput {
+  padding-right: 32px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23800020' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.textareaInput {
+  padding-left: 14px;
+  resize: vertical;
+  min-height: 95px;
+  line-height: 1.5;
+}
+
+.textInput:focus,
+.selectInput:focus,
+.textareaInput:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #800020;
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.12);
+}
+
+.textInput::placeholder,
+.textareaInput::placeholder {
+  color: #9e8f85;
+}
+
+.submitBtn {
+  background: #800020;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 28px;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 24px -6px rgba(128, 0, 32, 0.35);
+  margin-top: 6px;
+}
+
+.submitBtn:hover {
+  background: #68001a;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -6px rgba(128, 0, 32, 0.42);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.successCard {
+  background: rgba(128, 0, 32, 0.05);
+  border: 1px solid rgba(128, 0, 32, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.successIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #800020;
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.successCard h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #800020;
+  margin: 0;
+}
+
+.successCard p {
+  font-size: 13px;
+  color: #635349;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------
+   Bottom Contact Bar (Address, Email, Phone, Request a Quote)
+   ------------------------------------------------------------- */
+.bottomBar {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  border-radius: 24px;
+  padding: 24px 32px;
+  box-shadow: 
+    0 20px 50px -15px rgba(128, 0, 32, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  gap: 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.contactInfoCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.contactInfoCard:hover {
+  transform: translateY(-2px);
+}
+
+.contactIconCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(128, 0, 32, 0.08);
+  border: 1px solid rgba(128, 0, 32, 0.14);
+  color: #800020;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.contactInfoCard:hover .contactIconCircle {
+  background: #800020;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.contactCardMeta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contactMetaLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #800020;
+  margin-bottom: 2px;
+}
+
+.contactMetaValue {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #30241e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quoteActionBlock {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quoteCtaBtn {
+  background: #800020;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 100px;
+  padding: 14px 26px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 20px -4px rgba(128, 0, 32, 0.35);
+  white-space: nowrap;
+}
+
+.quoteCtaBtn:hover {
+  background: #68001a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(128, 0, 32, 0.45);
+}
+
+.quoteCtaBtn:active {
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------
+   Responsive Breakpoints
+   ------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .bottomBar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .quoteActionBlock {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .contactSection {
+    padding: 100px 0 60px;
+  }
+
+  .unifiedGlassCard {
+    padding: 28px 20px;
+    border-radius: 22px;
+    margin-bottom: 36px;
+  }
+
+  .cardTitle {
+    font-size: clamp(26px, 7vw, 32px);
+  }
+
+  .twoCols {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .bottomBar {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .quoteActionBlock {
+    width: 100%;
+  }
+
+  .quoteCtaBtn {
+    width: 100%;
+  }
+}

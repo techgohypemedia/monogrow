@@ -85,7 +85,7 @@ export default function QuoteModal({
               <span className="w-1.5 h-1.5 rounded-full bg-[#800020]" />
               <span>Direct Wholesale Quote</span>
             </div>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 leading-tight">
+            <h3 className="font-sans text-2xl sm:text-3xl font-bold text-stone-900 leading-tight">
               Request Official Quotation
             </h3>
             <p className="text-xs sm:text-sm text-stone-500 mt-1">

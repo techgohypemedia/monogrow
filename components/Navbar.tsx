@@ -1,21 +1,37 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, X } from "lucide-react";
 
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
   immersiveHero?: boolean;
 }
 
+const CATEGORY_OPTIONS = [
+  { name: "Rice", href: "/rice" },
+  { name: "Coffee", href: "/coffee" },
+  { name: "Sugar", href: "/sugar" },
+  { name: "Dry Fruits", href: "/dry-fruits" },
+];
+
+const SECONDARY_NAV_LINKS = [
+  { name: "About Us", href: "/about-us" },
+  { name: "Contact", href: "/contact" },
+];
+
 export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const [overHero, setOverHero] = useState(immersiveHero);
   const [overCollection, setOverCollection] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +44,8 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
       }
 
       // Hide navbar when footer appears
-      const footerEl = document.getElementById("contact") || document.querySelector("footer");
+      const isHome = typeof window !== "undefined" && (window.location.pathname === "/" || window.location.pathname === "");
+      const footerEl = isHome ? document.querySelector("footer") : null;
       if (footerEl) {
         const rect = footerEl.getBoundingClientRect();
         setIsVisible(rect.top > window.innerHeight);
@@ -54,6 +71,19 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
     };
   }, [immersiveHero]);
 
+  // Close desktop dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCategoriesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -73,23 +103,25 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
     }
   }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { name: "Categories", href: "/#categories" },
-    { name: "About Us", href: "/about-us" },
-    { name: "Contact", href: "/#contact" },
-  ];
-
   return (
     <>
       <header
         data-dark={overHero ? "true" : undefined}
         data-collection={overCollection ? "true" : undefined}
         style={{
-          backgroundColor: "transparent",
-          backdropFilter: "none",
-          WebkitBackdropFilter: "none",
-          borderBottom: "none",
-          boxShadow: "none",
+          backgroundColor: overHero
+            ? "rgba(255, 255, 255, 0.03)"
+            : isScrolled
+            ? "rgba(255, 255, 255, 0.22)"
+            : "rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(14px) saturate(170%)",
+          WebkitBackdropFilter: "blur(14px) saturate(170%)",
+          borderBottom: overHero
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(128, 0, 32, 0.04)",
+          boxShadow: overHero
+            ? "0 4px 24px 0 rgba(0, 0, 0, 0.04)"
+            : "0 4px 20px 0 rgba(0, 0, 0, 0.015)",
         }}
         className={`monagrow-hero-nav fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${
           isVisible
@@ -103,7 +135,60 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
           <div className="flex-1 flex items-center justify-start">
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10">
-              {navLinks.map((link) => (
+              {/* Categories Dropdown Nav Button */}
+              <div
+                ref={dropdownRef}
+                className="relative"
+                onMouseEnter={() => setIsCategoriesOpen(true)}
+                onMouseLeave={() => setIsCategoriesOpen(false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => setIsCategoriesOpen((prev) => !prev)}
+                  className={`font-bold text-base md:text-xl lg:text-[22px] tracking-wide transition-colors duration-200 py-1 inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                    overHero
+                      ? "text-white hover:text-[#800020]"
+                      : "text-[#800020] hover:text-[#520014]"
+                  }`}
+                  aria-expanded={isCategoriesOpen}
+                  aria-haspopup="true"
+                >
+                  <span>Categories</span>
+                  <ChevronDown
+                    className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-200 ${
+                      isCategoriesOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                <div
+                  className={`absolute top-full left-0 pt-2 transition-all duration-200 z-50 ${
+                    isCategoriesOpen
+                      ? "opacity-100 translate-y-0 pointer-events-auto visible"
+                      : "opacity-0 -translate-y-2 pointer-events-none invisible"
+                  }`}
+                >
+                  <div className="w-48 bg-white/95 backdrop-blur-2xl rounded-2xl border border-[#800020]/15 shadow-xl p-1.5 flex flex-col gap-0.5 text-left">
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setIsCategoriesOpen(false)}
+                        className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 hover:bg-[#800020]/8"
+                      >
+                        <span className="font-bold text-sm md:text-base text-[#30241e] group-hover:text-[#800020] transition-colors">
+                          {item.name}
+                        </span>
+                        <ArrowUpRight className="w-4 h-4 text-[#800020] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Secondary Navigation Links (About Us, Contact) */}
+              {SECONDARY_NAV_LINKS.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
@@ -218,7 +303,45 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
 
             {/* Mobile Nav Links */}
             <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => (
+              {/* Categories Accordion Group */}
+              <div className="flex flex-col">
+                <button
+                  type="button"
+                  onClick={() => setIsMobileCategoriesOpen((prev) => !prev)}
+                  className="w-full flex items-center justify-between text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors cursor-pointer"
+                >
+                  <span>Categories</span>
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      isMobileCategoriesOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {isMobileCategoriesOpen && (
+                  <div className="pl-3 pr-1 py-1.5 flex flex-col gap-1 border-l-2 border-[#800020]/25 ml-4 mt-1">
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => {
+                          setIsMobileCategoriesOpen(false);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center justify-between text-[#30241e] hover:text-[#800020] font-bold text-base py-2 px-3 rounded-lg hover:bg-[#800020]/8 transition-colors"
+                      >
+                        <span className="font-bold text-sm text-[#30241e]">
+                          {item.name}
+                        </span>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#800020]" />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Secondary Links (About Us, Contact) */}
+              {SECONDARY_NAV_LINKS.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}

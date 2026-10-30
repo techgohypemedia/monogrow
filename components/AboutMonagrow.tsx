@@ -43,10 +43,12 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
   return (
     <section id="about-us" ref={sectionRef} className={styles.section} aria-labelledby="about-monagrow-title">
       <div className={styles.container}>
+        <div data-about-reveal className={styles.eyebrowWrapper}>
+          <p className={styles.eyebrow}>About Monagrow</p>
+        </div>
         <div className={styles.aboutMonagrow}>
           <div className={styles.aboutHeading}>
             <div data-about-reveal>
-              <p className={styles.eyebrow}><span /> About Monagrow</p>
               <h2 id="about-monagrow-title">
                 <span className={styles.revealLine}><span data-reveal-line>Good ingredients.</span></span>
                 <span className={styles.revealLine}><em data-reveal-line>Lasting partnerships.</em></span>

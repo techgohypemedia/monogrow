@@ -179,12 +179,12 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             <div className={styles.copy}>
               <p className={styles.eyebrow}><span /> THE TASTE OF PURITY</p>
               <h2>{product.title[0]}<br/><em>{product.title[1]}</em></h2>
-              <p className={styles.description}>{product.description}</p>
+              {/* Description removed as requested */}
               <button className={styles.quote} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} onPointerMove={event => {
                 if (event.pointerType !== "mouse" || !window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches) return;
                 const bounds = event.currentTarget.getBoundingClientRect();
                 event.currentTarget.style.transform = `translate(${(event.clientX - bounds.left - bounds.width / 2) * .12}px, ${(event.clientY - bounds.top - bounds.height / 2) * .18}px)`;
-              }} onPointerLeave={event => { event.currentTarget.style.transform = ""; }}>Get a wholesale quote <ArrowUpRight size={18}/></button>
+              }} onPointerLeave={event => { event.currentTarget.style.transform = ""; }}>Get a Quote <ArrowUpRight size={18}/></button>
             </div>
             <div className={styles.productStage}>
               <div className={styles.halo} aria-hidden="true" />
@@ -195,7 +195,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             <div className={`${styles.ingredientCluster} ${styles.clusterLeft}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
             <div className={`${styles.ingredientCluster} ${styles.clusterRight}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
             <button data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
-            <div className={styles.productInfo}><span className={styles.infoLine}/><p className={styles.eyebrow}>{product.note}</p><h3>{product.name}</h3><p>{product.detail}</p><span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span><button onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])}>Explore this product <ArrowRight size={17}/></button></div>
+            <div className={styles.productInfo}><p className={styles.eyebrow}>{product.note}</p><h3>{product.name}</h3><p>{product.detail}</p><span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span><button onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])}>Explore this product <ArrowRight size={17}/></button></div>
             <span className={styles.sceneNumber} aria-hidden="true">0{index + 1} / 04</span>
           </article>
         ))}

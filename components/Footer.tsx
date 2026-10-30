@@ -216,7 +216,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#800020] shrink-0" />
-                <span>Kathmandu, Nepal (Port &amp; CFS Network)</span>
+                <span>xxxxxx, Nepal (Port &amp; CFS Network)</span>
               </div>
             </div>
           </div>
@@ -243,22 +243,22 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   </a>
                 </li>
                 <li>
-                  <a href="/#categories" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/rice" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Basmati Rice 8.9mm
                   </a>
                 </li>
                 <li>
-                  <a href="/#categories" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/coffee" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Specialty Coffee
                   </a>
                 </li>
                 <li>
-                  <a href="/#categories" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/sugar" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Refined Sugar ICUMSA
                   </a>
                 </li>
                 <li>
-                  <a href="/#categories" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/dry-fruits" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Royal Cashew Kernels
                   </a>
                 </li>
@@ -277,13 +277,12 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               </h3>
               <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#800020]/80 font-medium">
                 <li>
-                  <button
-                    type="button"
-                    onClick={() => onOpenQuoteModal?.("Export Inquiries")}
-                    className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left cursor-pointer"
+                  <a
+                    href="/contact"
+                    className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left"
                   >
                     Contact Us
-                  </button>
+                  </a>
                 </li>
                 <li>
                   <button

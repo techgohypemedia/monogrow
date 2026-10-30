@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ArrowDown, Check, Package, Ship, SlidersHorizontal, Download, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Check, Package, Ship, SlidersHorizontal, Download, MessageCircle } from "lucide-react";
 import { calculateTradeEstimate } from "./tradeEstimate";
 import styles from "./WholesaleCalculator.module.css";
 
@@ -94,8 +94,8 @@ export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteM
     <section id="calculator" className={styles.section} aria-labelledby="estimate-heading">
       <div className={styles.container}>
         <header className={styles.header}>
-          <div><p className={styles.kicker}>Monagrow / Trade tools</p><h2 id="estimate-heading">Plan your order.<br /><em>See the whole picture.</em></h2></div>
-          <div className={styles.introduction}><p>A clearer view of your next shipment. Explore quantities, packaging and delivery costs before starting a conversation with our trade desk.</p><a href="#estimate-inputs">Build your estimate <ArrowDown size={16} /></a></div>
+          <div><h2 id="estimate-heading">Plan your order.<br /><span className={styles.highlight}>See the whole picture.</span></h2></div>
+          <div className={styles.introduction}><p>A clearer view of your next shipment. Explore quantities, packaging and delivery costs before starting a conversation with our trade desk.</p></div>
         </header>
         <div className={styles.layout}>
           <nav className={styles.stepper} aria-label="Estimator progress"><ol>{steps.map((value, index) => <li key={value}><button type="button" disabled={index > stepIndex} aria-current={step === value ? "step" : undefined} onClick={() => goToStep(value)}><span>{index < stepIndex ? <Check size={14} /> : index + 1}</span>{stepNames[value]}</button></li>)}</ol></nav>

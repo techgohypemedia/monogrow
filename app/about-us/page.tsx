@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuoteModal from "@/components/QuoteModal";
+import AboutMonagrow from "@/components/AboutMonagrow";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -17,6 +18,8 @@ import {
   Truck,
   FileCheck2,
   FlaskConical,
+  PackageCheck,
+  Ship,
   Sparkles,
   ChevronRight,
   Anchor,
@@ -165,13 +168,11 @@ const JOURNEY_STAGES: JourneyStage[] = [
   },
 ];
 
-// Interactive 3D Card with Mouse Parallax & Product Popout - Concentric with the Arc
+// Interactive 3D Card with Mouse Parallax
 function Journey3DCard({
   stage,
-  curveSide,
 }: {
   stage: JourneyStage;
-  curveSide?: "left" | "right";
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
@@ -185,8 +186,8 @@ function Journey3DCard({
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateY = ((x - centerX) / centerX) * 6;
-    const rotateX = -((y - centerY) / centerY) * 6;
+    const rotateY = ((x - centerX) / centerX) * 5;
+    const rotateX = -((y - centerY) / centerY) * 5;
     setRotate({ x: rotateX, y: rotateY });
   }, []);
 
@@ -196,32 +197,22 @@ function Journey3DCard({
     setRotate({ x: 0, y: 0 });
   };
 
-  const isLeft = curveSide === "left";
-  const isRight = curveSide === "right";
-
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative w-full h-full overflow-hidden select-none group shadow-sm hover:shadow-lg transition-all duration-300 bg-neutral-100 ${
-        isLeft
-          ? "rounded-l-full rounded-r-2xl"
-          : isRight
-          ? "rounded-r-full rounded-l-2xl"
-          : "rounded-2xl"
-      }`}
+      className="relative w-full h-[280px] sm:h-[340px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden select-none group shadow-md hover:shadow-xl border border-neutral-200/80 transition-all duration-300 bg-neutral-100"
       style={{
         perspective: 1000,
         transformStyle: "preserve-3d",
       }}
     >
-      {/* Background Editorial Image - Concentric with the arc */}
       <div
         className="absolute inset-0 transition-transform duration-500 ease-out"
         style={{
-          transform: `rotateX(${rotate.x * 0.4}deg) rotateY(${rotate.y * 0.4}deg) scale(${isHovered ? 1.05 : 1})`,
+          transform: `rotateX(${rotate.x * 0.4}deg) rotateY(${rotate.y * 0.4}deg) scale(${isHovered ? 1.03 : 1})`,
         }}
       >
         <Image
@@ -229,7 +220,7 @@ function Journey3DCard({
           alt={stage.title}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 420px"
+          sizes="(max-width: 768px) 100vw, 650px"
         />
         <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
@@ -248,6 +239,76 @@ const STATS = [
 export default function AboutUsPage() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedProductForQuote, setSelectedProductForQuote] = useState("Monagrow Bulk Commodities");
+  const journeySectionRef = useRef<HTMLElement>(null);
+
+  // Exact IntersectionObserver scroll reveal animation from Home Page AboutMonagrow
+  useEffect(() => {
+    const section = journeySectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const animations = new Set<Animation>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          if (reduced.matches) return;
+
+          const elements = entry.target.querySelectorAll(
+            "[data-reveal-line], [data-reveal-card], p, h3, h2, li, a, :scope > svg"
+          );
+          elements.forEach((element, index) => {
+            const isLine = element.hasAttribute("data-reveal-line");
+            const isCard = element.hasAttribute("data-reveal-card");
+            const isIcon = element.tagName.toLowerCase() === "svg";
+
+            const animation = element.animate(
+              [
+                {
+                  opacity: 0,
+                  transform: isIcon
+                    ? "translateY(14px) scale(.75) rotate(-12deg)"
+                    : `translateY(${isLine ? 50 : (isCard ? 36 : 24)}px)`,
+                  filter: "blur(3px)",
+                },
+                {
+                  opacity: 1,
+                  transform: "translateY(0) scale(1) rotate(0)",
+                  filter: "blur(0px)",
+                },
+              ],
+              {
+                duration: isLine ? 1050 : 800,
+                delay: Math.min(index * 90, 600),
+                easing: "cubic-bezier(.22, 1, .36, 1)",
+                fill: "backwards",
+              }
+            );
+            animations.add(animation);
+            animation.onfinish = () => animations.delete(animation);
+          });
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+    );
+
+    section.querySelectorAll("[data-about-reveal]").forEach((el) => observer.observe(el));
+
+    const stop = () => {
+      if (reduced.matches) {
+        animations.forEach((a) => a.cancel());
+        animations.clear();
+      }
+    };
+    reduced.addEventListener("change", stop);
+
+    return () => {
+      observer.disconnect();
+      animations.forEach((a) => a.cancel());
+      reduced.removeEventListener("change", stop);
+    };
+  }, []);
 
   const handleOpenQuoteModal = (productName?: string) => {
     setSelectedProductForQuote(productName || "Monagrow Bulk Commodities");
@@ -276,272 +337,108 @@ export default function AboutUsPage() {
 
       <main className="flex-1">
         {/* ========================================================
-            PAGE HERO HEADER (EXACT REFERENCE SCREENSHOT LAYOUT)
-            Clean, elegant title case typography on pure white background
+            PAGE HERO & FOUNDATION: ABOUT MONAGROW
+            Identical in styling, layout, and functionality to Home Page
             ======================================================== */}
-        <section className="pt-28 sm:pt-36 pb-8 sm:pb-12 text-center bg-white">
-          <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">
-            {/* Small subtle eyebrow matching screenshot */}
-            <p className="text-xs sm:text-[13px] font-medium text-neutral-500 tracking-wide">
-              Monagrow Provenance
-            </p>
-
-            {/* Main title in Title Case matching screenshot */}
-            <h1 className="mt-2 text-3xl sm:text-4xl lg:text-[42px] font-bold text-neutral-900 tracking-tight leading-tight">
-              The Monagrow Journey Story
-            </h1>
-
-            {/* Subtitle matching screenshot text and rhythm */}
-            <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed max-w-2xl mx-auto font-normal">
-              The Monagrow Journey: Delivering pure origin agricultural commodities with uncompromised integrity. Explore our story of direct Himalayan farming, laser optical sorting, hermetic preservation, and global port delivery.
-            </p>
-          </div>
-        </section>
+        <AboutMonagrow onOpenQuoteModal={handleOpenQuoteModal} />
 
         {/* ========================================================
-            THE CONTINUOUS S-CURVE SERPENTINE JOURNEY PIPELINE (EXACT REFERENCE)
-            Deep Pine Green (#204b44) line wrapping around 4 tiers with 3D product popout
+            THE MONAGROW JOURNEY STORY
+            Alternating Editorial Presentation with Home Page About Monagrow Reveal Functionality
             ======================================================== */}
-        <section className="pb-24 sm:pb-32 bg-white relative overflow-hidden">
-          <div className="w-full max-w-[840px] mx-auto px-4 sm:px-6">
-            
-            {/* DESKTOP S-CURVE SERPENTINE TRACK (>= 768px) */}
-            <div className="hidden md:block relative w-full select-none">
-              
-              {/* ─── TIER 1: From Humble Beginnings (Left Card in Loop, Right Text) ─── */}
-              <div className="relative w-full h-[260px] flex items-stretch">
-                {/* Clean Top Bar for Tier 1 with rounded right cap at center */}
-                <div className="absolute top-0 left-[145px] w-[calc(50%-145px)] h-[12px] bg-[#204b44] rounded-r-full z-20 pointer-events-none" />
-                
-                {/* Continuous Divider Line between Tier 1 and Tier 2 (bounded cleanly between arcs) */}
-                <div className="absolute bottom-0 left-[145px] right-[145px] h-[12px] bg-[#204b44] z-20 pointer-events-none" />
-
-                {/* Left 180° Arc Vector - Fully unclipped with 6px margin and overflow-visible */}
-                <svg className="absolute top-0 bottom-0 left-0 w-[150px] h-[260px] pointer-events-none z-20 overflow-visible" viewBox="0 0 150 260" fill="none">
-                  <path d="M 150 6 L 136 6 A 124 124 0 0 0 136 254 L 150 254" stroke="#204b44" strokeWidth="12" />
-                </svg>
-
-                {/* Left Half: Card 1 nested inside the green arc loop */}
-                <div className="w-1/2 h-full relative z-10 pt-[22px] pb-[22px] pl-[28px] pr-4">
-                  <Journey3DCard stage={JOURNEY_STAGES[0]} curveSide="left" />
-                </div>
-
-                {/* Right Half: Story Narrative */}
-                <div className="w-1/2 h-full relative flex flex-col justify-center px-8 sm:px-10 py-6 z-10">
-                  <div className="space-y-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-[#FAF1E6] flex items-center justify-center text-[#B45309] shadow-2xs">
-                      <Sprout className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-neutral-900 tracking-tight">
-                      {JOURNEY_STAGES[0].title}
-                    </h3>
-                    <p className="text-[13.5px] text-neutral-600 leading-relaxed max-w-md">
-                      {JOURNEY_STAGES[0].description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ─── TIER 2: Milestones and Achievements (Left Text, Right Card in Loop) ─── */}
-              <div className="relative w-full h-[260px] -mt-[12px] flex items-stretch">
-                {/* Continuous Divider Line between Tier 2 and Tier 3 (bounded cleanly between arcs) */}
-                <div className="absolute bottom-0 left-[145px] right-[145px] h-[12px] bg-[#204b44] z-20 pointer-events-none" />
-
-                {/* Right 180° Arc Vector - Fully unclipped with 6px margin and overflow-visible */}
-                <svg className="absolute top-0 bottom-0 right-0 w-[150px] h-[260px] pointer-events-none z-20 overflow-visible" viewBox="0 0 150 260" fill="none">
-                  <path d="M 0 6 L 14 6 A 124 124 0 0 1 14 254 L 0 254" stroke="#204b44" strokeWidth="12" />
-                </svg>
-
-                {/* Left Half: Story Narrative */}
-                <div className="w-1/2 h-full relative flex flex-col justify-center px-8 sm:px-10 py-6 z-10">
-                  <div className="space-y-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-[#FAF1E6] flex items-center justify-center text-[#B45309] shadow-2xs">
-                      <Award className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-neutral-900 tracking-tight">
-                      {JOURNEY_STAGES[1].title}
-                    </h3>
-                    <p className="text-[13.5px] text-neutral-600 leading-relaxed max-w-md">
-                      {JOURNEY_STAGES[1].description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right Half: Card 2 nested inside the green arc loop */}
-                <div className="w-1/2 h-full relative z-10 pt-[22px] pb-[22px] pr-[28px] pl-4">
-                  <Journey3DCard stage={JOURNEY_STAGES[1]} curveSide="right" />
-                </div>
-              </div>
-
-              {/* ─── TIER 3: Innovation and Growth (Left Card in Loop, Right Text) ─── */}
-              <div className="relative w-full h-[260px] -mt-[12px] flex items-stretch">
-                {/* Continuous Divider Line between Tier 3 and Tier 4 (bounded cleanly between arcs) */}
-                <div className="absolute bottom-0 left-[145px] right-[145px] h-[12px] bg-[#204b44] z-20 pointer-events-none" />
-
-                {/* Left 180° Arc Vector - Fully unclipped with 6px margin and overflow-visible */}
-                <svg className="absolute top-0 bottom-0 left-0 w-[150px] h-[260px] pointer-events-none z-20 overflow-visible" viewBox="0 0 150 260" fill="none">
-                  <path d="M 150 6 L 136 6 A 124 124 0 0 0 136 254 L 150 254" stroke="#204b44" strokeWidth="12" />
-                </svg>
-
-                {/* Left Half: Card 3 nested inside the green arc loop */}
-                <div className="w-1/2 h-full relative z-10 pt-[22px] pb-[22px] pl-[28px] pr-4">
-                  <Journey3DCard stage={JOURNEY_STAGES[2]} curveSide="left" />
-                </div>
-
-                {/* Right Half: Story Narrative */}
-                <div className="w-1/2 h-full relative flex flex-col justify-center px-8 sm:px-10 py-6 z-10">
-                  <div className="space-y-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-[#FAF1E6] flex items-center justify-center text-[#B45309] shadow-2xs">
-                      <TrendingUp className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-neutral-900 tracking-tight">
-                      {JOURNEY_STAGES[2].title}
-                    </h3>
-                    <p className="text-[13.5px] text-neutral-600 leading-relaxed max-w-md">
-                      {JOURNEY_STAGES[2].description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ─── TIER 4: Our Global Reach (Left Text, Right Card in Loop) ─── */}
-              <div className="relative w-full h-[260px] -mt-[12px] flex items-stretch">
-                {/* Continuous Bottom Bar terminating cleanly aligned with left arcs */}
-                <div className="absolute bottom-0 left-[145px] right-[145px] h-[12px] bg-[#204b44] rounded-l-full z-20 pointer-events-none" />
-
-                {/* Right 180° Arc Vector - Fully unclipped with 6px margin and overflow-visible */}
-                <svg className="absolute top-0 bottom-0 right-0 w-[150px] h-[260px] pointer-events-none z-20 overflow-visible" viewBox="0 0 150 260" fill="none">
-                  <path d="M 0 6 L 14 6 A 124 124 0 0 1 14 254 L 0 254" stroke="#204b44" strokeWidth="12" />
-                </svg>
-
-                {/* Left Half: Story Narrative */}
-                <div className="w-1/2 h-full relative flex flex-col justify-center px-8 sm:px-10 py-6 z-10">
-                  <div className="space-y-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-[#FAF1E6] flex items-center justify-center text-[#B45309] shadow-2xs">
-                      <Globe2 className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-neutral-900 tracking-tight">
-                      {JOURNEY_STAGES[3].title}
-                    </h3>
-                    <p className="text-[13.5px] text-neutral-600 leading-relaxed max-w-md">
-                      {JOURNEY_STAGES[3].description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right Half: Card 4 nested inside the green arc loop */}
-                <div className="w-1/2 h-full relative z-10 pt-[22px] pb-[22px] pr-[28px] pl-4">
-                  <Journey3DCard stage={JOURNEY_STAGES[3]} curveSide="right" />
-                </div>
-              </div>
-
+        <section
+          ref={journeySectionRef}
+          className="pt-16 sm:pt-24 pb-20 sm:pb-32 bg-white relative overflow-hidden"
+        >
+          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center mb-14 sm:mb-20">
+            <div data-about-reveal>
+              <p className="text-xs sm:text-[13px] font-bold text-[#800020] uppercase tracking-[0.18em]">
+                Origin Provenance &amp; Milestones
+              </p>
+              <h2 className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 tracking-tight">
+                <span className="block overflow-clip pb-[0.12em] -mb-[0.12em]">
+                  <span data-reveal-line>The Monagrow Journey Story</span>
+                </span>
+              </h2>
+              <p className="mt-3 text-xs sm:text-base text-neutral-600 leading-relaxed max-w-2xl mx-auto font-normal">
+                Explore our four-phase path from fertile Himalayan soil to deepwater international ports—delivering pure origin agricultural commodities with uncompromised integrity.
+              </p>
             </div>
+          </div>
 
-            {/* MOBILE TIMELINE (< 768px) */}
-            <div className="md:hidden space-y-12 relative pl-6 border-l-4 border-[#204b44] ml-2">
-              {JOURNEY_STAGES.map((stg, idx) => (
-                <div key={stg.id} className="relative space-y-3.5 pt-1">
-                  <div className="absolute -left-[35px] top-2 w-7 h-7 rounded-full bg-[#204b44] text-white flex items-center justify-center text-xs font-bold border-2 border-white shadow-sm">
-                    0{idx + 1}
-                  </div>
-                  <div className="w-full h-[200px] sm:h-[220px]">
-                    <Journey3DCard stage={stg} />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="w-9 h-9 rounded-xl bg-[#FAF1E6] flex items-center justify-center text-[#B45309]">
-                      <stg.icon className="w-4 h-4" />
+          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+            <div className="space-y-16 sm:space-y-20 lg:space-y-28">
+              {JOURNEY_STAGES.map((stage, idx) => {
+                const isEven = idx % 2 === 0;
+
+                return (
+                  <div
+                    key={stage.id}
+                    data-about-reveal
+                    className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 xl:gap-20 items-center"
+                  >
+                    {/* Visual Card (Alternates left / right on desktop matching screenshot) */}
+                    <div
+                      data-reveal-card
+                      className={`w-full ${isEven ? "md:order-1" : "md:order-2"}`}
+                    >
+                      <Journey3DCard stage={stage} />
                     </div>
-                    <h3 className="text-xl font-bold text-neutral-900">{stg.title}</h3>
-                    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{stg.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
 
+                    {/* Narrative Text (Alternates right / left on desktop matching screenshot) */}
+                    <div
+                      className={`space-y-3 sm:space-y-4 max-w-xl ${
+                        isEven ? "md:order-2" : "md:order-1"
+                      }`}
+                    >
+                      <div>
+                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 tracking-tight">
+                          {stage.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm md:text-[15px] font-semibold text-[#800020]/85 mt-1.5 sm:mt-2">
+                          {stage.tagline}
+                        </p>
+                      </div>
+                      <p className="text-xs sm:text-sm md:text-[15px] text-neutral-600 leading-relaxed font-normal">
+                        {stage.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </section>
 
         {/* ========================================================
             GLOBAL ACCREDITATIONS BADGE ROW
             ======================================================== */}
-        <section className="py-14 bg-[#0e2439] text-white border-t border-neutral-800">
+        <section className="py-14 bg-[#FAF9F6] border-y border-neutral-200/70">
           <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                <ShieldCheck className="w-7 h-7 text-[#fbbf24] mx-auto" />
-                <p className="font-bold text-sm text-white">ISO 22000:2018</p>
-                <p className="text-[11px] text-neutral-400">Certified Food Safety</p>
+              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
+                <ShieldCheck className="w-7 h-7 text-[#800020] mx-auto" />
+                <p className="font-bold text-sm text-neutral-900">ISO 22000:2018</p>
+                <p className="text-[11px] text-neutral-500">Certified Food Safety</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                <FileCheck2 className="w-7 h-7 text-[#34d399] mx-auto" />
-                <p className="font-bold text-sm text-white">SGS Verified</p>
-                <p className="text-[11px] text-neutral-400">Pre-Shipment Container QC</p>
+              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
+                <FileCheck2 className="w-7 h-7 text-[#800020] mx-auto" />
+                <p className="font-bold text-sm text-neutral-900">SGS Verified</p>
+                <p className="text-[11px] text-neutral-500">Pre-Shipment Container QC</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                <CheckCircle2 className="w-7 h-7 text-[#60a5fa] mx-auto" />
-                <p className="font-bold text-sm text-white">Sortex 100% Optical</p>
-                <p className="text-[11px] text-neutral-400">Laser Grain Cleanliness</p>
+              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
+                <CheckCircle2 className="w-7 h-7 text-[#800020] mx-auto" />
+                <p className="font-bold text-sm text-neutral-900">Sortex 100% Optical</p>
+                <p className="text-[11px] text-neutral-500">Laser Grain Cleanliness</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                <Award className="w-7 h-7 text-[#f472b6] mx-auto" />
-                <p className="font-bold text-sm text-white">Phytosanitary Certified</p>
-                <p className="text-[11px] text-neutral-400">Global Port Quarantine Pass</p>
+              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
+                <Award className="w-7 h-7 text-[#800020] mx-auto" />
+                <p className="font-bold text-sm text-neutral-900">Phytosanitary Certified</p>
+                <p className="text-[11px] text-neutral-500">Global Port Quarantine Pass</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            CALL TO ACTION BANNER
-            ======================================================== */}
-        <section className="py-20 sm:py-24 bg-gradient-to-br from-[#4f0014] via-[#800020] to-[#a01c3c] text-white text-center relative overflow-hidden">
-          <div
-            aria-hidden
-            className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/10 blur-3xl pointer-events-none"
-          />
-          <div
-            aria-hidden
-            className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-black/30 blur-3xl pointer-events-none"
-          />
-
-          <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-xs font-bold uppercase tracking-widest text-[#ffd6a5]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Direct Commercial Procurement</span>
-            </span>
-
-            <h2
-              className="text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-tight"
-              style={{
-                fontFamily: "var(--font-bebas), var(--font-antonio), 'Impact', sans-serif",
-              }}
-            >
-              Partner with Monagrow Origin Export Desk
-            </h2>
-
-            <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed max-w-2xl mx-auto">
-              Request binding container quotations, sample presentation boxes, or verifiable laboratory certificates directly from our trade directors.
-            </p>
-
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-              <button
-                type="button"
-                onClick={() => handleOpenQuoteModal("Commercial Trade Partnership")}
-                className="px-8 py-4 rounded-full bg-white hover:bg-neutral-100 text-[#800020] font-extrabold text-sm uppercase tracking-wider shadow-2xl transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group hover:scale-105"
-              >
-                <span>Request Origin Samples &amp; Quote</span>
-                <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
-
-              <Link
-                href="/#calculator"
-                className="px-8 py-4 rounded-full bg-white/15 hover:bg-white/25 text-white font-bold text-sm uppercase tracking-wider border border-white/30 backdrop-blur-md transition-all duration-200 cursor-pointer"
-              >
-                Volume Container Estimator
-              </Link>
             </div>
           </div>
         </section>

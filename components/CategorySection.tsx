@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 import styles from "./CategorySection.module.css";
 
@@ -82,13 +82,13 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
     <section id="categories" ref={root} className={styles.section} aria-labelledby="collection-title">
       <div ref={stage} className={styles.stage}>
         <header className={styles.heading}>
-          <p className={styles.eyebrow}><span /> THE MONAGROW COLLECTION</p>
+          
           <h2 id="collection-title">FIVE STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
         </header>
         <div className={styles.intro}>
           <p>Good food starts with good ingredients. Explore our collection of Basmati rice, Katarni rice, estate coffee, royal cashews, and pure cane sugar—packed at origin, ready for your business.</p>
-          <span className={styles.origin}><span /> SOURCED WITH CARE. SUPPLIED IN BULK.</span>
-          <span className={styles.scrollCue}>Scroll to explore <ArrowRight size={18} /></span>
+
+
         </div>
         <div className={styles.railWindow}>
           <div ref={track} className={styles.track}>

@@ -2,8 +2,8 @@
 .container { width: min(1440px, 88%); margin-inline: auto; }
 .header { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 80px; padding-bottom: 48px; border-bottom: 1px solid #e3ddd5; margin-bottom: 40px; }
 .kicker { color: #800020; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; }
-.header h2 { font-family: var(--font-serif, Georgia), serif; font-size: clamp(34px, 4.1vw, 64px); font-weight: 500; line-height: 1.08; letter-spacing: -.045em; margin-top: 20px; }
-.header h2 em { color: #800020; font-weight: 500; }
+.header h2 { font-family: var(--font-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: clamp(34px, 4.1vw, 64px); font-weight: 500; line-height: 1.08; letter-spacing: -.045em; margin: 0; }
+.header h2 em, .header h2 .highlight { color: #800020; font-weight: 500; font-style: normal; }
 .introduction p { color: #75675d; line-height: 1.8; font-size: 15px; max-width: 430px; }
 .introduction a { display: inline-flex; align-items: center; gap: 22px; margin-top: 16px; min-height: 44px; color: #800020; font-size: 13px; }
 .layout { max-width: 900px; margin-inline: auto; padding: 16px 36px 28px; background: #fff; border: 1px solid #e6ded4; border-radius: 22px; box-shadow: 0 16px 48px -24px #49302230; }
@@ -54,7 +54,7 @@
 .result { position: sticky; top: 110px; padding: clamp(22px, 2.5vw, 36px); border: 1px solid #e1d8cd; border-top: 3px solid #800020; background: #faf7f2; border-radius: 2px 2px 10px 10px; }
 .resultTop { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .badge { font-size: 10px; color: #75675d; border: 1px solid #ddd4c9; border-radius: 20px; padding: 4px 8px; }
-.result h3 { font-family: var(--font-serif, Georgia), serif; font-size: 32px; font-weight: 500; line-height: 1.2; margin: 22px 0; letter-spacing: -.03em; }
+.result h3 { font-family: var(--font-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 32px; font-weight: 500; line-height: 1.2; margin: 22px 0; letter-spacing: -.03em; }
 .result h3 > span { display: block; font-size: 12px; color: #75675d; letter-spacing: 0; margin-top: 8px; }
 .metrics { display: grid; grid-template-columns: 1fr 1fr; padding-bottom: 22px; border-bottom: 1px solid #e1d8cd; }
 .metrics > div + div { border-left: 1px solid #e1d8cd; padding-left: 24px; }
@@ -88,7 +88,7 @@
   .section { padding: 40px 0; }
   .container { width: auto; margin: 0 16px; }
   .header { grid-template-columns: 1fr; gap: 20px; padding-bottom: 24px; margin-bottom: 24px; }
-  .header h2 { margin-top: 14px; font-size: 37px; }
+  .header h2 { margin: 0; font-size: 37px; }
   .introduction p { font-size: 13px; line-height: 1.7; }
   .introduction a { margin-top: 6px; }
   .layout { padding: 8px 14px 18px; border-radius: 16px; }
