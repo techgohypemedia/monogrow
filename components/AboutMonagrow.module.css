@@ -5,7 +5,7 @@
   --accent: #800020;
   background: var(--paper);
   color: var(--ink);
-  padding: clamp(80px, 9vw, 130px) 0;
+  padding: clamp(28px, 3.2vw, 44px) 0 clamp(64px, 7vw, 100px) 0;
   scroll-margin-top: 90px;
 }
 .container { width: min(1440px, 84%); margin: 0 auto; }
@@ -33,9 +33,9 @@
 @media (max-height: 700px) { .aboutHeading { position: static; } }
 
 @media (max-width: 767px) {
-  .section { padding: 60px 0; }
+  .section { padding: 24px 0 48px 0; }
   .container { width: 89%; }
-  .eyebrowWrapper { margin-bottom: 20px; }
+  .eyebrowWrapper { margin-bottom: 16px; }
   .eyebrow { font-size: 18px; letter-spacing: .18em; }
   .aboutMonagrow { grid-template-columns: 1fr; gap: 22px; }
   .aboutMonagrow h2 { font-size: 32px; margin-top: 12px; }

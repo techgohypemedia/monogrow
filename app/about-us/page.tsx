@@ -335,7 +335,7 @@ export default function AboutUsPage() {
       {/* 1. Navbar */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-14 sm:pt-16">
         {/* ========================================================
             PAGE HERO & FOUNDATION: ABOUT MONAGROW
             Identical in styling, layout, and functionality to Home Page
