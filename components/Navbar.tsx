@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ChevronDown, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
@@ -187,7 +187,6 @@ export default function Navbar({
                       <span className="font-bold text-sm md:text-base text-[#30241e] group-hover:text-[#800020] transition-colors">
                         {item.name}
                       </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#800020] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
                     </Link>
                   ))}
                 </div>
@@ -257,13 +256,11 @@ export default function Navbar({
           <button
             type="button"
             onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
-            className="flex items-center gap-1.5 sm:gap-2.5 pl-3.5 sm:pl-4.5 md:pl-5 pr-1.5 sm:pr-2 py-2 sm:py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm md:text-base border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
+            className="flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm md:text-base border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
           >
             <span className="tracking-wide hidden sm:inline">Get a Quote</span>
             <span className="tracking-wide sm:hidden">Quote</span>
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-xs">
-              <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#800020] stroke-[2.5]" />
-            </span>
+
           </button>
         </div>
 
@@ -338,7 +335,6 @@ export default function Navbar({
                       <span className="font-bold text-sm text-[#30241e]">
                         {item.name}
                       </span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-[#800020]" />
                     </Link>
                   ))}
                 </div>
@@ -369,9 +365,7 @@ export default function Navbar({
               className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-bold text-sm sm:text-base tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
             >
               <span>Get Wholesale Quote</span>
-              <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
-                <ArrowUpRight className="w-3.5 h-3.5 text-[#800020] stroke-[2.5]" />
-              </span>
+
             </button>
           </div>
         </div>

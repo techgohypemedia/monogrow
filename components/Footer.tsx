@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Mail, Phone, MapPin, CheckCircle2, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 
 interface FooterProps {
@@ -400,7 +400,6 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                 className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#800020] hover:bg-[#68001a] text-white text-xs font-semibold transition-all cursor-pointer group shadow-sm active:scale-95"
               >
                 <span>Request B2B Wholesale Quote</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
               </button>
             </div>
 

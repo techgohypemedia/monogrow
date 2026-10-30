@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, type CSSProperties } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 import styles from "./Hero.module.css";
 
@@ -102,7 +101,10 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
             scenes[0].inert = false;
             scenes[0].removeAttribute("aria-hidden");
             const p = driver.value;
-            layers[0].pack.style.transform = `rotate(${-p * 50}deg) scale(${1 - p * 0.05})`;
+            // A small bowl flourish leads the bag's journey into the details.
+            const bowlProgress = Math.min(1, p / .22);
+            const bowlEase = bowlProgress * bowlProgress * (3 - 2 * bowlProgress);
+            layers[0].pack.style.transform = `rotate(${-bowlEase * 22}deg) scale(${1 + bowlEase * .08})`;
             layers[0].orbit.style.transform = `rotate(${p * 180}deg)`;
             layers[0].particles.forEach((particle, j) => {
               const part = PARTICLES[j];
@@ -216,7 +218,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
                 if (event.pointerType !== "mouse" || !window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches) return;
                 const bounds = event.currentTarget.getBoundingClientRect();
                 event.currentTarget.style.transform = `translate(${(event.clientX - bounds.left - bounds.width / 2) * .12}px, ${(event.clientY - bounds.top - bounds.height / 2) * .18}px)`;
-              }} onPointerLeave={event => { event.currentTarget.style.transform = ""; }}>Get a Quote <ArrowUpRight size={18}/></button>
+              }} onPointerLeave={event => { event.currentTarget.style.transform = ""; }}>Get a Quote</button>
             </div>
             <div className={styles.productStage}>
               <div className={styles.halo} aria-hidden="true" />
@@ -238,7 +240,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
                 } else {
                   onOpenQuoteModal(activeQuoteNames[index]);
                 }
-              }}>Explore this product <ArrowRight size={17}/></button>
+              }}>Explore this product</button>
             </div>
             <span className={styles.sceneNumber} aria-hidden="true">{isRiceOnly ? "01 / 01" : `0${index + 1} / 04`}</span>
           </article>
