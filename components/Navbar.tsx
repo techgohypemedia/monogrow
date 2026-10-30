@@ -8,6 +8,7 @@ import { ArrowUpRight, ChevronDown, X } from "lucide-react";
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
   immersiveHero?: boolean;
+  glassEffect?: boolean;
 }
 
 const CATEGORY_OPTIONS = [
@@ -22,7 +23,11 @@ const SECONDARY_NAV_LINKS = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: NavbarProps) {
+export default function Navbar({
+  onOpenQuoteModal,
+  immersiveHero = false,
+  glassEffect = false,
+}: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -111,21 +116,23 @@ export default function Navbar({ onOpenQuoteModal, immersiveHero = false }: Navb
         style={{
           backgroundColor: (overHero || overCollection)
             ? "transparent"
+            : glassEffect
+            ? (isScrolled ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.72)")
             : isScrolled
             ? "rgba(250, 249, 246, 0.82)"
-          : "transparent",
-          backdropFilter: (overHero || overCollection || !isScrolled)
-      ? "none"
-      : "blur(12px)",
-      WebkitBackdropFilter: (overHero || overCollection || !isScrolled)
-      ? "none"
-      : "blur(12px)",
-      borderBottom: (overHero || overCollection || !isScrolled)
-      ? "none"
-      : "1px solid rgba(128, 0, 32, 0.05)",
-      boxShadow: (overHero || overCollection || !isScrolled)
-      ? "none"
-      : "0 4px 20px 0 rgba(0, 0, 0, 0.02)",
+            : "transparent",
+          backdropFilter: (overHero || overCollection || (!glassEffect && !isScrolled))
+            ? "none"
+            : "blur(14px) saturate(160%)",
+          WebkitBackdropFilter: (overHero || overCollection || (!glassEffect && !isScrolled))
+            ? "none"
+            : "blur(14px) saturate(160%)",
+          borderBottom: (overHero || overCollection || (!glassEffect && !isScrolled))
+            ? "none"
+            : "1px solid rgba(128, 0, 32, 0.06)",
+          boxShadow: (overHero || overCollection || (!glassEffect && !isScrolled))
+            ? "none"
+            : "0 4px 20px 0 rgba(0, 0, 0, 0.03)",
         }}
       className={`monagrow-hero-nav fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 pointer-events-auto ${isVisible
           ? "translate-y-0 opacity-100"

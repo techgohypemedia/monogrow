@@ -1,10 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
-import CommodityCategoryTemplate from "@/components/CommodityCategoryTemplate";
-import {
-  COMMODITY_CATEGORIES,
-  getProductsByCategory,
-} from "@/data/commodityData";
+import RicePageClient from "./RicePageClient";
 
 export const metadata: Metadata = {
   title: "Monagrow Rice | 1121 Supreme Basmati & Katarni Fragrant Rice",
@@ -13,9 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function RicePage() {
-  const category = COMMODITY_CATEGORIES["rice"];
-  const products = getProductsByCategory("rice");
-
-  return <CommodityCategoryTemplate category={category} products={products} />;
+  return <RicePageClient />;
 }
-

@@ -9,6 +9,7 @@ import styles from "./Hero.module.css";
 interface HeroProps {
   onOpenVideoModal?: () => void;
   onOpenQuoteModal: (productName?: string) => void;
+  filterProduct?: "rice";
 }
 
 const PRODUCTS = [
@@ -33,9 +34,14 @@ function blendColour(from: string, to: string, progress: number) {
   return `rgb(${channels.join(",")})`;
 }
 
-export default function Hero({ onOpenQuoteModal }: HeroProps) {
+export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+
+  const isRiceOnly = filterProduct === "rice";
+  const activeProducts = isRiceOnly ? [PRODUCTS[0]] : PRODUCTS;
+  const activeBackgrounds = isRiceOnly ? [BACKGROUNDS[0]] : BACKGROUNDS;
+  const activeQuoteNames = isRiceOnly ? [QUOTE_NAMES[0]] : QUOTE_NAMES;
 
   useEffect(() => {
     const firstScene = stage.current?.querySelector<HTMLElement>("[data-scene]");
@@ -87,6 +93,23 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         section.dataset.enhanced = "true";
         const driver = { value: 0 };
         const paint = () => {
+          if (isRiceOnly) {
+            viewport.style.setProperty("--glow", activeProducts[0].glow);
+            viewport.style.setProperty("--backdrop", activeBackgrounds[0]);
+            viewport.style.setProperty("--accent", activeProducts[0].colour);
+            scenes[0].style.opacity = "1";
+            scenes[0].style.visibility = "visible";
+            scenes[0].inert = false;
+            scenes[0].removeAttribute("aria-hidden");
+            const p = driver.value;
+            layers[0].pack.style.transform = `rotate(${-p * 50}deg) scale(${1 - p * 0.05})`;
+            layers[0].orbit.style.transform = `rotate(${p * 180}deg)`;
+            layers[0].particles.forEach((particle, j) => {
+              const part = PARTICLES[j];
+              particle.style.transform = `translate3d(0, ${-p * (60 + part.depth * 80)}px, 0) rotate(${part.rotation + p * 60}deg)`;
+            });
+            return;
+          }
           const index = Math.min(3, Math.round(driver.value));
           const from = Math.max(0, Math.min(3, Math.floor(driver.value)));
           const to = Math.min(3, from + 1);
@@ -124,8 +147,17 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         gsap.ticker.add(tick);
         gsap.ticker.lagSmoothing(0);
         const tween = gsap.to(driver, {
-          value: 3, ease: "none", onUpdate: paint,
-          scrollTrigger: { trigger: section, pin: viewport, start: "top top", end: () => `+=${viewport.clientHeight * 3.3}`, scrub: .8, invalidateOnRefresh: true },
+          value: isRiceOnly ? 1 : 3,
+          ease: "none",
+          onUpdate: paint,
+          scrollTrigger: {
+            trigger: section,
+            pin: isRiceOnly ? false : viewport,
+            start: "top top",
+            end: () => isRiceOnly ? "bottom top" : `+=${viewport.clientHeight * 3.3}`,
+            scrub: .8,
+            invalidateOnRefresh: true,
+          },
         });
         const pointer = (event: PointerEvent) => {
           if (event.pointerType !== "mouse") return;
@@ -171,8 +203,8 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         <div className={styles.grain} aria-hidden="true" />
         <div className={styles.topline}><span>ROOTED IN INDIA. SHARED WITH THE WORLD.</span><span>THE MONAGROW COLLECTION</span></div>
         <h1 className="sr-only">Monagrow — the taste of purity</h1>
-        {PRODUCTS.map((product, index) => (
-          <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow, "--scene-backdrop": BACKGROUNDS[index] } as CSSProperties} aria-label={product.name}>
+        {activeProducts.map((product, index) => (
+          <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow, "--scene-backdrop": activeBackgrounds[index] } as CSSProperties} aria-label={product.name}>
             <div className={styles.atmosphere} aria-hidden="true" />
             <div className={styles.wordmark} aria-hidden="true" style={{ "--name-size": `${Math.min(18, 146 / product.name.length)}vw` } as CSSProperties}>{product.name}</div>
             <div className={styles.particles} aria-hidden="true">{PARTICLES.map((particle, i) => <svg key={i} data-particle className={styles.particle} style={{ left: `${particle.x}%`, top: `${particle.y}%`, width: particle.size, height: particle.size, opacity: particle.depth === 0 ? .25 : .7, filter: `blur(${particle.depth === 0 ? 3 : particle.size > 60 ? 2 : 0}px)`, transform: `rotate(${particle.rotation}deg)` }}><use href={`#mg-${product.ingredient}`} /></svg>)}</div>
@@ -180,7 +212,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
               <p className={styles.eyebrow}><span /> THE TASTE OF PURITY</p>
               <h2>{product.title[0]}<br/><em>{product.title[1]}</em></h2>
               {/* Description removed as requested */}
-              <button className={styles.quote} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} onPointerMove={event => {
+              <button className={styles.quote} onClick={() => onOpenQuoteModal(activeQuoteNames[index])} onPointerMove={event => {
                 if (event.pointerType !== "mouse" || !window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches) return;
                 const bounds = event.currentTarget.getBoundingClientRect();
                 event.currentTarget.style.transform = `translate(${(event.clientX - bounds.left - bounds.width / 2) * .12}px, ${(event.clientY - bounds.top - bounds.height / 2) * .18}px)`;
@@ -194,9 +226,21 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
             </div>
             <div className={`${styles.ingredientCluster} ${styles.clusterLeft}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
             <div className={`${styles.ingredientCluster} ${styles.clusterRight}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
-            <button data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
-            <div className={styles.productInfo}><p className={styles.eyebrow}>{product.note}</p><h3>{product.name}</h3><p>{product.detail}</p><span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span><button onClick={() => onOpenQuoteModal(QUOTE_NAMES[index])}>Explore this product <ArrowRight size={17}/></button></div>
-            <span className={styles.sceneNumber} aria-hidden="true">0{index + 1} / 04</span>
+            <button id={isRiceOnly ? "rice-hero-pack" : undefined} data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(activeQuoteNames[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
+            <div className={styles.productInfo}>
+              <p className={styles.eyebrow}>{product.note}</p>
+              <h3>{product.name}</h3>
+              <p>{product.detail}</p>
+              <span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span>
+              <button onClick={() => {
+                if (isRiceOnly) {
+                  document.getElementById("basmati-rice")?.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  onOpenQuoteModal(activeQuoteNames[index]);
+                }
+              }}>Explore this product <ArrowRight size={17}/></button>
+            </div>
+            <span className={styles.sceneNumber} aria-hidden="true">{isRiceOnly ? "01 / 01" : `0${index + 1} / 04`}</span>
           </article>
         ))}
       </div>
