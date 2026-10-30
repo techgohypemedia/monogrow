@@ -67,7 +67,7 @@ export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteM
   const summary = ["MONAGROW — ILLUSTRATIVE TRADE ESTIMATE", "All amounts in USD. Not an official quotation.", "", `${product.label} / ${variety} / ${processing} / ${grade}`, `Origin preference: ${origin}`, `Quantity: ${number(kg)} kg · ${number(estimate.bags)} × ${pack.kg} kg bags`, `Packaging: ${pack.label} (${money(pack.cost)} / bag)`, retail ? "Retail planning / local delivery" : `Destination: ${DESTINATIONS[destination].country}, ${port} · ${shipping} freight · ${incoterm}`, "ASSUMPTIONS", ...rateFields.map(([key, label]) => `${label}: ${rates[key]}`), "", "COST BREAKDOWN", ...rows.map(([label, value]) => `${label}: ${money(value)}`), ...(!retail ? [`${incoterm} planning subtotal: ${money(basis)}`] : []), "", `Estimated ${retail ? "delivered" : "landed"} total: ${money(estimate.total)}`, `Per MT: ${money(estimate.perMt)} · Per kg: ${money(estimate.perKg)}`, "", "Sample assumptions only. Specifications, origin and destination do not automatically update rates. Confirm prices, taxes, freight and availability with the trade desk."].join("\n");
 
   function changeProduct(index: number) { const next = PRODUCTS[index]; setProductIndex(index); setVariety(next.varieties[0]); setProcessing(next.processes[0]); setGrade(next.grades[0]); setRates(previous => ({ ...previous, rate: String(next.rate) })); }
-  function changeMode(next: boolean) { if (next === retail) return; setRetail(next); setStep(0); setUnit(next ? "kg" : "mt"); setQuantity("25"); setRates(previous => ({ ...previous, freight: next ? "12" : shipping === "sea" ? "1600" : "4" })); }
+
   function goToStep(next: number) {
     setStep(next);
     requestAnimationFrame(() => {
@@ -101,7 +101,7 @@ export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteM
           <nav className={styles.stepper} aria-label="Estimator progress"><ol>{steps.map((value, index) => <li key={value}><button type="button" disabled={index > stepIndex} aria-current={step === value ? "step" : undefined} onClick={() => goToStep(value)}><span>{index < stepIndex ? <Check size={14} /> : index + 1}</span>{stepNames[value]}</button></li>)}</ol></nav>
           <div className={styles.stepIntro}><p className={styles.kicker}>Step {stepIndex + 1} of {steps.length} · {retail ? "Retail" : "Wholesale"}</p><h3 ref={stepHeading} tabIndex={-1}>{stepTitles[step]}</h3></div>
           <div id="estimate-inputs" className={styles.inputs}>
-            {step === 0 && <div className={styles.mode} role="group" aria-label="Estimate type"><button type="button" aria-pressed={!retail} onClick={() => changeMode(false)}>Wholesale / B2B</button><button type="button" aria-pressed={retail} onClick={() => changeMode(true)}>Retail / B2C</button></div>}
+
             <fieldset hidden={step !== 0} className={styles.group}><legend>Choose your commodity</legend>
               <div className={styles.products}>{PRODUCTS.map((item, index) => <button key={item.image} type="button" aria-pressed={productIndex === index} onClick={() => changeProduct(index)}><Image src={`/assets/hero-center-${item.image}.png`} alt="" width={90} height={90} sizes="90px" /><span>{item.label}</span>{productIndex === index && <Check size={14} className={styles.check} />}</button>)}</div>
               <div className={styles.fields}>
