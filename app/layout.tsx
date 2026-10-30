@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display, Antonio, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -57,7 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${playfair.variable} ${antonio.variable} ${bebasNeue.variable} scroll-smooth`}
+      className={`${plusJakarta.variable} ${playfair.variable} ${antonio.variable} ${bebasNeue.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -70,6 +71,7 @@ export default function RootLayout({
         className="min-h-screen bg-[#fcfcf9] text-[#192a20] antialiased selection:bg-[#2e6f40] selection:text-white font-sans"
         suppressHydrationWarning
       >
+        <ScrollToTop />
         {children}
       </body>
     </html>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Sprout, PackageCheck, Ship } from "lucide-react";
 import styles from "./AboutMonagrow.module.css";
 
@@ -93,9 +94,9 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
               <a href="#calculator" onClick={() => onOpenQuoteModal?.("Direct Origin Procurement")}>
                 Discuss your requirements <ArrowUpRight size={17} aria-hidden="true" />
               </a>
-              <a href="/about-us">
+              <Link href="/about-us">
                 More about Monagrow <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

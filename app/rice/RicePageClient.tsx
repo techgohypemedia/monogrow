@@ -119,7 +119,7 @@ export default function RicePageClient() {
             </div>
             <div className={styles.qualityLayout}>
               <a href="#basmati-rice" className={styles.qualityProduct}>
-                <span className={styles.kicker}>Meet the finished product</span>
+
                 <div className={styles.qualityPack}>
                   <Image src={products[0].packImg} alt={products[0].packAlt} fill sizes="(max-width: 767px) 180px, 210px" className="object-contain drop-shadow-xl" />
                 </div>

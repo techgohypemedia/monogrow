@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 
@@ -181,7 +182,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
             <div>
               {/* Monagrow Official Peacock Brand Logo (from Uploaded PDF) */}
               <div className="mb-1 sm:mb-1.5">
-                <a href="/" className="inline-block group select-none" aria-label="Monagrow Home">
+                <Link href="/" className="inline-block group select-none" aria-label="Monagrow Home">
                   <Image
                     src="/assets/monagrow-official-logo.png"
                     alt="Monagrow Global"
@@ -190,7 +191,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                     priority
                     className="h-14 sm:h-18 lg:h-22 w-auto object-contain object-left transition-transform duration-200 group-hover:scale-[1.03]"
                   />
-                </a>
+                </Link>
               </div>
 
               {/* Official Brand Tagline in Maroon */}
@@ -233,34 +234,34 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               </h3>
               <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#800020]/80 font-medium">
                 <li>
-                  <a href="/" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Home Overview
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/about-us" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/about-us" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     About Monagrow
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/rice" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/rice" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Basmati Rice 8.9mm
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/coffee" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/coffee" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Specialty Coffee
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/sugar" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/sugar" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Refined Sugar ICUMSA
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/dry-fruits" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/dry-fruits" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Royal Cashew Kernels
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="/#calculator" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
@@ -277,12 +278,12 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               </h3>
               <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#800020]/80 font-medium">
                 <li>
-                  <a
+                  <Link
                     href="/contact"
                     className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left"
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <button

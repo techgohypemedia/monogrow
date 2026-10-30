@@ -50,7 +50,7 @@ export default function QuoteModal({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${Math.max(50, textareaRef.current.scrollHeight)}px`;
+      textareaRef.current.style.height = `${Math.max(54, textareaRef.current.scrollHeight)}px`;
     }
   }, [formData.message, isOpen]);
 
@@ -83,44 +83,45 @@ export default function QuoteModal({
       {/* Click outside backdrop */}
       <div className="absolute inset-0" onClick={handleResetAndClose} />
 
-      {/* Modal Dialog Card: Compact, fits viewport without scrolling */}
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl border border-stone-200/80 z-10 max-h-[96vh] flex flex-col animate-fadeIn">
+      {/* Modal Dialog Card: Spacious, elegant, premium B2B styling */}
+      <div className="relative w-full max-w-2xl min-h-[640px] sm:min-h-[670px] bg-white rounded-2xl overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.35)] border border-stone-200/90 z-10 max-h-[96vh] flex flex-col animate-fadeIn">
         
-        {/* Centered Themed Header */}
-        <div className="relative px-6 sm:px-9 py-4 bg-white border-b border-stone-100 flex items-center justify-center shrink-0">
-          <h3 className="font-sans text-2xl sm:text-[28px] font-bold text-stone-900 leading-tight text-center">
+        {/* Centered Themed Header with Signature Accent */}
+        <div className="relative px-6 sm:px-10 py-6 bg-white border-b border-stone-100 flex items-center justify-center shrink-0">
+          <h3 className="font-sans text-2xl sm:text-[28px] font-extrabold text-stone-900 tracking-tight leading-snug text-center">
             Request Official Quotation
           </h3>
 
+
           <button
             onClick={handleResetAndClose}
-            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="absolute right-5 sm:right-7 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-stone-100/80 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-all cursor-pointer"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 stroke-[2.5]" />
           </button>
         </div>
 
-        {/* Modal Body without scrollbar */}
-        <div className="px-6 sm:px-9 py-4 sm:py-5 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {/* Modal Body with spacious padding */}
+        <div className="flex-1 px-6 sm:px-10 py-6 sm:py-7 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex flex-col justify-between">
           {submitted ? (
             /* Success State */
-            <div className="text-center py-8 space-y-5">
+            <div className="text-center py-12 space-y-6 flex-1 flex flex-col justify-center items-center">
               <div className="w-16 h-16 rounded-full bg-[#fae8eb] text-[#800020] flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
-              <div className="space-y-1.5">
-                <h4 className="text-2xl font-bold text-stone-900">
+              <div className="space-y-2 max-w-md">
+                <h4 className="text-2xl font-extrabold text-stone-900">
                   Request Dispatched!
                 </h4>
-                <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Thank you, <strong className="text-stone-900">{formData.name || "Trade Buyer"}</strong>. Our export desk has received your request for{" "}
                   <strong className="text-stone-900">{formData.commodity}</strong> ({formData.volume}). An official proforma invoice will be delivered to your email shortly.
                 </p>
               </div>
 
-              <div className="pt-2 flex justify-center">
+              <div className="pt-3 flex justify-center">
                 <button
                   type="button"
                   onClick={handleResetAndClose}
@@ -131,159 +132,163 @@ export default function QuoteModal({
               </div>
             </div>
           ) : (
-            /* Clean, Wide & Simple Form */
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
-              
-              {/* Commodity Selector */}
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                  Commodity
-                </label>
-                <div className="relative">
-                  <select
-                    value={formData.commodity}
-                    onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
-                    className="w-full h-10 pl-3.5 pr-11 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer appearance-none"
-                  >
-                    {COMMODITIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-stone-500 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" />
-                </div>
-              </div>
-
-              {/* Name & Company (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+            /* Clean, Wide & Spacious Form */
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-4.5 flex-1 flex flex-col justify-between">
+              <div className="space-y-4 sm:space-y-4.5">
+                
+                {/* Commodity Selector */}
                 <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Your Full Name <span className="text-[#800020]">*</span>
+                  <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                    Commodity
                   </label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. John Doe"
-                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Company Name <span className="text-[#800020]">*</span>
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    placeholder="e.g. Al-Mansoor Trading"
-                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Work Email & Phone / WhatsApp (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Work Email <span className="text-[#800020]">*</span>
-                  </label>
-                  <input
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="buyer@company.com"
-                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Phone / Contact Number <span className="text-[#800020]">*</span>
-                  </label>
-                  <input
-                    required
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+971 50 123 4567"
-                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Volume & Destination Port (2 Columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Order Volume
-                  </label>
-                  <div className="relative">
+                  <div className="relative group">
                     <select
-                      value={formData.volume}
-                      onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                      className="w-full h-10 pl-3.5 pr-11 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm font-medium text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all cursor-pointer appearance-none"
+                      value={formData.commodity}
+                      onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
+                      className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
                     >
-                      {VOLUMES.map((v) => (
-                        <option key={v} value={v}>
-                          {v}
+                      {COMMODITIES.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="w-4 h-4 text-stone-500 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" />
+                    <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#800020] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
                   </div>
                 </div>
 
+                {/* Name & Company (2 Columns) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Your Full Name <span className="text-[#800020] font-bold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="e.g. John Doe"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Company Name <span className="text-[#800020] font-bold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      placeholder="e.g. Al-Mansoor Trading"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                    />
+                  </div>
+                </div>
+
+                {/* Work Email & Phone / WhatsApp (2 Columns) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Work Email <span className="text-[#800020] font-bold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="buyer@company.com"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Phone / Contact Number <span className="text-[#800020] font-bold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+971 50 123 4567"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                    />
+                  </div>
+                </div>
+
+                {/* Volume & Destination Port (2 Columns) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Order Volume
+                    </label>
+                    <div className="relative group">
+                      <select
+                        value={formData.volume}
+                        onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
+                        className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
+                      >
+                        {VOLUMES.map((v) => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#800020] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                      Destination Port / Country
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.destinationPort}
+                      onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
+                      placeholder="e.g. Jebel Ali / Rotterdam"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                    />
+                  </div>
+                </div>
+
+                {/* Packaging / Special Specs */}
                 <div>
-                  <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                    Destination Port / Country
+                  <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
+                    Packaging / Special Specs
                   </label>
-                  <input
-                    type="text"
-                    value={formData.destinationPort}
-                    onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
-                    placeholder="e.g. Jebel Ali / Rotterdam"
-                    className="w-full h-10 px-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all"
+                  <textarea
+                    ref={textareaRef}
+                    rows={2}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="e.g. 5kg box bag packaging, moisture limit under 12%, SGS certificate..."
+                    className="w-full min-h-[56px] py-2.5 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all resize-none overflow-hidden shadow-2xs"
                   />
                 </div>
               </div>
 
-              {/* Optional Message */}
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-stone-600 mb-1">
-                  Packaging / Special Specs
-                </label>
-                <textarea
-                  ref={textareaRef}
-                  rows={2}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="e.g. 5kg box bag packaging, moisture limit under 12%, SGS certificate..."
-                  className="w-full min-h-[50px] py-2 px-3 rounded-xl border border-stone-200 bg-stone-50/80 text-xs sm:text-sm text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15 outline-none transition-all resize-none overflow-hidden"
-                />
-              </div>
+              {/* Bottom Actions Area */}
+              <div className="pt-5 sm:pt-6 space-y-3">
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto min-w-[280px] h-12 px-10 rounded-full bg-gradient-to-r from-[#800020] via-[#941334] to-[#800020] hover:from-[#6d001b] hover:via-[#800020] hover:to-[#6d001b] text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2.5 group disabled:opacity-70"
+                  >
+                    <span>{isSubmitting ? "Submitting..." : "Submit Quote Request"}</span>
+                    <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </button>
+                </div>
 
-              {/* Centered Submit Button */}
-              <div className="pt-2 flex justify-center">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-8 sm:px-10 py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group disabled:opacity-70"
-                >
-                  <span>{isSubmitting ? "Submitting..." : "Submit Quote Request"}</span>
-                  <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </button>
-              </div>
-
-              {/* Trust Reassurance */}
-              <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-stone-400 text-center pt-0.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#800020]" />
-                <span>Direct mill pricing · Commercial confidentiality strictly observed</span>
+                {/* Trust Reassurance */}
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-stone-400 text-center">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#800020]" />
+                  <span>Direct mill pricing · Commercial confidentiality strictly observed</span>
+                </div>
               </div>
             </form>
           )}

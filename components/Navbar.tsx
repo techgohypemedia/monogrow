@@ -195,7 +195,7 @@ export default function Navbar({
 
             {/* Secondary Navigation Links (About Us, Contact) */}
             {SECONDARY_NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 className={`font-bold text-base md:text-xl lg:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap ${overHero
@@ -204,7 +204,7 @@ export default function Navbar({
                   }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -343,14 +343,14 @@ export default function Navbar({
 
             {/* Secondary Links (About Us, Contact) */}
             {SECONDARY_NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
