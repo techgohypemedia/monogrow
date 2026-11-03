@@ -749,3 +749,8 @@
     padding-left: clamp(16px, 6vw, 32px);
   }
 }
+
+/* Continuous scroll-driven stack: the next photograph covers the previous one. */
+.photoPanel[data-scrub="true"] .photo { transition:none; filter:none; will-change:transform; box-shadow:0 -10px 28px #18120e1a; }
+.photoPanel[data-scrub="true"] .photo img { transform:none; transition:none; }
+

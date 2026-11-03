@@ -48,6 +48,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
+    let displayed: number | undefined;
+    let previousTime = 0;
     const update = () => {
       frame = 0;
       const height = window.innerHeight;
@@ -79,6 +81,38 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
           const slide = Math.min(stages.length - 1, index + fraction * fraction * (3 - 2 * fraction));
           story.current.style.setProperty("--journey-progress", String(slide));
           closest = Math.round(slide);
+        }
+      }
+      if (!mobile && !reduced.matches && panel.current) {
+        const centers = steps.current.map(step => {
+          const rect = step?.getBoundingClientRect();
+          return rect ? rect.top + rect.height / 2 : 0;
+        });
+        let position = 0;
+        for (let index = 0; index < centers.length - 1; index++) {
+          if (target >= centers[index]) position = index + Math.max(0, Math.min(1,
+            (target - centers[index]) / Math.max(1, centers[index + 1] - centers[index])));
+        }
+        const now = performance.now();
+        const elapsed = previousTime ? Math.min(64, now - previousTime) : 16;
+        previousTime = now;
+        if (displayed === undefined) displayed = position;
+        displayed += (position - displayed) * (1 - Math.exp(-elapsed / 45));
+        if (Math.abs(position - displayed) < .0001) displayed = position;
+        panel.current.dataset.scrub = "true";
+        panel.current.querySelectorAll<HTMLElement>("[data-story-photo]").forEach((photo, index) => {
+          const local = index === 0 ? 1 : Math.max(0, Math.min(1, (displayed! - index + .75) / .5));
+          const ease = local * local * (3 - 2 * local);
+          photo.style.transform = `translate3d(0, ${(1 - ease) * 102}%, 0)`;
+        });
+        closest = Math.round(displayed);
+        if (displayed !== position) frame = requestAnimationFrame(update);
+      } else {
+        displayed = undefined;
+        previousTime = 0;
+        if (panel.current) {
+          delete panel.current.dataset.scrub;
+          panel.current.querySelectorAll<HTMLElement>("[data-story-photo]").forEach(photo => photo.style.removeProperty("transform"));
         }
       }
       setActive(closest);
@@ -153,6 +187,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
                 return (
                   <div
                     key={stage.name}
+                    data-story-photo
                     style={{ "--stage-index": index } as CSSProperties}
                     className={`${styles.photo} ${statusClass}`}
                     aria-hidden={active !== index}

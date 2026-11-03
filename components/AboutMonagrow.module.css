@@ -183,7 +183,7 @@
 /* Left Base Panel (Spread 1 Left) */
 .leftBasePage {
   left: 0;
-  border-radius: 20px 0 0 20px;
+  border-radius: 6px 0 0 6px;
   border-right: none;
   z-index: 10;
 }
@@ -191,7 +191,7 @@
 /* Right Base Panel (Spread 3 Right) */
 .rightBasePage {
   right: 0;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 6px 6px 0;
   border-left: none;
   z-index: 10;
 }
@@ -241,7 +241,7 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-left: none;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 6px 6px 0;
   padding: clamp(28px, 3.4vw, 44px) clamp(30px, 3.6vw, 48px);
   display: flex;
   flex-direction: column;
@@ -260,7 +260,7 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-right: none;
-  border-radius: 20px 0 0 20px;
+  border-radius: 6px 0 0 6px;
   padding: clamp(28px, 3.4vw, 44px) clamp(30px, 3.6vw, 48px);
   display: flex;
   flex-direction: column;
@@ -289,7 +289,7 @@
     rgba(30, 20, 15, 0.06) 42%,
     transparent 72%
   );
-  border-radius: 20px 0 0 20px;
+  border-radius: 6px 0 0 6px;
 }
 
 .castShadowRight {
@@ -300,7 +300,7 @@
     rgba(30, 20, 15, 0.06) 42%,
     transparent 72%
   );
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 6px 6px 0;
 }
 
 .leafShading {
@@ -564,7 +564,7 @@
     position: static;
     width: 100%;
     height: auto;
-    border-radius: 14px;
+    border-radius: 6px;
     border: 1px solid var(--border-subtle);
     margin-bottom: 14px;
     padding: 28px 22px;
@@ -576,7 +576,7 @@
     height: auto;
     transform: none !important;
     backface-visibility: visible;
-    border-radius: 14px;
+    border-radius: 6px;
     border: 1px solid var(--border-subtle);
     padding: 28px 22px;
     margin-bottom: 14px;
@@ -585,7 +585,7 @@
   .mobileImageCard {
     padding: 0 !important;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 6px;
     border: 1px solid var(--border-subtle);
     margin-bottom: 14px;
   }
@@ -596,4 +596,17 @@
     height: 250px;
     overflow: hidden;
   }
+}
+/* Keep the book's 3D children unflattened and the spread within the viewport. */
+.book { filter:none; }
+.bookContainer { filter:none; perspective:2200px; height:min(670px,calc(100svh - 165px)); min-height:360px; }
+.book::before { content:""; position:absolute; inset:0; border-radius:6px; box-shadow:0 22px 55px #2d1e221c; pointer-events:none; }
+.imagePanel:hover .panelImage { transform:none; }
+.backFace { transform:rotateY(180deg) translateZ(.1px); }
+@media(max-width:768px), (prefers-reduced-motion:reduce) {
+ .bookTrack { height:auto; }
+ .stickyStage { position:relative; height:auto; min-height:0; padding:44px 18px; }
+ .mobileImageCard { padding:0; overflow:hidden; border-radius:6px; margin-bottom:18px; }
+ .mobileImageWrapper { position:relative; width:100%; height:clamp(250px,40vw,430px); }
+ .bookContainer { height:auto; min-height:0; }
 }

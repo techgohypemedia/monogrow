@@ -17,24 +17,20 @@ function getLeafPhysics(progress: number) {
   const angle = -clamped * 180;
 
   // 1. Realistic Z-Lift: Paper arches toward the reader in 3D perspective space
-  const zLift = arch * 58;
+  const zLift = arch * 24;
 
   // 2. Foreshortening / Horizontal compression: Paper curves into a cylindrical arch
-  const scaleX = 1 - arch * 0.085;
+  const scaleX = 1 - arch * 0.035;
 
   // 3. Diagonal Twist (corner peeling effect leading the turn)
-  const curlZ = (clamped < 0.5 ? -1 : 1) * arch * 4.6;
-  const skewY = (clamped < 0.5 ? 1 : -1) * arch * 3.2;
+  const curlZ = -Math.sin(clamped * Math.PI * 2) * 1.4;
+  const skewY = Math.sin(clamped * Math.PI * 2) * .9;
 
   // 4. Inward spine tension arc (pulling toward the binding)
   const xPull = -arch * 10;
 
   // 5. Dynamic Corner Rounding (edge curls softly mid-air)
-  const dynamicRadius = arch > 0.02
-    ? (clamped < 0.5
-        ? `0 ${Math.round(20 + arch * 14)}px ${Math.round(20 + arch * 22)}px 0`
-        : `${Math.round(20 + arch * 14)}px 0 0 ${Math.round(20 + arch * 22)}px`)
-    : undefined;
+  const dynamicRadius = `0 ${6 + arch * 2}px ${6 + arch * 2}px 0`;
 
   // 6. Cylindrical Moving Sheen & Shadow (the light reflecting along the curved cylinder)
   const frontSheenPos = Math.round(15 + clamped * 105);
@@ -49,7 +45,7 @@ function getLeafPhysics(progress: number) {
     : "none";
 
   // 7. Dynamic 3D Box Shadow of the turning leaf in space
-  const shadowX = (clamped < 0.5 ? 1 : -1) * (10 + arch * 20);
+  const shadowX = Math.cos(clamped * Math.PI) * (10 + arch * 16);
   const shadowY = 6 + arch * 20;
   const shadowBlur = Math.round(16 + arch * 48);
   const shadowAlpha = (0.06 + arch * 0.28).toFixed(2);
@@ -93,12 +89,14 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
 
   // Detect mobile viewport
   useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 768 || reduced.matches);
     };
+    reduced.addEventListener("change", checkMobile);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    return () => { window.removeEventListener("resize", checkMobile); reduced.removeEventListener("change", checkMobile); };
   }, []);
 
   // Smooth inertial scroll loop with dampening for silky-smooth page turning
@@ -141,20 +139,23 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
     };
 
     let isRunning = false;
-
-    const tick = () => {
+    let lastTime = 0;
+    const tick = (time: number) => {
+      const elapsed = lastTime ? Math.min(50, time - lastTime) : 16.67;
+      lastTime = time;
+      const damping = 1 - Math.exp(-elapsed / 100);
       const diff1 = target1Ref.current - current1Ref.current;
       const diff2 = target2Ref.current - current2Ref.current;
 
       // Silky damping factor: responsive feel with lifelike momentum
       if (Math.abs(diff1) > 0.0003) {
-        current1Ref.current += diff1 * 0.13;
+        current1Ref.current += diff1 * damping;
       } else {
         current1Ref.current = target1Ref.current;
       }
 
       if (Math.abs(diff2) > 0.0003) {
-        current2Ref.current += diff2 * 0.13;
+        current2Ref.current += diff2 * damping;
       } else {
         current2Ref.current = target2Ref.current;
       }
@@ -170,6 +171,7 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
         animFrameId.current = requestAnimationFrame(tick);
       } else {
         isRunning = false;
+        lastTime = 0;
       }
     };
 
@@ -182,6 +184,7 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     computeTarget();
     current1Ref.current = target1Ref.current;
     current2Ref.current = target2Ref.current;
@@ -190,6 +193,7 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
     };
   }, [isMobile]);
