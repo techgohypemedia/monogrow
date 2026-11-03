@@ -75,7 +75,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
     let dispose: (() => void) | undefined;
     // Static product scenes are the default for reduced motion,
     // JavaScript/CDN failure, and the server-rendered page.
-    loadHeroMotion().then(({ gsap, ScrollTrigger, Lenis }) => {
+    loadHeroMotion().then(({ gsap, ScrollTrigger }) => {
       if (cancelled || !root.current || !stage.current) return;
       gsap.registerPlugin(ScrollTrigger);
       const media = gsap.matchMedia();
@@ -143,11 +143,6 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
           });
         };
         paint();
-        const lenis = new Lenis({ lerp: .09, smoothWheel: true, anchors: true });
-        lenis.on("scroll", ScrollTrigger.update);
-        const tick = (t: number) => lenis.raf(t * 1000);
-        gsap.ticker.add(tick);
-        gsap.ticker.lagSmoothing(0);
         const tween = gsap.to(driver, {
           value: isRiceOnly ? 1 : 3,
           ease: "none",
@@ -173,8 +168,6 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
         return () => {
           viewport.removeEventListener("pointermove", pointer);
           viewport.removeEventListener("pointerleave", resetPointer);
-          gsap.ticker.remove(tick);
-          lenis.destroy();
           tween.kill();
           delete section.dataset.enhanced;
           viewport.removeAttribute("style");

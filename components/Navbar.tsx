@@ -61,7 +61,7 @@ export default function Navbar({
 
     const handleResize = () => {
       handleScroll();
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -117,9 +117,9 @@ export default function Navbar({
           backgroundColor: (overHero || overCollection)
             ? "transparent"
             : glassEffect
-            ? (isScrolled ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.72)")
+            ? "#fcfbf7"
             : isScrolled
-            ? "rgba(250, 249, 246, 0.82)"
+            ? "#fcfbf7"
             : "transparent",
           backdropFilter: (overHero || overCollection || (!glassEffect && !isScrolled))
             ? "none"
@@ -139,16 +139,16 @@ export default function Navbar({
             : "-translate-y-full opacity-0 pointer-events-none"
           } ${isScrolled ? "py-2 sm:py-2.5" : "py-2.5 sm:py-3.5"}`}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 flex items-center justify-between">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
 
           {/* Left: Navigation Links on Desktop, 3-Bar Hamburger Icon on Mobile */}
           <div className="flex-1 flex items-center justify-start">
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-9">
+            <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
               {/* Shop Nav Link */}
               <Link
                 href="/shop"
-                className={`font-bold text-base md:text-lg lg:text-xl xl:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap ${overHero
+                className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 whitespace-nowrap ${overHero
                     ? "text-white hover:text-[#800020]"
                     : "text-[#800020] hover:text-[#520014]"
                   }`}
@@ -166,7 +166,7 @@ export default function Navbar({
                 <button
                   type="button"
                   onClick={() => setIsCategoriesOpen((prev) => !prev)}
-                  className={`font-bold text-base md:text-lg lg:text-xl xl:text-[22px] tracking-wide transition-colors duration-200 py-1 inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${overHero
+                  className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${overHero
                       ? "text-white hover:text-[#800020]"
                       : "text-[#800020] hover:text-[#520014]"
                     }`}
@@ -175,7 +175,7 @@ export default function Navbar({
                 >
                   <span>Categories</span>
                   <ChevronDown
-                    className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-200 ${isCategoriesOpen ? "rotate-180" : ""
+                    className={`w-4 h-4 lg:w-4 lg:h-4 transition-transform duration-200 ${isCategoriesOpen ? "rotate-180" : ""
                       }`}
                   />
                 </button>
@@ -209,7 +209,7 @@ export default function Navbar({
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`font-bold text-base md:text-lg lg:text-xl xl:text-[22px] tracking-wide transition-colors duration-200 py-1 whitespace-nowrap ${overHero
+                  className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 whitespace-nowrap ${overHero
                       ? "text-white hover:text-[#800020]"
                       : "text-[#800020] hover:text-[#520014]"
                     }`}
@@ -223,7 +223,7 @@ export default function Navbar({
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${overHero
+              className={`lg:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${overHero
                   ? "text-white hover:bg-white/10 active:bg-white/20"
                   : "text-[#800020] hover:bg-black/5 active:bg-black/10"
                 }`}
@@ -257,7 +257,7 @@ export default function Navbar({
                 width={320}
                 height={160}
                 priority
-                className="h-12 sm:h-14 md:h-[68px] lg:h-[78px] xl:h-[84px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+                className="h-12 sm:h-14 lg:h-[64px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
               />
             </Link>
           </div>
@@ -280,7 +280,7 @@ export default function Navbar({
       {/* Mobile Drawer Overlay & Panel */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 z-50 md:hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 flex flex-col justify-start"
+          className="fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 flex flex-col justify-start"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           <div

@@ -1,0 +1,42 @@
+.journey { background:#fcfbf7; padding:80px 0 32px; }
+.journeyInner { max-width:1280px; margin:auto; padding:0 40px; }
+.journeyHeading { display:flex; align-items:flex-end; justify-content:space-between; gap:40px; margin-bottom:40px; }
+.journeyHeading h2 { font-size:clamp(38px,4.7vw,66px); letter-spacing:-.06em; font-weight:600; line-height:1.06; }
+.journeyHeading h2 span { color:#800020; }
+.journeyHeading>p { max-width:330px; font-size:14px; line-height:1.9; color:#77786f; padding-bottom:5px; }
+.originFeature { position:relative; padding-bottom:55px; margin-bottom:15px; }
+.originVisual { position:relative; height:470px; border-radius:18px; overflow:hidden; }
+.originVisual img { object-fit:cover; object-position:center 55%; }
+.originStory { position:relative; margin:-120px 32px 0 auto; padding:32px 36px; max-width:440px; background:#fcfbf7; border-radius:12px; box-shadow:0 12px 35px #252b2010; }
+.storyLabel { display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#800020; font-weight:600; margin-bottom:15px; }
+.originStory h3,.storyCopy h3 { font-size:28px; letter-spacing:-.04em; line-height:1.15; font-weight:600; }
+.originStory p,.storyCopy p { color:#74766b; font-size:13px; line-height:1.85; margin-top:13px; }
+.storyGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; }
+.storyVisual { position:relative; aspect-ratio:4/3; border-radius:12px; overflow:hidden; }
+.storyVisual img { object-fit:cover; transition:transform .6s ease; }
+.storyCard:hover .storyVisual img { transform:scale(1.035); }
+.storyCopy { padding:25px 4px 0; }
+.storyCopy h3 { font-size:25px; }
+.storyCopy .storyLabel { margin-bottom:12px; }
+.credentials { background:#e8eddf; }
+.credentials>div>div { max-width:1100px; }
+.credentials>div>div>div { background:transparent; box-shadow:none; border:0; border-radius:0; }
+@media(max-width:767px) {
+ .journey { padding:50px 0 24px; }
+ .journeyInner { padding:0 24px; }
+ .journeyHeading { display:block; margin-bottom:28px; }
+ .journeyHeading>p { margin-top:20px; font-size:13px; }
+ .originVisual { height:340px; }
+ .originStory { margin:-45px 12px 0; padding:24px; max-width:none; }
+ .originStory h3 { font-size:25px; }
+ .originFeature { padding-bottom:32px; }
+ .storyGrid { grid-template-columns:1fr; gap:35px; }
+ .storyVisual { aspect-ratio:16/10; }
+ .storyCopy { padding-top:20px; }
+}
+@media(prefers-reduced-motion:reduce) { .journey * { transition:none !important; animation:none !important; } .storyCard:hover .storyVisual img { transform:none; } }
+
+.companyOverview { background:#fcfbf7; padding:24px 24px 55px; }
+.companyOverview p { max-width:1000px; margin:0 auto; color:#606459; font-size:16px; line-height:1.95; }
+@media(max-width:600px) { .companyOverview { padding:16px 24px 40px; } .companyOverview p { font-size:14px; line-height:1.85; } }
+

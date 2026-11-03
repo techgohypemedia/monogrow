@@ -14,6 +14,8 @@ export type AnimationLibraries = {
     on: (event: string, callback: () => void) => void;
     raf: (time: number) => void;
     destroy: () => void;
+    stop: () => void;
+    start: () => void;
     scrollTo: (target: number, options?: Record<string, unknown>) => void;
   };
 };

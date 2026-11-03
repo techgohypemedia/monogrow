@@ -82,7 +82,7 @@ export default function QuoteModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/50 backdrop-blur-md transition-all">
+    <div data-scroll-modal data-lenis-prevent className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/50 backdrop-blur-md transition-all">
       {/* Click outside backdrop */}
       <div className="absolute inset-0" onClick={handleResetAndClose} />
 
