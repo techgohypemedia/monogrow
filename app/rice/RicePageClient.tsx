@@ -12,7 +12,7 @@ import VideoModal from "@/components/VideoModal";
 import QuoteModal from "@/components/QuoteModal";
 import {
   COMMODITY_CATEGORIES,
-  getProductsByCategory,
+  getRicePageProducts,
 } from "@/data/commodityData";
 import {
   CheckCircle2,
@@ -26,7 +26,7 @@ export default function RicePageClient() {
   );
 
   const category = COMMODITY_CATEGORIES["rice"];
-  const products = getProductsByCategory("rice");
+  const products = getRicePageProducts();
 
   const handleOpenQuoteModal = (productName?: string) => {
     setSelectedCommodityForQuote(productName || "Basmati Rice (1121 Supreme)");

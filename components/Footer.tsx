@@ -260,7 +260,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                 </li>
                 <li>
                   <Link href="/dry-fruits" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
-                    Royal Cashew Kernels
+                    Royal Mixed Dry Fruits
                   </Link>
                 </li>
                 <li>

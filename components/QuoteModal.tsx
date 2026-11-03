@@ -12,9 +12,12 @@ interface QuoteModalProps {
 const COMMODITIES = [
   "Basmati Rice (1121 Supreme)",
   "Katarni Premium Rice",
+  "Jeera Masino Rice",
+  "Premium Basmati Brown Rice",
   "Specialty Estate Coffee",
   "Refined Cane Sugar (ICUMSA 45)",
-  "Royal Jumbo Cashews W240",
+  "Natural Brown Sugar",
+  "Royal Mixed Dry Fruits",
   "All Wholesale Commodities",
 ];
 

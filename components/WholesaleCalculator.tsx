@@ -8,7 +8,7 @@ import styles from "./WholesaleCalculator.module.css";
 
 const PRODUCTS = [
   { label: "Basmati rice", image: "rice", rate: 1050, varieties: ["1121 Basmati", "Traditional Basmati"], processes: ["Sella / parboiled", "Steam", "Raw / white"], grades: ["Premium long grain", "Standard long grain"] },
-  { label: "Cashews", image: "cashew", rate: 6500, varieties: ["Whole cashews", "Cashew pieces"], processes: ["Raw", "Roasted"], grades: ["W240", "W320", "Pieces"] },
+  { label: "Mix dry fruits", image: "dryfruit", rate: 6500, varieties: ["Royal 4-in-1 Mix", "Cashews & Almonds", "Walnuts & Pistachios"], processes: ["Raw / Natural", "Roasted"], grades: ["Royal Select Grade", "Whole & Selected"] },
   { label: "Cane sugar", image: "sugar", rate: 550, varieties: ["Refined cane sugar"], processes: ["Crystalline"], grades: ["ICUMSA 45", "ICUMSA 100"] },
   { label: "Estate coffee", image: "coffee", rate: 4200, varieties: ["Arabica", "Robusta"], processes: ["Whole bean", "Ground", "Green bean"], grades: ["Estate selection", "Commercial grade"] },
 ];
@@ -20,7 +20,7 @@ const DESTINATIONS = [
   { country: "India", port: "Mundra" },
 ];
 const PACKS = [{ kg: 5, label: "Retail pouch", cost: .3 }, { kg: 10, label: "Laminated bag", cost: .35 }, { kg: 20, label: "PP woven bag", cost: .45 }, { kg: 50, label: "Bulk woven bag", cost: .7 }];
-const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Royal Jumbo Cashews W240", "Refined Cane Sugar (ICUMSA 45)", "Specialty Estate Coffee"];
+const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Royal Mixed Dry Fruits", "Refined Cane Sugar (ICUMSA 45)", "Specialty Estate Coffee"];
 const money = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(n);
 const number = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(n);
 
@@ -94,7 +94,7 @@ export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteM
     <section id="calculator" className={styles.section} aria-labelledby="estimate-heading">
       <div className={styles.container}>
         <header className={styles.header}>
-          <div><h2 id="estimate-heading">Plan your order.<br /><span className={styles.highlight}>See the whole picture.</span></h2></div>
+          <div><h2 id="estimate-heading">Plan your order<br /><span className={styles.highlight}>See the whole picture</span></h2></div>
           <div className={styles.introduction}><p>A clearer view of your next shipment. Explore quantities, packaging and delivery costs before starting a conversation with our trade desk.</p></div>
         </header>
         <div className={styles.layout}>

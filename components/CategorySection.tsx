@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 import styles from "./CategorySection.module.css";
@@ -14,9 +15,8 @@ interface CategorySectionProps {
 const PRODUCTS = [
   { id: "rice", name: "Basmati rice", quote: "Basmati Rice (1121 Supreme)", image: "rice", pack: "monagrow-rice-bag-cutout.png", size: "5 kg", label: "EXTRA LONG GRAIN", description: "Long, beautifully separate grains with a delicate aroma. A staple, made extraordinary.", specs: [["Grain length", "8.9 mm+"], ["Moisture", "Under 11.5%"], ["Purity", "100% Sortex"]] },
   { id: "coffee", name: "Estate coffee", quote: "Specialty Estate Coffee", image: "coffee", pack: "monagrow-coffee-bag-cutout.png", size: "2.5 kg", label: "DARK ROAST ARABICA", description: "Deeply aromatic estate coffee with notes of dark cocoa, roasted pecan, and caramel.", specs: [["Roast", "Artisan dark"], ["Elevation", "1,450 m+"], ["Format", "Whole bean & ground"]] },
-  { id: "dryfruits", name: "Royal cashews", quote: "Royal Jumbo Cashews W240", image: "cashew", pack: "monagrow-cashews-packaging-new.png", size: "2.5 kg", label: "WHOLE & SELECTED", description: "Whole golden kernels, a buttery bite, and natural richness. Carefully selected at origin.", specs: [["Grade", "W240 whole"], ["Moisture", "Under 4.5%"], ["Packaging", "Nitrogen flushed"]] },
+  { id: "dryfruits", name: "Royal dry fruits", quote: "Royal Mixed Dry Fruits", image: "dryfruit", pack: "monagrow-dryfruits-packaging.png", size: "2.5 kg", label: "WHOLE & SELECTED MIX", description: "Curated premium blend of golden cashews, California almonds, rich walnuts, and crunchy pistachios.", specs: [["Blend", "4-in-1 Royal mix"], ["Moisture", "Under 4.5%"], ["Packaging", "Nitrogen flushed"]] },
   { id: "sugar", name: "Pure cane sugar", quote: "Refined Cane Sugar (ICUMSA 45)", image: "sugar", pack: "monagrow-sugar-bag-cutout.png", size: "1 kg", label: "REFINED CANE", description: "Fine, sparkling crystals with clean sweetness. Made for kitchens, confectionery, and more.", specs: [["Grade", "ICUMSA 45"], ["Polarization", "99.85%"], ["Source", "Refined sugarcane"]] },
-  { id: "katarni", name: "Katarni rice", quote: "Katarni Premium Rice", image: "rice", pack: "monagrow-katarni-bag-cutout.png", size: "5 kg", label: "NATURALLY AROMATIC", description: "Naturally aromatic everyday grain with unmatched fragrance and tender texture. A heritage staple, cultivated with care.", specs: [["Aroma", "Naturally rich"], ["Grade", "Premium selected"], ["Quality", "100% Sortex"]] },
 ];
 
 export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: CategorySectionProps) {
@@ -36,7 +36,7 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
         const viewport = stage.current!;
         const rail = track.current!;
         const cards = Array.from(rail.querySelectorAll<HTMLElement>("[data-product-card]"));
-        const bowls = cards.map(card => card.querySelector<HTMLElement>("[data-card-bowl]")!);
+        const bowls = cards.map(card => card.querySelector<HTMLElement>("[data-card-bowl]"));
         section.dataset.animated = "true";
         const driver = { progress: 0 };
         const distance = () => Math.max(0, rail.scrollWidth - viewport.clientWidth + viewport.clientWidth * .06);
@@ -45,8 +45,11 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
           rail.style.transform = `translate3d(${-x}px, 0, 0)`;
           section.style.setProperty("--collection-progress", String(driver.progress));
           cards.forEach((card, i) => {
-            const relative = (card.offsetLeft + card.offsetWidth / 2 - x - viewport.clientWidth / 2) / viewport.clientWidth;
-            bowls[i].style.transform = `rotate(${relative * 65}deg)`;
+            const bowl = bowls[i];
+            if (bowl) {
+              const relative = (card.offsetLeft + card.offsetWidth / 2 - x - viewport.clientWidth / 2) / viewport.clientWidth;
+              bowl.style.transform = `rotate(${relative * 65}deg)`;
+            }
           });
         };
         const tween = gsap.to(driver, {
@@ -70,11 +73,11 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
           delete section.dataset.animated;
           section.style.removeProperty("--collection-progress");
           rail.style.removeProperty("transform");
-          bowls.forEach(bowl => bowl.style.removeProperty("transform"));
+          bowls.forEach(bowl => bowl?.style.removeProperty("transform"));
         };
       });
       cleanup = () => media.revert();
-    }).catch(() => { /* All five product cards remain visible without animation. */ });
+    }).catch(() => { /* All product cards remain visible without animation. */ });
     return () => { cancelled = true; cleanup?.(); };
   }, []);
 
@@ -82,13 +85,10 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
     <section id="categories" ref={root} className={styles.section} aria-labelledby="collection-title">
       <div ref={stage} className={styles.stage}>
         <header className={styles.heading}>
-          
           <h2 id="collection-title">FIVE STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
         </header>
         <div className={styles.intro}>
-          <p>Good food starts with good ingredients. Explore our collection of Basmati rice, Katarni rice, estate coffee, royal cashews, and pure cane sugar—packed at origin, ready for your business.</p>
-
-
+          <p>Good food starts with good ingredients. Explore our collection of Basmati rice, estate coffee, royal dry fruits, and pure cane sugar—packed at origin, ready for your business.</p>
         </div>
         <div className={styles.railWindow}>
           <div ref={track} className={styles.track}>
@@ -110,6 +110,18 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
                 </div>
               </article>
             ))}
+
+            {/* Card 05: See all Products */}
+            <article data-product-card className={`${styles.card} ${styles.seeAllCard}`}>
+              <Link href="/categories" className={styles.seeAllLink} aria-label="See all products">
+                <div className={styles.seeAllCenter}>
+                  <span className={styles.seeAllText}>See all Products</span>
+                  <span className={styles.seeAllIcon}>
+                    <ArrowUpRight size={24} aria-hidden="true" />
+                  </span>
+                </div>
+              </Link>
+            </article>
           </div>
         </div>
         <div className={styles.progress} aria-hidden="true"><span /></div>

@@ -14,7 +14,7 @@ interface HeroProps {
 const PRODUCTS = [
   { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#a6c8d3", glow: "#448a9e", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain · Premium basmati", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
   { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#aa633c", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark Arabica · Whole bean & ground", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
-  { name: "Royal Cashews", short: "Cashews", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-cashews-packaging-new.png", colour: "#dab2ed", glow: "#89439f", note: "WHOLE & SELECTED", description: "Beautifully whole. Naturally buttery. Selected cashews that bring a little richness to the everyday.", detail: "W240 · Whole & selected", size: "2.5 kg", ingredient: "cashew", atlas: "0% 100%" },
+  { name: "Royal Dry Fruits", short: "Dry Fruits", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-dryfruits-packaging.png", colour: "#dab2ed", glow: "#89439f", note: "WHOLE & SELECTED MIX", description: "A royal harvest of selected cashews, California almonds, rich walnuts, and crunchy pistachios.", detail: "Cashews · Almonds · Walnuts · Pistachios", size: "2.5 kg", ingredient: "dryfruit", atlas: "0% 100%" },
   { name: "Refined Cane Sugar", short: "Sugar", title: ["Pure cane.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#7e994c", note: "REFINED CANE · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined cane sugar, ready for everything you create.", detail: "ICUMSA 45 · Refined cane", size: "1 kg", ingredient: "sugar", atlas: "100% 100%" },
 ];
 
@@ -23,7 +23,7 @@ const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
   rotation: (i * 67) % 360, size: i % 9 === 0 ? 74 : 12 + (i % 5) * 7,
   depth: i % 3,
 }));
-const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Jumbo Cashews W240", "Refined Cane Sugar (ICUMSA 45)"];
+const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Mixed Dry Fruits", "Refined Cane Sugar (ICUMSA 45)"];
 const BACKGROUNDS = ["#306778", "#754832", "#5d376f", "#516b3b"];
 function blendColour(from: string, to: string, progress: number) {
   const channels = [1, 3, 5].map(offset => {
@@ -199,6 +199,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
         <symbol id="mg-coffee" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="20" ry="27" fill="url(#mg-bean)" transform="rotate(30 30 30)"/><path d="M42 8C17 24 43 34 17 52" stroke="#241005" strokeWidth="4" fill="none"/><path d="M38 9C20 22 38 36 17 49" stroke="#ca9256" strokeWidth="1.2" fill="none"/><path d="M20 14Q9 25 12 35" fill="none" stroke="#e0b083" strokeWidth="2" opacity=".4"/></symbol>
         <symbol id="mg-rice" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="7" ry="27" fill="url(#mg-grain)" transform="rotate(25 30 30)"/><path d="M39 8L21 51" stroke="#fff9e9" opacity=".5"/></symbol>
         <symbol id="mg-cashew" viewBox="0 0 60 60"><path d="M39 6C8 0 0 38 24 51C43 63 62 42 51 35C44 30 43 43 32 39C18 34 24 19 34 22C47 26 51 10 39 6Z" fill="url(#mg-grain)"/><path d="M35 12C15 9 8 34 26 44" fill="none" stroke="#b9904d" strokeWidth="2" opacity=".6"/></symbol>
+        <symbol id="mg-dryfruit" viewBox="0 0 60 60"><path d="M39 6C8 0 0 38 24 51C43 63 62 42 51 35C44 30 43 43 32 39C18 34 24 19 34 22C47 26 51 10 39 6Z" fill="url(#mg-grain)"/><path d="M35 12C15 9 8 34 26 44" fill="none" stroke="#b9904d" strokeWidth="2" opacity=".6"/></symbol>
         <symbol id="mg-sugar" viewBox="0 0 60 60"><path d="M13 14L39 7L51 24L44 49L17 52L7 33Z" fill="#eee8d6" fillOpacity=".75" stroke="#fff8e1"/><path d="M13 14L26 29L51 24M26 29L17 52M26 29L39 7" stroke="#fff" opacity=".6" fill="none"/></symbol>
       </defs></svg>
       <div ref={stage} className={styles.stage}>

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AboutMonagrow from "@/components/AboutMonagrow";
-import ProductMarquee from "@/components/ProductMarquee";
 import CategorySection from "@/components/CategorySection";
 import CompanyPhilosophy from "@/components/CompanyPhilosophy";
 import WholesaleCalculator from "@/components/WholesaleCalculator";
@@ -37,8 +36,6 @@ export default function Home() {
 
         {/* 3. About Monagrow - Direct Origin & Wholesale Partnerships */}
         <AboutMonagrow onOpenQuoteModal={handleOpenQuoteModal} />
-
-        <ProductMarquee />
 
         {/* 3. Wholesale Commodity Categories (Rice, Coffee, Sugar, Dryfruits) */}
         <CategorySection

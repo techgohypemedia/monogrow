@@ -7,9 +7,9 @@ import {
 } from "@/data/commodityData";
 
 export const metadata: Metadata = {
-  title: "Monagrow Dry Fruits | Royal Jumbo Whole Cashews W240",
+  title: "Monagrow Dry Fruits | Royal Jumbo Whole Dryfruits W240",
   description:
-    "Monagrow Royal Jumbo Whole Cashews W240. First quality white grade, crisp buttery crunch, nitrogen flushed for export freshness across worldwide container routes.",
+    "Monagrow Royal Jumbo Whole Dryfruits W240. First quality white grade, crisp buttery crunch, nitrogen flushed for export freshness across worldwide container routes.",
 };
 
 export default function DryFruitsPage() {

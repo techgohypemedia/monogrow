@@ -1,107 +1,616 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Sprout, PackageCheck, Ship } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import styles from "./AboutMonagrow.module.css";
 
 interface AboutMonagrowProps {
   onOpenQuoteModal?: (productName?: string) => void;
 }
 
-export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps = {}) {
-  const sectionRef = useRef<HTMLElement>(null);
+// Physics-based paper deformation engine simulating realistic flexible paper turn
+function getLeafPhysics(progress: number) {
+  const clamped = Math.max(0, Math.min(1, progress));
+  const arch = Math.sin(clamped * Math.PI);
+  const angle = -clamped * 180;
 
+  // 1. Realistic Z-Lift: Paper arches toward the reader in 3D perspective space
+  const zLift = arch * 58;
+
+  // 2. Foreshortening / Horizontal compression: Paper curves into a cylindrical arch
+  const scaleX = 1 - arch * 0.085;
+
+  // 3. Diagonal Twist (corner peeling effect leading the turn)
+  const curlZ = (clamped < 0.5 ? -1 : 1) * arch * 4.6;
+  const skewY = (clamped < 0.5 ? 1 : -1) * arch * 3.2;
+
+  // 4. Inward spine tension arc (pulling toward the binding)
+  const xPull = -arch * 10;
+
+  // 5. Dynamic Corner Rounding (edge curls softly mid-air)
+  const dynamicRadius = arch > 0.02
+    ? (clamped < 0.5
+        ? `0 ${Math.round(20 + arch * 14)}px ${Math.round(20 + arch * 22)}px 0`
+        : `${Math.round(20 + arch * 14)}px 0 0 ${Math.round(20 + arch * 22)}px`)
+    : undefined;
+
+  // 6. Cylindrical Moving Sheen & Shadow (the light reflecting along the curved cylinder)
+  const frontSheenPos = Math.round(15 + clamped * 105);
+  const backSheenPos = Math.round(15 + (1 - clamped) * 105);
+
+  const frontSheenGradient = arch > 0.01
+    ? `linear-gradient(${105 + clamped * 20}deg, transparent 0%, rgba(255,255,255,${(arch * 0.45).toFixed(2)}) ${frontSheenPos}%, rgba(35,22,15,${(arch * 0.25).toFixed(2)}) ${frontSheenPos + 18}%, transparent ${frontSheenPos + 34}%)`
+    : "none";
+
+  const backSheenGradient = arch > 0.01
+    ? `linear-gradient(${75 - (1 - clamped) * 20}deg, transparent 0%, rgba(255,255,255,${(arch * 0.45).toFixed(2)}) ${backSheenPos}%, rgba(35,22,15,${(arch * 0.25).toFixed(2)}) ${backSheenPos + 18}%, transparent ${backSheenPos + 34}%)`
+    : "none";
+
+  // 7. Dynamic 3D Box Shadow of the turning leaf in space
+  const shadowX = (clamped < 0.5 ? 1 : -1) * (10 + arch * 20);
+  const shadowY = 6 + arch * 20;
+  const shadowBlur = Math.round(16 + arch * 48);
+  const shadowAlpha = (0.06 + arch * 0.28).toFixed(2);
+  const leafBoxShadow = arch > 0.01
+    ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px ${shadowBlur}px rgba(25, 15, 10, ${shadowAlpha})`
+    : undefined;
+
+  // 8. Dynamic cast shadow on the pages beneath
+  const shadowUnderRight = clamped < 0.6
+    ? Math.sin(Math.min(1, clamped * 2) * Math.PI) * 0.44 * (1 - clamped)
+    : 0;
+
+  const shadowUnderLeft = clamped > 0.4
+    ? Math.sin(Math.max(0, (clamped - 0.5) * 2) * Math.PI) * 0.48
+    : 0;
+
+  return {
+    transform: `translate3d(${xPull.toFixed(2)}px, 0, ${zLift.toFixed(2)}px) rotateY(${angle.toFixed(2)}deg) rotateZ(${curlZ.toFixed(2)}deg) skewY(${skewY.toFixed(2)}deg) scaleX(${scaleX.toFixed(3)})`,
+    dynamicRadius,
+    frontSheenGradient,
+    backSheenGradient,
+    frontSheenOpacity: arch,
+    backSheenOpacity: arch,
+    leafBoxShadow,
+    shadowUnderRight,
+    shadowUnderLeft,
+  };
+}
+
+export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps = {}) {
+  const trackRef = useRef<HTMLElement>(null);
+  const [turn1Progress, setTurn1Progress] = useState(0); // 0 (Spread 1) to 1 (Spread 2)
+  const [turn2Progress, setTurn2Progress] = useState(0); // 0 (Spread 2) to 1 (Spread 3)
+  const [isMobile, setIsMobile] = useState(false);
+
+  const target1Ref = useRef(0);
+  const target2Ref = useRef(0);
+  const current1Ref = useRef(0);
+  const current2Ref = useRef(0);
+  const animFrameId = useRef<number | null>(null);
+
+  // Detect mobile viewport
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || !("IntersectionObserver" in window)) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const animations = new Set<Animation>();
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        observer.unobserve(entry.target);
-        if (reduced.matches) return;
-        const elements = entry.target.querySelectorAll("[data-reveal-line], p, h3, li, a, :scope > svg");
-        elements.forEach((element, index) => {
-          const isLine = element.hasAttribute("data-reveal-line");
-          const isIcon = element.tagName.toLowerCase() === "svg";
-          const animation = element.animate([
-            { opacity: 0, transform: isIcon ? "translateY(14px) scale(.75) rotate(-12deg)" : `translateY(${isLine ? 50 : 24}px)`, filter: "blur(3px)" },
-            { opacity: 1, transform: "translateY(0) scale(1) rotate(0)", filter: "blur(0px)" },
-          ], { duration: isLine ? 1050 : 800, delay: Math.min(index * 100, 600), easing: "cubic-bezier(.22, 1, .36, 1)", fill: "backwards" });
-          animations.add(animation);
-          animation.onfinish = () => animations.delete(animation);
-        });
-      });
-    }, { threshold: .12, rootMargin: "0px 0px -32px 0px" });
-    section.querySelectorAll("[data-about-reveal]").forEach(element => observer.observe(element));
-    const stop = () => { if (reduced.matches) { animations.forEach(animation => animation.cancel()); animations.clear(); } };
-    reduced.addEventListener("change", stop);
-    return () => { observer.disconnect(); animations.forEach(animation => animation.cancel()); reduced.removeEventListener("change", stop); };
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Smooth inertial scroll loop with dampening for silky-smooth page turning
+  useEffect(() => {
+    if (isMobile) return;
+
+    const computeTarget = () => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const rect = track.getBoundingClientRect();
+      const scrollableDistance = rect.height - window.innerHeight;
+
+      if (scrollableDistance <= 0) return;
+
+      const currentScroll = -rect.top;
+      const rawProgress = Math.min(1, Math.max(0, currentScroll / scrollableDistance));
+
+      // Phase 1: Turn Leaf 1 from 0.06 to 0.46
+      let p1 = 0;
+      if (rawProgress <= 0.06) {
+        p1 = 0;
+      } else if (rawProgress >= 0.46) {
+        p1 = 1;
+      } else {
+        p1 = (rawProgress - 0.06) / 0.40;
+      }
+      target1Ref.current = 0.5 - 0.5 * Math.cos(p1 * Math.PI);
+
+      // Phase 2: Turn Leaf 2 from 0.54 to 0.94
+      let p2 = 0;
+      if (rawProgress <= 0.54) {
+        p2 = 0;
+      } else if (rawProgress >= 0.94) {
+        p2 = 1;
+      } else {
+        p2 = (rawProgress - 0.54) / 0.40;
+      }
+      target2Ref.current = 0.5 - 0.5 * Math.cos(p2 * Math.PI);
+    };
+
+    let isRunning = false;
+
+    const tick = () => {
+      const diff1 = target1Ref.current - current1Ref.current;
+      const diff2 = target2Ref.current - current2Ref.current;
+
+      // Silky damping factor: responsive feel with lifelike momentum
+      if (Math.abs(diff1) > 0.0003) {
+        current1Ref.current += diff1 * 0.13;
+      } else {
+        current1Ref.current = target1Ref.current;
+      }
+
+      if (Math.abs(diff2) > 0.0003) {
+        current2Ref.current += diff2 * 0.13;
+      } else {
+        current2Ref.current = target2Ref.current;
+      }
+
+      setTurn1Progress(current1Ref.current);
+      setTurn2Progress(current2Ref.current);
+
+      const stillMoving =
+        Math.abs(target1Ref.current - current1Ref.current) > 0.0003 ||
+        Math.abs(target2Ref.current - current2Ref.current) > 0.0003;
+
+      if (stillMoving) {
+        animFrameId.current = requestAnimationFrame(tick);
+      } else {
+        isRunning = false;
+      }
+    };
+
+    const onScroll = () => {
+      computeTarget();
+      if (!isRunning) {
+        isRunning = true;
+        animFrameId.current = requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    computeTarget();
+    current1Ref.current = target1Ref.current;
+    current2Ref.current = target2Ref.current;
+    setTurn1Progress(target1Ref.current);
+    setTurn2Progress(target2Ref.current);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
+    };
+  }, [isMobile]);
+
+  // Compute 3D physics for both turning leaves
+  const leaf1Physics = getLeafPhysics(turn1Progress);
+  const leaf2Physics = getLeafPhysics(turn2Progress);
+
+  // Dynamic z-index layering
+  let leaf1ZIndex = 35;
+  if (turn1Progress >= 1) {
+    leaf1ZIndex = 25;
+  }
+
+  let leaf2ZIndex = 20;
+  if (turn2Progress > 0) {
+    leaf2ZIndex = 45;
+  } else if (turn1Progress >= 1) {
+    leaf2ZIndex = 25;
+  }
+
   return (
-    <section id="about-us" ref={sectionRef} className={styles.section} aria-labelledby="about-monagrow-title">
-      <div className={styles.container}>
-        <div data-about-reveal className={styles.eyebrowWrapper}>
-          <p className={styles.eyebrow}>About Monagrow</p>
+    <section
+      id="about-us"
+      ref={trackRef}
+      className={styles.bookTrack}
+      aria-label="About Monagrow Story & Commodities"
+    >
+      <div className={styles.stickyStage}>
+        {/* Subtle ambient watermark */}
+        <div className={styles.ambientWatermark} aria-hidden="true">
+          <Image
+            src="/assets/monagrow-official-symbol.png"
+            alt=""
+            fill
+            className="object-contain"
+          />
         </div>
-        <div className={styles.aboutMonagrow}>
-          <div className={styles.aboutHeading}>
-            <div data-about-reveal>
-              <h2 id="about-monagrow-title">
-                <span className={styles.revealLine}><span data-reveal-line>Good ingredients.</span></span>
-                <span className={styles.revealLine}><em data-reveal-line>Lasting partnerships.</em></span>
-              </h2>
-              <p className={styles.aboutSummary}>From the first sourcing conversation to the next shipment, we make the details of wholesale trade easier to navigate.</p>
-              <ul className={styles.aboutProducts} aria-label="Our commodities">
-                <li>Basmati rice</li>
-                <li>Estate coffee</li>
-                <li>Cane sugar</li>
-                <li>Whole cashews</li>
-              </ul>
-            </div>
-          </div>
-          <div className={styles.aboutCopy}>
-            <div data-about-reveal>
-              <p>Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world. Our collection brings together Basmati rice, estate coffee, refined cane sugar and whole cashews.</p>
-              <p>We help buyers move from product selection to shipment with clear specifications, sourcing information and coordinated export support. Whether you are planning a trial order or a regular supply, we start with what your business needs.</p>
-            </div>
-            <article data-about-reveal className={styles.aboutDetail}>
-              <Sprout size={24} aria-hidden="true" />
-              <div>
-                <h3>A closer connection to the source</h3>
-                <p>Our sourcing conversations begin with origin mills and growers. We bring product specifications and origin information into the buying process so you can compare the grain, roast, grade or refinement that suits your market.</p>
-              </div>
-            </article>
-            <article data-about-reveal className={styles.aboutDetail}>
-              <PackageCheck size={24} aria-hidden="true" />
-              <div>
-                <h3>The right format for your business</h3>
-                <p>Retail packs and bulk supply serve different needs. Tell us your required volume, preferred packaging and intended use, and we can discuss suitable options for your wholesale order, from a trial lot to recurring procurement.</p>
-              </div>
-            </article>
-            <article data-about-reveal className={styles.aboutDetail}>
-              <Ship size={24} aria-hidden="true" />
-              <div>
-                <h3>Clarity beyond the quotation</h3>
-                <p>A useful quote starts with the destination, delivery terms and product requirements. We help coordinate documentation and shipment details, giving your team a clearer basis for planning the next stage of supply.</p>
-              </div>
-            </article>
-            <div data-about-reveal className={styles.aboutNext}>
-              <p>Planning your next order? Share the commodity, quantity and destination with our trade desk.</p>
-              <a href="#calculator" onClick={() => onOpenQuoteModal?.("Direct Origin Procurement")}>
-                Discuss your requirements <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
-              <Link href="/about-us">
-                More about Monagrow <ArrowUpRight size={17} aria-hidden="true" />
-              </Link>
-            </div>
+
+        {/* Eyebrow Header (dots removed) */}
+        <div className={styles.stageHeader}>
+          <div className={styles.eyebrowWrapper}>
+            <p className={styles.eyebrow}>
+              About Monagrow
+            </p>
           </div>
         </div>
+
+        {/* =========================================================
+            DESKTOP 3D EDITORIAL SPREAD (3 SPREADS / 2 LEAVES)
+            ========================================================= */}
+        {!isMobile && (
+          <div className={styles.bookContainer}>
+            <div className={styles.book}>
+              {/* Minimal Center Seam */}
+              <div className={styles.spineSeam} aria-hidden="true" />
+
+              {/* ----------------------------------------------------
+                  PAGE 01: Left Base Panel (Spread 1 Left -> IMAGE 1)
+                  ---------------------------------------------------- */}
+              <div className={`${styles.page} ${styles.leftBasePage} ${styles.imagePanel}`}>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src="/assets/about-harvest-origin.jpg"
+                    alt="Agricultural origin harvest estate, agronomist inspecting golden harvest with grower"
+                    fill
+                    priority
+                    sizes="(max-width: 1260px) 50vw, 630px"
+                    className={styles.panelImage}
+                  />
+                </div>
+                {/* Dynamic Contact Shadow when Leaf 1 lands onto Page 01 */}
+                <div
+                  className={`${styles.pageShadowOverlay} ${styles.castShadowLeft}`}
+                  style={{ opacity: leaf1Physics.shadowUnderLeft }}
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* ----------------------------------------------------
+                  PAGE 06: Right Base Panel (Spread 3 Right -> CONTENT 3)
+                  ---------------------------------------------------- */}
+              <div className={`${styles.page} ${styles.rightBasePage}`}>
+                <div className={styles.pageContentCentered}>
+                  <div className={styles.centeredHeaderBlock}>
+                    <h2 className={styles.mainTitleCentered}>
+                      Rigorous quality
+                      <em>Seamless global export</em>
+                    </h2>
+                  </div>
+
+                  <div className={styles.narrativeBlock}>
+                    <p className={styles.narrativeParagraph}>
+                      Every consignment undergoes comprehensive quality evaluation—from grain moisture testing and purity sortex to ISO-certified laboratory checks and origin phytosanitary documentation.
+                    </p>
+                    <p className={styles.narrativeParagraph}>
+                      Whether procuring trial batches or regular container volumes, our trade desk coordinates documentation, custom packaging, and multi-port ocean freight on FOB, CIF or CFR terms.
+                    </p>
+                  </div>
+
+                  <div className={styles.moreAboutRow}>
+                    <Link href="/about-us" className={styles.moreAboutLink}>
+                      <span>More about Monagrow</span>
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Dynamic Cast Shadow when Leaf 2 lifts off */}
+                <div
+                  className={`${styles.pageShadowOverlay} ${styles.castShadowRight}`}
+                  style={{ opacity: leaf2Physics.shadowUnderRight }}
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* ----------------------------------------------------
+                  LEAF 2: (Spread 2 Right Image 2 -> Spread 3 Left Image 3)
+                  ---------------------------------------------------- */}
+              <div
+                className={styles.turningLeaf}
+                style={{
+                  transform: leaf2Physics.transform,
+                  zIndex: leaf2ZIndex,
+                }}
+              >
+                {/* FRONT FACE: Page 04 (Spread 2 Right -> IMAGE 2: QUALITY LAB) */}
+                <div
+                  className={`${styles.frontFace} ${styles.imagePanel}`}
+                  style={{
+                    boxShadow: turn2Progress < 0.5 ? leaf2Physics.leafBoxShadow : undefined,
+                    borderRadius: leaf2Physics.dynamicRadius,
+                  }}
+                >
+                  <div className={styles.imageWrapper}>
+                    <Image
+                      src="/assets/monagrow-product-testing-lab.jpg"
+                      alt="Food science laboratory quality testing and grain purity inspection"
+                      fill
+                      sizes="(max-width: 1260px) 50vw, 630px"
+                      className={styles.panelImage}
+                    />
+                  </div>
+
+                  {/* Dynamic cast shadow from Leaf 1 as it lifts off Leaf 2 */}
+                  <div
+                    className={`${styles.pageShadowOverlay} ${styles.castShadowRight}`}
+                    style={{ opacity: leaf1Physics.shadowUnderRight }}
+                    aria-hidden="true"
+                  />
+
+                  {/* Flexible paper cylindrical curvature sheen */}
+                  <div
+                    className={styles.leafSheen}
+                    style={{
+                      background: leaf2Physics.frontSheenGradient,
+                      opacity: leaf2Physics.frontSheenOpacity,
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                {/* BACK FACE: Page 05 (Spread 3 Left -> IMAGE 3: SHIPPING VESSEL) */}
+                <div
+                  className={`${styles.backFace} ${styles.imagePanel}`}
+                  style={{
+                    boxShadow: turn2Progress >= 0.5 ? leaf2Physics.leafBoxShadow : undefined,
+                    borderRadius: leaf2Physics.dynamicRadius,
+                  }}
+                >
+                  <div className={styles.imageWrapper}>
+                    <Image
+                      src="/assets/about-shipping-vessel.jpg"
+                      alt="International ocean freight container ship at deepwater port terminal"
+                      fill
+                      sizes="(max-width: 1260px) 50vw, 630px"
+                      className={styles.panelImage}
+                    />
+                  </div>
+                  {/* Flexible paper cylindrical curvature sheen */}
+                  <div
+                    className={styles.leafSheen}
+                    style={{
+                      background: leaf2Physics.backSheenGradient,
+                      opacity: leaf2Physics.backSheenOpacity,
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              {/* ----------------------------------------------------
+                  LEAF 1: (Spread 1 Right Content 1 -> Spread 2 Left Content 2)
+                  ---------------------------------------------------- */}
+              <div
+                className={styles.turningLeaf}
+                style={{
+                  transform: leaf1Physics.transform,
+                  zIndex: leaf1ZIndex,
+                }}
+              >
+                {/* FRONT FACE: Page 02 (Spread 1 Right -> CONTENT 1) */}
+                <div
+                  className={styles.frontFace}
+                  style={{
+                    boxShadow: turn1Progress < 0.5 ? leaf1Physics.leafBoxShadow : undefined,
+                    borderRadius: leaf1Physics.dynamicRadius,
+                  }}
+                >
+                  <div className={`${styles.pageContentCentered} ${styles.introPartnershipSection}`}>
+                    <div className={styles.centeredHeaderBlock}>
+                      <h2 className={styles.mainTitleCentered} id="about-monagrow-title">
+                        Good ingredients
+                        <em>Lasting partnerships</em>
+                      </h2>
+                      <p className={styles.aboutSummaryCentered}>
+                        From the first sourcing conversation to the next shipment, we make the details of wholesale trade easier to navigate.
+                      </p>
+                    </div>
+
+                    <div className={styles.narrativeBlock}>
+                      <p className={styles.narrativeParagraph}>
+                        Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world.
+                      </p>
+                      <p className={styles.narrativeParagraph}>
+                        We specialize in direct origin procurement across Basmati rice, estate coffee, cane sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Flexible paper cylindrical curvature sheen */}
+                  <div
+                    className={styles.leafSheen}
+                    style={{
+                      background: leaf1Physics.frontSheenGradient,
+                      opacity: leaf1Physics.frontSheenOpacity,
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                {/* BACK FACE: Page 03 (Spread 2 Left -> CONTENT 2: 3 PILLARS) */}
+                <div
+                  className={styles.backFace}
+                  style={{
+                    boxShadow: turn1Progress >= 0.5 ? leaf1Physics.leafBoxShadow : undefined,
+                    borderRadius: leaf1Physics.dynamicRadius,
+                  }}
+                >
+                  <div className={styles.pageContent}>
+                    <div className={styles.pillarListClean}>
+                      {/* Pillar 01 */}
+                      <div className={styles.pillarItemClean}>
+                        <h3>A closer connection to the source</h3>
+                        <p>
+                          Our sourcing conversations begin with origin mills and growers. We bring product specifications and origin information into the buying process so you can compare the grain, roast, grade or refinement that suits your market.
+                        </p>
+                      </div>
+
+                      {/* Pillar 02 */}
+                      <div className={styles.pillarItemClean}>
+                        <h3>The right format for your business</h3>
+                        <p>
+                          Retail packs and bulk supply serve different needs. Tell us your required volume, preferred packaging and intended use, and we can discuss suitable options for your wholesale order.
+                        </p>
+                      </div>
+
+                      {/* Pillar 03 */}
+                      <div className={styles.pillarItemClean}>
+                        <h3>Clarity beyond the quotation</h3>
+                        <p>
+                          A useful quote starts with the destination, delivery terms and product requirements. We help coordinate documentation and shipment details, giving your team a clearer basis for planning.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dynamic cast shadow from Leaf 2 when turning over Leaf 1 Back */}
+                  <div
+                    className={`${styles.pageShadowOverlay} ${styles.castShadowLeft}`}
+                    style={{ opacity: leaf2Physics.shadowUnderLeft }}
+                    aria-hidden="true"
+                  />
+
+                  {/* Flexible paper cylindrical curvature sheen */}
+                  <div
+                    className={styles.leafSheen}
+                    style={{
+                      background: leaf1Physics.backSheenGradient,
+                      opacity: leaf1Physics.backSheenOpacity,
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================
+            MOBILE RESPONSIVE SPREAD VIEW (3 CHAPTERS)
+            ========================================================= */}
+        {isMobile && (
+          <div className={styles.bookContainer}>
+            <div className={styles.book}>
+              {/* Chapter 1: Farm Origin Image + Good Ingredients Centered Content */}
+              <div className={`${styles.leftBasePage} ${styles.mobileImageCard}`}>
+                <div className={styles.mobileImageWrapper}>
+                  <Image
+                    src="/assets/about-harvest-origin.jpg"
+                    alt="Agricultural origin harvest estate, agronomist inspecting golden harvest with grower"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.frontFace}>
+                <div className={`${styles.pageContentCentered} ${styles.introPartnershipSection}`}>
+                  <div className={styles.centeredHeaderBlock}>
+                    <h2 className={styles.mainTitleCentered}>
+                      Good ingredients
+                      <em>Lasting partnerships</em>
+                    </h2>
+                    <p className={styles.aboutSummaryCentered}>
+                      From the first sourcing conversation to the next shipment, we make the details of wholesale trade easier to navigate.
+                    </p>
+                  </div>
+
+                  <div className={styles.narrativeBlock}>
+                    <p className={styles.narrativeParagraph}>
+                      Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world.
+                    </p>
+                    <p className={styles.narrativeParagraph}>
+                      We specialize in direct origin procurement across Basmati rice, estate coffee, cane sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chapter 2: The 3 Pillars (Clean, no icons, no background) + Shipping Vessel Image */}
+              <div className={styles.backFace}>
+                <div className={styles.pageContent}>
+                  <div className={styles.pillarListClean}>
+                    <div className={styles.pillarItemClean}>
+                      <h3>A closer connection to the source</h3>
+                      <p>
+                        Our sourcing conversations begin with origin mills and growers. We bring product specifications and origin information into the buying process so you can compare the grain, roast, grade or refinement that suits your market.
+                      </p>
+                    </div>
+
+                    <div className={styles.pillarItemClean}>
+                      <h3>The right format for your business</h3>
+                      <p>
+                        Retail packs and bulk supply serve different needs. Tell us your required volume, preferred packaging and intended use, and we can discuss suitable options for your wholesale order.
+                      </p>
+                    </div>
+
+                    <div className={styles.pillarItemClean}>
+                      <h3>Clarity beyond the quotation</h3>
+                      <p>
+                        A useful quote starts with destination, delivery terms and product requirements. We help coordinate documentation and shipment details, giving your team a clearer basis for planning.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={`${styles.rightBasePage} ${styles.mobileImageCard}`}>
+                <div className={styles.mobileImageWrapper}>
+                  <Image
+                    src="/assets/monagrow-product-testing-lab.jpg"
+                    alt="Food science laboratory quality testing and grain purity inspection"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Chapter 3: Shipping Vessel Image + Global Export & More about Monagrow */}
+              <div className={`${styles.leftBasePage} ${styles.mobileImageCard}`}>
+                <div className={styles.mobileImageWrapper}>
+                  <Image
+                    src="/assets/about-shipping-vessel.jpg"
+                    alt="International ocean freight container ship at deepwater port terminal"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.rightBasePage}>
+                <div className={styles.pageContentCentered}>
+                  <div className={styles.centeredHeaderBlock}>
+                    <h2 className={styles.mainTitleCentered}>
+                      Rigorous quality
+                      <em>Seamless global export</em>
+                    </h2>
+                  </div>
+
+                  <div className={styles.narrativeBlock}>
+                    <p className={styles.narrativeParagraph}>
+                      Every consignment undergoes comprehensive quality evaluation—from grain moisture testing and purity sortex to ISO-certified laboratory checks and origin phytosanitary documentation.
+                    </p>
+                    <p className={styles.narrativeParagraph}>
+                      Whether procuring trial batches or regular container volumes, our trade desk coordinates documentation, custom packaging, and multi-port ocean freight on FOB, CIF or CFR terms.
+                    </p>
+                  </div>
+
+                  <div className={styles.moreAboutRow}>
+                    <Link href="/about-us" className={styles.moreAboutLink}>
+                      <span>More about Monagrow</span>
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
 }
-

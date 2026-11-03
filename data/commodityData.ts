@@ -134,7 +134,7 @@ export const COMMODITY_CATEGORIES: Record<string, CategoryMeta> = {
     slug: "dry-fruits",
     navName: "Dry Fruits",
     eyebrow: "The Monagrow Select Dry Fruits Collection",
-    title: "Royal Jumbo Whole Cashews W240",
+    title: "Royal Jumbo Whole Dryfruits W240",
     subtitle:
       "Selected from origin harvests for uniform ivory color, sweet buttery crunch, and king-size count (220 to 240 whole kernels per pound). Sealed in nitrogen-flushed barrier packaging to lock in farmgate freshness.",
     heroMetrics: [
@@ -256,17 +256,17 @@ export const PRODUCTS: CommodityProduct[] = [
     id: "royal-cashews",
     categoryKey: "dry-fruits",
     category: "Select Dry Fruits",
-    name: "Royal Jumbo Whole Cashews W240",
-    kicker: "King Size Whole · First Quality White Grade",
-    quoteName: "Royal Jumbo Cashews (W240 Whole)",
-    tagline: "Crisp Butter Crunch & Golden Farm-Fresh Richness",
+    name: "Royal Mixed Dry Fruits",
+    kicker: "Curated 4-in-1 Selection · Cashews, Almonds, Walnuts, Pistachios",
+    quoteName: "Royal Mixed Dry Fruits",
+    tagline: "Crisp Butter Crunch & Rich Farm-Fresh Harvest",
     description:
-      "Selected from origin harvests for uniform size, flawless ivory color, and natural sweet creaminess. Graded strictly as W240 (220 to 240 whole kernels per pound), carefully peeled, and nitrogen flushed to guarantee farm-fresh crunch.",
-    originBadge: "W240 King Size · First Quality White Selected",
-    packImg: "/assets/monagrow-cashews-packaging-new.png",
-    bowlImg: "/assets/hero-center-cashew.png",
-    bowlAlt: "Full ceramic bowl of golden jumbo cashews",
-    packAlt: "Monagrow Royal Cashews packaging",
+      "A royal harvest of selected Whole Dryfruits, California almonds, rich walnuts, and crunchy green pistachios. Sorted to perfection, nitrogen flushed to seal in freshness, and packaged for premium wholesale markets worldwide.",
+    originBadge: "Royal 4-in-1 Selection · First Quality Grade",
+    packImg: "/assets/monagrow-dryfruits-packaging.png",
+    bowlImg: "/assets/hero-center-dryfruit.png",
+    bowlAlt: "Full wooden bowl of royal mixed dry fruits",
+    packAlt: "Monagrow Royal Mixed Dry Fruits packaging",
     retailSizes: ["1 kg Nitrogen-Flushed Pouch", "2.5 kg Resealable Standup Bag"],
     bulkSizes: ["10 kg Vacuum Tins (2 x 10kg Carton)", "20 kg Export Cartons", "Full Pallet Shipments"],
     specs: [
@@ -316,11 +316,128 @@ export const PRODUCTS: CommodityProduct[] = [
   },
 ];
 
+export const RICE_ADDITIONAL_PRODUCTS: CommodityProduct[] = [
+  {
+    id: "jeera-masino-rice",
+    categoryKey: "rice",
+    category: "Grains & Rice",
+    name: "Jeera Masino Premium Rice",
+    kicker: "Himalayan Fine Grain · 100% Naturally Aged",
+    quoteName: "Jeera Masino Rice",
+    tagline: "Fine Slender Grain with Traditional Mountain Fragrance",
+    description:
+      "Cultivated across pristine Himalayan meltwater valleys, Monagrow Jeera Masino Rice is renowned for its delicate slender grain, gentle natural aroma, and rich tender finish. Naturally cured and aged to guarantee non-sticky, separate fluffy grains upon cooking—ideal for traditional everyday dining and specialty festive feasts.",
+    originBadge: "Himalayan Foothills · 100% Natural Aged",
+    packImg: "/assets/monagrow-jeera-masino-bag-cutout.png",
+    bowlImg: "/assets/hero-center-rice.png",
+    bowlAlt: "Full ceramic bowl of cooked Jeera Masino fine grain rice",
+    packAlt: "Monagrow Jeera Masino Rice 20kg Bag",
+    retailSizes: ["5 kg Standup Pouch", "10 kg Handle Pack"],
+    bulkSizes: ["20 kg Net Weight Bag", "25 kg / 50 kg Moisture-Resistant Sacks", "20ft FCL Direct Container Lots"],
+    specs: [
+      { label: "Grain Profile", value: "Fine Slender Masino" },
+      { label: "Aging Method", value: "Naturally Aged" },
+      { label: "Sortex Grade", value: "100% Optical Clean" },
+      { label: "Packaging Form", value: "20 KG Net Weight Pack" },
+    ],
+    keyHighlights: [
+      "100% natural and aged to maturity for exceptional non-sticky elongation",
+      "Triple-stage Sortex optical sorting ensures zero chalky grains or foreign matter",
+      "Heavy-duty 20kg moisture-barrier export-grade packaging",
+    ],
+  },
+  {
+    id: "basmati-brown-rice",
+    categoryKey: "rice",
+    category: "Grains & Rice",
+    name: "Premium Basmati Brown Rice",
+    kicker: "100% Whole Grain · Naturally Aged · Nutrient Dense",
+    quoteName: "Premium Basmati Brown Rice",
+    tagline: "Wholesome Unpolished Whole Grain with Nutty Aroma",
+    description:
+      "Monagrow Premium Basmati Brown Rice retains 100% of its nutritious outer bran layer and germ, delivering an authentic nutty fragrance, delightful al dente texture, and wholesome nutrition. Naturally aged and rich in essential dietary fiber, manganese, and minerals while offering the celebrated long-slender elegance of genuine Basmati.",
+    originBadge: "100% Whole Grain · Naturally Aged",
+    packImg: "/assets/monagrow-brown-rice-bag-cutout.png",
+    bowlImg: "/assets/hero-center-rice.png",
+    bowlAlt: "Full ceramic bowl of wholesome Basmati brown rice",
+    packAlt: "Monagrow Premium Basmati Brown Rice 5kg Standup Box Bag",
+    retailSizes: ["1 kg Aroma-Lock Pouch", "5 kg Standup Box Bag with Handle"],
+    bulkSizes: ["10 kg Vacuum Cartons", "25 kg Multi-Ply Moisture Bags", "Custom Palletized Lots"],
+    specs: [
+      { label: "Grain Form", value: "100% Whole Grain Brown" },
+      { label: "Milling Type", value: "Unpolished (Bran Retained)" },
+      { label: "Aroma Profile", value: "Naturally Aged Nutty Aroma" },
+      { label: "Packaging Form", value: "5 KG Net Weight Pack" },
+    ],
+    keyHighlights: [
+      "Preserves 100% of the nutrient-dense outer bran and germ for clean energy and wellness",
+      "Naturally aged to produce fluffy, separate long-slender grains with zero mushiness",
+      "Hermetically sealed in 5kg oxygen-barrier box bags with built-in handle for lasting freshness",
+    ],
+  },
+];
+
+export const RICE_PAGE_PRODUCTS: CommodityProduct[] = [
+  ...PRODUCTS.filter((p) => p.categoryKey === "rice"),
+  ...RICE_ADDITIONAL_PRODUCTS,
+];
+
+export function getRicePageProducts(): CommodityProduct[] {
+  return RICE_PAGE_PRODUCTS;
+}
+
+export const SUGAR_ADDITIONAL_PRODUCTS: CommodityProduct[] = [
+  {
+    id: "natural-brown-sugar",
+    categoryKey: "sugar",
+    category: "Refined Cane",
+    name: "Natural Brown Cane Sugar",
+    kicker: "100% Natural · Unrefined Minerals · Pure & Wholesome",
+    quoteName: "Natural Brown Sugar",
+    tagline: "Naturally Retained Molasses & Rich Golden Aroma",
+    description:
+      "Naturally derived from premium freshly harvested sugarcane, Monagrow Natural Brown Sugar retains its wholesome golden molasses goodness, deep aromatic sweetness, and vital trace minerals. Free from artificial bleaching, chemical additives, or preservatives—crafted for coffee, tea, artisan baking, and premium hospitality tables.",
+    originBadge: "100% Natural Cane · Retained Molasses Minerals",
+    packImg: "/assets/monagrow-brown-sugar-box-cutout.png",
+    bowlImg: "/assets/hero-center-brown-sugar.png",
+    bowlAlt: "Wooden bowl of golden amber natural brown sugar crystals",
+    packAlt: "Monagrow Natural Brown Sugar 350g Retail Dispenser Box",
+    retailSizes: ["350g Sachet Dispenser Box", "1 kg Standup Zipper Pouch"],
+    bulkSizes: ["25 kg Multi-Wall Kraft Paper Bags", "50 kg Woven PP with Food-Grade Inner Liner", "Palletized Export Loads"],
+    specs: [
+      { label: "Purity & Form", value: "100% Natural Brown Cane" },
+      { label: "Molasses Content", value: "Naturally Retained" },
+      { label: "Additive Level", value: "Zero Additives & Preservative Free" },
+      { label: "Granulation", value: "Golden Sparkling Demerara" },
+      { label: "Retail Pack", value: "350g Sachet Dispenser Box" },
+      { label: "Certification", value: "Non-GMO & Food Grade Purity" },
+    ],
+    keyHighlights: [
+      "Retains natural sugarcane molasses, rich caramel notes, and essential trace minerals",
+      "100% unbleached and additive-free with verified non-GMO food-grade purity",
+      "Convenient 350g retail dispenser box with portion-controlled single-serve sachets ideal for premium cafe and hospitality use",
+    ],
+  },
+];
+
+export const SUGAR_PAGE_PRODUCTS: CommodityProduct[] = [
+  ...PRODUCTS.filter((p) => p.categoryKey === "sugar"),
+  ...SUGAR_ADDITIONAL_PRODUCTS,
+];
+
+export function getSugarPageProducts(): CommodityProduct[] {
+  return SUGAR_PAGE_PRODUCTS;
+}
+
 export function getProductsByCategory(categoryKey: string): CommodityProduct[] {
   return PRODUCTS.filter((p) => p.categoryKey === categoryKey);
 }
 
 export function getProductById(id: string): CommodityProduct | undefined {
-  return PRODUCTS.find((p) => p.id === id);
+  return (
+    SUGAR_PAGE_PRODUCTS.find((p) => p.id === id) ||
+    RICE_PAGE_PRODUCTS.find((p) => p.id === id) ||
+    PRODUCTS.find((p) => p.id === id)
+  );
 }
 

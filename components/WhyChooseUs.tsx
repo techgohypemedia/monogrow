@@ -91,20 +91,20 @@ const COMMODITY_JOURNEYS: CommodityJourney[] = [
   },
   {
     id: "cashews",
-    tabLabel: "Royal Cashews",
+    tabLabel: "Royal Dry Fruits",
     icon: "🥜",
-    name: "Monagrow Royal W240 Whole Cashews",
+    name: "Monagrow Royal Mixed Dry Fruits",
     categoryTag: "Royal 2.5KG Resealable Pouch",
-    originBadge: "Tropical Coastal Plantations",
-    productImage: "/assets/monagrow-cashews-packaging-new.png",
-    productAlt: "Monagrow 2.5kg Royal Cashews Pouch",
+    originBadge: "Curated Origin Estates",
+    productImage: "/assets/monagrow-dryfruits-packaging.png",
+    productAlt: "Monagrow 2.5kg Royal Mixed Dry Fruits Pouch",
     description:
-      "Handpicked king-size ivory whole cashew kernels hand-graded for flawless crescent curve, natural butter crunch, and zero blemishes.",
+      "Handpicked 4-in-1 harvest of golden Whole Dryfruits, California almonds, rich walnuts, and crunchy green pistachios.",
     specs: [
-      { label: "Grade", value: "White Whole W240" },
-      { label: "Kernel Count", value: "220 - 240 / lb" },
+      { label: "Selection", value: "4-in-1 Royal Mix" },
+      { label: "Contents", value: "Cashew, Almond, Walnut, Pista" },
       { label: "Moisture", value: "< 4.5% Butter Crunch" },
-      { label: "Packaging", value: "2.5kg Pouch / 25lb Tins" },
+      { label: "Packaging", value: "2.5kg Pouch / Export Bulk" },
     ],
     steps: {
       raw: {

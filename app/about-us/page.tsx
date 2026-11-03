@@ -6,6 +6,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuoteModal from "@/components/QuoteModal";
+import AboutHeroSection from "@/components/AboutHeroSection";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -154,8 +155,8 @@ const JOURNEY_STAGES: JourneyStage[] = [
       "End-to-end customs clearance documentation and phytosanitary certificates",
     ],
     editorialImage: "/assets/about-global-port.jpg",
-    productCutout: "/assets/monagrow-cashews-packaging-new.png",
-    productName: "Royal Whole Cashews W240",
+    productCutout: "/assets/monagrow-dryfruits-packaging.png",
+    productName: "Royal Mixed Dry Fruits",
     productWeight: "2.5kg Resealable Bag",
     align: "image-right",
     specs: [
@@ -336,148 +337,13 @@ export default function AboutUsPage() {
 
       <main className="flex-1">
         {/* ========================================================
-            PAGE HERO & FOUNDATION: ABOUT MONAGROW (ABOUT US PAGE ONLY)
-            Full-width end-to-end luxury editorial layout
+            PAGE HERO & FOUNDATION: ABOUT MONAGROW
+            Matching Second Screenshot Design
             ======================================================== */}
-        <section className="pt-28 sm:pt-36 pb-16 sm:pb-24 bg-white border-b border-neutral-200/80 relative overflow-hidden">
-          {/* Subtle ambient warm radial depth in background */}
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[600px] bg-radial from-[#faf6f0]/60 via-[#faf9f6]/30 to-transparent pointer-events-none opacity-80"
-            aria-hidden="true"
-          />
-          {/* Monagrow brand watermark */}
-          <div
-            className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] pointer-events-none opacity-[0.035] select-none flex items-center justify-center"
-            aria-hidden="true"
-          >
-            <Image
-              src="/assets/monagrow-official-symbol.png"
-              alt=""
-              fill
-              className="object-contain"
-            />
-          </div>
-
-          {/* End-to-End Container spanning matching page grid width */}
-          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
-            {/* Eyebrow Header: Clean, bold typography */}
-            <div className="flex justify-center mb-6 sm:mb-8">
-              <span className="text-base sm:text-lg md:text-xl font-extrabold uppercase tracking-[0.25em] text-[#800020]">
-                About Monagrow
-              </span>
-            </div>
-
-            {/* Top Text Block: Good ingredients. Lasting partnerships. */}
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#30241e] tracking-tight leading-[1.06]">
-                Good ingredients.<br />
-                <em className="text-[#800020] not-italic font-medium">Lasting partnerships.</em>
-              </h1>
-
-              <p className="text-lg sm:text-xl md:text-2xl text-[#75675d] leading-relaxed max-w-4xl font-normal mt-4 sm:mt-5">
-                From the first sourcing conversation to the next shipment, we make the details of wholesale trade easier to navigate.
-              </p>
-            </div>
-
-            {/* Bottom Content: Narrative & 3 Detail Points in Clean Luxury Editorial Layout */}
-            <div className="mt-10 sm:mt-14 space-y-7 sm:space-y-9 text-[#75675d] text-base sm:text-lg md:text-xl leading-[1.85] w-full">
-              <p className="text-xl sm:text-2xl lg:text-[26px] text-[#30241e] font-normal leading-[1.65] max-w-5xl">
-                Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world. Our collection brings together Basmati rice, estate coffee, refined cane sugar and whole cashews.
-              </p>
-              <p className="max-w-5xl text-base sm:text-lg md:text-xl text-[#75675d] leading-relaxed">
-                We help buyers move from product selection to shipment with clear specifications, sourcing information and coordinated export support. Whether you are planning a trial order or a regular supply, we start with what your business needs.
-              </p>
-
-              {/* Detail 1: A closer connection to the source */}
-              <div className="pt-9 sm:pt-11 border-t border-[#dcd0c3]/80 w-full">
-                <div className="flex items-start gap-5 sm:gap-8 text-left">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-light text-[#800020]/35 select-none shrink-0 font-serif pt-0.5">
-                    01
-                  </span>
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#800020]/10 flex items-center justify-center text-[#800020] shrink-0">
-                        <Sprout className="w-5 h-5 stroke-[2]" />
-                      </div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#30241e] tracking-tight">
-                        A closer connection to the source
-                      </h3>
-                    </div>
-                    <p className="text-sm sm:text-base md:text-lg text-[#75675d] leading-relaxed pt-0.5 max-w-5xl">
-                      Our sourcing conversations begin with origin mills and growers. We bring product specifications and origin information into the buying process so you can compare the grain, roast, grade or refinement that suits your market.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Detail 2: The right format for your business */}
-              <div className="pt-9 sm:pt-11 border-t border-[#dcd0c3]/80 w-full">
-                <div className="flex items-start gap-5 sm:gap-8 text-left">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-light text-[#800020]/35 select-none shrink-0 font-serif pt-0.5">
-                    02
-                  </span>
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#800020]/10 flex items-center justify-center text-[#800020] shrink-0">
-                        <PackageCheck className="w-5 h-5 stroke-[2]" />
-                      </div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#30241e] tracking-tight">
-                        The right format for your business
-                      </h3>
-                    </div>
-                    <p className="text-sm sm:text-base md:text-lg text-[#75675d] leading-relaxed pt-0.5 max-w-5xl">
-                      Retail packs and bulk supply serve different needs. Tell us your required volume, preferred packaging and intended use, and we can discuss suitable options for your wholesale order, from a trial lot to recurring procurement.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Detail 3: Clarity beyond the quotation */}
-              <div className="pt-9 sm:pt-11 border-t border-[#dcd0c3]/80 w-full">
-                <div className="flex items-start gap-5 sm:gap-8 text-left">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-light text-[#800020]/35 select-none shrink-0 font-serif pt-0.5">
-                    03
-                  </span>
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#800020]/10 flex items-center justify-center text-[#800020] shrink-0">
-                        <Ship className="w-5 h-5 stroke-[2]" />
-                      </div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#30241e] tracking-tight">
-                        Clarity beyond the quotation
-                      </h3>
-                    </div>
-                    <p className="text-sm sm:text-base md:text-lg text-[#75675d] leading-relaxed pt-0.5 max-w-5xl">
-                      A useful quote starts with the destination, delivery terms and product requirements. We help coordinate documentation and shipment details, giving your team a clearer basis for planning the next stage of supply.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Trade Desk Inquiries action block */}
-              <div className="pt-10 sm:pt-12 border-t border-[#dcd0c3]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
-                <div className="space-y-1.5 max-w-2xl">
-                  <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#800020]">
-                    Trade Desk Inquiries
-                  </p>
-                  <p className="text-base sm:text-lg text-[#30241e] font-medium leading-relaxed">
-                    Planning your next order? Share the commodity, quantity and destination with our trade desk.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleOpenQuoteModal("Direct Origin Procurement")}
-                  className="shrink-0 px-7 py-3.5 rounded-full bg-[#800020] text-white hover:bg-[#68001a] text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all inline-flex items-center gap-2.5 cursor-pointer self-start sm:self-auto group"
-                >
-                  <span>Discuss your requirements</span>
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+        <AboutHeroSection onOpenQuoteModal={handleOpenQuoteModal} />
 
         {/* ========================================================
+            THE MONAGROW JOURNEY STORY        {/* ========================================================
             THE MONAGROW JOURNEY STORY
             Alternating Editorial Presentation with Home Page About Monagrow Reveal Functionality
             ======================================================== */}

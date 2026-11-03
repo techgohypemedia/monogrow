@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { ArrowDown } from "lucide-react";
 import styles from "./CompanyPhilosophy.module.css";
 
 interface CompanyPhilosophyProps {
@@ -45,7 +44,6 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
   const story = useRef<HTMLDivElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const steps = useRef<(HTMLElement | null)[]>([]);
-
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -126,10 +124,9 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
     <section id="philosophy" className={styles.section} aria-labelledby="origin-heading">
       <div className={styles.container}>
         <header className={styles.intro}>
-
           <h2 id="origin-heading" ref={heading} className={styles.headline}>
             <span ref={lineLeftRef} className={styles.headlineLeft}>Rooted in origin,</span>
-            <span ref={lineRightRef} className={styles.headlineRight}><em>delivered</em> with care.</span>
+            <span ref={lineRightRef} className={styles.headlineRight}><em>delivered</em> with care</span>
           </h2>
           <div className={styles.principles}>
             <p className={styles.lead}>Exceptional ingredients have a story. Ours starts at the source, with the people who grow them. No unnecessary layers. Just a shared respect for quality.</p>
@@ -139,30 +136,92 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
           </div>
         </header>
 
-        <div className={styles.storyLabel}><span>From origin to opportunity</span><span>Follow the journey <ArrowDown size={14} aria-hidden="true" /></span></div>
         <div ref={story} className={styles.story}>
           <div ref={viewport} className={styles.storyViewport}>
-          <div ref={panel} className={styles.photoPanel}>
-            {stages.map((stage, index) => (
-              <div key={stage.name} style={{ "--stage-index": index } as CSSProperties} className={`${styles.photo} ${active === index ? styles.photoActive : ""}`} aria-hidden={active !== index}>
-                <Image src={stage.image} alt={stage.alt} fill sizes="(max-width: 767px) 92vw, 48vw" />
-              </div>
-            ))}
-            <div className={styles.shade} />
-            <div className={styles.photoCaption}>
-              <div className={styles.counter}>{String(active + 1).padStart(2, "0")}<span>/ 04</span></div>
-              <div className={styles.photoMeta}><span>{stages[active].name}</span><div className={styles.progress} aria-hidden="true">{stages.map((stage, index) => <span key={stage.name} data-active={index === active} />)}</div></div>
+            {/* Left Column: Image Stack Panel (Unchanged) */}
+            <div ref={panel} className={styles.photoPanel}>
+              {stages.map((stage, index) => {
+                const isCurrent = active === index;
+                const isUnderneath = index < active;
+                const isUpcoming = index > active;
+                const statusClass = isCurrent
+                  ? styles.photoCurrent
+                  : isUnderneath
+                  ? styles.photoUnderneath
+                  : styles.photoUpcoming;
+
+                return (
+                  <div
+                    key={stage.name}
+                    style={{ "--stage-index": index } as CSSProperties}
+                    className={`${styles.photo} ${statusClass}`}
+                    aria-hidden={active !== index}
+                  >
+                    <Image
+                      src={stage.image}
+                      alt={stage.alt}
+                      fill
+                      sizes="(max-width: 767px) 92vw, 48vw"
+                      priority={index === 0}
+                    />
+                  </div>
+                );
+              })}
             </div>
-          </div>
-          <div className={styles.steps}>
-            {stages.map((stage, index) => (
-              <article key={stage.name} ref={(el) => { steps.current[index] = el; }} className={styles.step} data-active={active === index}>
-                <h3>{stage.title}</h3>
-                <p className={styles.stepCopy}>{stage.copy}</p>
-                <ul className={styles.tags}>{stage.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-              </article>
-            ))}
-          </div>
+
+            {/* Right Column: Stages Text with Restrained Vertical Travel */}
+            <div className={styles.steps}>
+              {/* Desktop Sticky Stage Display - Text sits centered, transitioning with restrained travel */}
+              <div className={styles.stepsSticky} aria-live="polite">
+                {stages.map((stage, index) => {
+                  const isCurrent = active === index;
+                  const isPast = index < active;
+                  const statusClass = isCurrent
+                    ? styles.stepCurrent
+                    : isPast
+                    ? styles.stepPast
+                    : styles.stepUpcoming;
+
+                  return (
+                    <article
+                      key={stage.name}
+                      className={`${styles.stepCard} ${statusClass}`}
+                      aria-hidden={!isCurrent}
+                    >
+                      <h3>{stage.title}</h3>
+                      <p className={styles.stepCopy}>{stage.copy}</p>
+                      <ul className={styles.tags}>
+                        {stage.tags.map((tag) => (
+                          <li key={tag}>{tag}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </div>
+
+              {/* Scroll Track Triggers (Desktop scroll anchors & Mobile in-flow / sideways layout) */}
+              <div className={styles.stepRail}>
+                {stages.map((stage, index) => (
+                  <article
+                    key={stage.name}
+                    ref={(el) => { steps.current[index] = el; }}
+                    className={styles.step}
+                    data-active={active === index}
+                  >
+                    <div className={styles.stepMobileContent}>
+                      <h3>{stage.title}</h3>
+                      <p className={styles.stepCopy}>{stage.copy}</p>
+                      <ul className={styles.tags}>
+                        {stage.tags.map((tag) => (
+                          <li key={tag}>{tag}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
