@@ -166,19 +166,7 @@ export default function AboutUsPage() {
         {/* ========================================================
             GLOBAL ACCREDITATIONS BADGE ROW
             ======================================================== */}
-        <section className={styles.companyOverview} aria-label="About Monagrow">
-          <p>
-            Monagrow is an agricultural commodity wholesaler and exporter connecting
-            origin mills and growers with businesses around the world. Our collection
-            includes basmati rice, estate coffee, dry fruits and refined cane sugar,
-            with retail and bulk supply options to suit different markets. We work
-            with buyers to understand their product specifications, packaging needs,
-            order volumes and destinations, coordinating sourcing, sample evaluation
-            and shipment requirements. From the first enquiry to the next order,
-            our focus is on clear communication, carefully selected ingredients and
-            lasting business relationships.
-          </p>
-        </section>
+
 
         <section className={`${styles.credentials} py-14 bg-[#FAF9F6] border-y border-neutral-200/70`}>
           <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
