@@ -6,13 +6,12 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import RiceHeroTransition from "@/components/RiceHeroTransition";
-import RiceHistorySection from "@/components/RiceHistorySection";
-import styles from "./RiceProducts.module.css";
+import RiceGuide from "@/components/RiceGuide";
+
 import Footer from "@/components/Footer";
 import VideoModal from "@/components/VideoModal";
 import QuoteModal from "@/components/QuoteModal";
 import {
-  COMMODITY_CATEGORIES,
   getRicePageProducts,
   CommodityProduct,
 } from "@/data/commodityData";
@@ -34,8 +33,50 @@ export default function RicePageClient() {
   const [isSectionVisible, setIsSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const category = COMMODITY_CATEGORIES["rice"];
+
   const products = getRicePageProducts();
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const animations = new Set<Animation>();
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        if (motion.matches) return;
+        const card = entry.target as HTMLElement;
+        const index = Number(card.dataset.collectionCard);
+        // The first pack arrives from the hero; its card stays stationary.
+        if (index === 0) return;
+        const animation = card.animate([
+          { opacity: 0, transform: "translateX(-64px)" },
+          { opacity: 1, transform: "translateX(0)" },
+        ], {
+          duration: 850,
+          delay: (index % 3) * 100,
+          easing: "cubic-bezier(.22,1,.36,1)",
+          fill: "backwards",
+        });
+        animations.add(animation);
+        animation.onfinish = () => animations.delete(animation);
+      });
+    }, { threshold: .12 });
+    section.querySelectorAll("[data-collection-card]").forEach(card => observer.observe(card));
+    const cancel = () => {
+      if (motion.matches) {
+        animations.forEach(animation => animation.cancel());
+        animations.clear();
+      }
+    };
+    motion.addEventListener("change", cancel);
+    return () => {
+      observer.disconnect();
+      animations.forEach(animation => animation.cancel());
+      motion.removeEventListener("change", cancel);
+    };
+  }, []);
 
   // Scroll entrance observer matching KRBL AOS fade-up transition
   useEffect(() => {
@@ -60,10 +101,6 @@ export default function RicePageClient() {
     setIsQuoteModalOpen(true);
   };
 
-  // Other categories for cross-navigation
-  const otherCategories = Object.values(COMMODITY_CATEGORIES).filter(
-    (c) => c.key !== "rice"
-  );
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-neutral-900 selection:bg-[#740707] selection:text-white">
@@ -93,10 +130,10 @@ export default function RicePageClient() {
         <section
           id="rice-collection"
           ref={sectionRef}
-          className="py-16 sm:py-24 bg-[#FAF5EE] border-b border-[#dfd5c6] scroll-mt-24"
+          className="py-16 sm:py-24 bg-[#fcfbf7] border-b border-[#dfd5c6] scroll-mt-24"
         >
           <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header: OUR PORTFOLIO + Basmati Range in Playfair Display serif */}
+            {/* Header: THE MONAGROW RICE COLLECTION + Rice, chosen with care. in Playfair Display serif */}
             <div
               className={`text-center mb-12 sm:mb-16 transition-all duration-700 ease-out ${
                 isSectionVisible
@@ -104,11 +141,11 @@ export default function RicePageClient() {
                   : "opacity-0 -translate-y-4"
               }`}
             >
-              <span className="block text-xs sm:text-[13px] font-bold tracking-[0.25em] uppercase text-[#740707] mb-2.5">
-                OUR PORTFOLIO
+              <span className="block text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-[#740707] mb-2.5">
+                THE MONAGROW RICE COLLECTION
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal text-[#231815] tracking-tight leading-tight">
-                Basmati Range
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-semibold text-[#262820] tracking-tight leading-tight">
+                Rice, chosen with care.
               </h2>
             </div>
 
@@ -118,13 +155,9 @@ export default function RicePageClient() {
                 <article
                   key={product.id}
                   id={product.id}
-                  style={{
-                    transitionDelay: isSectionVisible
-                      ? `${(index % 3) * 120 + Math.floor(index / 3) * 100}ms`
-                      : "0ms",
-                  }}
+                  data-collection-card={index}
                   className={`group relative flex flex-col items-center justify-between text-center bg-white rounded-xl p-5 sm:p-7 border border-[#dfd5c6] hover:border-[#740707] transition-all duration-300 ease-out hover:-translate-y-1.5
-                    ${isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
+                    
                   `}
                 >
                   {/* Visual Cutout Pack Image with Smooth Hover Scale */}
@@ -149,7 +182,7 @@ export default function RicePageClient() {
                       {/* Title in Elegant Serif Font */}
                       <h3
                         onClick={() => setSelectedProductForDetails(product)}
-                        className="font-serif text-lg sm:text-xl font-bold text-[#231815] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
+                        className="text-xl sm:text-2xl font-semibold text-[#262820] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
                       >
                         {product.name}
                       </h3>
@@ -157,7 +190,7 @@ export default function RicePageClient() {
                       {/* Subtitle / Description - Single line with ellipsis */}
                       <p
                         title={product.tagline}
-                        className="text-xs sm:text-[13px] text-[#6b5d52] leading-relaxed mt-1.5 max-w-[280px] sm:max-w-[320px] mx-auto font-normal truncate block"
+                        className="text-sm sm:text-base text-[#6b5d52] leading-relaxed mt-1.5 max-w-[280px] sm:max-w-[320px] mx-auto font-normal block"
                       >
                         {product.tagline}
                       </p>
@@ -183,60 +216,11 @@ export default function RicePageClient() {
         {/* ========================================================
             5. THE STORY, HERITAGE, VARIETIES & CRAFT OF RICE
             ======================================================== */}
-        <RiceHistorySection
-          products={products}
+        <RiceGuide
+
           onOpenQuoteModal={handleOpenQuoteModal}
         />
 
-        {/* ========================================================
-            6. EXPLORE OTHER COMMODITIES
-            ======================================================== */}
-        <section className="py-14 sm:py-20 bg-white">
-          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
-                  Monagrow Product Portfolio
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-1">
-                  Explore Other Commodities
-                </h3>
-              </div>
-              <Link
-                href="/categories"
-                className="text-xs sm:text-sm font-bold text-[#740707] hover:text-[#4a0404] inline-flex items-center gap-1.5 transition-colors"
-              >
-                <span>View All 5 Commodities</span>
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {otherCategories.map((other) => (
-                <Link
-                  key={other.key}
-                  href={`/${other.slug}`}
-                  className="group p-6 rounded-2xl bg-[#FAF9F6] border border-neutral-200/90 hover:border-[#740707]/40 shadow-2xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between"
-                >
-                  <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#740707]">
-                      Monagrow {other.navName}
-                    </span>
-                    <h4 className="text-lg font-bold text-neutral-900 group-hover:text-[#740707] transition-colors">
-                      {other.title}
-                    </h4>
-                    <p className="text-xs text-neutral-600 line-clamp-2">
-                      {other.subtitle}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-[#740707] border-t border-neutral-200/60 mt-4">
-                    <span>View {other.navName} Specifications</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* ========================================================
             7. DIRECT CONTAINER SOURCING CTA BANNER
@@ -246,14 +230,14 @@ export default function RicePageClient() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
               <div className="space-y-2 max-w-2xl">
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FAF9F6]/80">
-                  Global Container Logistics &amp; CIF Contracts
+                  Plan your next shipment
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                   Source Monagrow Rice Directly from Origin
                 </h3>
                 <p className="text-xs sm:text-sm text-neutral-200 font-normal">
                   Inquire about full container loads (FCL), palletized export,
-                  custom retail bagging, and SGS pre-shipment inspection.
+                  custom retail bagging, and pre-shipment inspection requirements.
                 </p>
               </div>
 
@@ -263,14 +247,14 @@ export default function RicePageClient() {
                   onClick={() => handleOpenQuoteModal(products[0]?.quoteName)}
                   className="px-6 py-3 rounded-full bg-white text-[#740707] hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-transform hover:scale-105 cursor-pointer inline-flex items-center gap-2"
                 >
-                  <span>Request Instant Quote</span>
+                  <span>Request a quote</span>
                 </button>
 
                 <Link
                   href="/contact"
                   className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 transition-colors"
                 >
-                  Contact Desk
+                  Contact our team
                 </Link>
               </div>
             </div>
@@ -329,7 +313,7 @@ export default function RicePageClient() {
                 <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#740707]">
                   {selectedProductForDetails.kicker}
                 </span>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
+                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
                   {selectedProductForDetails.name}
                 </h3>
                 <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
@@ -342,7 +326,7 @@ export default function RicePageClient() {
             <div className="py-6 space-y-6">
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-3">
-                  Verified Lot Specifications
+                  Product specifications
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {selectedProductForDetails.specs.map((sp) => (
@@ -413,7 +397,7 @@ export default function RicePageClient() {
             {/* Modal Footer CTA */}
             <div className="pt-4 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">
               <span className="text-xs text-neutral-500">
-                Export grades SGS certified · CIF / FOB international contracts
+                Confirm current lot specifications and shipping terms with our team.
               </span>
               <button
                 type="button"

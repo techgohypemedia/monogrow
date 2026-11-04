@@ -205,13 +205,13 @@ const COMMODITY_JOURNEYS: CommodityJourney[] = [
     id: "sugar",
     tabLabel: "Refined Sugar",
     icon: "🍬",
-    name: "Refined Cane Sugar ICUMSA 45",
+    name: "Refined Sugar ICUMSA 45",
     categoryTag: "Sparkling White Food Grade",
     originBadge: "Certified Agro Sugar Mills",
     productImage: "/assets/monagrow-sugar-bag-cutout.png",
     productAlt: "Monagrow 1kg Refined Sugar Bag",
     description:
-      "Ultra-pure sparkling white crystal cane sugar with 99.85% polarization, zero chemical odor, and instant 100% solubility.",
+      "Ultra-pure sparkling white crystal sugar with 99.85% polarization, zero chemical odor, and instant 100% solubility.",
     specs: [
       { label: "Purity Index", value: "ICUMSA 45 RBU Max" },
       { label: "Polarization", value: "99.85% Minimum" },

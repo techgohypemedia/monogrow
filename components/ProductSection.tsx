@@ -140,7 +140,7 @@ export default function ProductSection({
     },
     {
       id: "monagrow-white-sugar-icumsa",
-      name: "Refined Cane Sugar Crystals (ICUMSA 45)",
+      name: "Refined Sugar Crystals (ICUMSA 45)",
       category: "sugar",
       tag: "Sparkling White",
       image: "/assets/monagrow-sugar-bag-cutout.png",
@@ -153,7 +153,7 @@ export default function ProductSection({
       },
       priceRange: "₹44,000 - ₹48,000 / MT",
       description:
-        "High-purity refined crystal white cane sugar suitable for confectioneries, carbonated beverages, bakeries, and consumer packaging. Free flowing with 99.8% polarization minimum.",
+        "High-purity refined crystal white sugar suitable for confectioneries, carbonated beverages, bakeries, and consumer packaging. Free flowing with 99.8% polarization minimum.",
       features: [
         "Free-flowing, dry sparkling crystal size 0.6mm",
         "Zero artificial chemical odors or yellow tinting",
@@ -162,7 +162,7 @@ export default function ProductSection({
     },
     {
       id: "monagrow-raw-cane-sugar",
-      name: "Crystal Gold Unrefined Raw Cane Sugar",
+      name: "Crystal Gold Unrefined Raw Sugar",
       category: "sugar",
       tag: "Natural Golden",
       image: "/assets/monagrow-sugar-bag-cutout.png",
@@ -175,7 +175,7 @@ export default function ProductSection({
       },
       priceRange: "₹41,000 - ₹45,000 / MT",
       description:
-        "Natural raw cane sugar retaining delicious golden molasses minerals. Excellent for specialty artisan food brands, baking, and gourmet retail packaging.",
+        "Natural raw sugar retaining delicious golden molasses minerals. Excellent for specialty artisan food brands, baking, and gourmet retail packaging.",
       features: [
         "Natural caramel aroma and mineral content",
         "Unbleached golden crystal structure",

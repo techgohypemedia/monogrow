@@ -180,7 +180,7 @@
 .productChoice[aria-pressed="true"] { background:#ffffff55; }
 .choiceImage { display:block; position:relative; width:100%; height:clamp(190px,25vw,350px); }
 .choiceImage img { object-fit:contain; filter:drop-shadow(0 12px 12px #00000014); }
-.choiceName { display:block; margin-top:20px; font-size:12px; font-weight:600; color:#585e52; padding-bottom:8px; border-bottom:2px solid transparent; }
+.choiceName { display:block; margin-top:20px; font-size:20px; line-height:1.4; font-weight:600; color:#585e52; padding-bottom:8px; border-bottom:2px solid transparent; }
 .productChoice[aria-pressed="true"] .choiceName { color:#740707; border-color:#740707; }
 @media(max-width:600px) {
  .productShowcase { padding:28px 15px 20px; border-radius:18px; }
@@ -188,7 +188,7 @@
  .hoverDetails p { font-size:12px; line-height:1.7; }
  .productRow { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
  .choiceImage { height:180px; }
- .choiceName { font-size:10px; margin-top:12px; }
+ .choiceName { font-size:16px; margin-top:12px; }
 }
 @media(prefers-reduced-motion:reduce) { .productShowcase,.productChoice { transition:none; } }
 /* Floating packs follow an arc; the selected pack connects to the detail card. */

@@ -99,7 +99,7 @@ function CategoriesContent() {
                 <span className="text-[#740707]">Exceptional Roots.</span>
               </h1>
               <p className="mt-3 sm:mt-4 text-sm sm:text-base text-neutral-600 leading-relaxed font-normal max-w-2xl mx-auto">
-                Good food begins with good ingredients. Explore our portfolio of Basmati rice, Katarni rice, estate coffee, royal cashews, and refined cane sugar—packed at origin, laboratory verified, and shipped worldwide.
+                Good food begins with good ingredients. Explore our portfolio of Basmati rice, Katarni rice, estate coffee, royal cashews, and refined sugar—packed at origin, laboratory verified, and shipped worldwide.
               </p>
             </div>
 

@@ -1,20 +1,18 @@
 import React from "react";
 import { Metadata } from "next";
-import CommodityCategoryTemplate from "@/components/CommodityCategoryTemplate";
+import PremiumCommodityPage from "@/components/PremiumCommodityPage";
 import {
-  COMMODITY_CATEGORIES,
   getSugarPageProducts,
 } from "@/data/commodityData";
 
 export const metadata: Metadata = {
-  title: "Monagrow Sugar | Pure Cane Sugar ICUMSA 45 & Natural Brown Sugar",
+  title: "Monagrow Sugar | Sugar & Brown Sugar",
   description:
-    "Explore Monagrow's premium cane sugar range: Refined ICUMSA 45 sparkling crystals and 100% Natural Brown Sugar with unrefined molasses minerals.",
+    "Explore Monagrow sugar and brown sugar, with baking guides and a simple quantity calculator.",
 };
 
 export default function SugarPage() {
-  const category = COMMODITY_CATEGORIES["sugar"];
   const products = getSugarPageProducts();
 
-  return <CommodityCategoryTemplate category={category} products={products} />;
+  return <PremiumCommodityPage category="sugar" products={products} />;
 }

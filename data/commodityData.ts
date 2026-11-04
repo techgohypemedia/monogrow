@@ -1,7 +1,7 @@
 export interface CommodityProduct {
   id: string;
   categoryKey: "rice" | "coffee" | "sugar" | "dry-fruits";
-  category: "Grains & Rice" | "Specialty Estate" | "Select Dry Fruits" | "Refined Cane";
+  category: "Grains & Rice" | "Specialty Estate" | "Select Dry Fruits" | "Refined Sugar";
   name: string;
   kicker: string;
   quoteName: string;
@@ -100,8 +100,8 @@ export const COMMODITY_CATEGORIES: Record<string, CategoryMeta> = {
     key: "sugar",
     slug: "sugar",
     navName: "Sugar",
-    eyebrow: "The Monagrow Refined Cane Collection",
-    title: "Pure Refined Cane Sugar ICUMSA 45",
+    eyebrow: "The Monagrow Refined Sugar Collection",
+    title: "Sugar",
     subtitle:
       "Refined from fresh-harvest sugarcane, Monagrow ICUMSA 45 represents the highest purity grade in international commodity trade. Free-flowing, sparkling white crystals with 99.85% minimum polarization.",
     heroMetrics: [
@@ -228,7 +228,7 @@ export const PRODUCTS: CommodityProduct[] = [
     name: "Specialty Estate Dark Arabica",
     kicker: "Dark Roast Arabica · High-Elevation Single Estate",
     quoteName: "Specialty Estate Coffee (Arabica Dark Roast)",
-    tagline: "Slow Drum Roasted with Notes of Dark Cocoa, Pecan & Caramel",
+    tagline: "Dark roast with cocoa and caramel notes.",
     description:
       "Cultivated at 1,450 to 1,850 meters above sea level under natural shade canopies. Hand-picked at peak ripeness, wet-processed, and slow roasted in artisan batch drums to bring forth rich body, low acidity, and aromatic complexity.",
     originBadge: "1,450m+ MSL Altitude · 84+ Specialty Grade",
@@ -259,7 +259,7 @@ export const PRODUCTS: CommodityProduct[] = [
     name: "Royal Mixed Dry Fruits",
     kicker: "Curated 4-in-1 Selection · Cashews, Almonds, Walnuts, Pistachios",
     quoteName: "Royal Mixed Dry Fruits",
-    tagline: "Crisp Butter Crunch & Rich Farm-Fresh Harvest",
+    tagline: "Cashews, almonds, walnuts and pistachios.",
     description:
       "A royal harvest of selected Whole Dryfruits, California almonds, rich walnuts, and crunchy green pistachios. Sorted to perfection, nitrogen flushed to seal in freshness, and packaged for premium wholesale markets worldwide.",
     originBadge: "Royal 4-in-1 Selection · First Quality Grade",
@@ -286,18 +286,18 @@ export const PRODUCTS: CommodityProduct[] = [
   {
     id: "cane-sugar",
     categoryKey: "sugar",
-    category: "Refined Cane",
-    name: "Pure Refined Cane Sugar ICUMSA 45",
-    kicker: "Refined Cane Sugar · 99.85% Minimum Polarization",
-    quoteName: "Pure Refined Cane Sugar (ICUMSA 45)",
-    tagline: "Sparkling White Crystals with Rapid Dissolve Purity",
+    category: "Refined Sugar",
+    name: "Sugar",
+    kicker: "Refined Sugar · 99.85% Minimum Polarization",
+    quoteName: "Pure Refined Sugar (ICUMSA 45)",
+    tagline: "Fine white crystals for everyday use.",
     description:
       "Refined from fresh-harvest sugarcane, Monagrow ICUMSA 45 represents the highest purity grade in international commodity trade. Free-flowing, sparkling white crystals with 99.85% minimum polarization, engineered for premium food manufacturing, confectionery, and retail distribution.",
     originBadge: "ICUMSA 45 RBU Max · 99.85% Minimum Pol",
     packImg: "/assets/monagrow-sugar-bag-cutout.png",
     bowlImg: "/assets/hero-center-sugar.png",
-    bowlAlt: "Full ceramic bowl of sparkling cane sugar crystals",
-    packAlt: "Monagrow Pure Cane Sugar pouch",
+    bowlAlt: "Full ceramic bowl of sparkling sugar crystals",
+    packAlt: "Monagrow Pure Sugar pouch",
     retailSizes: ["1 kg Retail Pack", "5 kg Heavy-Duty Poly Pouch"],
     bulkSizes: ["25 kg Multi-Wall Paper Bags", "50 kg Woven PP with PE Inner Liner", "1 MT Jumbo Sling Bags"],
     specs: [
@@ -449,18 +449,18 @@ export const SUGAR_ADDITIONAL_PRODUCTS: CommodityProduct[] = [
   {
     id: "natural-brown-sugar",
     categoryKey: "sugar",
-    category: "Refined Cane",
-    name: "Natural Brown Cane Sugar",
+    category: "Refined Sugar",
+    name: "Brown Sugar",
     kicker: "100% Natural · Unrefined Minerals · Pure & Wholesome",
-    quoteName: "Natural Brown Sugar",
-    tagline: "Naturally Retained Molasses & Rich Golden Aroma",
+    quoteName: "Brown Sugar",
+    tagline: "Rich molasses flavour for baking.",
     description:
-      "Naturally derived from premium freshly harvested sugarcane, Monagrow Natural Brown Sugar retains its wholesome golden molasses goodness, deep aromatic sweetness, and vital trace minerals. Free from artificial bleaching, chemical additives, or preservatives—crafted for coffee, tea, artisan baking, and premium hospitality tables.",
+      "Naturally derived from premium freshly harvested sugarcane, Monagrow Brown Sugar retains its wholesome golden molasses goodness, deep aromatic sweetness, and vital trace minerals. Free from artificial bleaching, chemical additives, or preservatives—crafted for coffee, tea, artisan baking, and premium hospitality tables.",
     originBadge: "100% Natural Cane · Retained Molasses Minerals",
     packImg: "/assets/monagrow-brown-sugar-box-cutout.png",
     bowlImg: "/assets/hero-center-brown-sugar.png",
     bowlAlt: "Wooden bowl of golden amber natural brown sugar crystals",
-    packAlt: "Monagrow Natural Brown Sugar 350g Retail Dispenser Box",
+    packAlt: "Monagrow Brown Sugar 350g Retail Dispenser Box",
     retailSizes: ["350g Sachet Dispenser Box", "1 kg Standup Zipper Pouch"],
     bulkSizes: ["25 kg Multi-Wall Kraft Paper Bags", "50 kg Woven PP with Food-Grade Inner Liner", "Palletized Export Loads"],
     specs: [

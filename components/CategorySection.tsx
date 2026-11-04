@@ -16,7 +16,7 @@ const PRODUCTS = [
   { id: "rice", name: "Basmati rice", quote: "Basmati Rice (1121 Supreme)", image: "rice", pack: "monagrow-rice-bag-cutout.png", size: "5 kg", label: "EXTRA LONG GRAIN", description: "Long, beautifully separate grains with a delicate aroma. A staple, made extraordinary.", specs: [["Grain length", "8.9 mm+"], ["Moisture", "Under 11.5%"], ["Purity", "100% Sortex"]] },
   { id: "coffee", name: "Estate coffee", quote: "Specialty Estate Coffee", image: "coffee", pack: "monagrow-coffee-bag-cutout.png", size: "2.5 kg", label: "DARK ROAST ARABICA", description: "Deeply aromatic estate coffee with notes of dark cocoa, roasted pecan, and caramel.", specs: [["Roast", "Artisan dark"], ["Elevation", "1,450 m+"], ["Format", "Whole bean & ground"]] },
   { id: "dryfruits", name: "Royal dry fruits", quote: "Royal Mixed Dry Fruits", image: "dryfruit", pack: "monagrow-dryfruits-packaging.png", size: "2.5 kg", label: "WHOLE & SELECTED MIX", description: "Curated premium blend of golden cashews, California almonds, rich walnuts, and crunchy pistachios.", specs: [["Blend", "4-in-1 Royal mix"], ["Moisture", "Under 4.5%"], ["Packaging", "Nitrogen flushed"]] },
-  { id: "sugar", name: "Pure cane sugar", quote: "Refined Cane Sugar (ICUMSA 45)", image: "sugar", pack: "monagrow-sugar-bag-cutout.png", size: "1 kg", label: "REFINED CANE", description: "Fine, sparkling crystals with clean sweetness. Made for kitchens, confectionery, and more.", specs: [["Grade", "ICUMSA 45"], ["Polarization", "99.85%"], ["Source", "Refined sugarcane"]] },
+  { id: "sugar", name: "Sugar", quote: "Refined Sugar (ICUMSA 45)", image: "sugar", pack: "monagrow-sugar-bag-cutout.png", size: "1 kg", label: "REFINED SUGAR", description: "Fine, sparkling crystals with clean sweetness. Made for kitchens, confectionery, and more.", specs: [["Grade", "ICUMSA 45"], ["Polarization", "99.85%"], ["Source", "Refined sugarcane"]] },
 ];
 
 export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: CategorySectionProps) {
@@ -88,7 +88,7 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
           <h2 id="collection-title">FIVE STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
         </header>
         <div className={styles.intro}>
-          <p>Good food starts with good ingredients. Explore our collection of Basmati rice, estate coffee, royal dry fruits, and pure cane sugar—packed at origin, ready for your business.</p>
+          <p>Good food starts with good ingredients. Explore our collection of Basmati rice, estate coffee, royal dry fruits, and sugar—packed at origin, ready for your business.</p>
         </div>
         <div className={styles.railWindow}>
           <div ref={track} className={styles.track}>

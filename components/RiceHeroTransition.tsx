@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 interface RiceHeroTransitionProps {
+  packSrc?: string;
   heroPackId?: string;
   targetPackId?: string;
   targetBowlId?: string;
@@ -11,6 +12,7 @@ interface RiceHeroTransitionProps {
 }
 
 export default function RiceHeroTransition({
+  packSrc = "/assets/monagrow-rice-bag-cutout.png",
   heroPackId = "rice-hero-pack",
   targetPackId = "rice-target-pack",
   targetBowlId = "rice-target-bowl",
@@ -122,7 +124,7 @@ export default function RiceHeroTransition({
       aria-hidden="true"
     >
       <Image
-        src="/assets/monagrow-rice-bag-cutout.png"
+        src={packSrc}
         alt=""
         fill
         className="object-contain"

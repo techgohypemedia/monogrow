@@ -419,7 +419,7 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
                         Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world.
                       </p>
                       <p className={styles.narrativeParagraph}>
-                        We specialize in direct origin procurement across Basmati rice, estate coffee, cane sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
+                        We specialize in direct origin procurement across Basmati rice, estate coffee, sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
                       </p>
                     </div>
                   </div>
@@ -528,7 +528,7 @@ export default function AboutMonagrow({ onOpenQuoteModal }: AboutMonagrowProps =
                       Monagrow is an agricultural commodity wholesaler and exporter connecting origin mills and growers with businesses around the world.
                     </p>
                     <p className={styles.narrativeParagraph}>
-                      We specialize in direct origin procurement across Basmati rice, estate coffee, cane sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
+                      We specialize in direct origin procurement across Basmati rice, estate coffee, sugar and royal dry fruits—ensuring consistency, transparent specifications, and dedicated trade support.
                     </p>
                   </div>
                 </div>

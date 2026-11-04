@@ -1,21 +1,19 @@
 import React from "react";
 import { Metadata } from "next";
-import CommodityCategoryTemplate from "@/components/CommodityCategoryTemplate";
+import PremiumCommodityPage from "@/components/PremiumCommodityPage";
 import {
-  COMMODITY_CATEGORIES,
   getProductsByCategory,
 } from "@/data/commodityData";
 
 export const metadata: Metadata = {
-  title: "Monagrow Dry Fruits | Royal Jumbo Whole Dryfruits W240",
+  title: "Monagrow Dry Fruits | Nuts, Varieties & Everyday Inspiration",
   description:
-    "Monagrow Royal Jumbo Whole Dryfruits W240. First quality white grade, crisp buttery crunch, nitrogen flushed for export freshness across worldwide container routes.",
+    "Explore Monagrow dry fruits, compare nuts and dried fruit, find preparation ideas and estimate portion nutrition with our simple serving calculator.",
 };
 
 export default function DryFruitsPage() {
-  const category = COMMODITY_CATEGORIES["dry-fruits"];
   const products = getProductsByCategory("dry-fruits");
 
-  return <CommodityCategoryTemplate category={category} products={products} />;
+  return <PremiumCommodityPage category="dry-fruits" products={products} />;
 }
 

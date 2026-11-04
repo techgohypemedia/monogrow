@@ -17,7 +17,7 @@ const stages = [
   },
   {
     name: "Selection", title: "Carefully selected. Never left to chance.",
-    copy: "Long-grain Basmati, estate Arabica, refined cane sugar and handpicked cashews. Each commodity is selected to its own specification, with attention to the details that matter to your business.",
+    copy: "Long-grain Basmati, estate Arabica, refined sugar and handpicked cashews. Each commodity is selected to its own specification, with attention to the details that matter to your business.",
     tags: ["Basmati & Arabica", "Sugar & cashews", "Lot specifications"],
     image: "/assets/why-grain-inspector.jpg", alt: "A quality specialist examining grain samples beside trays and jars of commodities",
   },

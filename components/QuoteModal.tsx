@@ -15,7 +15,7 @@ const COMMODITIES = [
   "Jeera Masino Rice",
   "Premium Basmati Brown Rice",
   "Specialty Estate Coffee",
-  "Refined Cane Sugar (ICUMSA 45)",
+  "Refined Sugar (ICUMSA 45)",
   "Natural Brown Sugar",
   "Royal Mixed Dry Fruits",
   "All Wholesale Commodities",

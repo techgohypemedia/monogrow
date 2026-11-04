@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import { loadHeroMotion } from "./heroMotion";
 import styles from "./Hero.module.css";
@@ -8,14 +8,14 @@ import styles from "./Hero.module.css";
 interface HeroProps {
   onOpenVideoModal?: () => void;
   onOpenQuoteModal: (productName?: string) => void;
-  filterProduct?: "rice";
+  filterProduct?: "rice" | "coffee" | "sugar" | "dry-fruits";
 }
 
 const PRODUCTS = [
-  { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#a6c8d3", glow: "#448a9e", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain · Premium basmati", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
-  { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#aa633c", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark Arabica · Whole bean & ground", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
-  { name: "Royal Dry Fruits", short: "Dry Fruits", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-dryfruits-packaging.png", colour: "#dab2ed", glow: "#89439f", note: "WHOLE & SELECTED MIX", description: "A royal harvest of selected cashews, California almonds, rich walnuts, and crunchy pistachios.", detail: "Cashews · Almonds · Walnuts · Pistachios", size: "2.5 kg", ingredient: "dryfruit", atlas: "0% 100%" },
-  { name: "Refined Cane Sugar", short: "Sugar", title: ["Pure cane.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#7e994c", note: "REFINED CANE · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined cane sugar, ready for everything you create.", detail: "ICUMSA 45 · Refined cane", size: "1 kg", ingredient: "sugar", atlas: "100% 100%" },
+  { name: "Basmati Rice", short: "Rice", title: ["Every grain.", "Exceptional."], image: "/assets/monagrow-rice-bag-cutout.png", colour: "#b9cdef", glow: "#315a9c", note: "EXTRA LONG GRAIN", description: "A delicate aroma. An extraordinary length. Basmati that makes every meal worth remembering.", detail: "Extra-long grain", size: "5 kg", ingredient: "rice", atlas: "0% 0%" },
+  { name: "Estate Coffee", short: "Coffee", title: ["Deep roots.", "Deeper flavour."], image: "/assets/monagrow-coffee-bag-cutout.png", colour: "#e7ad76", glow: "#aa633c", note: "SPECIALTY ESTATE COFFEE", description: "Rich, aromatic Arabica. Carefully sourced from the estate, for a cup with a character all its own.", detail: "Dark roast Arabica", size: "2.5 kg", ingredient: "coffee", atlas: "100% 0%" },
+  { name: "Royal Dry Fruits", short: "Dry Fruits", title: ["Naturally rich.", "Royally good."], image: "/assets/monagrow-dryfruits-packaging.png", colour: "#e5c5f0", glow: "#78328d", note: "WHOLE & SELECTED MIX", description: "A royal harvest of selected cashews, California almonds, rich walnuts, and crunchy pistachios.", detail: "Four-nut mix", size: "2.5 kg", ingredient: "dryfruit", atlas: "0% 100%" },
+  { name: "Sugar", short: "Sugar", title: ["Pure sweetness.", "Sweet simplicity."], image: "/assets/monagrow-sugar-bag-cutout.png", colour: "#d1db94", glow: "#7e994c", note: "REFINED SUGAR · ICUMSA 45", description: "Sparkling crystals. Consistent purity. Refined sugar, ready for everything you create.", detail: "ICUMSA 45", size: "1 kg", ingredient: "sugar", atlas: "100% 100%" },
 ];
 
 const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
@@ -23,8 +23,8 @@ const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
   rotation: (i * 67) % 360, size: i % 9 === 0 ? 74 : 12 + (i % 5) * 7,
   depth: i % 3,
 }));
-const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Mixed Dry Fruits", "Refined Cane Sugar (ICUMSA 45)"];
-const BACKGROUNDS = ["#306778", "#754832", "#5d376f", "#516b3b"];
+const QUOTE_NAMES = ["Basmati Rice (1121 Supreme)", "Specialty Estate Coffee", "Royal Mixed Dry Fruits", "Refined Sugar (ICUMSA 45)"];
+const BACKGROUNDS = ["#142e61", "#754832", "#3e164f", "#516b3b"];
 function blendColour(from: string, to: string, progress: number) {
   const channels = [1, 3, 5].map(offset => {
     const start = parseInt(from.slice(offset, offset + 2), 16);
@@ -37,10 +37,11 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
 
-  const isRiceOnly = filterProduct === "rice";
-  const activeProducts = isRiceOnly ? [PRODUCTS[0]] : PRODUCTS;
-  const activeBackgrounds = isRiceOnly ? [BACKGROUNDS[0]] : BACKGROUNDS;
-  const activeQuoteNames = isRiceOnly ? [QUOTE_NAMES[0]] : QUOTE_NAMES;
+  const isSingleProduct = Boolean(filterProduct);
+  const productIndex = filterProduct ? { rice: 0, coffee: 1, "dry-fruits": 2, sugar: 3 }[filterProduct] : 0;
+  const activeProducts = useMemo(() => isSingleProduct ? [PRODUCTS[productIndex]] : PRODUCTS, [isSingleProduct, productIndex]);
+  const activeBackgrounds = useMemo(() => isSingleProduct ? [BACKGROUNDS[productIndex]] : BACKGROUNDS, [isSingleProduct, productIndex]);
+  const activeQuoteNames = isSingleProduct ? [QUOTE_NAMES[productIndex]] : QUOTE_NAMES;
 
   useEffect(() => {
     const firstScene = stage.current?.querySelector<HTMLElement>("[data-scene]");
@@ -92,7 +93,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
         section.dataset.enhanced = "true";
         const driver = { value: 0 };
         const paint = () => {
-          if (isRiceOnly) {
+          if (isSingleProduct) {
             viewport.style.setProperty("--glow", activeProducts[0].glow);
             viewport.style.setProperty("--backdrop", activeBackgrounds[0]);
             viewport.style.setProperty("--accent", activeProducts[0].colour);
@@ -144,14 +145,14 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
         };
         paint();
         const tween = gsap.to(driver, {
-          value: isRiceOnly ? 1 : 3,
+          value: isSingleProduct ? 1 : 3,
           ease: "none",
           onUpdate: paint,
           scrollTrigger: {
             trigger: section,
-            pin: isRiceOnly ? false : viewport,
+            pin: isSingleProduct ? false : viewport,
             start: "top top",
-            end: () => isRiceOnly ? "bottom top" : `+=${viewport.clientHeight * 3.3}`,
+            end: () => isSingleProduct ? "bottom top" : `+=${viewport.clientHeight * 3.3}`,
             scrub: .8,
             invalidateOnRefresh: true,
           },
@@ -182,10 +183,10 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
       dispose = () => media.revert();
     }).catch(() => { /* The fully visible static scenes are the fallback. */ });
     return () => { cancelled = true; dispose?.(); };
-  }, []);
+  }, [activeProducts, activeBackgrounds, isSingleProduct]);
 
   return (
-    <section id="home" ref={root} className={styles.hero} aria-label="Discover Monagrow commodities">
+    <section id="home" ref={root} className={styles.hero} style={{ "--glow": activeProducts[0].glow, "--backdrop": activeBackgrounds[0], "--accent": activeProducts[0].colour, background: activeBackgrounds[0] } as CSSProperties} aria-label="Discover Monagrow commodities">
       <svg className={styles.definitions} aria-hidden="true"><defs>
         <radialGradient id="mg-bean" cx="32%" cy="25%"><stop stopColor="#b6814d"/><stop offset=".45" stopColor="#6b351c"/><stop offset="1" stopColor="#261107"/></radialGradient>
         <linearGradient id="mg-grain" x2="1" y2="1"><stop stopColor="#fff7d9"/><stop offset="1" stopColor="#c9ad79"/></linearGradient>
@@ -197,8 +198,7 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
       </defs></svg>
       <div ref={stage} className={styles.stage}>
         <div className={styles.grain} aria-hidden="true" />
-        <div className={styles.topline}><span>ROOTED IN INDIA. SHARED WITH THE WORLD.</span><span>THE MONAGROW COLLECTION</span></div>
-        <h1 className="sr-only">Monagrow — the taste of purity</h1>
+        <h1 className="sr-only">{filterProduct ? `Monagrow ${activeProducts[0].name}` : "Monagrow — the taste of purity"}</h1>
         {activeProducts.map((product, index) => (
           <article id={`hero-product-${index}`} key={product.name} data-scene className={styles.scene} style={{ "--scene-accent": product.colour, "--scene-glow": product.glow, "--scene-backdrop": activeBackgrounds[index] } as CSSProperties} aria-label={product.name}>
             <div className={styles.atmosphere} aria-hidden="true" />
@@ -222,21 +222,20 @@ export default function Hero({ onOpenQuoteModal, filterProduct }: HeroProps) {
             </div>
             <div className={`${styles.ingredientCluster} ${styles.clusterLeft}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
             <div className={`${styles.ingredientCluster} ${styles.clusterRight}`} style={{ backgroundPosition: product.atlas }} aria-hidden="true"/>
-            <button id={isRiceOnly ? "rice-hero-pack" : undefined} data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(activeQuoteNames[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
+            <button id={filterProduct ? `${filterProduct}-hero-pack` : undefined} data-side className={styles.sidePack} onClick={() => onOpenQuoteModal(activeQuoteNames[index])} aria-label={`Get a quote for Monagrow ${product.name}`}><span className={styles.packEntrance}><Image src={product.image} alt={`Monagrow ${product.name}, ${product.size} pack`} fill sizes="(max-width: 767px) 30vw, 21vw" preload={index === 0} className={styles.packImage}/></span></button>
             <div className={styles.productInfo}>
-              <p className={styles.eyebrow}>{product.note}</p>
               <h3>{product.name}</h3>
               <p>{product.detail}</p>
-              <span className={styles.weight}>{product.size} <span>PACKED AT ORIGIN</span></span>
+              <span className={styles.weight}>{product.size}</span>
               <button onClick={() => {
-                if (isRiceOnly) {
-                  document.getElementById("basmati-rice")?.scrollIntoView({ behavior: "smooth" });
+                if (isSingleProduct) {
+                  document.getElementById(filterProduct === "rice" ? "basmati-rice" : "category-collection")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
                 } else {
                   onOpenQuoteModal(activeQuoteNames[index]);
                 }
-              }}>Explore this product</button>
+              }}>Explore product ↗</button>
             </div>
-            <span className={styles.sceneNumber} aria-hidden="true">{isRiceOnly ? "01 / 01" : `0${index + 1} / 04`}</span>
+            <span className={styles.sceneNumber} aria-hidden="true">{isSingleProduct ? "01 / 01" : `0${index + 1} / 04`}</span>
           </article>
         ))}
       </div>

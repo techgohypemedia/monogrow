@@ -5,7 +5,7 @@ import { loadHeroMotion } from "./heroMotion";
 import styles from "./ProductMarquee.module.css";
 
 const ROWS = [
-  ["Basmati rice", "Katarni rice", "Estate coffee", "Royal cashews", "Pure cane sugar"],
+  ["Basmati rice", "Katarni rice", "Estate coffee", "Royal cashews", "Sugar"],
   ["Grown with care", "Packed at origin", "Shared with the world"],
 ];
 
@@ -49,7 +49,7 @@ export default function ProductMarquee() {
 
   return (
     <section ref={root} className={styles.section} aria-label="The Monagrow collection">
-      <p className="sr-only">Basmati rice, estate coffee, royal cashews, and pure cane sugar. Grown with care. Packed at origin. Shared with the world.</p>
+      <p className="sr-only">Basmati rice, estate coffee, royal cashews, and sugar. Grown with care. Packed at origin. Shared with the world.</p>
       {ROWS.map((words, row) => (
         <div key={row} className={`${styles.track} ${row === 1 ? styles.outline : ""}`} aria-hidden="true">
           {[0, 1].map(copy => (
