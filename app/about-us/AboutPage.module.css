@@ -2,13 +2,13 @@
 .journeyInner { max-width:1280px; margin:auto; padding:0 40px; }
 .journeyHeading { display:flex; align-items:flex-end; justify-content:space-between; gap:40px; margin-bottom:40px; }
 .journeyHeading h2 { font-size:clamp(38px,4.7vw,66px); letter-spacing:-.06em; font-weight:600; line-height:1.06; }
-.journeyHeading h2 span { color:#800020; }
+.journeyHeading h2 span { color:#740707; }
 .journeyHeading>p { max-width:330px; font-size:14px; line-height:1.9; color:#77786f; padding-bottom:5px; }
 .originFeature { position:relative; padding-bottom:55px; margin-bottom:15px; }
 .originVisual { position:relative; height:470px; border-radius:18px; overflow:hidden; }
 .originVisual img { object-fit:cover; object-position:center 55%; }
 .originStory { position:relative; margin:-120px 32px 0 auto; padding:32px 36px; max-width:440px; background:#fcfbf7; border-radius:12px; box-shadow:0 12px 35px #252b2010; }
-.storyLabel { display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#800020; font-weight:600; margin-bottom:15px; }
+.storyLabel { display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#740707; font-weight:600; margin-bottom:15px; }
 .originStory h3,.storyCopy h3 { font-size:28px; letter-spacing:-.04em; line-height:1.15; font-weight:600; }
 .originStory p,.storyCopy p { color:#74766b; font-size:13px; line-height:1.85; margin-top:13px; }
 .storyGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; }

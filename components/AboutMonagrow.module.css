@@ -9,8 +9,8 @@
   --ink: #231815;
   --ink-soft: #4a3c34;
   --muted: #6e6157;
-  --accent: #800020;
-  --accent-light: #fae8eb;
+  --accent: #740707;
+  --accent-light: #faeded;
   --gold: #c89d3c;
   --border-subtle: rgba(220, 208, 195, 0.7);
   --border-soft: rgba(220, 208, 195, 0.45);
@@ -144,7 +144,7 @@
   justify-content: center;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(128, 0, 32, 0.2) transparent;
+  scrollbar-color: rgba(116, 7, 7, 0.2) transparent;
   user-select: text;
   border: 1px solid var(--border-subtle);
   box-shadow: inset 0 0 35px rgba(220, 208, 195, 0.22);
@@ -154,7 +154,7 @@
   width: 4px;
 }
 .page::-webkit-scrollbar-thumb {
-  background: rgba(128, 0, 32, 0.2);
+  background: rgba(116, 7, 7, 0.2);
   border-radius: 4px;
 }
 
@@ -489,7 +489,7 @@
 }
 
 .moreAboutLink:hover {
-  color: #550015;
+  color: #4d0505;
   gap: 10px;
 }
 

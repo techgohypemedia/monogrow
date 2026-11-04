@@ -82,7 +82,7 @@ export default function WholesaleCalculator({ onOpenQuoteModal }: { onOpenQuoteM
     if (!popup) { setExportError("Allow pop-ups to open the printable estimate, then choose Save as PDF."); return; }
     setExportError(""); popup.opener = null; popup.document.title = "Monagrow trade estimate";
     const style = popup.document.createElement("style");
-    style.textContent = "body{padding:40px;color:#30241e;font-family:Arial,sans-serif}h1{color:#800020;font-size:26px}pre{white-space:pre-wrap;font:14px/1.7 Arial,sans-serif}button{padding:12px 20px;margin-bottom:24px;cursor:pointer}@media print{button{display:none}body{padding:0}}";
+    style.textContent = "body{padding:40px;color:#30241e;font-family:Arial,sans-serif}h1{color:#740707;font-size:26px}pre{white-space:pre-wrap;font:14px/1.7 Arial,sans-serif}button{padding:12px 20px;margin-bottom:24px;cursor:pointer}@media print{button{display:none}body{padding:0}}";
     popup.document.head.append(style);
     const title = popup.document.createElement("h1"); title.textContent = "Your trade estimate";
     const content = popup.document.createElement("pre"); content.textContent = summary;

@@ -16,7 +16,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f6efe6] selection:bg-[#800020] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#f6efe6] selection:bg-[#740707] selection:text-white">
       {/* 1. Global Navigation */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} immersiveHero={false} />
 

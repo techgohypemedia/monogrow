@@ -318,6 +318,35 @@ export const PRODUCTS: CommodityProduct[] = [
 
 export const RICE_ADDITIONAL_PRODUCTS: CommodityProduct[] = [
   {
+    id: "sella-basmati-rice",
+    categoryKey: "rice",
+    category: "Grains & Rice",
+    name: "1121 Golden Sella Basmati Rice",
+    kicker: "Parboiled Extra Long Grain · Superior Elongation",
+    quoteName: "1121 Golden Sella Basmati Rice",
+    tagline: "Parboiled Extra Long Grains · High Elongation & Perfect for Biryani",
+    description:
+      "Parboiled with advanced steam infusion to lock in grain nutrients and minerals. Engineered for maximum cooked elongation without grain breakage, making it the premier choice for banquets, catering, and authentic dum biryani.",
+    originBadge: "Parboiled · 100% Optical Clean",
+    packImg: "/assets/monagrow-golden-sella-bag-cutout.png",
+    bowlImg: "/assets/hero-center-rice.png",
+    bowlAlt: "Full ceramic bowl of cooked Golden Sella Basmati rice",
+    packAlt: "Monagrow 1121 Golden Sella Basmati Rice Pack",
+    retailSizes: ["1 kg Retail Box Pouch", "5 kg Standup Box Bag with Handle"],
+    bulkSizes: ["25 kg Moisture-Barrier Bags", "50 kg Woven PP Sacks", "20ft FCL Direct Container Lots"],
+    specs: [
+      { label: "Grain Length", value: "8.5 mm+ Milled" },
+      { label: "Cooked Length", value: "Over 2.2x Elongation" },
+      { label: "Processing", value: "Parboiled Golden Steam" },
+      { label: "Purity Index", value: "100% Sortex Clean" },
+    ],
+    keyHighlights: [
+      "Steam-infusion hardening ensures grains stay separate and intact during vigorous stirring",
+      "Superior plate yield with fluffy, non-sticky presentation for restaurants and hospitality",
+      "SGS certified export grade with guaranteed low broken kernel percentage",
+    ],
+  },
+  {
     id: "jeera-masino-rice",
     categoryKey: "rice",
     category: "Grains & Rice",
@@ -375,6 +404,36 @@ export const RICE_ADDITIONAL_PRODUCTS: CommodityProduct[] = [
       "Hermetically sealed in 5kg oxygen-barrier box bags with built-in handle for lasting freshness",
     ],
   },
+  {
+    id: "traditional-basmati-rice",
+    categoryKey: "rice",
+    category: "Grains & Rice",
+    name: "Royal Reserve Traditional Basmati",
+    kicker: "Heritage Himalayan Harvest · Aged 2 Full Years",
+    quoteName: "Royal Reserve Traditional Basmati Rice",
+    tagline: "Heritage Himalayan Harvest · Aged 2 Years for Silky Texture & Exquisite Aroma",
+    description:
+      "Harvested from the foothills of the Himalayas and aged naturally for up to two full harvest cycles. Celebrated for its slender needle-like kernel, exquisite floral aroma, and delicate sweet flavour profile.",
+    originBadge: "Himalayan Reserve · 2 Years Aged",
+    packImg: "/assets/monagrow-traditional-basmati-bag-cutout.png",
+    bowlImg: "/assets/hero-center-rice.png",
+    bowlAlt: "Full ceramic bowl of Royal Reserve Traditional Basmati rice",
+    packAlt: "Monagrow Royal Reserve Traditional Basmati Rice Pack",
+    retailSizes: ["1 kg Vacuum Box Pouch", "5 kg Standup Bag with Handle"],
+    bulkSizes: ["10 kg Jute Bag with Handle", "25 kg / 50 kg Moisture Poly Sacks", "Custom Palletized Lots"],
+    specs: [
+      { label: "Aging Method", value: "2 Full Years Natural Aging" },
+      { label: "Aroma Profile", value: "Intense Floral Basmati" },
+      { label: "Grain Structure", value: "Slender Pearl Kernel" },
+      { label: "Purity Grade", value: "100% Sortex Pure" },
+    ],
+    keyHighlights: [
+      "Authentic non-GMO traditional Basmati lineage preserving deep culinary heritage",
+      "Long natural aging reduces moisture content to optimal levels for effortless cooking",
+      "Double-polished to eliminate surface bran dust while keeping kernel integrity pristine",
+    ],
+  },
+
 ];
 
 export const RICE_PAGE_PRODUCTS: CommodityProduct[] = [

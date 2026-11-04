@@ -27,7 +27,7 @@
 .action { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
 .action > span { font-size: 22px; line-height: 1; font-weight: 600; }
 .action small { display: block; font-size: 7px; font-weight: 400; letter-spacing: .15em; color: #cdaaa3; margin-top: 6px; }
-.action button, .action a { display: inline-flex; align-items: center; justify-content: center; gap: 15px; border: 0; border-radius: 100px; padding: 12px 17px; background: #f7efe1; color: #800020; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+.action button, .action a { display: inline-flex; align-items: center; justify-content: center; gap: 15px; border: 0; border-radius: 100px; padding: 12px 17px; background: #f7efe1; color: #740707; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
 .action button:hover, .action a:hover { background: #e9cfaa; transform: translateY(-2px); }
 .action button:focus-visible, .action a:focus-visible { outline: 2px solid #f7efe1; outline-offset: 5px; }
 .progress { display: none; }
@@ -109,7 +109,7 @@
 
 .seeAllCard:hover .seeAllIcon {
   background: #f7efe1;
-  color: #800020;
+  color: #740707;
   transform: scale(1.1) translate(2px, -2px);
 }
 

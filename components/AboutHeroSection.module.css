@@ -2,21 +2,21 @@
 .hero { --scroll:0; padding:145px 5vw 0; overflow:visible; background:transparent; }
 .heroTop,.heroBottom { display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .eyebrow,.issue,.heroBottom { font-size:10px; font-weight:700; letter-spacing:.17em; }
-.eyebrow { color:#800020; }
+.eyebrow { color:#740707; }
 .issue { color:#5a6555; }
 .heading { margin:35px 0 48px; display:grid; grid-template-columns:1fr 260px; gap:40px; align-items:end; }
 .heading h1 { font-size:clamp(44px,6.3vw,105px); line-height:1.04; letter-spacing:-.065em; font-weight:650; }
-.heading h1 span { color:#800020; }
+.heading h1 span { color:#740707; }
 .intro p { font-size:14px; line-height:1.8; color:#58604f; }
 .storyLink { display:inline-flex; align-items:center; gap:20px; font-size:12px; font-weight:700; margin-top:22px; border-bottom:1px solid #89917e; padding-bottom:9px; }
 .foundation { scroll-margin-top:100px; }
 .sourceIntro { display:grid; grid-template-columns:1fr 1fr; gap:25px 9%; max-width:1280px; margin:auto; padding:110px 40px 85px; }
 .sourceIntro>.eyebrow { grid-column:1/-1; }
 .sourceIntro h2 { font-size:clamp(32px,3.7vw,54px); letter-spacing:-.05em; line-height:1.12; font-weight:600; }
-.sourceIntro em { color:#800020; font-weight:400; }
+.sourceIntro em { color:#740707; font-weight:400; }
 .sourceIntro>p { align-self:end; color:#6b6c60; font-size:15px; line-height:1.9; max-width:440px; }
 .content { max-width:1280px; padding:0 40px 90px; margin:auto; }
-.about a:focus-visible,.about button:focus-visible { outline:3px solid #800020; outline-offset:6px; }
+.about a:focus-visible,.about button:focus-visible { outline:3px solid #740707; outline-offset:6px; }
 .scrollTrack { position:relative; }
 .scrollTrack[data-enhanced="true"] { height:300svh; }
 .stickyShowcase { position:relative; top:0; }
@@ -57,15 +57,15 @@
 .approachHeader { padding-top:16px; }
 .approachHeader>.eyebrow { display:block; margin-bottom:24px; }
 .approachHeader h2 { font-size:clamp(34px,3.5vw,50px); line-height:1.12; letter-spacing:-.05em; font-weight:600; }
-.approachHeader em { color:#800020; font-style:normal; font-weight:500; }
+.approachHeader em { color:#740707; font-style:normal; font-weight:500; }
 .approachHeader p { color:#77786f; font-size:13px; line-height:1.8; max-width:230px; margin-top:22px; }
 .processSteps { list-style:none; padding:0; margin:0; }
 .processStep { position:relative; display:grid; grid-template-columns:35px 1fr 32px; column-gap:20px; padding:23px 0; border-top:1px solid #deded6; transform:translateY(var(--step-offset,0px)); }
 .processStep:last-child { border-bottom:1px solid #deded6; }
-.processStep::before { content:""; position:absolute; top:-1px; left:0; right:0; height:1px; background:#800020; transform:scaleX(var(--step-progress,0)); transform-origin:left; }
+.processStep::before { content:""; position:absolute; top:-1px; left:0; right:0; height:1px; background:#740707; transform:scaleX(var(--step-progress,0)); transform-origin:left; }
 .stepNumber { grid-column:1; grid-row:1/3; color:#96978d; font-size:11px; padding-top:7px; font-variant-numeric:tabular-nums; }
 .stepMarker { grid-column:3; grid-row:1/3; color:#999b90; align-self:center; transition:color .25s; }
-.processStep[data-active="true"] .stepMarker { color:#800020; }
+.processStep[data-active="true"] .stepMarker { color:#740707; }
 .processStep h3 { grid-column:2; grid-row:1; font-size:24px; line-height:1.25; letter-spacing:-.035em; font-weight:500; }
 .processStep p { grid-column:2; grid-row:2; color:#74766b; font-size:12px; line-height:1.7; margin-top:7px; }
 @media(max-width:800px) {
@@ -83,7 +83,7 @@
 /* Minimal product banners, synchronized with the scroll-driven pack. */
 .scene { grid-template-columns:1fr 1fr; gap:30px; padding:30px clamp(20px,5vw,85px); border-top:1px solid #e3e2db; border-bottom:1px solid #e3e2db; }
 .bannerCopy { max-width:470px; justify-self:start; }
-.bannerLabel { color:#800020; font-size:10px; letter-spacing:.17em; font-weight:600; }
+.bannerLabel { color:#740707; font-size:10px; letter-spacing:.17em; font-weight:600; }
 .bannerCopy h2 { font-size:clamp(38px,5vw,76px); letter-spacing:-.055em; line-height:1.05; font-weight:600; margin:22px 0; }
 .bannerCopy>p { max-width:360px; font-size:15px; line-height:1.8; color:#77786f; }
 .bannerCopy ul { display:flex; flex-wrap:wrap; gap:10px 18px; list-style:none; padding:22px 0 0; margin-top:28px; border-top:1px solid #deded6; }
@@ -131,14 +131,14 @@
 .processImage figcaption { position:absolute; bottom:20px; left:22px; z-index:1; color:white; font-size:12px; letter-spacing:.06em; }
 .processSteps { position:relative; }
 .processSteps::before,.processSteps::after { content:""; position:absolute; left:15px; top:30px; bottom:calc(30svh - 30px); width:2px; background:#e1e1d8; }
-.processSteps::after { background:#800020; transform:scaleY(var(--process-progress,0)); transform-origin:top; }
+.processSteps::after { background:#740707; transform:scaleY(var(--process-progress,0)); transform-origin:top; }
 .processStep { border:0; min-height:30svh; padding:18px 0 30px 60px; display:block; transform:none; }
 .processStep:last-child { border:0; }
 .processStep::before { display:none; }
 .stepNumber { display:block; padding:0; font-size:10px; margin-bottom:10px; }
 .stepMarker { position:absolute; left:0; top:14px; width:32px; height:32px; display:grid; place-items:center; background:#fcfbf7; border:1px solid #d9dace; border-radius:50%; z-index:2; }
 .stepMarker svg { width:16px; height:16px; }
-.processStep[data-active="true"] .stepMarker { background:#800020; border-color:#800020; color:white; }
+.processStep[data-active="true"] .stepMarker { background:#740707; border-color:#740707; color:white; }
 .processStep h3 { font-size:30px; }
 .processStep p { max-width:300px; font-size:13px; }
 .mobileProcessImage { display:none; }
@@ -163,8 +163,8 @@
 .quoteStrip { display:flex; justify-content:space-between; align-items:center; gap:30px; padding:32px 0; border-top:1px solid #deded6; border-bottom:1px solid #deded6; }
 .quoteStrip h2 { font-size:clamp(23px,2.5vw,34px); letter-spacing:-.04em; line-height:1.2; font-weight:600; }
 .quoteStrip p { font-size:13px; color:#74766b; margin-top:10px; }
-.quoteStrip button { display:inline-flex; align-items:center; gap:25px; padding:16px 24px; background:#800020; color:white; border-radius:30px; font-size:13px; font-weight:600; cursor:pointer; flex-shrink:0; transition:background .2s; }
-.quoteStrip button:hover { background:#650019; }
+.quoteStrip button { display:inline-flex; align-items:center; gap:25px; padding:16px 24px; background:#740707; color:white; border-radius:30px; font-size:13px; font-weight:600; cursor:pointer; flex-shrink:0; transition:background .2s; }
+.quoteStrip button:hover { background:#5b0606; }
 @media(max-width:600px) {
  .approach { padding-top:45px; padding-bottom:40px; }
  .processStep { min-height:0; padding-bottom:30px; }
@@ -181,7 +181,7 @@
 .choiceImage { display:block; position:relative; width:100%; height:clamp(190px,25vw,350px); }
 .choiceImage img { object-fit:contain; filter:drop-shadow(0 12px 12px #00000014); }
 .choiceName { display:block; margin-top:20px; font-size:12px; font-weight:600; color:#585e52; padding-bottom:8px; border-bottom:2px solid transparent; }
-.productChoice[aria-pressed="true"] .choiceName { color:#800020; border-color:#800020; }
+.productChoice[aria-pressed="true"] .choiceName { color:#740707; border-color:#740707; }
 @media(max-width:600px) {
  .productShowcase { padding:28px 15px 20px; border-radius:18px; }
  .hoverDetails { min-height:155px; margin-bottom:8px; }
@@ -207,7 +207,7 @@
 .choiceImage { height:clamp(180px,23vw,320px); }
 .choiceName { margin-top:24px; }
 .productConnector { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
-.productConnector path { fill:none; stroke:#800020; stroke-width:1.3; stroke-linecap:round; }
+.productConnector path { fill:none; stroke:#740707; stroke-width:1.3; stroke-linecap:round; }
 @media(max-width:600px) {
  .productShowcase { padding:18px 4px 50px; }
  .hoverDetails { padding:18px; min-height:145px; margin-bottom:40px; }

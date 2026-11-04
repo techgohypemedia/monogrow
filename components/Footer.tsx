@@ -148,23 +148,23 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
     <footer
       ref={footerRef}
       id="contact"
-      className="relative w-full bg-[#800020] text-[#800020] px-3 sm:px-6 lg:pl-10 lg:pr-0 pt-4 sm:pt-6 lg:pt-14 pb-4 sm:pb-6 lg:pb-14 overflow-hidden select-none"
+      className="relative w-full bg-[#740707] text-[#740707] px-3 sm:px-6 lg:pl-10 lg:pr-0 pt-4 sm:pt-6 lg:pt-14 pb-4 sm:pb-6 lg:pb-14 overflow-hidden select-none"
     >
       {/* ========================================================
           SIGNATURE CURVED WHITE CARD ON MAROON BACKDROP
           Mobile: Arched dome top matching mobile reference screenshot.
           Desktop: Iconic deep sculptural stadium curve on the left.
           ======================================================== */}
-      <div className="relative w-full bg-white text-[#800020] rounded-t-[140px] sm:rounded-t-[200px] rounded-b-none lg:rounded-t-none lg:rounded-tl-[420px] lg:rounded-bl-[420px] xl:rounded-tl-[520px] xl:rounded-bl-[520px] lg:rounded-r-none overflow-hidden shadow-2xl pt-20 sm:pt-28 lg:pt-16 pb-4 sm:pb-6 lg:pb-10 px-6 sm:px-10 lg:pl-36 lg:pr-14 border-x border-t lg:border-x-0 lg:border-l lg:border-y border-[#800020]/15">
+      <div className="relative w-full bg-white text-[#740707] rounded-t-[140px] sm:rounded-t-[200px] rounded-b-none lg:rounded-t-none lg:rounded-tl-[420px] lg:rounded-bl-[420px] xl:rounded-tl-[520px] xl:rounded-bl-[520px] lg:rounded-r-none overflow-hidden shadow-2xl pt-20 sm:pt-28 lg:pt-16 pb-4 sm:pb-6 lg:pb-10 px-6 sm:px-10 lg:pl-36 lg:pr-14 border-x border-t lg:border-x-0 lg:border-l lg:border-y border-[#740707]/15">
         
         {/* Subtle interior lighting depth */}
         <div
           aria-hidden
-          className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#800020]/5 blur-3xl pointer-events-none"
+          className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#740707]/5 blur-3xl pointer-events-none"
         />
         <div
           aria-hidden
-          className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-[#800020]/5 blur-3xl pointer-events-none"
+          className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-[#740707]/5 blur-3xl pointer-events-none"
         />
 
         {/* ========================================================
@@ -195,28 +195,28 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               </div>
 
               {/* Official Brand Tagline in Maroon */}
-              <h2 className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#800020] tracking-tight leading-snug max-w-sm -mt-0.5 sm:-mt-1">
+              <h2 className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#740707] tracking-tight leading-snug max-w-sm -mt-0.5 sm:-mt-1">
                 The Taste of Purity
               </h2>
 
               {/* Copyright & accreditation */}
-              <p className="mt-3 sm:mt-5 text-xs sm:text-[13px] text-[#800020]/70 leading-relaxed font-normal">
+              <p className="mt-3 sm:mt-5 text-xs sm:text-[13px] text-[#740707]/70 leading-relaxed font-normal">
                 &copy; 2026 Monagrow Global / Direct Origin Agro Export &bull; ISO 22000 Certified
               </p>
             </div>
 
             {/* Direct Contact Snapshot */}
-            <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#800020]/15 space-y-2 text-xs text-[#800020]/80">
+            <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#740707]/15 space-y-2 text-xs text-[#740707]/80">
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#800020] shrink-0" />
-                <span className="font-semibold text-[#800020]">+977 1 4589200</span>
+                <Phone className="w-3.5 h-3.5 text-[#740707] shrink-0" />
+                <span className="font-semibold text-[#740707]">+977 1 4589200</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#800020] shrink-0" />
-                <span className="font-semibold text-[#800020]">info@monagrow.com</span>
+                <Mail className="w-3.5 h-3.5 text-[#740707] shrink-0" />
+                <span className="font-semibold text-[#740707]">info@monagrow.com</span>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#800020] shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#740707] shrink-0" />
                 <span>xxxxxx, Nepal (Port &amp; CFS Network)</span>
               </div>
             </div>
@@ -229,42 +229,42 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
             
             {/* Column 2: NAVIGATION */}
             <div className="lg:col-span-2 xl:col-span-2">
-              <h3 className="text-xs font-bold tracking-widest text-[#800020] uppercase mb-3.5 sm:mb-4">
+              <h3 className="text-xs font-bold tracking-widest text-[#740707] uppercase mb-3.5 sm:mb-4">
                 NAVIGATION
               </h3>
-              <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#800020]/80 font-medium">
+              <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#740707]/80 font-medium">
                 <li>
-                  <Link href="/" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Home Overview
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about-us" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/about-us" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     About Monagrow
                   </Link>
                 </li>
                 <li>
-                  <Link href="/rice" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/rice" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Basmati Rice 8.9mm
                   </Link>
                 </li>
                 <li>
-                  <Link href="/coffee" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/coffee" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Specialty Coffee
                   </Link>
                 </li>
                 <li>
-                  <Link href="/sugar" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/sugar" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Refined Sugar ICUMSA
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dry-fruits" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/dry-fruits" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Royal Mixed Dry Fruits
                   </Link>
                 </li>
                 <li>
-                  <a href="/#calculator" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/#calculator" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Trade Cost Estimator
                   </a>
                 </li>
@@ -273,14 +273,14 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
 
             {/* Column 3: SUPPORT */}
             <div className="lg:col-span-2 xl:col-span-2">
-              <h3 className="text-xs font-bold tracking-widest text-[#800020] uppercase mb-3.5 sm:mb-4">
+              <h3 className="text-xs font-bold tracking-widest text-[#740707] uppercase mb-3.5 sm:mb-4">
                 SUPPORT
               </h3>
-              <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#800020]/80 font-medium">
+              <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-[13px] text-[#740707]/80 font-medium">
                 <li>
                   <Link
                     href="/contact"
-                    className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left"
+                    className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left"
                   >
                     Contact Us
                   </Link>
@@ -289,7 +289,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   <button
                     type="button"
                     onClick={() => onOpenQuoteModal?.("Proforma Invoice")}
-                    className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left cursor-pointer"
+                    className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left cursor-pointer"
                   >
                     Shipping &amp; Returns
                   </button>
@@ -298,23 +298,23 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   <button
                     type="button"
                     onClick={() => onOpenQuoteModal?.("Customer Support")}
-                    className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left cursor-pointer"
+                    className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5 text-left cursor-pointer"
                   >
                     Customer Support
                   </button>
                 </li>
                 <li>
-                  <a href="/#philosophy" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="/#philosophy" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Food Safety Compliance
                   </a>
                 </li>
                 <li>
-                  <a href="#privacy" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="#privacy" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#terms" className="hover:text-[#800020] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <a href="#terms" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Incoterms 2020 Rules
                   </a>
                 </li>
@@ -325,20 +325,20 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
 
           {/* Section 3: GET THE LATEST FROM MONAGROW & FOLLOW US */}
           <div className="lg:col-span-4 xl:col-span-4 flex flex-col justify-start">
-            <h3 className="text-xs font-bold tracking-widest text-[#800020] uppercase mb-3">
+            <h3 className="text-xs font-bold tracking-widest text-[#740707] uppercase mb-3">
               GET THE LATEST FROM MONAGROW.
             </h3>
 
             {/* Pill Newsletter Form in Maroon Theme */}
             {isSubscribed ? (
-              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#800020] text-white text-xs sm:text-sm font-bold w-fit shadow-md">
+              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#740707] text-white text-xs sm:text-sm font-bold w-fit shadow-md">
                 <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0" />
                 <span>Subscribed! Check your inbox soon.</span>
               </div>
             ) : (
               <form
                 onSubmit={handleSubscribe}
-                className="w-full max-w-md bg-[#800020]/5 border border-[#800020]/30 rounded-full p-1 pl-4 sm:pl-5 flex items-center justify-between gap-2 focus-within:border-[#800020] focus-within:bg-[#800020]/8 focus-within:ring-2 focus-within:ring-[#800020]/15 transition-all duration-200"
+                className="w-full max-w-md bg-[#740707]/5 border border-[#740707]/30 rounded-full p-1 pl-4 sm:pl-5 flex items-center justify-between gap-2 focus-within:border-[#740707] focus-within:bg-[#740707]/8 focus-within:ring-2 focus-within:ring-[#740707]/15 transition-all duration-200"
               >
                 <input
                   type="email"
@@ -346,11 +346,11 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
-                  className="bg-transparent text-[#800020] placeholder-[#800020]/50 text-xs sm:text-sm focus:outline-none flex-1 min-w-0 py-1.5"
+                  className="bg-transparent text-[#740707] placeholder-[#740707]/50 text-xs sm:text-sm focus:outline-none flex-1 min-w-0 py-1.5"
                 />
                 <button
                   type="submit"
-                  className="bg-[#800020] hover:bg-[#68001a] text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-sm"
+                  className="bg-[#740707] hover:bg-[#5e0606] text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-sm"
                 >
                   Subscribe
                 </button>
@@ -359,7 +359,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
 
             {/* FOLLOW US Section with Circular Social Icons */}
             <div className="mt-6 sm:mt-7">
-              <h4 className="text-xs font-bold tracking-widest text-[#800020] uppercase mb-3">
+              <h4 className="text-xs font-bold tracking-widest text-[#740707] uppercase mb-3">
                 FOLLOW US
               </h4>
               <div className="flex items-center gap-3">
@@ -368,7 +368,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-[#800020]/5 hover:bg-[#800020] text-[#800020] hover:text-white border border-[#800020]/20 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+                  className="w-9 h-9 rounded-full bg-[#740707]/5 hover:bg-[#740707] text-[#740707] hover:text-white border border-[#740707]/20 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
                   aria-label="Instagram"
                 >
                   <svg className="w-4 h-4 fill-none stroke-current stroke-[2]" viewBox="0 0 24 24">
@@ -383,7 +383,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-[#800020]/5 hover:bg-[#800020] text-[#800020] hover:text-white border border-[#800020]/20 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+                  className="w-9 h-9 rounded-full bg-[#740707]/5 hover:bg-[#740707] text-[#740707] hover:text-white border border-[#740707]/20 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
                   aria-label="Facebook"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -398,7 +398,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               <button
                 type="button"
                 onClick={() => onOpenQuoteModal?.("Direct Inquiry")}
-                className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#800020] hover:bg-[#68001a] text-white text-xs font-semibold transition-all cursor-pointer group shadow-sm active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#740707] hover:bg-[#5e0606] text-white text-xs font-semibold transition-all cursor-pointer group shadow-sm active:scale-95"
               >
                 <span>Request B2B Wholesale Quote</span>
               </button>
@@ -429,7 +429,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               width={1043}
               height={150}
               priority
-              className="w-auto h-[12vw] sm:h-[10.5vw] max-h-[145px] min-h-[38px] max-w-[95%] object-contain drop-shadow-[0_4px_16px_rgba(128,0,32,0.06)]"
+              className="w-auto h-[12vw] sm:h-[10.5vw] max-h-[145px] min-h-[38px] max-w-[95%] object-contain drop-shadow-[0_4px_16px_rgba(116, 7, 7, 0.06)]"
             />
           </div>
         </div>

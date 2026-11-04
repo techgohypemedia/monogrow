@@ -96,7 +96,7 @@ export default function AboutUsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-[#800020] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-[#740707] selection:text-white">
       {/* 3D Floating CSS Keyframes */}
       <style>{`
         @keyframes float3D {
@@ -172,25 +172,25 @@ export default function AboutUsPage() {
           <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
               <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <ShieldCheck className="w-7 h-7 text-[#800020] mx-auto" />
+                <ShieldCheck className="w-7 h-7 text-[#740707] mx-auto" />
                 <p className="font-bold text-sm text-neutral-900">ISO 22000:2018</p>
                 <p className="text-[11px] text-neutral-500">Certified Food Safety</p>
               </div>
 
               <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <FileCheck2 className="w-7 h-7 text-[#800020] mx-auto" />
+                <FileCheck2 className="w-7 h-7 text-[#740707] mx-auto" />
                 <p className="font-bold text-sm text-neutral-900">SGS Verified</p>
                 <p className="text-[11px] text-neutral-500">Pre-Shipment Container QC</p>
               </div>
 
               <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <CheckCircle2 className="w-7 h-7 text-[#800020] mx-auto" />
+                <CheckCircle2 className="w-7 h-7 text-[#740707] mx-auto" />
                 <p className="font-bold text-sm text-neutral-900">Sortex 100% Optical</p>
                 <p className="text-[11px] text-neutral-500">Laser Grain Cleanliness</p>
               </div>
 
               <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <Award className="w-7 h-7 text-[#800020] mx-auto" />
+                <Award className="w-7 h-7 text-[#740707] mx-auto" />
                 <p className="font-bold text-sm text-neutral-900">Phytosanitary Certified</p>
                 <p className="text-[11px] text-neutral-500">Global Port Quarantine Pass</p>
               </div>

@@ -129,7 +129,7 @@ export default function Navbar({
             : "blur(14px) saturate(160%)",
           borderBottom: (overHero || overCollection || (!glassEffect && !isScrolled))
             ? "none"
-            : "1px solid rgba(128, 0, 32, 0.06)",
+            : "1px solid rgba(116, 7, 7, 0.06)",
           boxShadow: (overHero || overCollection || (!glassEffect && !isScrolled))
             ? "none"
             : "0 4px 20px 0 rgba(0, 0, 0, 0.03)",
@@ -149,8 +149,8 @@ export default function Navbar({
               <Link
                 href="/shop"
                 className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 whitespace-nowrap ${overHero
-                    ? "text-white hover:text-[#800020]"
-                    : "text-[#800020] hover:text-[#520014]"
+                    ? "text-white hover:text-[#740707]"
+                    : "text-[#740707] hover:text-[#4a0404]"
                   }`}
               >
                 Shop
@@ -167,8 +167,8 @@ export default function Navbar({
                   type="button"
                   onClick={() => setIsCategoriesOpen((prev) => !prev)}
                   className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${overHero
-                      ? "text-white hover:text-[#800020]"
-                      : "text-[#800020] hover:text-[#520014]"
+                      ? "text-white hover:text-[#740707]"
+                      : "text-[#740707] hover:text-[#4a0404]"
                     }`}
                   aria-expanded={isCategoriesOpen}
                   aria-haspopup="true"
@@ -187,15 +187,15 @@ export default function Navbar({
                       : "opacity-0 -translate-y-2 pointer-events-none invisible"
                     }`}
                 >
-                  <div className="w-52 bg-white/95 backdrop-blur-2xl rounded-2xl border border-[#800020]/15 shadow-xl p-1.5 flex flex-col gap-0.5 text-left">
+                  <div className="w-52 bg-white/95 backdrop-blur-2xl rounded-2xl border border-[#740707]/15 shadow-xl p-1.5 flex flex-col gap-0.5 text-left">
                     {CATEGORY_OPTIONS.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsCategoriesOpen(false)}
-                        className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 hover:bg-[#800020]/8"
+                        className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 hover:bg-[#740707]/8"
                       >
-                        <span className="font-bold text-sm md:text-base text-[#30241e] group-hover:text-[#800020] transition-colors">
+                        <span className="font-bold text-sm md:text-base text-[#30241e] group-hover:text-[#740707] transition-colors">
                           {item.name}
                         </span>
                       </Link>
@@ -210,8 +210,8 @@ export default function Navbar({
                   key={link.name}
                   href={link.href}
                   className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 whitespace-nowrap ${overHero
-                      ? "text-white hover:text-[#800020]"
-                      : "text-[#800020] hover:text-[#520014]"
+                      ? "text-white hover:text-[#740707]"
+                      : "text-[#740707] hover:text-[#4a0404]"
                     }`}
                 >
                   {link.name}
@@ -225,7 +225,7 @@ export default function Navbar({
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`lg:hidden flex items-center justify-center p-2 -ml-2 rounded-lg transition-colors duration-200 cursor-pointer ${overHero
                   ? "text-white hover:bg-white/10 active:bg-white/20"
-                  : "text-[#800020] hover:bg-black/5 active:bg-black/10"
+                  : "text-[#740707] hover:bg-black/5 active:bg-black/10"
                 }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
@@ -267,7 +267,7 @@ export default function Navbar({
             <button
               type="button"
               onClick={() => onOpenQuoteModal("Quick Wholesale Price List")}
-              className="flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-semibold text-xs sm:text-sm md:text-base border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
+              className="flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] text-white font-semibold text-xs sm:text-sm md:text-base border border-transparent hover:shadow-md transition-all duration-200 group shrink-0 whitespace-nowrap cursor-pointer shadow-none"
             >
               <span className="tracking-wide hidden sm:inline">Get a Quote</span>
               <span className="tracking-wide sm:hidden">Quote</span>
@@ -306,7 +306,7 @@ export default function Navbar({
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 rounded-full text-stone-600 hover:text-[#800020] hover:bg-stone-100 active:bg-stone-200 transition-colors cursor-pointer"
+                className="p-2 rounded-full text-stone-600 hover:text-[#740707] hover:bg-stone-100 active:bg-stone-200 transition-colors cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6 stroke-[2.2]" />
@@ -319,7 +319,7 @@ export default function Navbar({
               <Link
                 href="/shop"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors"
+                className="text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors"
               >
                 Shop
               </Link>
@@ -329,7 +329,7 @@ export default function Navbar({
                 <button
                   type="button"
                   onClick={() => setIsMobileCategoriesOpen((prev) => !prev)}
-                  className="w-full flex items-center justify-between text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors cursor-pointer"
                 >
                   <span>Categories</span>
                   <ChevronDown
@@ -339,7 +339,7 @@ export default function Navbar({
                 </button>
 
                 {isMobileCategoriesOpen && (
-                  <div className="pl-3 pr-1 py-1.5 flex flex-col gap-1 border-l-2 border-[#800020]/25 ml-4 mt-1">
+                  <div className="pl-3 pr-1 py-1.5 flex flex-col gap-1 border-l-2 border-[#740707]/25 ml-4 mt-1">
                     {CATEGORY_OPTIONS.map((item) => (
                       <Link
                         key={item.name}
@@ -348,7 +348,7 @@ export default function Navbar({
                           setIsMobileCategoriesOpen(false);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="flex items-center justify-between text-[#30241e] hover:text-[#800020] font-bold text-base py-2 px-3 rounded-lg hover:bg-[#800020]/8 transition-colors"
+                        className="flex items-center justify-between text-[#30241e] hover:text-[#740707] font-bold text-base py-2 px-3 rounded-lg hover:bg-[#740707]/8 transition-colors"
                       >
                         <span className="font-bold text-sm text-[#30241e]">
                           {item.name}
@@ -365,7 +365,7 @@ export default function Navbar({
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[#800020] hover:text-[#520014] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#800020]/5 active:bg-[#800020]/10 transition-colors"
+                  className="text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors"
                 >
                   {link.name}
                 </Link>
@@ -380,7 +380,7 @@ export default function Navbar({
                   setIsMobileMenuOpen(false);
                   onOpenQuoteModal("Quick Wholesale Price List");
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-full bg-[#800020] hover:bg-[#68001a] active:bg-[#520014] text-white font-bold text-sm sm:text-base tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-full bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] text-white font-bold text-sm sm:text-base tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
               >
                 <span>Get Wholesale Quote</span>
               </button>

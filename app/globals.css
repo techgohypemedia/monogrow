@@ -2,13 +2,13 @@
 
 :root {
   
-  --primary: #800020;
-  --primary-hover: #68001a;
-  --primary-light: #fae8eb;
-  --maroon: #800020;
-  --maroon-dark: #650019;
-  --maroon-hover: #6e001c;
-  --maroon-light: #fcf1f3;
+  --primary: #740707;
+  --primary-hover: #5e0606;
+  --primary-light: #faeded;
+  --maroon: #740707;
+  --maroon-dark: #5b0606;
+  --maroon-hover: #640606;
+  --maroon-light: #fdf5f5;
   --accent-gold: #c89d3c;
   --accent-gold-dark: #a47e27;
   --navy: #0e2439;
@@ -18,13 +18,13 @@
 }
 
 @theme {
-  --color-primary: #800020;
-  --color-primary-dark: #68001a;
-  --color-primary-light: #fae8eb;
-  --color-maroon: #800020;
-  --color-maroon-dark: #650019;
-  --color-maroon-hover: #6e001c;
-  --color-maroon-light: #fcf1f3;
+  --color-primary: #740707;
+  --color-primary-dark: #5e0606;
+  --color-primary-light: #faeded;
+  --color-maroon: #740707;
+  --color-maroon-dark: #5b0606;
+  --color-maroon-hover: #640606;
+  --color-maroon-light: #fdf5f5;
   --color-gold: #c89d3c;
   --color-gold-dark: #a47e27;
   --color-navy: #0e2439;
@@ -45,10 +45,10 @@ body {
 html { overflow-x: clip; }
 .monagrow-hero-nav[data-dark="true"] nav a,
 .monagrow-hero-nav[data-dark="true"] button[aria-expanded] { color: #ffffff !important; }
-.monagrow-hero-nav[data-dark="true"] nav a:hover, .monagrow-hero-nav[data-dark="true"] button[aria-expanded]:hover { color: #800020 !important; }
+.monagrow-hero-nav[data-dark="true"] nav a:hover, .monagrow-hero-nav[data-dark="true"] button[aria-expanded]:hover { color: #740707 !important; }
 .monagrow-hero-nav[data-collection="true"] nav a,
 .monagrow-hero-nav[data-collection="true"] button[aria-expanded] { color: #f7efe1; }
-.monagrow-hero-nav[data-collection="true"] nav a:hover, .monagrow-hero-nav[data-collection="true"] button[aria-expanded]:hover { color: #800020 !important; }
+.monagrow-hero-nav[data-collection="true"] nav a:hover, .monagrow-hero-nav[data-collection="true"] button[aria-expanded]:hover { color: #740707 !important; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
@@ -158,7 +158,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .luxury-gradient-text {
-  background: linear-gradient(135deg, #68001a 0%, #800020 50%, #c89d3c 100%);
+  background: linear-gradient(135deg, #5e0606 0%, #740707 50%, #c89d3c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -184,7 +184,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #800020;
+  background: #740707;
 }
 
 

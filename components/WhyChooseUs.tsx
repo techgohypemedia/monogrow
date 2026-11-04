@@ -301,8 +301,8 @@ export default function WhyChooseUs({
       <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fae8eb] border border-[#800020]/20 text-xs font-bold uppercase tracking-widest text-[#800020] mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#800020]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#faeded] border border-[#740707]/20 text-xs font-bold uppercase tracking-widest text-[#740707] mb-3">
+            <span className="w-2 h-2 rounded-full bg-[#740707]" />
             <span>Raw to Import Journey</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 leading-tight uppercase">
@@ -398,7 +398,7 @@ export default function WhyChooseUs({
             <div className="absolute top-0 left-0 right-0 h-1 bg-black/5 overflow-hidden">
               <div
                 key={activeIndex}
-                className="h-full bg-[#800020]"
+                className="h-full bg-[#740707]"
                 style={{
                   animation: isPaused ? "none" : `progressFill ${AUTO_INTERVAL_MS}ms linear forwards`,
                   width: isPaused ? "100%" : undefined,
@@ -410,7 +410,7 @@ export default function WhyChooseUs({
             <div className="flex flex-col h-full justify-between">
               <div>
                 <div>
-                  <span className="text-[#800020] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
+                  <span className="text-[#740707] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
                     {activeJourney.categoryTag}
                   </span>
                 </div>

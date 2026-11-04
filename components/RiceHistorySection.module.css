@@ -1,0 +1,419 @@
+/* Rice History & Heritage Section - Monagrow Luxury Editorial Styling */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(116, 7, 7, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(116, 7, 7, 0);
+  }
+}
+
+.sectionWrapper {
+  background-color: #FAF5EE;
+  color: #231815;
+  position: relative;
+  overflow: clip;
+}
+
+/* Luxury card with responsive lift and subtle maroon border glow */
+.luxuryCard {
+  background: #ffffff;
+  border: 1px solid #dfd5c6;
+  border-radius: 20px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+
+.luxuryCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px -10px rgba(116, 7, 7, 0.09), 0 6px 15px -3px rgba(35, 24, 21, 0.05);
+  border-color: #740707;
+}
+
+/* ========================================================
+   FOUR PILLARS EXPANDING ACCORDION (MATCHING SCREENSHOT 1)
+   ======================================================== */
+.pillarAccordionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .pillarAccordionContainer {
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 480px;
+  }
+}
+
+.pillarAccordionCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.3);
+  transition: flex 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s ease,
+              box-shadow 0.35s ease;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .pillarAccordionCardCollapsed {
+    flex: 0.85;
+    padding: 1.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  
+  .pillarAccordionCardCollapsed:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -6px rgba(0, 0, 0, 0.45);
+  }
+
+  .pillarAccordionCardExpanded {
+    flex: 3.6;
+    padding: 2.75rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: default;
+  }
+}
+
+@media (max-width: 767px) {
+  .pillarAccordionCardCollapsed {
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .pillarAccordionCardExpanded {
+    padding: 2.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px;
+  }
+}
+
+.verticalText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  letter-spacing: 0.12em;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.watermarkNumeral {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(120px, 14vw, 210px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.08);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Four Pillars Refined Editorial Cards */
+.pillarCard {
+  background: #ffffff;
+  border: 1px solid #dfd5c6;
+  border-radius: 22px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+
+.pillarCard:hover {
+  transform: translateY(-5px);
+  border-color: #740707;
+  box-shadow: 0 16px 32px -8px rgba(116, 7, 7, 0.1), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.pillarRow {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(223, 213, 198, 0.55);
+}
+
+.pillarRow:last-child {
+  border-bottom: none;
+}
+
+/* Number badges (01, 02, etc.) */
+.numeralBadge {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: #740707;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* ========================================================
+   WAVY TIMELINE STYLES (MATCHING SCREENSHOT 2)
+   ======================================================== */
+.stickyHeritageSection {
+  position: relative;
+  background-color: #FAF5EE;
+  border-bottom: 1px solid #dfd5c6;
+  min-height: 400vh;
+}
+
+@media (max-width: 767px) {
+  .stickyHeritageSection {
+    min-height: auto;
+  }
+}
+
+.stickyHeritageInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .stickyHeritageInner {
+    position: sticky;
+    top: 4.5rem;
+    height: calc(100vh - 4.5rem);
+    max-height: calc(100vh - 4.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .stickyHeritageInner::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.wavyTimelineWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 0.25rem;
+}
+
+.wavyTimelineScroll {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wavyTimelineTrack {
+  position: relative;
+  min-width: 980px;
+  width: 100%;
+  padding-top: 0.25rem;
+}
+
+.wavySvgPath {
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wavySvgPathActive {
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  pointer-events: none;
+  z-index: 2;
+  transition: stroke-dashoffset 0.2s ease-out;
+}
+
+.scrollTrack {
+  width: 100%;
+  max-width: 420px;
+  margin: 1rem auto 0;
+  height: 4px;
+  background-color: rgba(116, 7, 7, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrollThumb {
+  height: 100%;
+  background: linear-gradient(90deg, #740707 0%, #c89d3c 100%);
+  border-radius: 9999px;
+  transition: width 0.12s ease-out;
+}
+
+.wavyGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Step items: strictly NO hover effects in this section */
+.wavyStepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  user-select: none;
+}
+
+.wavyCircleNode {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1.5px solid rgba(116, 7, 7, 0.2);
+  box-shadow: 0 4px 14px -2px rgba(116, 7, 7, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 3;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+
+/* Active milestone node: highlights exclusively when stepped on via scroll or click */
+.wavyCircleActive {
+  transform: scale(1.1);
+  border-color: #740707 !important;
+  box-shadow: 0 0 0 4px rgba(116, 7, 7, 0.15), 0 6px 16px -2px rgba(116, 7, 7, 0.25) !important;
+}
+
+
+/* Dossier Card Active Animation */
+.eraCardActive {
+  animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* FAQ Accordion with smooth grid-template-rows expansion */
+.faqCard {
+  background: #ffffff;
+  border: 1px solid #dfd5c6;
+  border-radius: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+
+.faqCard:hover {
+  border-color: #740707;
+  box-shadow: 0 10px 25px -6px rgba(116, 7, 7, 0.08);
+  background-color: #ffffff;
+}
+
+.faqCardActive {
+  border-color: #740707;
+  background-color: #ffffff;
+  box-shadow: 0 12px 28px -6px rgba(116, 7, 7, 0.1);
+}
+
+.faqGridCollapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.faqGridExpand {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.faqInner {
+  overflow: hidden;
+}
+
+/* Filter tab pill */
+.filterPill {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.filterPill:hover {
+  transform: translateY(-1px);
+}
+
+/* Variety product image zoom */
+.productImageWrap {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.productCard:hover .productImageWrap {
+  transform: scale(1.08) translateY(-4px);
+}
+
+/* Progress bar fill with smooth animation */
+.progressFill {
+  transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tab content fade */
+.tabContentFade {
+  animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

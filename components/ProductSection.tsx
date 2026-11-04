@@ -258,7 +258,7 @@ export default function ProductSection({
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div className="max-w-2xl">
-            <p className="text-[#800020] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
+            <p className="text-[#740707] text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]">
               Bulk catalog
             </p>
             <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-navy leading-tight">
@@ -278,7 +278,7 @@ export default function ProductSection({
               placeholder="Search products"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-11 pl-11 pr-4 rounded-full bg-white border border-stone-200 text-sm text-navy placeholder:text-stone-400 focus:outline-none focus:border-[#800020] focus:ring-2 focus:ring-[#800020]/15"
+              className="w-full h-11 pl-11 pr-4 rounded-full bg-white border border-stone-200 text-sm text-navy placeholder:text-stone-400 focus:outline-none focus:border-[#740707] focus:ring-2 focus:ring-[#740707]/15"
             />
           </label>
         </div>
@@ -295,7 +295,7 @@ export default function ProductSection({
                 aria-pressed={isActive}
                 className={`h-10 px-5 rounded-full text-sm font-semibold whitespace-nowrap border transition-colors duration-200 cursor-pointer ${
                   isActive
-                    ? "bg-[#800020] border-[#800020] text-white"
+                    ? "bg-[#740707] border-[#740707] text-white"
                     : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-navy"
                 }`}
               >
@@ -317,7 +317,7 @@ export default function ProductSection({
                 setSearchTerm("");
                 setActiveTab("all");
               }}
-              className="mt-3 text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#800020] hover:text-[#800020] transition-colors cursor-pointer"
+              className="mt-3 text-sm font-semibold text-navy underline underline-offset-4 decoration-stone-300 hover:decoration-[#740707] hover:text-[#740707] transition-colors cursor-pointer"
             >
               Clear search and filters
             </button>
@@ -329,7 +329,7 @@ export default function ProductSection({
                 key={product.id}
                 type="button"
                 onClick={() => openProductModal(product)}
-                className="group text-left bg-white rounded-3xl overflow-hidden border border-stone-200/80 hover:border-stone-300 transition-colors duration-200 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/30"
+                className="group text-left bg-white rounded-3xl overflow-hidden border border-stone-200/80 hover:border-stone-300 transition-colors duration-200 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#740707]/30"
               >
                 {/* Image */}
                 <div className="relative aspect-square w-full bg-[#f6f3ec]">
@@ -358,7 +358,7 @@ export default function ProductSection({
                         {product.priceRange}
                       </p>
                     </div>
-                    <span className="w-8 h-8 rounded-full border border-stone-200 text-navy flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-[#800020] group-hover:border-[#800020] group-hover:text-white">
+                    <span className="w-8 h-8 rounded-full border border-stone-200 text-navy flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-[#740707] group-hover:border-[#740707] group-hover:text-white">
                       <ArrowUpRight className="w-4 h-4 stroke-[2.2]" />
                     </span>
                   </div>
@@ -419,7 +419,7 @@ export default function ProductSection({
                     <div className="mt-3 flex justify-center">
                       <button
                         onClick={() => setModalIsFlipped(!modalIsFlipped)}
-                        className="px-4 py-2 rounded-full bg-white hover:bg-stone-100 text-[#800020] text-xs font-bold border border-stone-300 shadow-sm flex items-center gap-2 transition-all"
+                        className="px-4 py-2 rounded-full bg-white hover:bg-stone-100 text-[#740707] text-xs font-bold border border-stone-300 shadow-sm flex items-center gap-2 transition-all"
                       >
                         <RotateCw className="w-3.5 h-3.5" />
                         <span>
@@ -429,7 +429,7 @@ export default function ProductSection({
                     </div>
                   )}
 
-                  <div className="mt-3 text-center text-xs font-semibold text-[#800020] bg-[#fae8eb] py-2 px-3 rounded-[6px] border border-[#f3c4ce]">
+                  <div className="mt-3 text-center text-xs font-semibold text-[#740707] bg-[#faeded] py-2 px-3 rounded-[6px] border border-[#f3c4ce]">
                     Indicative Price: {activeModalProduct.priceRange}
                   </div>
                 </div>
@@ -461,7 +461,7 @@ export default function ProductSection({
                     </div>
                     <div className="flex justify-between py-1 border-b border-stone-200">
                       <span className="text-stone-500 font-medium">Min Order Qty (MOQ):</span>
-                      <strong className="text-[#800020] font-bold">{activeModalProduct.specs.moq}</strong>
+                      <strong className="text-[#740707] font-bold">{activeModalProduct.specs.moq}</strong>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-stone-500 font-medium">Purity / Moisture Standards:</span>
@@ -477,7 +477,7 @@ export default function ProductSection({
                     <ul className="space-y-1.5 text-xs text-stone-600">
                       {activeModalProduct.features.map((feat, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <Check className="w-4 h-4 text-[#800020] shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-[#740707] shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -492,7 +492,7 @@ export default function ProductSection({
                         setActiveModalProduct(null);
                         onOpenQuoteModal(name);
                       }}
-                      className="flex-1 py-3.5 rounded-xl bg-[#800020] hover:bg-[#68001a] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all"
+                      className="flex-1 py-3.5 rounded-xl bg-[#740707] hover:bg-[#5e0606] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all"
                     >
                       <span>Request Quotation / Proforma</span>
                       <ArrowRight className="w-4 h-4" />

@@ -16,8 +16,8 @@
 .copy .eyebrow { color: #ffffff; font-size: 15px; letter-spacing: .07em; gap: 8px; font-weight: 700; }
 .copy .eyebrow > span { width: 6px; height: 6px; }
 .description { color: #aaa69a; font-size: 12px; line-height: 1.85; max-width: 290px; }
-.quote { margin-top: 26px; border: 1px solid #800020; border-radius: 100px; padding: 15px 19px; display: inline-flex; align-items: center; gap: 20px; background: #800020; color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
-.quote:hover { background: #68001a; transform: translateY(-3px); }
+.quote { margin-top: 26px; border: 1px solid #740707; border-radius: 100px; padding: 15px 19px; display: inline-flex; align-items: center; gap: 20px; background: #740707; color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+.quote:hover { background: #5e0606; transform: translateY(-3px); }
 .hero button:focus-visible, .hero a:focus-visible { outline: 2px solid #f5e6cc; outline-offset: 6px; }
 .productStage { position: absolute; z-index: 5; width: 43%; height: 62%; top: 28%; left: 28%; }
 .halo { position: absolute; width: 90%; aspect-ratio: 1; left: 5%; top: 4%; border-radius: 50%; background: radial-gradient(circle, #ffffff0a, #ffffff03 65%, transparent 66%); border: 1px solid #ffffff0a; box-shadow: 0 0 100px #ffffff03; }

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import RiceHeroTransition from "@/components/RiceHeroTransition";
+import RiceHistorySection from "@/components/RiceHistorySection";
 import styles from "./RiceProducts.module.css";
 import Footer from "@/components/Footer";
 import VideoModal from "@/components/VideoModal";
@@ -13,9 +14,13 @@ import QuoteModal from "@/components/QuoteModal";
 import {
   COMMODITY_CATEGORIES,
   getRicePageProducts,
+  CommodityProduct,
 } from "@/data/commodityData";
 import {
   CheckCircle2,
+  X,
+  PackageCheck,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function RicePageClient() {
@@ -24,9 +29,31 @@ export default function RicePageClient() {
   const [selectedCommodityForQuote, setSelectedCommodityForQuote] = useState(
     "Basmati Rice (1121 Supreme)"
   );
+  const [selectedProductForDetails, setSelectedProductForDetails] =
+    useState<CommodityProduct | null>(null);
+  const [isSectionVisible, setIsSectionVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const category = COMMODITY_CATEGORIES["rice"];
   const products = getRicePageProducts();
+
+  // Scroll entrance observer matching KRBL AOS fade-up transition
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsSectionVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleOpenQuoteModal = (productName?: string) => {
     setSelectedCommodityForQuote(productName || "Basmati Rice (1121 Supreme)");
@@ -39,7 +66,7 @@ export default function RicePageClient() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-neutral-900 selection:bg-[#800020] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-neutral-900 selection:bg-[#740707] selection:text-white">
       {/* 1. Top Navbar with immersiveHero (matches main page hero styling) */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} immersiveHero />
 
@@ -59,84 +86,107 @@ export default function RicePageClient() {
         />
 
         {/* ========================================================
-            4. RICE PRODUCT SHOWCASE CARDS (1121 BASMATI & KATARNI)
+            4. MONAGROW PORTFOLIO - BASMATI RANGE
+            Layout matching KRBL Rice 3-column luxury catalogue grid
+            with exact transition, hover scale, and entrance reveals
             ======================================================== */}
-        <section id="rice-collection" className={styles.section}>
-          <div className={styles.inner}>
-            <header className={styles.header}>
-              <h2>Find your rice.</h2>
-            </header>
-            {products.map((product, index) => (
-              <article key={product.id} id={product.id} className={styles.product}>
-                <div className={styles.visual}>
-                  <div id={index === 0 ? "rice-target-pack" : undefined} className={styles.pack}>
-                    <Image src={product.packImg} alt={product.packAlt} fill className="object-contain drop-shadow-xl" sizes="(max-width: 767px) 200px, 250px" />
+        <section
+          id="rice-collection"
+          ref={sectionRef}
+          className="py-16 sm:py-24 bg-[#FAF5EE] border-b border-[#dfd5c6] scroll-mt-24"
+        >
+          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header: OUR PORTFOLIO + Basmati Range in Playfair Display serif */}
+            <div
+              className={`text-center mb-12 sm:mb-16 transition-all duration-700 ease-out ${
+                isSectionVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-4"
+              }`}
+            >
+              <span className="block text-xs sm:text-[13px] font-bold tracking-[0.25em] uppercase text-[#740707] mb-2.5">
+                OUR PORTFOLIO
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal text-[#231815] tracking-tight leading-tight">
+                Basmati Range
+              </h2>
+            </div>
+
+            {/* 3-Column Catalogue Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {products.map((product, index) => (
+                <article
+                  key={product.id}
+                  id={product.id}
+                  style={{
+                    transitionDelay: isSectionVisible
+                      ? `${(index % 3) * 120 + Math.floor(index / 3) * 100}ms`
+                      : "0ms",
+                  }}
+                  className={`group relative flex flex-col items-center justify-between text-center bg-white rounded-xl p-5 sm:p-7 border border-[#dfd5c6] hover:border-[#740707] transition-all duration-300 ease-out hover:-translate-y-1.5
+                    ${isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
+                  `}
+                >
+                  {/* Visual Cutout Pack Image with Smooth Hover Scale */}
+                  <div
+                    className="relative w-full h-48 sm:h-56 flex items-center justify-center mb-4 cursor-pointer"
+                    onClick={() => setSelectedProductForDetails(product)}
+                  >
+                    <Image
+                      id={index === 0 ? "rice-target-pack" : undefined}
+                      src={product.packImg}
+                      alt={product.packAlt}
+                      width={220}
+                      height={300}
+                      className="max-h-[180px] sm:max-h-[210px] w-auto object-contain drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-108"
+                      sizes="(max-width: 768px) 180px, 220px"
+                    />
                   </div>
-                  <div id={index === 0 ? "rice-target-bowl" : undefined} className={styles.bowl}>
-                    <Image src={product.bowlImg} alt={product.bowlAlt} fill className="object-contain drop-shadow-lg" sizes="(max-width: 767px) 115px, 145px" />
-                  </div>
-                </div>
-                <div data-rice-details={index === 0 ? "" : undefined} className={styles.details}>
-                  
-                  <h3>{product.name}</h3>
-                  
-                  <p className={styles.description}>{product.description}</p>
-                  <dl className={styles.specs}>
-                    {product.specs.map(spec => (
-                      <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>
-                    ))}
-                  </dl>
-                  <div className={styles.actions}>
-                    <button type="button" className={styles.quote} onClick={() => handleOpenQuoteModal(product.quoteName)}>
-                      Request a quote
-                    </button>
-                    <Link href="/#calculator" className={styles.link}>Estimate container volume</Link>
-                  </div>
-                  <details className={styles.more}>
-                    <summary>Packaging &amp; sourcing details</summary>
-                    <div className={styles.extra}>
-                      <div className={styles.formats}>
-                        <div><h4>Retail packaging</h4><ul>{product.retailSizes.map(size => <li key={size}>{size}</li>)}</ul></div>
-                        <div><h4>Wholesale &amp; bulk</h4><ul>{product.bulkSizes.map(size => <li key={size}>{size}</li>)}</ul></div>
-                      </div>
-                      <h4>Sourcing highlights</h4>
-                      <ul className={styles.highlights}>{product.keyHighlights.map(highlight => <li key={highlight}><CheckCircle2 size={13} /><span>{highlight}</span></li>)}</ul>
+
+                  {/* Content Block */}
+                  <div className="flex-1 flex flex-col items-center justify-between w-full">
+                    <div>
+                      {/* Title in Elegant Serif Font */}
+                      <h3
+                        onClick={() => setSelectedProductForDetails(product)}
+                        className="font-serif text-lg sm:text-xl font-bold text-[#231815] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
+                      >
+                        {product.name}
+                      </h3>
+
+                      {/* Subtitle / Description - Single line with ellipsis */}
+                      <p
+                        title={product.tagline}
+                        className="text-xs sm:text-[13px] text-[#6b5d52] leading-relaxed mt-1.5 max-w-[280px] sm:max-w-[320px] mx-auto font-normal truncate block"
+                      >
+                        {product.tagline}
+                      </p>
                     </div>
-                  </details>
-                </div>
-              </article>
-            ))}
+
+                    {/* Action CTA: Request Quote */}
+                    <div className="mt-4 pt-1 flex items-center justify-center w-full">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenQuoteModal(product.quoteName)}
+                        className="px-6 py-2 rounded-full text-xs font-bold text-white bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] transition-all duration-200 cursor-pointer whitespace-nowrap"
+                      >
+                        Request Quote
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ========================================================
-            5. RICE QUALITY & EXPORT READINESS
+            5. THE STORY, HERITAGE, VARIETIES & CRAFT OF RICE
             ======================================================== */}
-        <section className={styles.quality} aria-labelledby="rice-quality-heading">
-          <div className={styles.inner}>
-            <div className={styles.qualityHeading}>
-              <h2 id="rice-quality-heading">Good rice starts<br />long before your kitchen.</h2>
-            </div>
-            <div className={styles.qualityLayout}>
-              <a href="#basmati-rice" className={styles.qualityProduct}>
-
-                <div className={styles.qualityPack}>
-                  <Image src={products[0].packImg} alt={products[0].packAlt} fill sizes="(max-width: 767px) 180px, 210px" className="object-contain drop-shadow-xl" />
-                </div>
-                <span className={styles.qualityProductName}>1121 Supreme Basmati</span>
-              </a>
-              <ol className={styles.qualitySteps}>
-                {category.qualityBullets.map((bullet, index) => (
-                  <li key={bullet.title}>
-                    <span className={styles.stepNumber} aria-hidden="true">0{index + 1}</span>
-                    <h3>{bullet.title}</h3>
-                    <p>{bullet.desc}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
+        <RiceHistorySection
+          products={products}
+          onOpenQuoteModal={handleOpenQuoteModal}
+        />
 
         {/* ========================================================
             6. EXPLORE OTHER COMMODITIES
@@ -145,7 +195,7 @@ export default function RicePageClient() {
           <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#800020]">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
                   Monagrow Product Portfolio
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-1">
@@ -154,7 +204,7 @@ export default function RicePageClient() {
               </div>
               <Link
                 href="/categories"
-                className="text-xs sm:text-sm font-bold text-[#800020] hover:text-[#520014] inline-flex items-center gap-1.5 transition-colors"
+                className="text-xs sm:text-sm font-bold text-[#740707] hover:text-[#4a0404] inline-flex items-center gap-1.5 transition-colors"
               >
                 <span>View All 5 Commodities</span>
               </Link>
@@ -165,13 +215,13 @@ export default function RicePageClient() {
                 <Link
                   key={other.key}
                   href={`/${other.slug}`}
-                  className="group p-6 rounded-2xl bg-[#FAF9F6] border border-neutral-200/90 hover:border-[#800020]/40 shadow-2xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between"
+                  className="group p-6 rounded-2xl bg-[#FAF9F6] border border-neutral-200/90 hover:border-[#740707]/40 shadow-2xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between"
                 >
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#800020]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#740707]">
                       Monagrow {other.navName}
                     </span>
-                    <h4 className="text-lg font-bold text-neutral-900 group-hover:text-[#800020] transition-colors">
+                    <h4 className="text-lg font-bold text-neutral-900 group-hover:text-[#740707] transition-colors">
                       {other.title}
                     </h4>
                     <p className="text-xs text-neutral-600 line-clamp-2">
@@ -179,7 +229,7 @@ export default function RicePageClient() {
                     </p>
                   </div>
 
-                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-[#800020] border-t border-neutral-200/60 mt-4">
+                  <div className="pt-4 flex items-center justify-between text-xs font-bold text-[#740707] border-t border-neutral-200/60 mt-4">
                     <span>View {other.navName} Specifications</span>
                   </div>
                 </Link>
@@ -191,7 +241,7 @@ export default function RicePageClient() {
         {/* ========================================================
             7. DIRECT CONTAINER SOURCING CTA BANNER
             ======================================================== */}
-        <section className="py-12 bg-gradient-to-r from-[#800020] to-[#5a0016] text-white">
+        <section className="py-12 bg-gradient-to-r from-[#740707] to-[#520505] text-white">
           <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
               <div className="space-y-2 max-w-2xl">
@@ -211,7 +261,7 @@ export default function RicePageClient() {
                 <button
                   type="button"
                   onClick={() => handleOpenQuoteModal(products[0]?.quoteName)}
-                  className="px-6 py-3 rounded-full bg-white text-[#800020] hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-transform hover:scale-105 cursor-pointer inline-flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-white text-[#740707] hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-transform hover:scale-105 cursor-pointer inline-flex items-center gap-2"
                 >
                   <span>Request Instant Quote</span>
                 </button>
@@ -231,17 +281,155 @@ export default function RicePageClient() {
       {/* Footer */}
       <Footer onOpenQuoteModal={handleOpenQuoteModal} />
 
-      {/* Interactive Modals */}
+      {/* Interactive Video Modal */}
       <VideoModal
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
       />
 
+      {/* Wholesale Quote Modal */}
       <QuoteModal
         isOpen={isQuoteModalOpen}
         onClose={() => setIsQuoteModalOpen(false)}
         initialCommodity={selectedCommodityForQuote}
       />
+
+      {/* Product Full Specifications Modal */}
+      {selectedProductForDetails && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
+          onClick={() => setSelectedProductForDetails(null)}
+        >
+          <div
+            className="relative w-full max-w-2xl bg-[#FAF9F6] rounded-3xl border border-neutral-200 shadow-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setSelectedProductForDetails(null)}
+              className="absolute top-5 right-5 p-2 rounded-full text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 transition-colors cursor-pointer"
+              aria-label="Close details"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-neutral-200">
+              <div className="w-28 h-36 relative shrink-0 flex items-center justify-center">
+                <Image
+                  src={selectedProductForDetails.packImg}
+                  alt={selectedProductForDetails.packAlt}
+                  width={140}
+                  height={180}
+                  className="max-h-36 w-auto object-contain drop-shadow-lg"
+                />
+              </div>
+              <div className="text-center sm:text-left space-y-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#740707]">
+                  {selectedProductForDetails.kicker}
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
+                  {selectedProductForDetails.name}
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                  {selectedProductForDetails.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Body: Verified Specs */}
+            <div className="py-6 space-y-6">
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-3">
+                  Verified Lot Specifications
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {selectedProductForDetails.specs.map((sp) => (
+                    <div
+                      key={sp.label}
+                      className="p-3 rounded-xl bg-white border border-neutral-200/80 shadow-2xs"
+                    >
+                      <p className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium">
+                        {sp.label}
+                      </p>
+                      <p className="text-xs sm:text-sm font-bold text-neutral-900 mt-0.5">
+                        {sp.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Packaging Formats: Retail vs Bulk */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-2">
+                    <PackageCheck className="w-4 h-4 text-[#740707]" />
+                    Retail Packaging Formats
+                  </h4>
+                  <ul className="text-xs text-neutral-600 space-y-1.5">
+                    {selectedProductForDetails.retailSizes.map((size) => (
+                      <li key={size} className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#740707]" />
+                        <span>{size}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 flex items-center gap-1.5 mb-2">
+                    <ShieldCheck className="w-4 h-4 text-[#740707]" />
+                    Wholesale &amp; Bulk Export
+                  </h4>
+                  <ul className="text-xs text-neutral-600 space-y-1.5">
+                    {selectedProductForDetails.bulkSizes.map((size) => (
+                      <li key={size} className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+                        <span>{size}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Sourcing Highlights */}
+              <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+                  Quality &amp; Sourcing Highlights
+                </h4>
+                <ul className="text-xs text-neutral-600 space-y-1.5">
+                  {selectedProductForDetails.keyHighlights.map((hl) => (
+                    <li key={hl} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#740707] shrink-0 mt-0.5" />
+                      <span>{hl}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Modal Footer CTA */}
+            <div className="pt-4 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs text-neutral-500">
+                Export grades SGS certified · CIF / FOB international contracts
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  const quoteName = selectedProductForDetails.quoteName;
+                  setSelectedProductForDetails(null);
+                  handleOpenQuoteModal(quoteName);
+                }}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#740707] hover:bg-[#5e0606] shadow-md transition-all cursor-pointer"
+              >
+                Request Quote for this Variety
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@
   --paper: #f6efe6;
   --ink: #30241e;
   --muted: #75675d;
-  --accent: #800020;
+  --accent: #740707;
   --photo-radius: 14px;
   background: var(--paper);
   color: var(--ink);
@@ -467,7 +467,7 @@
 }
 
 .invitation button:hover {
-  background: #5e0018;
+  background: #550505;
 }
 
 .invitation button:focus-visible {

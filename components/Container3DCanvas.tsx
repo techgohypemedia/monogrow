@@ -27,7 +27,7 @@ export default function Container3DCanvas({
 
   // Commodity color highlights
   const commodityColors: Record<string, number> = {
-    rice: 0x800020, // Vivid Monagrow Maroon
+    rice: 0x740707, // Vivid Monagrow Maroon
     dryfruits: 0x8a3324, // Warm Russet
     sugar: 0x1f4e5b, // Deep Port Teal
     coffee: 0x3d2314, // Roasted Espresso
@@ -199,7 +199,7 @@ export default function Container3DCanvas({
     };
 
     // Build single or stacked containers based on quantity
-    const color = commodityColors[commodityType] || 0x800020;
+    const color = commodityColors[commodityType] || 0x740707;
     if (containerCount >= 2) {
       containerGroup.add(buildContainer(0, -0.1, 0, color));
       containerGroup.add(buildContainer(0.2, 1.3, -0.15, 0x1f4e5b));

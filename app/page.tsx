@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white selection:bg-[#800020] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white selection:bg-[#740707] selection:text-white">
       {/* 1. Top Navbar */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} immersiveHero />
 

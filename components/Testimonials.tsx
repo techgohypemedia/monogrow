@@ -78,11 +78,11 @@ const REVIEWS: ReviewItem[] = [
 const DISPLAY_REVIEWS: ReviewItem[] = [...REVIEWS, ...REVIEWS, ...REVIEWS];
 const TOTAL_BASE = REVIEWS.length;
 
-// Five stars in Vivid Maroon (#800020)
+// Five stars in Vivid Maroon (#740707)
 function FiveStarsMaroon() {
   return (
     <div
-      className="flex items-center gap-1.5 text-[#800020] text-sm tracking-wider mb-4 select-none"
+      className="flex items-center gap-1.5 text-[#740707] text-sm tracking-wider mb-4 select-none"
       aria-label="5 stars rating"
     >
       {Array.from({ length: 5 }).map((_, i) => (
@@ -90,7 +90,7 @@ function FiveStarsMaroon() {
           key={i}
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="w-4 h-4 drop-shadow-[0_1px_3px_rgba(128,0,32,0.25)]"
+          className="w-4 h-4 drop-shadow-[0_1px_3px_rgba(116, 7, 7, 0.25)]"
           aria-hidden="true"
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -326,20 +326,20 @@ export default function Testimonials() {
             }}
             className="flex items-center gap-4 sm:gap-5"
           >
-            {/* 4.8 Rating in Vivid Maroon (#800020) */}
+            {/* 4.8 Rating in Vivid Maroon (#740707) */}
             <span
               style={{
-                backgroundImage: "linear-gradient(135deg, #800020 0%, #a81c3e 50%, #800020 100%)",
+                backgroundImage: "linear-gradient(135deg, #740707 0%, #a81c3e 50%, #740707 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
-              className="font-sans font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight leading-none drop-shadow-[0_4px_16px_rgba(128,0,32,0.18)] shrink-0"
+              className="font-sans font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight leading-none drop-shadow-[0_4px_16px_rgba(116, 7, 7, 0.18)] shrink-0"
             >
               4.8
             </span>
 
-            {/* Text Description in Vivid Maroon (#800020) */}
-            <p className="text-xs sm:text-sm text-[#800020] font-semibold leading-snug max-w-[220px] sm:max-w-[280px] drop-shadow-xs">
+            {/* Text Description in Vivid Maroon (#740707) */}
+            <p className="text-xs sm:text-sm text-[#740707] font-semibold leading-snug max-w-[220px] sm:max-w-[280px] drop-shadow-xs">
               average from 3,200 reviews of our containers, sacks and retail packs.
             </p>
           </div>
@@ -351,7 +351,7 @@ export default function Testimonials() {
               onClick={handlePrev}
               title="Previous reviews"
               aria-label="Previous reviews"
-              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
+              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#740707] border border-stone-200 hover:border-[#740707] flex items-center justify-center text-sm font-bold text-[#740707] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
             >
               ←
             </button>
@@ -360,7 +360,7 @@ export default function Testimonials() {
               onClick={handleNext}
               title="Next reviews"
               aria-label="Next reviews"
-              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#800020] border border-stone-200 hover:border-[#800020] flex items-center justify-center text-sm font-bold text-[#800020] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
+              className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-white/90 hover:bg-[#740707] border border-stone-200 hover:border-[#740707] flex items-center justify-center text-sm font-bold text-[#740707] hover:text-white transition-all shadow-2xs cursor-pointer active:scale-95"
             >
               →
             </button>
@@ -408,19 +408,19 @@ export default function Testimonials() {
                   }}
                   className={`w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] shrink-0 rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 flex flex-col justify-between min-h-[250px] sm:min-h-[270px] lg:min-h-[290px] backdrop-blur-xl transition-colors duration-300 relative group ${
                     isHighlighted
-                      ? "bg-white/95 border border-stone-200/90 shadow-[0_16px_40px_rgba(128,0,32,0.12)] hover:shadow-[0_24px_50px_rgba(128,0,32,0.18)] hover:border-[#800020]/60"
-                      : "bg-white/90 border border-stone-200/80 shadow-[0_10px_28px_rgba(28,25,23,0.06)] hover:shadow-[0_18px_40px_rgba(128,0,32,0.12)] hover:border-[#800020]/40"
+                      ? "bg-white/95 border border-stone-200/90 shadow-[0_16px_40px_rgba(116, 7, 7, 0.12)] hover:shadow-[0_24px_50px_rgba(116, 7, 7, 0.18)] hover:border-[#740707]/60"
+                      : "bg-white/90 border border-stone-200/80 shadow-[0_10px_28px_rgba(28,25,23,0.06)] hover:shadow-[0_18px_40px_rgba(116, 7, 7, 0.12)] hover:border-[#740707]/40"
                   }`}
                 >
                   {/* Subtle top vivid maroon accent highlight for center card */}
                   {isHighlighted && (
-                    <div className="absolute -top-px left-8 right-8 h-0.5 bg-linear-to-r from-transparent via-[#800020]/60 to-transparent pointer-events-none" />
+                    <div className="absolute -top-px left-8 right-8 h-0.5 bg-linear-to-r from-transparent via-[#740707]/60 to-transparent pointer-events-none" />
                   )}
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <FiveStarsMaroon />
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#800020] bg-[#800020]/8 px-2.5 py-1 rounded-full border border-[#800020]/15">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#740707] bg-[#740707]/8 px-2.5 py-1 rounded-full border border-[#740707]/15">
                         {review.category}
                       </span>
                     </div>
@@ -472,7 +472,7 @@ export default function Testimonials() {
               aria-label={`Jump to review ${dotIdx + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                 activeBaseIndex === dotIdx
-                  ? "w-6 bg-[#800020]"
+                  ? "w-6 bg-[#740707]"
                   : "w-2 bg-stone-300 hover:bg-stone-400"
               }`}
             />

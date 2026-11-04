@@ -110,7 +110,7 @@ export default function QuoteModal({
           {submitted ? (
             /* Success State */
             <div className="text-center py-12 space-y-6 flex-1 flex flex-col justify-center items-center">
-              <div className="w-16 h-16 rounded-full bg-[#fae8eb] text-[#800020] flex items-center justify-center mx-auto shadow-inner">
+              <div className="w-16 h-16 rounded-full bg-[#faeded] text-[#740707] flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
@@ -128,7 +128,7 @@ export default function QuoteModal({
                 <button
                   type="button"
                   onClick={handleResetAndClose}
-                  className="px-8 py-3 rounded-full bg-[#800020] hover:bg-[#68001a] text-white font-bold text-xs sm:text-sm shadow-md transition-colors cursor-pointer"
+                  className="px-8 py-3 rounded-full bg-[#740707] hover:bg-[#5e0606] text-white font-bold text-xs sm:text-sm shadow-md transition-colors cursor-pointer"
                 >
                   Back to Website
                 </button>
@@ -148,7 +148,7 @@ export default function QuoteModal({
                     <select
                       value={formData.commodity}
                       onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
-                      className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
+                      className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
                     >
                       {COMMODITIES.map((c) => (
                         <option key={c} value={c}>
@@ -156,7 +156,7 @@ export default function QuoteModal({
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#800020] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
+                    <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#740707] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
                   </div>
                 </div>
 
@@ -164,7 +164,7 @@ export default function QuoteModal({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
-                      Your Full Name <span className="text-[#800020] font-bold">*</span>
+                      Your Full Name <span className="text-[#740707] font-bold">*</span>
                     </label>
                     <input
                       required
@@ -172,13 +172,13 @@ export default function QuoteModal({
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. John Doe"
-                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all shadow-2xs"
                     />
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
-                      Company Name <span className="text-[#800020] font-bold">*</span>
+                      Company Name <span className="text-[#740707] font-bold">*</span>
                     </label>
                     <input
                       required
@@ -186,7 +186,7 @@ export default function QuoteModal({
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       placeholder="e.g. Al-Mansoor Trading"
-                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export default function QuoteModal({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
-                      Work Email <span className="text-[#800020] font-bold">*</span>
+                      Work Email <span className="text-[#740707] font-bold">*</span>
                     </label>
                     <input
                       required
@@ -203,13 +203,13 @@ export default function QuoteModal({
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="buyer@company.com"
-                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all shadow-2xs"
                     />
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-stone-700 mb-1.5">
-                      Phone / Contact Number <span className="text-[#800020] font-bold">*</span>
+                      Phone / Contact Number <span className="text-[#740707] font-bold">*</span>
                     </label>
                     <input
                       required
@@ -217,7 +217,7 @@ export default function QuoteModal({
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+971 50 123 4567"
-                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -232,7 +232,7 @@ export default function QuoteModal({
                       <select
                         value={formData.volume}
                         onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                        className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
+                        className="w-full h-11 sm:h-12 pl-4 pr-11 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm font-semibold text-stone-900 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all cursor-pointer appearance-none shadow-2xs"
                       >
                         {VOLUMES.map((v) => (
                           <option key={v} value={v}>
@@ -240,7 +240,7 @@ export default function QuoteModal({
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#800020] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
+                      <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-600 group-focus-within:text-[#740707] pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transition-colors" />
                     </div>
                   </div>
 
@@ -253,7 +253,7 @@ export default function QuoteModal({
                       value={formData.destinationPort}
                       onChange={(e) => setFormData({ ...formData, destinationPort: e.target.value })}
                       placeholder="e.g. Jebel Ali / Rotterdam"
-                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all shadow-2xs"
+                      className="w-full h-11 sm:h-12 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -269,7 +269,7 @@ export default function QuoteModal({
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="e.g. 5kg box bag packaging, moisture limit under 12%, SGS certificate..."
-                    className="w-full min-h-[56px] py-2.5 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#800020] focus:ring-4 focus:ring-[#800020]/10 outline-none transition-all resize-none overflow-hidden shadow-2xs"
+                    className="w-full min-h-[56px] py-2.5 px-4 rounded-xl border border-stone-200 bg-[#FAF9F6]/70 hover:bg-white hover:border-stone-300 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#740707] focus:ring-4 focus:ring-[#740707]/10 outline-none transition-all resize-none overflow-hidden shadow-2xs"
                   />
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function QuoteModal({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto min-w-[280px] h-12 px-10 rounded-full bg-gradient-to-r from-[#800020] via-[#941334] to-[#800020] hover:from-[#6d001b] hover:via-[#800020] hover:to-[#6d001b] text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2.5 group disabled:opacity-70"
+                    className="w-full sm:w-auto min-w-[280px] h-12 px-10 rounded-full bg-gradient-to-r from-[#740707] via-[#941334] to-[#740707] hover:from-[#630606] hover:via-[#740707] hover:to-[#630606] text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2.5 group disabled:opacity-70"
                   >
                     <span>{isSubmitting ? "Submitting..." : "Submit Quote Request"}</span>
                     <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -289,7 +289,7 @@ export default function QuoteModal({
 
                 {/* Trust Reassurance */}
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-stone-400 text-center">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#800020]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#740707]" />
                   <span>Direct mill pricing · Commercial confidentiality strictly observed</span>
                 </div>
               </div>

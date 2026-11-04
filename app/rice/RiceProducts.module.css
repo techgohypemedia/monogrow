@@ -26,7 +26,7 @@
 
 .header span,
 .kicker {
-  color: #800020;
+  color: #740707;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .12em;
@@ -98,7 +98,7 @@
 .tagline {
   margin-top: 12px;
   font-size: 14px;
-  color: #800020;
+  color: #740707;
 }
 
 .description {
@@ -145,7 +145,7 @@
   display: inline-flex;
   align-items: center;
   gap: 22px;
-  background: #800020;
+  background: #740707;
   color: white;
   border-radius: 30px;
   padding: 14px 22px;
@@ -156,7 +156,7 @@
 }
 
 .quote:hover {
-  background: #620019;
+  background: #590505;
 }
 
 .link {
@@ -164,7 +164,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #800020;
+  color: #740707;
 }
 
 .more {
@@ -214,11 +214,11 @@
 
 .highlights svg {
   flex-shrink: 0;
-  color: #800020;
+  color: #740707;
 }
 
 .section :is(button, a, summary):focus-visible {
-  outline: 2px solid #800020;
+  outline: 2px solid #740707;
   outline-offset: 5px;
 }
 
@@ -339,7 +339,7 @@
 }
 
 .qualityProduct:focus-visible {
-  outline: 2px solid #800020;
+  outline: 2px solid #740707;
   outline-offset: 6px;
 }
 
@@ -356,7 +356,7 @@
 }
 
 .stepNumber {
-  color: #800020;
+  color: #740707;
   font-size: 12px;
   letter-spacing: .08em;
 }

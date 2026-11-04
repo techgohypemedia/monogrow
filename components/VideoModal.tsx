@@ -60,7 +60,7 @@ export default function VideoModal({ isOpen, onClose }: VideoModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-full bg-[#800020] text-white text-xs font-bold hover:bg-[#68001a] shrink-0"
+            className="px-5 py-2 rounded-full bg-[#740707] text-white text-xs font-bold hover:bg-[#5e0606] shrink-0"
           >
             Close Viewer
           </button>

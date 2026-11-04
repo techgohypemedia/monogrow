@@ -86,23 +86,23 @@ export default function MagneticCursor() {
           isVisible ? "opacity-100" : "opacity-0"
         } ${
           isHovered
-            ? "w-20 h-20 border-2 border-[#800020]/85 bg-[#800020]/15 scale-110 shadow-[0_0_32px_rgba(128,0,32,0.35)] backdrop-blur-xs"
+            ? "w-20 h-20 border-2 border-[#740707]/85 bg-[#740707]/15 scale-110 shadow-[0_0_32px_rgba(116, 7, 7, 0.35)] backdrop-blur-xs"
             : isClicked
-            ? "w-12 h-12 border-2 border-[#800020] bg-[#800020]/25 scale-90"
-            : "w-14 h-14 border-2 border-[#800020]/50 bg-[#800020]/8 shadow-[0_0_18px_rgba(128,0,32,0.18)] backdrop-blur-[2px]"
+            ? "w-12 h-12 border-2 border-[#740707] bg-[#740707]/25 scale-90"
+            : "w-14 h-14 border-2 border-[#740707]/50 bg-[#740707]/8 shadow-[0_0_18px_rgba(116, 7, 7, 0.18)] backdrop-blur-[2px]"
         }`}
         style={{
           transitionProperty: "width, height, background-color, border-color, transform, opacity, box-shadow",
         }}
       />
 
-      {/* Inner Dot - Increased size in Vivid Maroon (#800020) with luminous halo */}
+      {/* Inner Dot - Increased size in Vivid Maroon (#740707) with luminous halo */}
       <div
         ref={cursorDotRef}
         aria-hidden="true"
-        className={`fixed top-0 left-0 z-[9999] pointer-events-none rounded-full bg-[#800020] shadow-[0_0_16px_rgba(128,0,32,0.95)] transition-all duration-150 hidden md:block will-change-transform ${
+        className={`fixed top-0 left-0 z-[9999] pointer-events-none rounded-full bg-[#740707] shadow-[0_0_16px_rgba(116, 7, 7, 0.95)] transition-all duration-150 hidden md:block will-change-transform ${
           isVisible ? "opacity-100" : "opacity-0"
-        } ${isHovered ? "w-5 h-5 scale-110 shadow-[0_0_24px_rgba(128,0,32,1)]" : "w-3.5 h-3.5"}`}
+        } ${isHovered ? "w-5 h-5 scale-110 shadow-[0_0_24px_rgba(116, 7, 7, 1)]" : "w-3.5 h-3.5"}`}
       />
     </>
   );

@@ -24,7 +24,7 @@ export default function MarketIntelligence() {
           {/* Left Column: Eyebrow + Massive Headline */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             {/* Category Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#800020]/10 text-[#800020] text-xs font-bold uppercase tracking-wider mb-5 w-fit">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#740707]/10 text-[#740707] text-xs font-bold uppercase tracking-wider mb-5 w-fit">
               <span>Market Intelligence &amp; Crop Reports</span>
             </div>
 
@@ -74,14 +74,14 @@ export default function MarketIntelligence() {
 
             {/* Subscription Pill Form */}
             {isSubscribed ? (
-              <div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#800020] text-white text-xs sm:text-sm font-semibold shadow-sm w-fit">
+              <div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#740707] text-white text-xs sm:text-sm font-semibold shadow-sm w-fit">
                 <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                 <span>Subscribed to Trade Dispatch</span>
               </div>
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="bg-white rounded-full p-1.5 pl-4 sm:pl-5 shadow-sm border border-stone-200/50 flex items-center gap-2 w-full max-w-md transition-all focus-within:ring-2 focus-within:ring-[#800020]/30"
+                className="bg-white rounded-full p-1.5 pl-4 sm:pl-5 shadow-sm border border-stone-200/50 flex items-center gap-2 w-full max-w-md transition-all focus-within:ring-2 focus-within:ring-[#740707]/30"
               >
                 <input
                   type="email"
@@ -93,7 +93,7 @@ export default function MarketIntelligence() {
                 />
                 <button
                   type="submit"
-                  className="bg-[#800020] hover:bg-[#68001a] text-white text-xs sm:text-sm font-semibold px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm shrink-0 active:scale-95 cursor-pointer"
+                  className="bg-[#740707] hover:bg-[#5e0606] text-white text-xs sm:text-sm font-semibold px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm shrink-0 active:scale-95 cursor-pointer"
                 >
                   Subscribe
                 </button>
