@@ -211,9 +211,11 @@ export default function CommodityCategoryTemplate({
                     >
                       {/* Title & Narrative */}
                       <div className="space-y-2.5">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
-                          {product.kicker}
-                        </span>
+                        {product.kicker ? (
+                          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
+                            {product.kicker}
+                          </span>
+                        ) : null}
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-900 tracking-tight">
                           {product.name}
                         </h2>

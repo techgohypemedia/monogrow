@@ -397,7 +397,7 @@ export default function ProductSection({
             </div>
 
             {/* Modal Scrollable Body */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+            <div className="p-6 sm:p-8 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
                 {/* Left: Product Image & Flip Option */}
                 <div className="md:col-span-5 bg-stone-50 rounded-[8px] p-4 border border-stone-200 relative">

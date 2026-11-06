@@ -8,7 +8,7 @@ import QuoteModal from "@/components/QuoteModal";
 import AboutHeroBrandStory from "@/components/AboutHeroBrandStory";
 import AboutHeroSection from "@/components/AboutHeroSection";
 import styles from "./AboutPage.module.css";
-import { ShieldCheck, Award, CheckCircle2, FileCheck2 } from "lucide-react";
+
 
 const PARTNER_PILLARS = [
   {
@@ -222,34 +222,41 @@ export default function AboutUsPage() {
         </section>
 
         {/* ========================================================
-            GLOBAL ACCREDITATIONS BADGE ROW
+            LET'S GROW TOGETHER - CONTACT & PARTNERSHIP
+            Replaces Accreditations Section (Matching Second Screenshot)
             ======================================================== */}
-        <section className={`${styles.credentials} py-14 bg-[#FAF9F6] border-y border-neutral-200/70`}>
-          <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
-              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <ShieldCheck className="w-7 h-7 text-[#740707] mx-auto" />
-                <p className="font-bold text-sm text-neutral-900">ISO 22000:2018</p>
-                <p className="text-[11px] text-neutral-500">Certified Food Safety</p>
-              </div>
+        <section data-about-reveal className="py-16 sm:py-24 bg-white border-t border-neutral-200/70">
+          <div className="max-w-[1240px] mx-auto px-6 sm:px-10 lg:px-16">
+            <header className="mb-6 sm:mb-8">
+              <h2 className="font-serif font-bold text-2xl sm:text-3xl lg:text-[34px] text-[#740707] tracking-tight">
+                Let&apos;s Grow Together
+              </h2>
+              <div className="w-full h-[2px] bg-[#740707] mt-2.5 mb-6 sm:mb-8" />
+            </header>
 
-              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <FileCheck2 className="w-7 h-7 text-[#740707] mx-auto" />
-                <p className="font-bold text-sm text-neutral-900">SGS Verified</p>
-                <p className="text-[11px] text-neutral-500">Pre-Shipment Container QC</p>
-              </div>
+            <p className="text-[16px] sm:text-[18px] text-neutral-800 leading-[1.8] font-sans mb-8 max-w-4xl">
+              Whether you&apos;re stocking shelves, supplying kitchens or building your own brand, Monagrow is ready to serve you.
+            </p>
 
-              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <CheckCircle2 className="w-7 h-7 text-[#740707] mx-auto" />
-                <p className="font-bold text-sm text-neutral-900">Sortex 100% Optical</p>
-                <p className="text-[11px] text-neutral-500">Laser Grain Cleanliness</p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-white border border-neutral-200/80 shadow-2xs space-y-1">
-                <Award className="w-7 h-7 text-[#740707] mx-auto" />
-                <p className="font-bold text-sm text-neutral-900">Phytosanitary Certified</p>
-                <p className="text-[11px] text-neutral-500">Global Port Quarantine Pass</p>
-              </div>
+            <div className="space-y-3.5 font-sans text-[15px] sm:text-[17px] text-neutral-800">
+              <p>
+                <strong className="font-bold text-[#740707]">Email:</strong>{" "}
+                <a href="mailto:hello@monagrow.com" className="hover:underline text-neutral-900 font-medium">
+                  hello@monagrow.com
+                </a>
+              </p>
+              <p>
+                <strong className="font-bold text-[#740707]">WhatsApp:</strong>{" "}
+                <a href="https://wa.me/97153462527" target="_blank" rel="noopener noreferrer" className="hover:underline text-neutral-900 font-medium">
+                  +971 53 462 527
+                </a>
+              </p>
+              <p>
+                <strong className="font-bold text-[#740707]">Website:</strong>{" "}
+                <a href="https://monagrow.com" target="_blank" rel="noopener noreferrer" className="hover:underline text-neutral-900 font-medium">
+                  monagrow.com
+                </a>
+              </p>
             </div>
           </div>
         </section>

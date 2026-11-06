@@ -277,66 +277,69 @@ export default function RicePageClient() {
         initialCommodity={selectedCommodityForQuote}
       />
 
-      {/* Product Full Specifications Modal */}
+      {/* Product Full Specifications Modal — Wide Floating Window (Full Screen, Not Edge-to-Edge) */}
       {selectedProductForDetails && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-10 animate-in fade-in duration-200"
           onClick={() => setSelectedProductForDetails(null)}
         >
           <div
-            className="relative w-full max-w-2xl bg-[#FAF9F6] rounded-3xl border border-neutral-200 shadow-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-[92vw] lg:max-w-6xl xl:max-w-7xl bg-[#FAF9F6] rounded-3xl border border-neutral-200 shadow-2xl p-6 sm:p-8 lg:p-10 max-h-[92vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               type="button"
               onClick={() => setSelectedProductForDetails(null)}
-              className="absolute top-5 right-5 p-2 rounded-full text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 transition-colors cursor-pointer"
+              className="absolute top-5 right-5 p-2 rounded-full text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 transition-colors cursor-pointer z-10"
               aria-label="Close details"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* Modal Header */}
-            <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-neutral-200">
-              <div className="w-28 h-36 relative shrink-0 flex items-center justify-center">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 pb-6 border-b border-neutral-200">
+              <div className="w-28 h-36 sm:w-36 sm:h-44 relative shrink-0 flex items-center justify-center">
                 <Image
                   src={selectedProductForDetails.packImg}
                   alt={selectedProductForDetails.packAlt}
-                  width={140}
-                  height={180}
-                  className="max-h-36 w-auto object-contain drop-shadow-lg"
+                  width={160}
+                  height={200}
+                  className="max-h-36 sm:max-h-40 w-auto object-contain drop-shadow-lg"
                 />
               </div>
-              <div className="text-center sm:text-left space-y-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#740707]">
-                  {selectedProductForDetails.kicker}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
+              <div className="text-center sm:text-left space-y-2 flex-1">
+                {selectedProductForDetails.kicker ? (
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#740707] block">
+                    {selectedProductForDetails.kicker}
+                  </span>
+                ) : null}
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 tracking-tight">
                   {selectedProductForDetails.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm md:text-[15px] text-neutral-600 leading-relaxed font-normal max-w-4xl">
                   {selectedProductForDetails.description}
                 </p>
               </div>
             </div>
 
-            {/* Modal Body: Verified Specs */}
+            {/* Modal Body */}
             <div className="py-6 space-y-6">
+              {/* Verified Product Specifications */}
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-3">
                   Product specifications
                 </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {selectedProductForDetails.specs.map((sp) => (
                     <div
                       key={sp.label}
-                      className="p-3 rounded-xl bg-white border border-neutral-200/80 shadow-2xs"
+                      className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-2xs"
                     >
-                      <p className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium">
+                      <p className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-neutral-500 font-medium">
                         {sp.label}
                       </p>
-                      <p className="text-xs sm:text-sm font-bold text-neutral-900 mt-0.5">
+                      <p className="text-xs sm:text-sm lg:text-[15px] font-bold text-neutral-900 mt-1">
                         {sp.value}
                       </p>
                     </div>
@@ -344,59 +347,67 @@ export default function RicePageClient() {
                 </div>
               </div>
 
-              {/* Packaging Formats: Retail vs Bulk */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-2">
-                    <PackageCheck className="w-4 h-4 text-[#740707]" />
-                    Retail Packaging Formats
-                  </h4>
-                  <ul className="text-xs text-neutral-600 space-y-1.5">
-                    {selectedProductForDetails.retailSizes.map((size) => (
-                      <li key={size} className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#740707]" />
-                        <span>{size}</span>
-                      </li>
-                    ))}
-                  </ul>
+              {/* 3-Column Section: Retail Formats | Wholesale & Bulk | Sourcing Highlights */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
+                {/* Retail Packaging */}
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#740707] flex items-center gap-2 mb-3">
+                      <PackageCheck className="w-4 h-4 text-[#740707]" />
+                      Retail Packaging Formats
+                    </h4>
+                    <ul className="text-xs sm:text-[13px] text-neutral-600 space-y-2">
+                      {selectedProductForDetails.retailSizes.map((size) => (
+                        <li key={size} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#740707]" />
+                          <span>{size}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 flex items-center gap-1.5 mb-2">
-                    <ShieldCheck className="w-4 h-4 text-[#740707]" />
-                    Wholesale &amp; Bulk Export
-                  </h4>
-                  <ul className="text-xs text-neutral-600 space-y-1.5">
-                    {selectedProductForDetails.bulkSizes.map((size) => (
-                      <li key={size} className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
-                        <span>{size}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Wholesale & Bulk Export */}
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 flex items-center gap-2 mb-3">
+                      <ShieldCheck className="w-4 h-4 text-[#740707]" />
+                      Wholesale &amp; Bulk Export
+                    </h4>
+                    <ul className="text-xs sm:text-[13px] text-neutral-600 space-y-2">
+                      {selectedProductForDetails.bulkSizes.map((size) => (
+                        <li key={size} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+                          <span>{size}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
-              {/* Sourcing Highlights */}
-              <div className="p-4 rounded-2xl bg-white border border-neutral-200/80">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
-                  Quality &amp; Sourcing Highlights
-                </h4>
-                <ul className="text-xs text-neutral-600 space-y-1.5">
-                  {selectedProductForDetails.keyHighlights.map((hl) => (
-                    <li key={hl} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#740707] shrink-0 mt-0.5" />
-                      <span>{hl}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Quality & Sourcing Highlights */}
+                <div className="p-5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 mb-3">
+                      Quality &amp; Sourcing Highlights
+                    </h4>
+                    <ul className="text-xs sm:text-[13px] text-neutral-600 space-y-2">
+                      {selectedProductForDetails.keyHighlights.map((hl) => (
+                        <li key={hl} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-[#740707] shrink-0 mt-0.5" />
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Modal Footer CTA */}
-            <div className="pt-4 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span className="text-xs text-neutral-500">
-                Confirm current lot specifications and shipping terms with our team.
+            <div className="pt-5 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span className="text-xs sm:text-sm text-neutral-500 text-center sm:text-left">
+                Confirm current lot specifications, private labeling options, and shipping terms with our team.
               </span>
               <button
                 type="button"
@@ -405,7 +416,7 @@ export default function RicePageClient() {
                   setSelectedProductForDetails(null);
                   handleOpenQuoteModal(quoteName);
                 }}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#740707] hover:bg-[#5e0606] shadow-md transition-all cursor-pointer"
+                className="w-full sm:w-auto px-8 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-[#740707] hover:bg-[#5e0606] shadow-md transition-all cursor-pointer hover:scale-[1.02]"
               >
                 Request Quote for this Variety
               </button>

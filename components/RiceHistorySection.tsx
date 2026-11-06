@@ -693,9 +693,11 @@ export default function RiceHistorySection({
 
                   {/* Kicker & Origin */}
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#740707]">
-                      {p.kicker}
-                    </span>
+                    {p.kicker ? (
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#740707]">
+                        {p.kicker}
+                      </span>
+                    ) : null}
                     <span className="text-[10px] font-semibold text-[#5a4d44] bg-[#FAF5EE] px-2 py-0.5 rounded-full border border-[#dfd5c6]/60">
                       100% Sortex
                     </span>
