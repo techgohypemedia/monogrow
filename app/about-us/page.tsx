@@ -5,9 +5,45 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuoteModal from "@/components/QuoteModal";
+import AboutHeroBrandStory from "@/components/AboutHeroBrandStory";
 import AboutHeroSection from "@/components/AboutHeroSection";
 import styles from "./AboutPage.module.css";
 import { ShieldCheck, Award, CheckCircle2, FileCheck2 } from "lucide-react";
+
+const PARTNER_PILLARS = [
+  {
+    id: "quality",
+    label: "Quality",
+    title: "Assured Quality",
+    description: "Every product is checked and documented before it ships.",
+    image: "/assets/about-purity-lab.jpg",
+    alt: "Quality testing and purity analysis in laboratory",
+  },
+  {
+    id: "supply",
+    label: "Supply",
+    title: "Reliable Supply",
+    description: "We source through a trusted network of origins.",
+    image: "/assets/about-harvest-origin.jpg",
+    alt: "Agricultural harvest and trusted origin supply network",
+  },
+  {
+    id: "trade",
+    label: "Trade",
+    title: "Transparent Trade",
+    description: "Pricing, terms and documentation are always clear.",
+    image: "/assets/about-global-port.jpg",
+    alt: "Global shipping port, freight logistics and transparent trade",
+  },
+  {
+    id: "partnership",
+    label: "Partnership",
+    title: "Partnership First",
+    description: "Your growth is our growth.",
+    image: "/assets/monagrow-studio-still.jpg",
+    alt: "Packaged Monagrow commodities and wholesale partnerships",
+  },
+];
 
 const JOURNEY_STAGES = [
   { id: "origin", title: "Rooted in good origins.", label: "Our beginnings", description: "Our story starts with growers and origin mills. Those relationships remain at the heart of everything we source.", image: "/assets/about-farm-estate.jpg", alt: "Sunlight across terraced agricultural fields in a mountain valley" },
@@ -117,13 +153,18 @@ export default function AboutUsPage() {
 
       <main className="flex-1">
         {/* ========================================================
-            PAGE HERO & FOUNDATION: ABOUT MONAGROW
+            BRAND FOUNDATION STORY: ABOUT MONAGROW & LIVING EMBLEM
+            Top of Page: Food Beyond Borders, Dual Hubs & The Monal
+            ======================================================== */}
+        <AboutHeroBrandStory onOpenQuoteModal={handleOpenQuoteModal} />
+
+        {/* ========================================================
+            PAGE HERO & PRODUCT SHOWCASE: ABOUT MONAGROW
             Matching Second Screenshot Design
             ======================================================== */}
         <AboutHeroSection onOpenQuoteModal={handleOpenQuoteModal} />
 
         {/* ========================================================
-            THE MONAGROW JOURNEY STORY        {/* ========================================================
             THE MONAGROW JOURNEY STORY
             Alternating Editorial Presentation with Home Page About Monagrow Reveal Functionality
             ======================================================== */}
@@ -146,19 +187,36 @@ export default function AboutUsPage() {
                 <p>{JOURNEY_STAGES[0].description}</p>
               </div>
             </article>
-            <div className={styles.storyGrid}>
-              {JOURNEY_STAGES.slice(1).map(stage => (
-                <article key={stage.id} className={styles.storyCard} data-about-reveal>
-                  <div className={styles.storyVisual} data-reveal-card>
-                    <Image src={stage.image} alt={stage.alt} fill sizes="(max-width: 767px) 100vw, 400px" />
-                  </div>
-                  <div className={styles.storyCopy}>
-                    <span className={styles.storyLabel}>{stage.label}</span>
-                    <h3>{stage.title}</h3>
-                    <p>{stage.description}</p>
-                  </div>
-                </article>
-              ))}
+            {/* ========================================================
+                WHY PARTNER WITH MONAGROW
+                Image cards matching second screenshot content
+                ======================================================== */}
+            <div data-about-reveal className="mt-16 sm:mt-24 pt-2">
+              <header className="mb-10 sm:mb-14 text-center">
+                <h2 className="font-serif font-bold text-[28px] sm:text-[38px] text-black tracking-tight leading-tight">
+                  Why Partner <span className="text-[#740707]">With Monagrow</span>
+                </h2>
+              </header>
+
+              <div className={styles.storyGrid}>
+                {PARTNER_PILLARS.map((pillar) => (
+                  <article key={pillar.id} className={styles.storyCard} data-about-reveal>
+                    <div className={styles.storyVisual} data-reveal-card>
+                      <Image
+                        src={pillar.image}
+                        alt={pillar.alt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+                      />
+                    </div>
+                    <div className={styles.storyCopy}>
+                      <span className={styles.storyLabel}>{pillar.label}</span>
+                      <h3>{pillar.title}</h3>
+                      <p>{pillar.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -166,8 +224,6 @@ export default function AboutUsPage() {
         {/* ========================================================
             GLOBAL ACCREDITATIONS BADGE ROW
             ======================================================== */}
-
-
         <section className={`${styles.credentials} py-14 bg-[#FAF9F6] border-y border-neutral-200/70`}>
           <div className="w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">

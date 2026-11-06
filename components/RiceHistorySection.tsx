@@ -176,10 +176,10 @@ export default function RiceHistorySection({
       era: "Present",
       period: "Modern Era",
       title: "Sortex Laser Purity",
-      shortDesc: "Dual-camera optical laser sorting and GI certifications guarantee 100% purity and digital lot traceability.",
+      shortDesc: "Dual-camera optical laser sorting and GI certifications ensure 100% purity and digital lot traceability.",
       region: "Himalayan Basmati Belt & Global Ports",
       summary:
-        "Today, high-resolution optical camera sorting, laser purity verification, and strict Geographical Indication (GI) laws guarantee varieties like Monagrow 1121 Supreme deliver unmatched length, zero broken grains, and verifiable origin.",
+        "Today, high-resolution optical camera sorting, laser purity verification, and strict Geographical Indication (GI) laws ensure varieties like Monagrow 1121 Supreme deliver unmatched length, zero broken grains, and verifiable origin.",
       milestone: "Laser sortex 100% purity and digital lot-level origin certification",
       significance: "Unites ten millennia of botanical heritage with aerospace-grade sorting technology.",
       icon: Sparkles,

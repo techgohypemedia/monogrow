@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
 import styles from "./CategorySection.module.css";
@@ -31,7 +30,7 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
       if (cancelled || !root.current) return;
       gsap.registerPlugin(ScrollTrigger);
       const media = gsap.matchMedia();
-      media.add("(min-width: 768px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)", () => {
+      media.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
         const section = root.current!;
         const viewport = stage.current!;
         const rail = track.current!;
@@ -85,7 +84,7 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
     <section id="categories" ref={root} className={styles.section} aria-labelledby="collection-title">
       <div ref={stage} className={styles.stage}>
         <header className={styles.heading}>
-          <h2 id="collection-title">FIVE STAPLES.<br />EXCEPTIONAL ROOTS.</h2>
+          <h2 id="collection-title">FOUR STAPLES<br />EXCEPTIONAL ROOTS</h2>
         </header>
         <div className={styles.intro}>
           <p>Good food starts with good ingredients. Explore our collection of Basmati rice, estate coffee, royal dry fruits, and sugar—packed at origin, ready for your business.</p>
@@ -111,17 +110,6 @@ export default function CategorySection({ onSelectCategory, onOpenQuoteModal }: 
               </article>
             ))}
 
-            {/* Card 05: See all Products */}
-            <article data-product-card className={`${styles.card} ${styles.seeAllCard}`}>
-              <Link href="/categories" className={styles.seeAllLink} aria-label="See all products">
-                <div className={styles.seeAllCenter}>
-                  <span className={styles.seeAllText}>See all Products</span>
-                  <span className={styles.seeAllIcon}>
-                    <ArrowUpRight size={24} aria-hidden="true" />
-                  </span>
-                </div>
-              </Link>
-            </article>
           </div>
         </div>
         <div className={styles.progress} aria-hidden="true"><span /></div>

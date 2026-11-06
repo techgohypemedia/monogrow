@@ -156,52 +156,51 @@ export default function RicePageClient() {
                   key={product.id}
                   id={product.id}
                   data-collection-card={index}
-                  className={`group relative flex flex-col items-center justify-between text-center bg-white rounded-xl p-5 sm:p-7 border border-[#dfd5c6] hover:border-[#740707] transition-all duration-300 ease-out hover:-translate-y-1.5
-                    
-                  `}
+                  className="group relative flex flex-col items-center justify-between text-center bg-white rounded-2xl p-6 sm:p-8 border border-[#dfd5c6] hover:border-[#740707] shadow-sm hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1.5 h-full"
                 >
                   {/* Visual Cutout Pack Image with Smooth Hover Scale */}
                   <div
-                    className="relative w-full h-48 sm:h-56 flex items-center justify-center mb-4 cursor-pointer"
+                    className="relative w-full h-52 sm:h-60 flex items-center justify-center mb-5 cursor-pointer"
                     onClick={() => setSelectedProductForDetails(product)}
+                    title={`Click to view ${product.name} specifications`}
                   >
                     <Image
                       id={index === 0 ? "rice-target-pack" : undefined}
                       src={product.packImg}
-                      alt={product.packAlt}
-                      width={220}
-                      height={300}
-                      className="max-h-[180px] sm:max-h-[210px] w-auto object-contain drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-108"
-                      sizes="(max-width: 768px) 180px, 220px"
+                      alt={product.packAlt || product.name}
+                      width={240}
+                      height={320}
+                      className="max-h-[190px] sm:max-h-[220px] w-auto object-contain drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-106"
+                      sizes="(max-width: 768px) 180px, 240px"
                     />
                   </div>
 
                   {/* Content Block */}
                   <div className="flex-1 flex flex-col items-center justify-between w-full">
                     <div>
-                      {/* Title in Elegant Serif Font */}
+                      {/* Title in Elegant Bold Font */}
                       <h3
                         onClick={() => setSelectedProductForDetails(product)}
-                        className="text-xl sm:text-2xl font-semibold text-[#262820] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
+                        className="text-xl sm:text-2xl font-bold text-[#262820] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
                       >
                         {product.name}
                       </h3>
 
-                      {/* Subtitle / Description - Single line with ellipsis */}
+                      {/* Subtitle / Description */}
                       <p
                         title={product.tagline}
-                        className="text-sm sm:text-base text-[#6b5d52] leading-relaxed mt-1.5 max-w-[280px] sm:max-w-[320px] mx-auto font-normal block"
+                        className="text-xs sm:text-sm text-[#6b5d52] leading-relaxed mt-2 max-w-[280px] sm:max-w-[320px] mx-auto font-normal"
                       >
                         {product.tagline}
                       </p>
                     </div>
 
                     {/* Action CTA: Request Quote */}
-                    <div className="mt-4 pt-1 flex items-center justify-center w-full">
+                    <div className="mt-6 pt-1 flex items-center justify-center w-full">
                       <button
                         type="button"
                         onClick={() => handleOpenQuoteModal(product.quoteName)}
-                        className="px-6 py-2 rounded-full text-xs font-bold text-white bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] transition-all duration-200 cursor-pointer whitespace-nowrap"
+                        className="px-7 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap"
                       >
                         Request Quote
                       </button>

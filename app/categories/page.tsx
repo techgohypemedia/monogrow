@@ -1,43 +1,27 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuoteModal from "@/components/QuoteModal";
+import ProductDetailModal from "@/components/ProductDetailModal";
 import {
   ArrowUpRight,
-  ArrowRight,
   ShieldCheck,
-  Award,
   Sparkles,
-  PackageCheck,
-  Ship,
-  FileCheck2,
   CheckCircle2,
-  Check,
-  Scale,
-  Layers,
-  Sprout,
-  Filter,
   Boxes,
+  Layers,
 } from "lucide-react";
 import { PRODUCTS, CommodityProduct } from "@/data/commodityData";
-
-const FILTER_TABS = [
-  { id: "all", label: "All Commodities", count: 5 },
-  { id: "rice", label: "Rice", count: 2 },
-  { id: "coffee", label: "Coffee", count: 1 },
-  { id: "sugar", label: "Sugar", count: 1 },
-  { id: "dry-fruits", label: "Dry Fruits", count: 1 },
-];
+import ShopProductsBanner from "@/components/ShopProductsBanner";
 
 function CategoriesContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category") || searchParams.get("filter");
-  
+
   const resolveCategory = (param: string | null) => {
     if (param) {
       const key = param.toLowerCase();
@@ -48,20 +32,16 @@ function CategoriesContent() {
     return "all";
   };
 
-  const [activeFilter, setActiveFilter] = useState<string>(() => resolveCategory(categoryParam));
+  const [selectedTab, setSelectedTab] = useState<string | null>(null);
+  const activeFilter = selectedTab ?? resolveCategory(categoryParam);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedProductForQuote, setSelectedProductForQuote] = useState("Monagrow Bulk Commodities");
-
-  useEffect(() => {
-    setActiveFilter(resolveCategory(categoryParam));
-  }, [categoryParam]);
+  const [selectedProductForDetails, setSelectedProductForDetails] = useState<CommodityProduct | null>(null);
 
   const handleTabClick = (tabId: string) => {
-    setActiveFilter(tabId);
+    setSelectedTab(tabId);
     if (typeof window !== "undefined") {
-      const isShop = window.location.pathname.startsWith("/shop");
-      const basePath = isShop ? "/shop" : "/categories";
-      const url = tabId === "all" ? basePath : `${basePath}?category=${tabId}`;
+      const url = tabId === "all" ? "/categories" : `/categories?category=${tabId}`;
       window.history.replaceState(null, "", url);
     }
   };
@@ -70,6 +50,14 @@ function CategoriesContent() {
     setSelectedProductForQuote(productName || "Monagrow Bulk Commodities");
     setIsQuoteModalOpen(true);
   };
+
+  const filterTabs = [
+    { id: "all", label: "All Commodities", count: PRODUCTS.length },
+    { id: "rice", label: "Rice", count: PRODUCTS.filter((p) => p.categoryKey === "rice").length },
+    { id: "sugar", label: "Sugar", count: PRODUCTS.filter((p) => p.categoryKey === "sugar").length },
+    { id: "coffee", label: "Coffee", count: PRODUCTS.filter((p) => p.categoryKey === "coffee").length },
+    { id: "dry-fruits", label: "Dry Fruits", count: PRODUCTS.filter((p) => p.categoryKey === "dry-fruits").length },
+  ];
 
   const filteredProducts =
     activeFilter === "all"
@@ -83,86 +71,18 @@ function CategoriesContent() {
 
       <main className="flex-1">
         {/* ========================================================
-            HERO: COMMODITY SHOP PORTFOLIO
-            Theme: Signature Maroon (#740707) and Crisp White
+            PANORAMIC PRODUCTS SHOWCASE BANNER (REPLACES HERO)
+            "From Everyday Meals to Special Moments" with 8 Products
             ======================================================== */}
-        <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 bg-[#FAF9F6] border-b border-neutral-200/80">
-          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            
-            {/* Headline & Overview */}
-            <div className="text-center max-w-3xl mx-auto mb-7 sm:mb-9">
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#740707] mb-2 block">
-                Direct Origin Wholesale Catalog
-              </span>
-              <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-neutral-900 tracking-tight leading-[1.12]">
-                Five Staples.{" "}
-                <span className="text-[#740707]">Exceptional Roots.</span>
-              </h1>
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-neutral-600 leading-relaxed font-normal max-w-2xl mx-auto">
-                Good food begins with good ingredients. Explore our portfolio of Basmati rice, Katarni rice, estate coffee, royal cashews, and refined sugar—packed at origin, laboratory verified, and shipped worldwide.
-              </p>
-            </div>
-
-            {/* Category Filter Tabs (Positioned right above cards for instant access) */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-7 sm:mb-8">
-              {FILTER_TABS.map((tab) => {
-                const isActive = activeFilter === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => handleTabClick(tab.id)}
-                    className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                      isActive
-                        ? "bg-[#740707] text-white shadow-md shadow-[#740707]/25 scale-105"
-                        : "bg-white text-neutral-700 border border-neutral-200 hover:border-[#740707]/30 hover:text-[#740707]"
-                    }`}
-                  >
-                    <span>{tab.label}</span>
-                    <span
-                      className={`text-[11px] px-1.5 py-0.5 rounded-full font-semibold ${
-                        isActive ? "bg-white/20 text-white" : "bg-neutral-100 text-neutral-500"
-                      }`}
-                    >
-                      {tab.count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Trust Badges Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto text-center">
-              <div className="p-3 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs">
-                <p className="text-sm sm:text-base font-bold text-[#740707]">100% Sortex</p>
-                <p className="text-[10.5px] text-neutral-500 font-medium">Laser Optical Cleaning</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs">
-                <p className="text-sm sm:text-base font-bold text-[#740707]">0% Broker Markup</p>
-                <p className="text-[10.5px] text-neutral-500 font-medium">Direct Mill Contracts</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs">
-                <p className="text-sm sm:text-base font-bold text-[#740707]">18+ World Ports</p>
-                <p className="text-[10.5px] text-neutral-500 font-medium">CIF &amp; FOB Container Lanes</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs">
-                <p className="text-sm sm:text-base font-bold text-[#740707]">ISO 22000 &amp; SGS</p>
-                <p className="text-[10.5px] text-neutral-500 font-medium">Binding QC Lab COA</p>
-              </div>
-            </div>
-
-          </div>
-        </section>
+        <ShopProductsBanner />
 
         {/* ========================================================
-            COMMODITY SHOWCASE CARDS (CARD STYLE - 2 CARDS IN A ROW)
-            High-contrast crisp white cards on warm luxury background
+            COMMODITY SHOWCASE CARDS (STREAMLINED & REDUCED CONTENT)
             ======================================================== */}
-        <section id="shop-catalog" className="py-12 sm:py-16 bg-[#F6F4EE]">
+        <section id="shop-catalog" className="py-12 sm:py-16 bg-[#FAF5EE]">
           <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            
-            {/* Catalog Section Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-10 pb-4 border-b border-neutral-300/80">
+            {/* Catalog Section Header with Interactive Filters */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 sm:mb-10 pb-5 border-b border-[#dfd5c6]">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#740707]">
                   Monagrow Product Catalog
@@ -171,438 +91,146 @@ function CategoriesContent() {
                   Wholesale Commodity Cards
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-neutral-600 font-medium">
-                Showing {filteredProducts.length} commodities · 2 cards per row
-              </p>
+
+              {/* Category Filter Tabs */}
+              <div className="flex flex-wrap items-center gap-2">
+                {filterTabs.map((tab) => {
+                  const isActive = activeFilter === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => handleTabClick(tab.id)}
+                      className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                        isActive
+                          ? "bg-[#740707] text-white shadow-sm shadow-[#740707]/30"
+                          : "bg-white text-neutral-700 border border-[#dfd5c6] hover:border-[#740707]/40 hover:text-[#740707]"
+                      }`}
+                    >
+                      <span>{tab.label}</span>
+                      <span
+                        className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                          isActive
+                            ? "bg-white/20 text-white"
+                            : "bg-[#FAF5EE] text-[#740707] border border-[#dfd5c6]/60"
+                        }`}
+                      >
+                        {tab.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* 2 Cards in a Row Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              {filteredProducts.map((product, index) => (
+            {/* 3-Column Catalogue Cards Grid (Matches Screenshot) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {filteredProducts.map((product) => (
                 <article
                   key={product.id}
                   id={product.id}
-                  className="flex flex-col h-full rounded-3xl bg-white border border-neutral-300/90 hover:border-[#740707]/60 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group min-h-[580px]"
+                  className="group relative flex flex-col items-center justify-between text-center bg-white rounded-2xl p-6 sm:p-8 border border-[#dfd5c6] hover:border-[#740707] shadow-sm hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1.5 h-full"
                 >
-                  {/* Visual Top Area: Packaging & Filled Bowl */}
-                  <div className="relative w-full h-[280px] sm:h-[320px] bg-gradient-to-b from-[#fdfbf9] to-[#f4ede4] border-b border-neutral-200/90 flex items-center justify-center overflow-hidden p-6">
-                    {/* Number Watermark */}
-                    <span className="absolute top-4 left-6 text-5xl sm:text-6xl font-black text-[#740707]/15 select-none">
-                      0{index + 1}
-                    </span>
-
-                    {/* Ambient Glow */}
-                    <div className="absolute inset-0 bg-radial from-[#740707]/5 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Ground Shadow */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/15 blur-xl rounded-full pointer-events-none" />
-
-                    {/* Packaging Cutout (Back/Center) */}
-                    <div className="relative w-[170px] sm:w-[200px] h-[230px] sm:h-[270px] z-10 transition-transform duration-500 group-hover:scale-105">
-                      <Image
-                        src={product.packImg}
-                        alt={product.packAlt}
-                        fill
-                        className="object-contain drop-shadow-xl"
-                        sizes="(max-width: 768px) 180px, 240px"
-                        priority={index < 2}
-                      />
-                    </div>
-
-                    {/* Ceramic Filled Bowl (Foreground overlapping) */}
-                    <div className="absolute bottom-4 right-4 sm:right-6 w-[110px] sm:w-[135px] h-[85px] sm:h-[105px] z-20 transition-transform duration-500 group-hover:scale-110">
-                      <Image
-                        src={product.bowlImg}
-                        alt={product.bowlAlt}
-                        fill
-                        className="object-contain drop-shadow-2xl"
-                        sizes="(max-width: 768px) 120px, 150px"
-                      />
-                    </div>
-
-                    {/* Origin Spec Footnote Badge */}
-                    <div className="absolute top-4 right-4 z-20">
-                      <span className="text-[10px] sm:text-[11px] font-semibold text-neutral-800 bg-white/95 backdrop-blur-xs px-3 py-1 rounded-full border border-neutral-300/80 shadow-2xs">
-                        {product.originBadge}
-                      </span>
-                    </div>
+                  {/* Visual Cutout Pack Image */}
+                  <div
+                    className="relative w-full h-52 sm:h-60 flex items-center justify-center mb-5 cursor-pointer"
+                    onClick={() => setSelectedProductForDetails(product)}
+                    title={`Click to view ${product.name} specifications`}
+                  >
+                    <Image
+                      src={product.packImg}
+                      alt={product.packAlt || product.name}
+                      width={240}
+                      height={320}
+                      className="max-h-[190px] sm:max-h-[220px] w-auto object-contain drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-106"
+                      sizes="(max-width: 768px) 180px, 240px"
+                    />
                   </div>
 
-                  {/* Card Body: Info, Description, Specs & Actions */}
-                  <div className="p-6 sm:p-8 flex flex-col flex-1 justify-between gap-6 bg-white">
-                    {/* Title, Tagline & Description */}
-                    <div className="space-y-2.5">
-                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
-                        {product.kicker}
-                      </span>
-                      <h2 className="text-xl sm:text-2xl font-extrabold text-neutral-900 tracking-tight leading-snug group-hover:text-[#740707] transition-colors">
+                  {/* Content Block */}
+                  <div className="flex-1 flex flex-col items-center justify-between w-full">
+                    <div>
+                      {/* Title */}
+                      <h3
+                        onClick={() => setSelectedProductForDetails(product)}
+                        className="text-xl sm:text-2xl font-bold text-[#262820] group-hover:text-[#740707] transition-colors duration-300 tracking-tight leading-snug cursor-pointer"
+                      >
                         {product.name}
-                      </h2>
-                      <p className="text-xs sm:text-sm font-semibold text-[#740707]/90">
+                      </h3>
+
+                      {/* Subtitle / Tagline */}
+                      <p
+                        title={product.tagline}
+                        className="text-xs sm:text-sm text-[#6b5d52] leading-relaxed mt-2 max-w-[280px] sm:max-w-[320px] mx-auto font-normal"
+                      >
                         {product.tagline}
                       </p>
-                      <p className="text-xs sm:text-[13.5px] text-neutral-600 leading-relaxed font-normal pt-1">
-                        {product.description}
-                      </p>
                     </div>
 
-                    {/* Key Lot Specifications Grid */}
-                    <div className="space-y-2">
-                      <p className="text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
-                        Verified Lot Specifications &amp; Quality Metrics
-                      </p>
-                      <div className="grid grid-cols-3 gap-2">
-                        {product.specs.slice(0, 3).map((sp) => (
-                          <div
-                            key={sp.label}
-                            className="p-2.5 rounded-xl bg-[#FAF9F6] border border-neutral-200/90 shadow-2xs text-center"
-                          >
-                            <p className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium truncate">
-                              {sp.label}
-                            </p>
-                            <p className="text-xs sm:text-[12.5px] font-bold text-neutral-900 mt-0.5 truncate">
-                              {sp.value}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Packaging Formats Preview */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      <div className="p-3 rounded-xl bg-[#FAF9F6] border border-neutral-200/80">
-                        <p className="text-[10.5px] font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-1">
-                          <PackageCheck className="w-3.5 h-3.5 text-[#740707]" />
-                          Retail Formats
-                        </p>
-                        <p className="text-xs text-neutral-600 truncate">
-                          {product.retailSizes.join(" · ")}
-                        </p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#FAF9F6] border border-neutral-200/80">
-                        <p className="text-[10.5px] font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-1">
-                          <Ship className="w-3.5 h-3.5 text-[#740707]" />
-                          Bulk Export
-                        </p>
-                        <p className="text-xs text-neutral-600 truncate">
-                          {product.bulkSizes[0]}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons Row */}
-                    <div className="pt-2 border-t border-neutral-200 flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    {/* Action CTA: Request Quote */}
+                    <div className="mt-6 pt-1 flex items-center justify-center w-full">
                       <button
                         type="button"
                         onClick={() => handleOpenQuoteModal(product.quoteName)}
-                        className="flex-1 py-3.5 px-5 rounded-full bg-[#740707] hover:bg-[#5e0606] text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-[#740707]/25 transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-2 group/btn"
+                        className="px-7 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap"
                       >
-                        <span>Request Quote</span>
-                        <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        Request Quote
                       </button>
-
-                      <Link
-                        href={`/${product.categoryKey}`}
-                        className="py-3.5 px-5 rounded-full bg-white hover:bg-neutral-50 text-[#740707] font-bold text-xs uppercase tracking-wider border border-[#740707]/25 shadow-2xs transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-1.5 shrink-0"
-                      >
-                        <span>{product.categoryKey === "dry-fruits" ? "Dry Fruits" : product.categoryKey.charAt(0).toUpperCase() + product.categoryKey.slice(1)}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-[#740707]" />
-                      </Link>
-
-                      <Link
-                        href="/#calculator"
-                        className="py-3.5 px-4 rounded-full bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider border border-neutral-200 shadow-2xs transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-1 shrink-0"
-                      >
-                        <span>Calc</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-neutral-500" />
-                      </Link>
                     </div>
                   </div>
                 </article>
               ))}
+            </div>
 
-              {/* 6th Card: Custom Procurement & Private Labeling (Balances 2-in-a-row grid when viewing all) */}
-              {activeFilter === "all" && (
-                <article className="flex flex-col h-full rounded-3xl bg-gradient-to-br from-[#740707] via-[#5b0606] to-[#3a000e] text-white p-7 sm:p-9 justify-between relative overflow-hidden shadow-xl border border-[#740707]/40 group min-h-[580px]">
-                  {/* Decorative background glow & pattern */}
-                  <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-                  <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-black/25 rounded-full blur-3xl pointer-events-none" />
+            {/* Custom Procurement Banner when viewing all */}
+            {activeFilter === "all" && (
+              <div className="mt-10 rounded-3xl bg-gradient-to-br from-[#740707] via-[#5b0606] to-[#3a000e] text-white p-7 sm:p-10 relative overflow-hidden shadow-xl border border-[#740707]/40">
+                <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-black/25 rounded-full blur-3xl pointer-events-none" />
 
-                  <div className="space-y-5 relative z-10">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
+                  <div className="space-y-3 max-w-2xl">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-[11px] font-bold uppercase tracking-wider border border-white/20">
                       <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                       <span>Bespoke Wholesale Trade</span>
                     </div>
 
-                    <div className="space-y-2">
-                      <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">
-                        Tailored Procurement &amp; Export
-                      </span>
-                      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight text-white">
-                        Need Custom Specifications or Container Lots?
-                      </h2>
-                      <p className="text-xs sm:text-[13.5px] text-neutral-200 leading-relaxed font-normal pt-1">
-                        We connect wholesale commodity buyers directly with origin mills for tailored grain elongation, specialty roasting curves, bulk raw cane grades, or customized private-label retail packaging.
-                      </p>
-                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight text-white">
+                      Need Custom Specifications or Container Lots?
+                    </h2>
+                    <p className="text-xs sm:text-[13.5px] text-neutral-200 leading-relaxed font-normal">
+                      We connect wholesale commodity buyers directly with origin mills for tailored grain elongation, specialty roasting curves, bulk raw cane grades, or customized private-label retail packaging.
+                    </p>
 
-                    <div className="space-y-3 pt-2">
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Direct Origin Mill Contracts</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">Fixed volume pricing with zero speculative broker markups.</p>
-                        </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
+                      <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2 text-xs">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span className="font-semibold text-white">Direct Mill Contracts</span>
                       </div>
-
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Custom Packaging &amp; OEM Branding</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">Standup box bags, degassing foil pouches, vacuum tins &amp; barcode printing.</p>
-                        </div>
+                      <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2 text-xs">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span className="font-semibold text-white">Custom OEM Packaging</span>
                       </div>
-
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Ocean Container Freight to 18+ Ports</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">CIF, CFR, FOB with SGS laboratory certificates of analysis.</p>
-                        </div>
+                      <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2 text-xs">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span className="font-semibold text-white">18+ Ports Ocean Freight</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-6 relative z-10 border-t border-white/15">
+                  <div className="w-full lg:w-auto shrink-0">
                     <button
                       type="button"
                       onClick={() => handleOpenQuoteModal("Custom Commodity Procurement")}
-                      className="w-full py-3.5 px-6 rounded-full bg-white hover:bg-neutral-100 text-[#740707] font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-2 group/btn hover:scale-[1.02]"
+                      className="w-full sm:w-auto py-3.5 px-7 rounded-full bg-white hover:bg-neutral-100 text-[#740707] font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-2 group/btn hover:scale-[1.02]"
                     >
                       <span>Discuss Custom Requirements</span>
                       <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                     </button>
                   </div>
-                </article>
-              )}
-            </div>
-          </div>
-        </section>
-        {/* ========================================================
-            COMMODITY SHOWCASE CARDS (CARD STYLE - 2 CARDS IN A ROW)
-            Theme: Signature Maroon (#740707) and Crisp White
-            ======================================================== */}
-        <section className="py-14 sm:py-20 bg-white">
-          <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              {filteredProducts.map((product, index) => (
-                <article
-                  key={product.id}
-                  id={product.id}
-                  className="flex flex-col h-full rounded-3xl bg-[#FAF9F6] border border-neutral-200/90 hover:border-[#740707]/40 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
-                >
-                  {/* Visual Top Area: Packaging & Filled Bowl */}
-                  <div className="relative w-full h-[280px] sm:h-[320px] bg-gradient-to-b from-white via-white to-[#FAF1E6] border-b border-neutral-200/80 flex items-center justify-center overflow-hidden p-6">
-                    {/* Number Watermark */}
-                    <span className="absolute top-4 left-6 text-5xl sm:text-6xl font-black text-[#740707]/10 select-none">
-                      0{index + 1}
-                    </span>
-
-                    {/* Ambient Glow */}
-                    <div className="absolute inset-0 bg-radial from-[#740707]/5 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Ground Shadow */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/15 blur-xl rounded-full pointer-events-none" />
-
-                    {/* Packaging Cutout (Back/Center) */}
-                    <div className="relative w-[170px] sm:w-[200px] h-[230px] sm:h-[270px] z-10 transition-transform duration-500 group-hover:scale-105">
-                      <Image
-                        src={product.packImg}
-                        alt={product.packAlt}
-                        fill
-                        className="object-contain drop-shadow-xl"
-                        sizes="(max-width: 768px) 180px, 240px"
-                        priority={index < 2}
-                      />
-                    </div>
-
-                    {/* Ceramic Filled Bowl (Foreground overlapping) */}
-                    <div className="absolute bottom-4 right-4 sm:right-6 w-[110px] sm:w-[135px] h-[85px] sm:h-[105px] z-20 transition-transform duration-500 group-hover:scale-110">
-                      <Image
-                        src={product.bowlImg}
-                        alt={product.bowlAlt}
-                        fill
-                        className="object-contain drop-shadow-2xl"
-                        sizes="(max-width: 768px) 120px, 150px"
-                      />
-                    </div>
-
-                    {/* Origin Spec Footnote Badge */}
-                    <div className="absolute top-4 right-4 z-20">
-                      <span className="text-[10px] sm:text-[11px] font-semibold text-neutral-700 bg-white/95 backdrop-blur-xs px-3 py-1 rounded-full border border-neutral-200/80 shadow-2xs">
-                        {product.originBadge}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Body: Info, Description, Specs & Actions */}
-                  <div className="p-6 sm:p-8 flex flex-col flex-1 justify-between gap-6">
-                    {/* Title, Tagline & Description */}
-                    <div className="space-y-2.5">
-                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#740707]">
-                        {product.kicker}
-                      </span>
-                      <h2 className="text-xl sm:text-2xl font-extrabold text-neutral-900 tracking-tight leading-snug group-hover:text-[#740707] transition-colors">
-                        {product.name}
-                      </h2>
-                      <p className="text-xs sm:text-sm font-semibold text-[#740707]/90">
-                        {product.tagline}
-                      </p>
-                      <p className="text-xs sm:text-[13.5px] text-neutral-600 leading-relaxed font-normal pt-1">
-                        {product.description}
-                      </p>
-                    </div>
-
-                    {/* Key Lot Specifications Grid */}
-                    <div className="space-y-2">
-                      <p className="text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
-                        Verified Lot Specifications &amp; Quality Metrics
-                      </p>
-                      <div className="grid grid-cols-3 gap-2">
-                        {product.specs.slice(0, 3).map((sp) => (
-                          <div
-                            key={sp.label}
-                            className="p-2.5 rounded-xl bg-white border border-neutral-200/80 shadow-2xs text-center"
-                          >
-                            <p className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium truncate">
-                              {sp.label}
-                            </p>
-                            <p className="text-xs sm:text-[12.5px] font-bold text-neutral-900 mt-0.5 truncate">
-                              {sp.value}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Packaging Formats Preview */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      <div className="p-3 rounded-xl bg-white border border-neutral-200/70">
-                        <p className="text-[10.5px] font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-1">
-                          <PackageCheck className="w-3.5 h-3.5 text-[#740707]" />
-                          Retail Formats
-                        </p>
-                        <p className="text-xs text-neutral-600 truncate">
-                          {product.retailSizes.join(" · ")}
-                        </p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-white border border-neutral-200/70">
-                        <p className="text-[10.5px] font-bold uppercase tracking-wider text-[#740707] flex items-center gap-1.5 mb-1">
-                          <Ship className="w-3.5 h-3.5 text-[#740707]" />
-                          Bulk Export
-                        </p>
-                        <p className="text-xs text-neutral-600 truncate">
-                          {product.bulkSizes[0]}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons Row */}
-                    <div className="pt-2 border-t border-neutral-200/80 flex flex-wrap sm:flex-nowrap items-center gap-3">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenQuoteModal(product.quoteName)}
-                        className="flex-1 py-3.5 px-5 rounded-full bg-[#740707] hover:bg-[#5e0606] text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-[#740707]/25 transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-2 group/btn"
-                      >
-                        <span>Request Quote</span>
-                        <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                      </button>
-
-                      <Link
-                        href={`/${product.categoryKey}`}
-                        className="py-3.5 px-5 rounded-full bg-white hover:bg-neutral-50 text-[#740707] font-bold text-xs uppercase tracking-wider border border-[#740707]/25 shadow-2xs transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-1.5 shrink-0"
-                      >
-                        <span>{product.categoryKey === "dry-fruits" ? "Dry Fruits" : product.categoryKey.charAt(0).toUpperCase() + product.categoryKey.slice(1)}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-[#740707]" />
-                      </Link>
-
-                      <Link
-                        href="/#calculator"
-                        className="py-3.5 px-4 rounded-full bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider border border-neutral-200 shadow-2xs transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-1 shrink-0"
-                      >
-                        <span>Calc</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-neutral-500" />
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              ))}
-
-              {/* 6th Card: Custom Procurement & Private Labeling (Balances 2-in-a-row grid when viewing all) */}
-              {activeFilter === "all" && (
-                <article className="flex flex-col h-full rounded-3xl bg-gradient-to-br from-[#740707] via-[#5b0606] to-[#3a000e] text-white p-7 sm:p-9 justify-between relative overflow-hidden shadow-xl border border-[#740707]/40 group min-h-[580px]">
-                  {/* Decorative background glow & pattern */}
-                  <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-                  <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-black/25 rounded-full blur-3xl pointer-events-none" />
-
-                  <div className="space-y-5 relative z-10">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-[11px] font-bold uppercase tracking-wider border border-white/20">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Bespoke Wholesale Trade</span>
-                    </div>
-
-                    <div className="space-y-2">
-                      <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">
-                        Tailored Procurement &amp; Export
-                      </span>
-                      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight text-white">
-                        Need Custom Specifications or Container Lots?
-                      </h2>
-                      <p className="text-xs sm:text-[13.5px] text-neutral-200 leading-relaxed font-normal pt-1">
-                        We connect wholesale commodity buyers directly with origin mills for tailored grain elongation, specialty roasting curves, bulk raw cane grades, or customized private-label retail packaging.
-                      </p>
-                    </div>
-
-                    <div className="space-y-3 pt-2">
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Direct Origin Mill Contracts</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">Fixed volume pricing with zero speculative broker markups.</p>
-                        </div>
-                      </div>
-
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Custom Packaging &amp; OEM Branding</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">Standup box bags, degassing foil pouches, vacuum tins &amp; barcode printing.</p>
-                        </div>
-                      </div>
-
-                      <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-xs font-bold text-white">Ocean Container Freight to 18+ Ports</p>
-                          <p className="text-[11px] text-neutral-300 mt-0.5">CIF, CFR, FOB with SGS laboratory certificates of analysis.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-6 relative z-10 border-t border-white/15">
-                    <button
-                      type="button"
-                      onClick={() => handleOpenQuoteModal("Custom Commodity Procurement")}
-                      className="w-full py-3.5 px-6 rounded-full bg-white hover:bg-neutral-100 text-[#740707] font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-all duration-200 cursor-pointer inline-flex items-center justify-center gap-2 group/btn hover:scale-[1.02]"
-                    >
-                      <span>Discuss Custom Requirements</span>
-                      <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                    </button>
-                  </div>
-                </article>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -677,6 +305,13 @@ function CategoriesContent() {
         isOpen={isQuoteModalOpen}
         onClose={() => setIsQuoteModalOpen(false)}
         initialCommodity={selectedProductForQuote}
+      />
+
+      {/* Product Full Specifications Modal */}
+      <ProductDetailModal
+        product={selectedProductForDetails}
+        onClose={() => setSelectedProductForDetails(null)}
+        onRequestQuote={handleOpenQuoteModal}
       />
     </div>
   );

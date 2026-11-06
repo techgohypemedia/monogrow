@@ -158,6 +158,39 @@ export default function AboutHeroSection({ onOpenQuoteModal }: AboutHeroSectionP
             ))}
           </div>
         </div>
+
+        {/* ========================================================
+            OUR MISSION & OUR VISION
+            Directly below the product row showcase
+            ======================================================== */}
+        <div
+          data-about-enter
+          className="max-w-[1240px] mx-auto mt-16 sm:mt-24 mb-6 sm:mb-10 text-left"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+            {/* Our Mission */}
+            <div>
+              <h2 className="font-serif font-bold text-2xl sm:text-3xl lg:text-[34px] text-[#740707] tracking-tight">
+                Our Mission
+              </h2>
+              <div className="w-full h-[2px] bg-[#740707] mt-2.5 mb-4" />
+              <p className="font-sans text-[15px] sm:text-base lg:text-[17px] text-[#262820] leading-[1.85]">
+                To make quality food accessible across borders by building reliable supply chains that our partners can trust, one shipment at a time.
+              </p>
+            </div>
+
+            {/* Our Vision */}
+            <div>
+              <h2 className="font-serif font-bold text-2xl sm:text-3xl lg:text-[34px] text-[#740707] tracking-tight">
+                Our Vision
+              </h2>
+              <div className="w-full h-[2px] bg-[#740707] mt-2.5 mb-4" />
+              <p className="font-sans text-[15px] sm:text-base lg:text-[17px] text-[#262820] leading-[1.85]">
+                To become a trusted global name in food trade. We want to carry the pride of Nepal to every market we serve, so that wherever quality food is needed, Monagrow is the partner businesses choose first.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
       <section id="about-source" className={styles.foundation}>
         <div ref={approach} className={styles.approach}>

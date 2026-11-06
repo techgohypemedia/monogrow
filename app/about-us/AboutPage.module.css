@@ -11,12 +11,15 @@
 .storyLabel { display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#740707; font-weight:600; margin-bottom:15px; }
 .originStory h3,.storyCopy h3 { font-size:28px; letter-spacing:-.04em; line-height:1.15; font-weight:600; }
 .originStory p,.storyCopy p { color:#74766b; font-size:13px; line-height:1.85; margin-top:13px; }
-.storyGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; }
+.storyGrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; }
+@media(max-width:1024px) {
+  .storyGrid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+}
 .storyVisual { position:relative; aspect-ratio:4/3; border-radius:12px; overflow:hidden; }
 .storyVisual img { object-fit:cover; transition:transform .6s ease; }
 .storyCard:hover .storyVisual img { transform:scale(1.035); }
 .storyCopy { padding:25px 4px 0; }
-.storyCopy h3 { font-size:25px; }
+.storyCopy h3 { font-size:22px; font-weight:600; letter-spacing:-.03em; line-height:1.2; }
 .storyCopy .storyLabel { margin-bottom:12px; }
 .credentials { background:#e8eddf; }
 .credentials>div>div { max-width:1100px; }

@@ -273,24 +273,24 @@ export default function ContactSection({ onOpenQuoteModal }: ContactSectionProps
           </div>
 
           {/* Card 2: Email */}
-          <a href="mailto:info@monagrow.com" className={styles.contactInfoCard}>
+          <a href="mailto:hello@monagrow.com" className={styles.contactInfoCard}>
             <div className={styles.contactIconCircle}>
               <Mail size={20} />
             </div>
             <div className={styles.contactCardMeta}>
               <span className={styles.contactMetaLabel}>Direct Trade Desk</span>
-              <span className={styles.contactMetaValue}>info@monagrow.com</span>
+              <span className={styles.contactMetaValue}>hello@monagrow.com</span>
             </div>
           </a>
 
           {/* Card 3: Phone */}
-          <a href="tel:+97714589200" className={styles.contactInfoCard}>
+          <a href="tel:+97153462527" className={styles.contactInfoCard}>
             <div className={styles.contactIconCircle}>
               <Phone size={20} />
             </div>
             <div className={styles.contactCardMeta}>
               <span className={styles.contactMetaLabel}>Trade Enquiry Desk</span>
-              <span className={styles.contactMetaValue}>+977 1 4589200</span>
+              <span className={styles.contactMetaValue}>+971 53 462 527</span>
             </div>
           </a>
 

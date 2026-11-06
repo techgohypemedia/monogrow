@@ -145,17 +145,6 @@ export default function Navbar({
           <div className="flex-1 flex items-center justify-start">
             {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
-              {/* Shop Nav Link */}
-              <Link
-                href="/shop"
-                className={`font-semibold text-sm xl:text-base tracking-normal transition-colors duration-200 py-1 whitespace-nowrap ${overHero
-                    ? "text-white hover:text-[#740707]"
-                    : "text-[#740707] hover:text-[#4a0404]"
-                  }`}
-              >
-                Shop
-              </Link>
-
               {/* Categories Dropdown Nav Button */}
               <div
                 ref={dropdownRef}
@@ -315,15 +304,6 @@ export default function Navbar({
 
             {/* Mobile Nav Links */}
             <nav className="flex flex-col gap-2">
-              {/* Shop Nav Link */}
-              <Link
-                href="/shop"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors"
-              >
-                Shop
-              </Link>
-
               {/* Categories Accordion Group */}
               <div className="flex flex-col">
                 <button

@@ -33,7 +33,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
       textRef.current.style.transform = `translate3d(${offset}px, 0, 0)`;
     };
 
-    // 1. Direct viewport calculation (guaranteed to work immediately without CDN wait)
+    // 1. Direct viewport calculation (ensured to work immediately without CDN wait)
     const updatePosition = () => {
       if (!footerRef.current || !textRef.current || cancelled || gsapActive) return;
 
@@ -209,11 +209,11 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
             <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#740707]/15 space-y-2 text-xs text-[#740707]/80">
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#740707] shrink-0" />
-                <span className="font-semibold text-[#740707]">+977 1 4589200</span>
+                <span className="font-semibold text-[#740707]">+971 53 462 527</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#740707] shrink-0" />
-                <span className="font-semibold text-[#740707]">info@monagrow.com</span>
+                <span className="font-semibold text-[#740707]">hello@monagrow.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#740707] shrink-0" />
@@ -264,9 +264,9 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   </Link>
                 </li>
                 <li>
-                  <a href="/#calculator" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/#calculator" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Trade Cost Estimator
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -304,9 +304,9 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                   </button>
                 </li>
                 <li>
-                  <a href="/#philosophy" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
+                  <Link href="/#philosophy" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">
                     Food Safety Compliance
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#privacy" className="hover:text-[#740707] hover:translate-x-0.5 transition-all duration-150 inline-block py-0.5">

@@ -74,8 +74,8 @@
   align-items: center;
   justify-content: center;
   color: var(--accent);
-  font-size: clamp(20px, 2.2vw, 26px);
-  font-weight: 600;
+  font-size: 37px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin: 0;
@@ -534,7 +534,7 @@
   }
 
   .eyebrow {
-    font-size: 20px;
+    font-size: clamp(24px, 5.5vw, 37px);
   }
 
   .bookContainer {

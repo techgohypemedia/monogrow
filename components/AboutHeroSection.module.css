@@ -1,5 +1,5 @@
 .about { background:#fcfbf7; color:#262820; }
-.hero { --scroll:0; padding:145px 5vw 0; overflow:visible; background:transparent; }
+.hero { --scroll:0; padding:70px 5vw 0; overflow:visible; background:transparent; }
 .heroTop,.heroBottom { display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .eyebrow,.issue,.heroBottom { font-size:10px; font-weight:700; letter-spacing:.17em; }
 .eyebrow { color:#740707; }
@@ -33,7 +33,7 @@
   .intro p { max-width:420px; }
 }
 @media(max-width:600px) {
-  .hero { padding:110px 20px 0; }
+  .hero { padding:45px 20px 0; }
   .issue { display:none; }
   .heading { margin:25px 0 30px; }
   .heading h1 { font-size:clamp(37px,9vw,54px); }
