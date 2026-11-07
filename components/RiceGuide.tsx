@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { varieties, nut, guides, calcTypes } from "@/data/riceGuide";
+import { getProductById } from "@/data/commodityData";
 import styles from "./RiceGuide.module.css";
 
 const basics = [
@@ -20,15 +21,15 @@ const faqs = [
   ["How should I choose rice for my business?", "Start with the dish, grain length and cooking method. Then agree the grade, packaging, quantity and destination. Ask our team for current specifications and a sample before confirming your order."],
 ];
 const metrics = { k: ["Energy", "kcal"], p: ["Protein", "g"], f: ["Fat", "g"], fi: ["Fibre", "g"] } as const;
-const cookingLooks = [
-  { pack: "/assets/monagrow-rice-bag-cutout.png" },
-  { pack: null },
-  { pack: null },
-  { pack: null },
-  { pack: null },
-  { pack: "/assets/monagrow-brown-rice-bag-cutout.png" },
-  { pack: null },
-];
+const cookingProducts: Record<string, string> = {
+  Basmati: "basmati-rice",
+  Jasmine: "katarni-rice",
+  "White long-grain": "traditional-basmati-rice",
+  "Sushi rice": "jeera-masino-rice",
+  "Risotto (Arborio)": "sella-basmati-rice",
+  "Brown rice": "basmati-brown-rice",
+  "Wild rice": "basmati-brown-rice",
+};
 
 export default function RiceGuide({ onOpenQuoteModal }: { onOpenQuoteModal: (name?: string) => void }) {
   const root = useRef<HTMLDivElement>(null);
@@ -73,7 +74,8 @@ export default function RiceGuide({ onOpenQuoteModal }: { onOpenQuoteModal: (nam
   const [people, setPeople] = useState("4");
   const [portion, setPortion] = useState(60);
   const guide = guides[guideIndex];
-  const look = cookingLooks[guideIndex];
+  const product = getProductById(cookingProducts[guide.n]);
+  const collectionOnly = ["Jasmine", "Sushi rice", "Risotto (Arborio)", "Wild rice"].includes(guide.n);
   const count = Number(people);
   const valid = Number.isInteger(count) && count >= 1 && count <= 100;
   const raw = count * portion;
@@ -89,7 +91,7 @@ export default function RiceGuide({ onOpenQuoteModal }: { onOpenQuoteModal: (nam
     </section>
     <section className={`${styles.section} ${styles.tinted}`} id="rice-varieties"><header className={styles.heading}><h2>A grain for<br /><em>every kind of cooking.</em></h2><p>Explore popular rice types around the world. This guide explains their differences; see our collection above for Monagrow products.</p></header><div className={styles.varieties}>{varieties.map(v => <article key={v.n}><h3>{v.n}</h3><p>{v.d}</p><dl><dt>Origin</dt><dd>{v.o}</dd><dt>Texture</dt><dd>{v.tx}</dd><dt>Best for</dt><dd>{v.use}</dd></dl></article>)}</div></section>
     <section className={`${styles.section} ${styles.split}`} id="rice-nutrition"><header className={styles.heading}><h2>Inside<br /><em>every bowl.</em></h2><p>Approximate nutrition per 100 g of plain cooked rice. These illustrative values vary with the grain and cooking method.</p></header><div><div className={styles.filters} aria-label="Choose nutrient">{(Object.keys(metrics) as (keyof typeof metrics)[]).map(key => <button key={key} aria-pressed={metric === key} onClick={() => setMetric(key)}>{metrics[key][0]}</button>)}</div><div className={styles.chart} aria-live="polite">{nut.map(row => <div key={row.n}><div className={styles.chartLabel}><span>{row.n}</span><strong>{row[metric]} {metrics[metric][1]}</strong></div><div className={styles.track}><span style={{ width: `${row[metric] / max * 100}%` }} /></div></div>)}</div><p className={styles.note}>A general comparison, not a Monagrow product declaration. For packaged products, use the nutrition information on the label.</p></div></section>
-    <section className={`${styles.section} ${styles.cooking}`} id="rice-cooking"><header className={styles.heading}><h2>Make every<br /><em>grain count.</em></h2><p>Simple stovetop starting points. Check your pack and adjust for your pan, heat and preferred texture.</p></header><div className={styles.filters} aria-label="Choose cooking guide">{guides.map((g, i) => <button key={g.n} aria-pressed={i === guideIndex} onClick={() => setGuideIndex(i)}>{g.n}</button>)}</div><div className={styles.recipe} aria-live="polite"><div className={styles.cookingVisual} key={guide.n + "-visual"}><Image src={look.pack ?? "/assets/monagrow-rice-bag-cutout.png"} alt={guideIndex === 5 ? "Monagrow brown rice product pack" : "Monagrow basmati rice product pack"} width={400} height={500} sizes="(max-width: 760px) 75vw, 25vw" /><p>{look.pack ? "The Monagrow collection" : "From our collection: Monagrow Basmati Rice"}</p></div><div key={guide.n + "-details"} className={styles.cookingDetails}><h3>{guide.n}</h3><p>{guide.blurb}</p><dl><dt>Rice : liquid, by volume</dt><dd>{guide.ratio}</dd><dt>Preparation</dt><dd>{guide.grind}</dd><dt>Cooking time</dt><dd>{guide.time}</dd></dl></div><ol>{guide.steps.map(step => <li key={step}>{step}</li>)}</ol></div></section>
+    <section className={`${styles.section} ${styles.cooking}`} id="rice-cooking"><header className={styles.heading}><h2>Make every<br /><em>grain count.</em></h2><p>Simple stovetop starting points. Check your pack and adjust for your pan, heat and preferred texture.</p></header><div className={styles.filters} aria-label="Choose cooking guide">{guides.map((g, i) => <button key={g.n} aria-pressed={i === guideIndex} onClick={() => setGuideIndex(i)}>{g.n}</button>)}</div><div className={styles.recipe} aria-live="polite"><div className={styles.cookingVisual} key={guide.n + "-visual"}><Image src={product?.packImg ?? "/assets/monagrow-rice-bag-cutout.png"} alt={product?.packAlt ?? "Monagrow basmati rice product pack"} width={400} height={500} sizes="(max-width: 760px) 75vw, 25vw" /><p>From our collection: {product?.name ?? "Monagrow Basmati Rice"}{collectionOnly && <><br />Collection highlight; use {guide.n.toLowerCase()} for this recipe.</>}</p></div><div key={guide.n + "-details"} className={styles.cookingDetails}><h3>{guide.n}</h3><p>{guide.blurb}</p><dl><dt>Rice : liquid, by volume</dt><dd>{guide.ratio}</dd><dt>Preparation</dt><dd>{guide.grind}</dd><dt>Cooking time</dt><dd>{guide.time}</dd></dl></div><ol>{guide.steps.map(step => <li key={step}>{step}</li>)}</ol></div></section>
     <section className={`${styles.section} ${styles.split}`} id="rice-calculator">
       <header className={styles.heading}><h2>Just enough.<br /><em>Beautifully simple.</em></h2><p>Plan a meal without the guesswork. Choose your rice, set the number of people and find the right portion for your table.</p></header>
       <form className={styles.calculator} onSubmit={event => event.preventDefault()} aria-label="Rice portion calculator">

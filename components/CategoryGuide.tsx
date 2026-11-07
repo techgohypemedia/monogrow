@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { coffeeOrigins, coffeeRoasts, coffeeMethods, sugarTypes, sugarGuides, dryFruitItems } from "@/data/categoryGuides";
 import { categoryEditorial } from "@/data/categoryEditorial";
+import { getProductById } from "@/data/commodityData";
 import s from "./RiceGuide.module.css";
 import c from "./CategoryGuide.module.css";
 
@@ -14,6 +15,26 @@ const dryMethods = [
   { n: "Cashew sauces", blurb: "A smooth base for creamy curries, dips and dressings.", a: "Plain cashews", b: "Blend until smooth", steps: ["Soften cashews according to your chosen recipe.", "Drain and transfer to a blender.", "Add fresh water a little at a time and blend until smooth.", "Season or add to your dish as directed; refrigerate any prepared leftovers promptly."] },
 ];
 const metrics = { k: ["Energy", "kcal"], p: ["Protein", "g"], f: ["Fat", "g"], fi: ["Fibre", "g"] } as const;
+const coffeeMethodProducts: Record<string, string> = {
+  Espresso: "estate-coffee",
+  "Pour-over (V60)": "himalayan-peaberry",
+  "French Press": "monsooned-malabar",
+  AeroPress: "medium-roast-arabica",
+  "Cold Brew": "estate-coffee",
+};
+const sugarMethodProducts: Record<string, string> = {
+  "Baking cakes and cookies": "natural-brown-sugar",
+  Meringue: "cane-sugar",
+  "Icing and frosting": "cane-sugar",
+  Caramel: "cane-sugar",
+  "Sweetening drinks": "natural-brown-sugar",
+};
+const dryMethodProducts: Record<string, string> = {
+  Breakfast: "california-almonds",
+  Baking: "kashmiri-walnuts",
+  Salads: "golden-raisins",
+  "Cashew sauces": "royal-cashews",
+};
 
 export default function CategoryGuide({ category, onQuote }: { category: GuideCategory; onQuote: (name?: string) => void }) {
   const content = categoryEditorial[category];
@@ -32,8 +53,10 @@ export default function CategoryGuide({ category, onQuote }: { category: GuideCa
   const pairing = dryMethods[selection];
   const methods = isCoffee ? coffeeMethods : isSugar ? sugarGuides : dryMethods;
   const selected = methods[selection];
-  const pack = isSugar && selection === 0 ? "/assets/monagrow-brown-sugar-box-cutout.png" : content.pack;
-  const packName = isSugar && selection === 0 ? "Monagrow Brown Sugar" : content.packName;
+  const methodProducts = isCoffee ? coffeeMethodProducts : isSugar ? sugarMethodProducts : dryMethodProducts;
+  const product = getProductById(methodProducts[selected.n]);
+  const pack = product?.packImg ?? content.pack;
+  const packName = product?.name ?? content.packName;
   const rows = isCoffee ? coffeeOrigins.map(x => ({ name: x.n, description: x.desc, detail: x.notes.join(" · "), use: `${x.pr} · ${x.body} body` })) : isSugar ? sugarTypes.map(x => ({ name: x.n, description: x.d, detail: x.tx, use: x.use })) : dryFruitItems.map(x => ({ name: x.n, description: x.d, detail: x.tx, use: x.use }));
   const result = isCoffee ? [["Ground coffee", valid ? (numeric / coffeeMethods[calcChoice].ratio).toFixed(1) : "—", "g"], [calcChoice === 0 ? "Espresso yield" : "Water", valid ? numeric.toLocaleString() : "—", calcChoice === 0 ? "g" : "ml"], ["Brew ratio", coffeeMethods[calcChoice].rl, ""]] : isSugar ? [["Sugar", valid ? numeric.toLocaleString() : "—", "g"], ["Level teaspoons", valid ? (numeric / 4).toFixed(1) : "—", ""], ["Energy, approx.", valid ? Math.round(numeric * 4).toLocaleString() : "—", "kcal"]] : (Object.keys(metrics) as (keyof typeof metrics)[]).map(key => [metrics[key][0], valid ? (dryFruitItems[calcChoice][key] * numeric / 100).toFixed(key === "k" ? 0 : 1) : "—", metrics[key][1]]);
 
