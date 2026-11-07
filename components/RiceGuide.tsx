@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import GuideSelect from "./GuideSelect";
 import { varieties, nut, guides, calcTypes } from "@/data/riceGuide";
 import { getProductById } from "@/data/commodityData";
 import styles from "./RiceGuide.module.css";
@@ -96,7 +97,7 @@ export default function RiceGuide({ onOpenQuoteModal }: { onOpenQuoteModal: (nam
       <header className={styles.heading}><h2>Just enough.<br /><em>Beautifully simple.</em></h2><p>Plan a meal without the guesswork. Choose your rice, set the number of people and find the right portion for your table.</p></header>
       <form className={styles.calculator} onSubmit={event => event.preventDefault()} aria-label="Rice portion calculator">
         <div className={styles.fields}>
-          <label htmlFor="portion-rice">Rice variety<select id="portion-rice" value={riceType} onChange={e => setRiceType(Number(e.target.value))}>{calcTypes.map((type, i) => <option key={type.n} value={i}>{type.n}</option>)}</select></label>
+          <GuideSelect id="portion-rice" label="Rice variety" value={riceType} onChange={setRiceType} options={calcTypes.map(type => type.n)} />
           <div><label htmlFor="portion-people">People</label><div className={styles.stepper}><button type="button" aria-label="One fewer person" disabled={valid && count <= 1} onClick={() => setPeople(String(Math.max(1, (valid ? count : 2) - 1)))}>−</button><input id="portion-people" type="number" min="1" max="100" step="1" inputMode="numeric" value={people} onChange={e => setPeople(e.target.value)} aria-invalid={!valid} aria-describedby={!valid ? "rice-people-error" : undefined} /><button type="button" aria-label="One more person" disabled={valid && count >= 100} onClick={() => setPeople(String(Math.min(100, (valid ? count : 0) + 1)))}>+</button></div></div>
         </div>
         {!valid && <p className={styles.fieldError} id="rice-people-error">Enter a whole number from 1 to 100.</p>}
