@@ -582,17 +582,23 @@
 
   .story {
     display: block;
-    --photo-height: clamp(150px, 26svh, 240px);
+    padding-top: 28px;
   }
 
   .photoPanel {
-    top: 84px;
-    height: var(--photo-height);
-    min-height: 0;
-    max-height: none;
+    display: none;
+  }
+
+  .mobilePhoto {
+    position: relative;
+    aspect-ratio: 1.58;
+    overflow: hidden;
     border-radius: 12px;
-    z-index: 2;
-    box-shadow: 0 -16px 0 0 var(--paper), 0 12px 0 0 var(--paper);
+    margin-bottom: 24px;
+  }
+
+  .mobilePhoto img {
+    object-fit: cover;
   }
 
   .photo {
@@ -614,10 +620,11 @@
   }
 
   .step {
-    min-height: calc(100svh - 84px - var(--photo-height));
-    padding: 28px 0;
-    opacity: .55;
-    scroll-margin-top: calc(100px + var(--photo-height));
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 0 0 40px;
+    opacity: 1;
+    scroll-margin-top: 84px;
   }
 
   .step h3 {
@@ -651,56 +658,6 @@
     gap: 24px;
     margin-top: 20px;
     padding-top: 40px;
-  }
-}
-
-@media (max-width: 767px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
-  .section {
-    padding-bottom: 20px;
-  }
-
-  .story[data-sideways="true"] {
-    height: calc(340svh - 84px);
-  }
-
-  .story[data-sideways="true"] .storyViewport {
-    display: block;
-    position: sticky;
-    top: 84px;
-    overflow: clip;
-    background: var(--paper);
-  }
-
-  .story[data-sideways="true"] .photoPanel {
-    position: relative;
-    top: auto;
-    box-shadow: none;
-  }
-
-  .story[data-sideways="true"] .photo {
-    opacity: 1;
-    transition: none;
-    transform: translateX(calc((var(--stage-index) - var(--journey-progress, 0)) * 100%));
-  }
-
-  .story[data-sideways="true"] .steps {
-    display: flex;
-    transform: translateX(calc(var(--journey-progress, 0) * -100%));
-  }
-
-  .story[data-sideways="true"] .stepRail {
-    display: contents;
-  }
-
-  .story[data-sideways="true"] .step {
-    flex: 0 0 100%;
-    min-width: 0;
-    min-height: 0;
-    box-sizing: border-box;
-    justify-content: flex-start;
-    padding: 24px 0;
-    opacity: 1;
-    transition: none;
   }
 }
 

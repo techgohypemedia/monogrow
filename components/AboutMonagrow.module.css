@@ -610,3 +610,101 @@
  .mobileImageWrapper { position:relative; width:100%; height:clamp(250px,40vw,430px); }
  .bookContainer { height:auto; min-height:0; }
 }
+
+/* On phones, read each chapter as an open editorial section. */
+@media (max-width: 768px) {
+  .stickyStage {
+    padding: 32px 20px 40px;
+    background: #f7f3ec;
+  }
+
+  .stageHeader {
+    justify-content: flex-start;
+    margin-bottom: 18px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .16em;
+  }
+
+  .book::before {
+    display: none;
+  }
+
+  .frontFace,
+  .backFace,
+  .rightBasePage {
+    padding: 0 0 28px;
+    margin: 0 0 28px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--border-subtle);
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .mobileImageCard {
+    border: 0;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .mobileImageWrapper {
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .pageContentCentered,
+  .centeredHeaderBlock {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .introPartnershipSection {
+    gap: 20px;
+  }
+
+  .introPartnershipSection .centeredHeaderBlock {
+    gap: 16px;
+  }
+
+  .mainTitleCentered {
+    font-size: clamp(25px, 6.6vw, 34px);
+    line-height: 1.2;
+    letter-spacing: -.04em;
+    text-align: left;
+    text-wrap: balance;
+  }
+
+  .introPartnershipSection .aboutSummaryCentered {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .introPartnershipSection .narrativeBlock {
+    gap: 12px;
+  }
+
+  .introPartnershipSection .narrativeParagraph {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+
+  .pillarListClean {
+    gap: 22px;
+  }
+
+  .pillarItemClean h3 {
+    font-size: 19px;
+  }
+
+  .pillarItemClean p {
+    font-size: 14px;
+  }
+}

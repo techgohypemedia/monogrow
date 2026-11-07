@@ -41,8 +41,6 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
   const lineLeftRef = useRef<HTMLSpanElement>(null);
   const lineRightRef = useRef<HTMLSpanElement>(null);
   const panel = useRef<HTMLDivElement>(null);
-  const story = useRef<HTMLDivElement>(null);
-  const viewport = useRef<HTMLDivElement>(null);
   const steps = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
@@ -54,12 +52,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
       frame = 0;
       const height = window.innerHeight;
       const mobile = window.innerWidth < 768;
-      // Track the center of the reading area below the sticky mobile image.
-      // Its resting position stays stable while the browser toolbar changes.
-      const panelBottom = panel.current
-        ? parseFloat(getComputedStyle(panel.current).top) + panel.current.offsetHeight
-        : height * .4;
-      const target = mobile ? panelBottom + Math.max(0, height - panelBottom) * .5 : height * .52;
+      const target = height * .52;
       let closest = 0;
       let distance = Infinity;
       steps.current.forEach((step, index) => {
@@ -68,21 +61,6 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
         const nextDistance = Math.abs(rect.top + rect.height / 2 - target);
         if (nextDistance < distance) { distance = nextDistance; closest = index; }
       });
-      const sideways = mobile && height >= 600 && !reduced.matches;
-      if (story.current && viewport.current) {
-        story.current.dataset.sideways = String(sideways);
-        if (sideways) {
-          const travel = story.current.offsetHeight - viewport.current.offsetHeight;
-          const progress = Math.max(0, Math.min(1, (84 - story.current.getBoundingClientRect().top) / Math.max(1, travel)));
-          // Pause briefly at each complete slide so its copy is easy to read.
-          const position = progress * (stages.length - 1);
-          const index = Math.min(stages.length - 1, Math.floor(position));
-          const fraction = Math.max(0, Math.min(1, (position - index - .45) / .55));
-          const slide = Math.min(stages.length - 1, index + fraction * fraction * (3 - 2 * fraction));
-          story.current.style.setProperty("--journey-progress", String(slide));
-          closest = Math.round(slide);
-        }
-      }
       if (!mobile && !reduced.matches && panel.current) {
         const centers = steps.current.map(step => {
           const rect = step?.getBoundingClientRect();
@@ -170,8 +148,8 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
           </div>
         </header>
 
-        <div ref={story} className={styles.story}>
-          <div ref={viewport} className={styles.storyViewport}>
+        <div className={styles.story}>
+          <div className={styles.storyViewport}>
             {/* Left Column: Image Stack Panel (Unchanged) */}
             <div ref={panel} className={styles.photoPanel}>
               {stages.map((stage, index) => {
@@ -235,7 +213,7 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
                 })}
               </div>
 
-              {/* Scroll Track Triggers (Desktop scroll anchors & Mobile in-flow / sideways layout) */}
+              {/* Scroll Track Triggers (Desktop scroll anchors & mobile in-flow layout) */}
               <div className={styles.stepRail}>
                 {stages.map((stage, index) => (
                   <article
@@ -245,6 +223,9 @@ export default function CompanyPhilosophy({ onOpenQuoteModal }: CompanyPhilosoph
                     data-active={active === index}
                   >
                     <div className={styles.stepMobileContent}>
+                      <div className={styles.mobilePhoto}>
+                        <Image src={stage.image} alt={stage.alt} fill sizes="89vw" />
+                      </div>
                       <h3>{stage.title}</h3>
                       <p className={styles.stepCopy}>{stage.copy}</p>
                       <ul className={styles.tags}>

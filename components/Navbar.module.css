@@ -1,0 +1,64 @@
+.drawer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: max(12px, env(safe-area-inset-top)) 12px 24px;
+  border: 0;
+  background: transparent;
+  color: #740707;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transform: translateY(-18px);
+  transition: opacity 300ms ease, transform 400ms cubic-bezier(.22, 1, .36, 1), display 400ms allow-discrete, overlay 400ms allow-discrete;
+}
+.drawer[open] { opacity: 1; transform: translateY(0); }
+.drawer::backdrop {
+  background: rgb(30 18 18 / 38%);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 350ms ease, display 400ms allow-discrete, overlay 400ms allow-discrete;
+}
+.drawer[open]::backdrop { opacity: 1; }
+@starting-style {
+  .drawer[open] { opacity: 0; transform: translateY(-18px); }
+  .drawer[open]::backdrop { opacity: 0; }
+}
+.panel {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 20px 24px 24px;
+  border: 1px solid rgb(116 7 7 / 8%);
+  border-radius: 24px;
+  background: #fcfbf7;
+  box-shadow: 0 24px 70px rgb(38 10 10 / 18%);
+}
+.drawerHeader { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; }
+.drawerLogo { width: auto; height: 50px; object-fit: contain; }
+.close { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgb(116 7 7 / 12%); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: background 200ms, transform 200ms; }
+.close:hover { background: rgb(116 7 7 / 6%); transform: rotate(90deg); }
+.mobileNav { border-top: 1px solid rgb(116 7 7 / 12%); }
+.mobileNav > * { border-bottom: 1px solid rgb(116 7 7 / 12%); }
+.navLink { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 20px 0; color: inherit; background: transparent; font-size: clamp(20px, 5vw, 25px); font-weight: 500; line-height: 1.3; letter-spacing: -.035em; text-decoration: none; cursor: pointer; transition: color 200ms; }
+.navLink:hover { color: #b13a3a; }
+.chevron { transition: transform 350ms cubic-bezier(.22, 1, .36, 1); }
+.chevron[data-expanded="true"] { transform: rotate(180deg); }
+.accordion { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; transition: grid-template-rows 350ms cubic-bezier(.22, 1, .36, 1), opacity 250ms, visibility 350ms; }
+.accordion[data-expanded="true"] { grid-template-rows: 1fr; opacity: 1; visibility: visible; }
+.accordionInner { min-height: 0; overflow: hidden; }
+.categoryLinks { display: grid; gap: 4px; padding: 0 0 16px; }
+.categoryLinks a { display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 10px 14px; border-radius: 10px; color: #67514a; font-size: 15px; text-decoration: none; transition: background 200ms, color 200ms; }
+.categoryLinks a:hover { background: rgb(116 7 7 / 5%); color: #740707; }
+.quote { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; margin-top: 28px; padding: 17px 22px; border: 0; border-radius: 100px; background: #740707; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 200ms, transform 200ms; }
+.quote:hover { background: #550505; }
+.quote:active { transform: scale(.98); }
+.panel :is(a, button):focus-visible { outline: 2px solid #740707; outline-offset: 4px; }
+@media (max-width: 360px) { .panel { padding: 16px 18px 20px; } }
+@media (prefers-reduced-motion: reduce) {
+  .drawer, .drawer::backdrop, .panel *, .accordion { transition: none; }
+}

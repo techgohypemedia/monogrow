@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { loadHeroMotion } from "./heroMotion";
+import styles from "./Footer.module.css";
 
 interface FooterProps {
   onOpenQuoteModal?: (topic?: string) => void;
@@ -148,14 +149,14 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
     <footer
       ref={footerRef}
       id="contact"
-      className="relative w-full bg-[#740707] text-[#740707] px-3 sm:px-6 lg:pl-10 lg:pr-0 pt-4 sm:pt-6 lg:pt-14 pb-4 sm:pb-6 lg:pb-14 overflow-hidden select-none"
+      className={`${styles.footer} relative w-full bg-[#740707] text-[#740707] px-3 sm:px-6 lg:pl-10 lg:pr-0 pt-4 sm:pt-6 lg:pt-14 pb-4 sm:pb-6 lg:pb-14 overflow-hidden select-none`}
     >
       {/* ========================================================
           SIGNATURE CURVED WHITE CARD ON MAROON BACKDROP
-          Mobile: Arched dome top matching mobile reference screenshot.
+          Mobile: Compact rounded corners leave more room for content.
           Desktop: Iconic deep sculptural stadium curve on the left.
           ======================================================== */}
-      <div className="relative w-full bg-white text-[#740707] rounded-t-[140px] sm:rounded-t-[200px] rounded-b-none lg:rounded-t-none lg:rounded-tl-[420px] lg:rounded-bl-[420px] xl:rounded-tl-[520px] xl:rounded-bl-[520px] lg:rounded-r-none overflow-hidden shadow-2xl pt-20 sm:pt-28 lg:pt-16 pb-4 sm:pb-6 lg:pb-10 px-6 sm:px-10 lg:pl-36 lg:pr-14 border-x border-t lg:border-x-0 lg:border-l lg:border-y border-[#740707]/15">
+      <div className={`${styles.card} relative w-full bg-white text-[#740707] rounded-t-[140px] sm:rounded-t-[200px] rounded-b-none lg:rounded-t-none lg:rounded-tl-[420px] lg:rounded-bl-[420px] xl:rounded-tl-[520px] xl:rounded-bl-[520px] lg:rounded-r-none overflow-hidden shadow-2xl pt-20 sm:pt-28 lg:pt-16 pb-4 sm:pb-6 lg:pb-10 px-6 sm:px-10 lg:pl-36 lg:pr-14 border-x border-t lg:border-x-0 lg:border-l lg:border-y border-[#740707]/15`}>
         
         {/* Subtle interior lighting depth */}
         <div
@@ -175,10 +176,10 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
               3. Newsletter Pill & Socials
             Desktop: Elegant 4-column layout
             ======================================================== */}
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-start">
+        <div className={`${styles.content} relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-start`}>
           
           {/* Section 1: Brand Logo, Tagline & Direct Contact */}
-          <div className="lg:col-span-4 xl:col-span-4 flex flex-col justify-between">
+          <div className={`${styles.brand} lg:col-span-4 xl:col-span-4 flex flex-col justify-between`}>
             <div>
               {/* Monagrow Official Peacock Brand Logo (from Uploaded PDF) */}
               <div className="mb-1 sm:mb-1.5">
@@ -206,14 +207,14 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
             </div>
 
             {/* Direct Contact Snapshot */}
-            <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#740707]/15 space-y-2 text-xs text-[#740707]/80">
+            <div className={`${styles.contacts} mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#740707]/15 space-y-2 text-xs text-[#740707]/80`}>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#740707] shrink-0" />
-                <span className="font-semibold text-[#740707]">+971 53 462 527</span>
+                <a href="tel:+97153462527" className="font-semibold text-[#740707]">+971 53 462 527</a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#740707] shrink-0" />
-                <span className="font-semibold text-[#740707]">hello@monagrow.com</span>
+                <a href="mailto:hello@monagrow.com" className="font-semibold text-[#740707]">hello@monagrow.com</a>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#740707] shrink-0" />
@@ -225,7 +226,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
           {/* Section 2: NAVIGATION & SUPPORT
               Mobile: Side-by-side 2-column grid matching the mobile reference screenshot!
               Desktop: Unwraps via lg:contents into two dedicated 2-column grid spans. */}
-          <div className="w-full grid grid-cols-2 gap-6 sm:gap-8 lg:contents">
+          <div className={`${styles.links} w-full grid grid-cols-2 gap-6 sm:gap-8 lg:contents`}>
             
             {/* Column 2: NAVIGATION */}
             <div className="lg:col-span-2 xl:col-span-2">
@@ -324,7 +325,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
           </div>
 
           {/* Section 3: GET THE LATEST FROM MONAGROW & FOLLOW US */}
-          <div className="lg:col-span-4 xl:col-span-4 flex flex-col justify-start">
+          <div className={`${styles.newsletter} lg:col-span-4 xl:col-span-4 flex flex-col justify-start`}>
             <h3 className="text-xs font-bold tracking-widest text-[#740707] uppercase mb-3">
               GET THE LATEST FROM MONAGROW.
             </h3>
@@ -341,6 +342,9 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
                 className="w-full max-w-md bg-[#740707]/5 border border-[#740707]/30 rounded-full p-1 pl-4 sm:pl-5 flex items-center justify-between gap-2 focus-within:border-[#740707] focus-within:bg-[#740707]/8 focus-within:ring-2 focus-within:ring-[#740707]/15 transition-all duration-200"
               >
                 <input
+                  aria-label="Email address"
+                  autoComplete="email"
+                  name="email"
                   type="email"
                   required
                   value={email}

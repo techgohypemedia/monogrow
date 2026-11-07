@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, X } from "lucide-react";
+import styles from "./Navbar.module.css";
 
 interface NavbarProps {
   onOpenQuoteModal: (productName?: string) => void;
@@ -36,6 +37,7 @@ export default function Navbar({
   const [overHero, setOverHero] = useState(immersiveHero);
   const [overCollection, setOverCollection] = useState(false);
 
+  const mobileDialogRef = useRef<HTMLDialogElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -89,23 +91,21 @@ export default function Navbar({
     };
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Native modal behavior keeps keyboard focus inside the menu and restores it on close.
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          setIsMobileMenuOpen(false);
-        }
-      };
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.body.style.overflow = "";
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    } else {
-      document.body.style.overflow = "";
+    const dialog = mobileDialogRef.current;
+    if (!dialog) return;
+    if (!isMobileMenuOpen) {
+      dialog.close();
+      return;
     }
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      dialog.close();
+    };
   }, [isMobileMenuOpen]);
 
   return (
@@ -218,6 +218,8 @@ export default function Navbar({
                 }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-haspopup="dialog"
             >
               <svg
                 viewBox="0 0 18 22"
@@ -266,108 +268,48 @@ export default function Navbar({
         </div>
       </header>
 
-      {/* Mobile Drawer Overlay & Panel */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 flex flex-col justify-start"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <div
-            className="w-full bg-white/95 backdrop-blur-2xl border-b border-stone-200 shadow-2xl px-6 pt-5 pb-8 flex flex-col gap-6 animate-in slide-in-from-top-4 duration-200"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header row inside Drawer */}
-            <div className="flex items-center justify-between border-b border-stone-100 pb-4">
-              <Link
-                href="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="inline-flex items-center"
-              >
-                <Image
-                  src="/assets/monagrow-official-logo.png"
-                  style={{ filter: "none" }}
-                  alt="Monagrow"
-                  width={220}
-                  height={110}
-                  className="h-9 sm:h-11 w-auto object-contain"
-                />
-              </Link>
-              <button
-                type="button"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 rounded-full text-stone-600 hover:text-[#740707] hover:bg-stone-100 active:bg-stone-200 transition-colors cursor-pointer"
-                aria-label="Close menu"
-              >
-                <X className="w-6 h-6 stroke-[2.2]" />
-              </button>
-            </div>
-
-            {/* Mobile Nav Links */}
-            <nav className="flex flex-col gap-2">
-              {/* Categories Accordion Group */}
-              <div className="flex flex-col">
-                <button
-                  type="button"
-                  onClick={() => setIsMobileCategoriesOpen((prev) => !prev)}
-                  className="w-full flex items-center justify-between text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors cursor-pointer"
-                >
-                  <span>Categories</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform duration-200 ${isMobileCategoriesOpen ? "rotate-180" : ""
-                      }`}
-                  />
-                </button>
-
-                {isMobileCategoriesOpen && (
-                  <div className="pl-3 pr-1 py-1.5 flex flex-col gap-1 border-l-2 border-[#740707]/25 ml-4 mt-1">
-                    {CATEGORY_OPTIONS.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => {
-                          setIsMobileCategoriesOpen(false);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="flex items-center justify-between text-[#30241e] hover:text-[#740707] font-bold text-base py-2 px-3 rounded-lg hover:bg-[#740707]/8 transition-colors"
-                      >
-                        <span className="font-bold text-sm text-[#30241e]">
-                          {item.name}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Secondary Links (About Us, Contact) */}
-              {SECONDARY_NAV_LINKS.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[#740707] hover:text-[#4a0404] font-extrabold text-lg sm:text-xl tracking-tight py-2.5 px-3 rounded-lg hover:bg-[#740707]/5 active:bg-[#740707]/10 transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Mobile Quote Action Button */}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenQuoteModal("Quick Wholesale Price List");
-                }}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-full bg-[#740707] hover:bg-[#5e0606] active:bg-[#4a0404] text-white font-bold text-sm sm:text-base tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
-              >
-                <span>Get Wholesale Quote</span>
-              </button>
-            </div>
+      <dialog
+        ref={mobileDialogRef}
+        id="mobile-navigation"
+        aria-label="Main navigation"
+        className={styles.drawer}
+        onCancel={() => setIsMobileMenuOpen(false)}
+        onClose={() => {
+          setIsMobileMenuOpen(false);
+          setIsMobileCategoriesOpen(false);
+        }}
+        onClick={event => {
+          if (event.target === event.currentTarget) setIsMobileMenuOpen(false);
+        }}
+      >
+        <div className={styles.panel}>
+          <div className={styles.drawerHeader}>
+            <Link href="/" aria-label="Monagrow home" onClick={() => setIsMobileMenuOpen(false)}>
+              <Image src="/assets/monagrow-official-logo.png" alt="Monagrow" width={220} height={110} className={styles.drawerLogo} />
+            </Link>
+            <button type="button" autoFocus className={styles.close} aria-label="Close menu" onClick={() => setIsMobileMenuOpen(false)}><X size={22} /></button>
           </div>
+          <nav className={styles.mobileNav} aria-label="Mobile navigation">
+            <div>
+              <button type="button" className={styles.navLink} aria-expanded={isMobileCategoriesOpen} aria-controls="mobile-categories" onClick={() => setIsMobileCategoriesOpen(value => !value)}>
+                Categories <ChevronDown size={20} className={styles.chevron} data-expanded={isMobileCategoriesOpen} />
+              </button>
+              <div id="mobile-categories" className={styles.accordion} data-expanded={isMobileCategoriesOpen} inert={!isMobileCategoriesOpen}>
+                <div className={styles.accordionInner}>
+                  <div className={styles.categoryLinks}>
+                    {CATEGORY_OPTIONS.map(item => <Link key={item.href} href={item.href} onClick={() => setIsMobileMenuOpen(false)}>{item.name}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {SECONDARY_NAV_LINKS.map(link => <Link key={link.href} href={link.href} className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>{link.name}<ArrowUpRight size={19} aria-hidden="true" /></Link>)}
+          </nav>
+          <button type="button" className={styles.quote} onClick={() => {
+            setIsMobileMenuOpen(false);
+            onOpenQuoteModal("Quick Wholesale Price List");
+          }}>Get Wholesale Quote <ArrowUpRight size={19} aria-hidden="true" /></button>
         </div>
-      )}
+      </dialog>
     </>
   );
 }
